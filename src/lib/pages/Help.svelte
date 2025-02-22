@@ -1,4 +1,4 @@
-<div class="card bg-white">
+<div class="card">
   <div class="card-body">
     <h3 class="card-title">Yardım Merkezi</h3>
     <p class="my-3">Nasıl yardım almak istersin?</p>

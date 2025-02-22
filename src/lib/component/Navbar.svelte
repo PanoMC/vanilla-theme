@@ -13,13 +13,8 @@
       class="navbar navbar-expand-lg navbar-dark bg-primary bg-body-primary bg-gradient rounded-pill shadow">
       <div class="container">
         <ul class="navbar-nav flex-row me-auto">
-          <li class="nav-item">
-            <a class="nav-link" title="{$_('nav-links.homepage')}" href="/">
-              <i class="fa-solid fa-house"></i>
-            </a>
-          </li>
           <button
-            class="navbar-toggler d-lg-none mx-lg-0 mx-3"
+            class="navbar-toggler d-lg-none"
             data-bs-target="#navbar"
             data-bs-toggle="collapse"
             type="button">
@@ -32,7 +27,7 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="{PANEL_URL}"
+                href={PANEL_URL}
                 target="_blank"
                 rel="noreferrer">
                 <i class="fa-solid fa-table-columns fa-rotate-by me-1"></i>
@@ -45,13 +40,13 @@
           <div
             class="nav-item mx-lg-0 mx-3"
             id="quickNotificationsDropdown"
-            class:d-none="{!$session.user}">
+            class:d-none={!$session.user}>
             <div class="dropdown">
               <button
                 class="nav-link"
                 data-bs-toggle="dropdown"
                 type="button"
-                title="{$_('navbar.notifications.title')}">
+                title={$_("navbar.notifications.title")}>
                 <i class="fas fa-bolt"></i>
 
                 {#if $notificationsCount !== 0}
@@ -75,10 +70,10 @@
                   {#each $quickNotifications as notification, index (notification)}
                     <button
                       type="button"
-                      on:click="{() => onNotificationClick(notification)}"
+                      on:click={() => onNotificationClick(notification)}
                       class="dropdown-item"
-                      class:notification-unread="{notification.status ===
-                        'NOT_READ'}">
+                      class:notification-unread={notification.status ===
+                        "NOT_READ"}>
                       <p class="mb-0">{notification.type}</p>
                       <small class="text-dark">
                         {getTime(
@@ -105,9 +100,9 @@
               <a
                 href="/profile"
                 class="nav-link"
-                title="{$session.user.username}">
+                title={$session.user.username}>
                 <img
-                  alt="{$session.user.username}"
+                  alt={$session.user.username}
                   class="rounded d-block m-auto"
                   src="https://minotar.net/avatar/{$session.user.username}"
                   width="24"
@@ -116,7 +111,7 @@
             </li>
           {:else}
             <li class="nav-item me-xl-0 me-3">
-              <button class="nav-link" on:click="{showLoginModal}">
+              <button class="nav-link" on:click={showLoginModal}>
                 {$_("navbar.login-button")}
               </button>
             </li>
@@ -124,7 +119,7 @@
               <button
                 type="button"
                 class="btn btn-warning rounded-pill"
-                on:click="{showRegisterModal}">
+                on:click={showRegisterModal}>
                 {$_("navbar.register-button")}
               </button>
             </li>
@@ -132,12 +127,17 @@
         </ul>
 
         <div class="collapse navbar-collapse" id="navbar">
-          <ul class="navbar-nav text-lg-left text-center mr-auto mt-2 mt-lg-0">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" title={$_("nav-links.homepage")} href="/">
+                {$_("nav-links.homepage")}
+              </a>
+            </li>
             <li class="nav-item">
               <a
                 href="/support"
                 class="nav-link"
-                title="{$_('nav-links.support')}">
+                title={$_("nav-links.support")}>
                 {$_("nav-links.support")}</a>
             </li>
           </ul>

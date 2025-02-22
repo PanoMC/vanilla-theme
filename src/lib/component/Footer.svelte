@@ -1,23 +1,13 @@
 <!-- Footer -->
-<nav class="navbar bg-light navbar-light">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <img
-        title="{$session.siteInfo.websiteName}"
-        alt="{$_('components.header.alt')}"
-        width="auto"
-        height="24"
-        src="/api/websiteLogo" />
-    </a>
-    <span class="navbar-text">
-      {@html $_("footer.been-created-with", {
-        values: {
-          pano: `<a href="https://panomc.com" target="_blank" rel="noreferrer">Pano</a>`,
-        },
-      })}
-    </span>
-  </div>
-</nav>
+<div class="container text-center my-3">
+  <small>
+    {@html $_("footer.been-created-with", {
+      values: {
+        pano: `<a href="https://panomc.com" target="_blank" rel="noreferrer">Pano</a>`,
+      },
+    })}
+  </small>
+</div>
 
 <!-- Footer End -->
 <script>

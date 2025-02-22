@@ -1,8 +1,8 @@
 <Sidebar>
-  <div class="mb-3">
+  <div class="vstack gap-3">
     <!-- Play Button -->
     <button
-      class="btn btn-lg btn-secondary w-100"
+      class="btn btn-lg btn-secondary w-100 bg-gradient"
       type="button"
       on:click={onCopyCommandTextClick}
       use:tooltip={[
@@ -11,50 +11,46 @@
           : $_("sidebars.home.copy"),
         { placement: "bottom", hideOnClick: false },
       ]}>
-      {$data.ipAddress}
+      <b>{$data.ipAddress}</b>
+      <br />
+      <small>Click to copy</small>
     </button>
     <!-- Play Button End -->
-  </div>
 
-  <div class="mb-3">
     <!-- Server Status Card -->
     <div class="card">
-      <div class="card-body">
-        <h5>
-          {$_("sidebars.home.server-status")}
-        </h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            {#if serverOnline}
-              {$_("sidebars.home.online")}
-            {:else}
-              {$_("sidebars.home.offline")}
-            {/if}
-          </li>
-          <li class="list-group-item">
-            {#if $data.mainServer}
-              {$data.mainServer.playerCount}/{$data.mainServer.maxPlayerCount}
-            {:else}
-              0/0 playing
-            {/if}
-          </li>
-          <li class="list-group-item">{$data.serverGameVersion} version</li>
-        </ul>
+      <div class="card-header">
+        {$_("sidebars.home.server-status")}
       </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          {#if serverOnline}
+            {$_("sidebars.home.online")}
+          {:else}
+            {$_("sidebars.home.offline")}
+          {/if}
+        </li>
+        <li class="list-group-item">
+          {#if $data.mainServer}
+            {$data.mainServer.playerCount}/{$data.mainServer.maxPlayerCount}
+          {:else}
+            0/0 playing
+          {/if}
+        </li>
+        <li class="list-group-item">{$data.serverGameVersion} version</li>
+      </ul>
     </div>
     <!-- Server Status Card End -->
-  </div>
 
-  <div class="mb-3">
     <!-- Last Registrants Card -->
     <div class="card">
+      <div class="card-header">
+        {$_("sidebars.home.last-registrants")}
+      </div>
       <div class="card-body">
-        <h5>
-          {$_("sidebars.home.last-registrants")}
-        </h5>
-        <div class="row mt-3">
+        <div class="row g-3">
           {#each $data.lastRegisteredUsers as player, index (player)}
-            <div class="col-3">
+            <div class="col-auto">
               <a href="/player/{player}">
                 <img
                   alt={player}

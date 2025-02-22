@@ -1,5 +1,5 @@
 <div class="col-lg-4 col-md-6 m-auto">
-  <div class="card bg-white">
+  <div class="card">
     <div class="card-body">
       <h3 class="card-title">{$_("pages.renew-password.title")}</h3>
       <ErrorAlert error="{error}" />

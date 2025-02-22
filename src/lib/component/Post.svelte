@@ -62,7 +62,7 @@
         </a>
       </div>
     {:else}
-      <a class="btn btn-link link-info ps-0" href="/blog/post/{post.url}">
+      <a href="/blog/post/{post.url}">
         {$_("components.post.read-more")}
       </a>
 
