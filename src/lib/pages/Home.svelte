@@ -53,7 +53,7 @@
     const data = await getPosts({ page, categoryUrl, request: event });
 
     if (data.error) {
-      if (data.error === "PAGE_NOT_FOUND") {
+      if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS") {
         throw error(404, data.error);
       }
 
