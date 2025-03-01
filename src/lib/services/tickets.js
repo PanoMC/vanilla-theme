@@ -1,26 +1,15 @@
-import ApiUtil from "../api.util.js";
+import ApiUtil, { buildQueryParams } from "../api.util.js";
 
-export const getTickets = async ({ page, pageType, request, csrfToken }) => {
+export const getTickets = async ({ page, pageType, categoryUrl, request, csrfToken }) => {
+  const queryParams = buildQueryParams({ page, pageType, categoryUrl });
+
   return ApiUtil.get({
-    path: `/api/tickets?page=${page}&pageType=${pageType}`,
+    path: `/api/tickets${queryParams}`,
     request,
     csrfToken
   }).then((body) => {
     body.page = parseInt(page);
     body.pageType = pageType;
-
-    return body;
-  });
-};
-
-export const getCategoryTickets = async ({ page, url, request, csrfToken }) => {
-  return ApiUtil.get({
-    path: `/api/tickets?page=${page}&categoryUrl=${url}`,
-    request,
-    csrfToken
-  }).then((body) => {
-    body.page = parseInt(page);
-    body.url = url;
 
     return body;
   });

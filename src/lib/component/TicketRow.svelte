@@ -25,7 +25,7 @@
     <a
       use:tooltip="{[$_('components.ticket-row.filter'), { placement: 'bottom' }]}"
       class="badge rounded-pill bg-light text-black"
-      href="/tickets/category/{ticket.category.url}">
+      href="/tickets?category={ticket.category.url}">
       {ticket.category.title === "-" ? $_('components.ticket-row.no-category') : ticket.category.title}
     </a>
   </td>
@@ -38,9 +38,7 @@
   import { _ } from "svelte-i18n";
 
   import tooltip from "$lib/tooltip.util";
-  import TicketStatus, {
-    TicketStatuses,
-  } from "$lib/component/TicketStatus.svelte";
+  import TicketStatus, { TicketStatuses } from "$lib/component/TicketStatus.svelte";
   import Date from "$lib/component/Date.svelte";
 
   export let ticket;

@@ -19,7 +19,7 @@
             <Date time="{data.ticket.date}" relativeFormat="{true}" />
             ,
             {@html $_("pages.ticket-detail.detail.opened-in-category", {values: {category: `<a
-              href="/tickets/category/${data.ticket.category.url}"
+              href="/tickets?category=${data.ticket.category.url}"
               title="${$_("pages.ticket-detail.filter")}"
               >${data.ticket.category === "-"
                 ? $_("pages.ticket-detail.no-category")

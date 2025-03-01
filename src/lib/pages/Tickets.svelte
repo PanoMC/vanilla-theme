@@ -2,26 +2,41 @@
   <div class="card-body">
     <div class="row justify-content-between pb-3 align-items-center">
       <div class="col-auto">
-        <h4 class="card-title mb-md-0">{$_("pages.tickets.title")}</h4>
+        <h4 class="card-title mb-md-0">
+          {#if data.categoryUrl}
+            {@html $_("pages.category-tickets.title", {
+              values: {
+                categoryName: `<strong
+            >"${data.category.title === "-"
+                  ? $_("pages.category-tickets.no-category")
+                  : data.category.title}"</strong>`
+              }
+            })}
+          {:else}
+            {$_("pages.tickets.title")}
+          {/if}
+        </h4>
       </div>
+      {#if !data.categoryUrl}
       <div class="col-md-auto col-12 text-md-right text-center">
         <div class="btn-group">
           <a
             class="btn btn-sm btn-outline-light btn-link"
             class:active="{data.pageType === PageTypes.ALL}"
             role="button"
-            href="/tickets/all">
+            href="?pageType=ALL">
             {$_("pages.tickets.all")}
           </a>
           <a
             class="btn btn-sm btn-outline-light btn-link text-danger"
             class:active="{data.pageType === PageTypes.CLOSED}"
             role="button"
-            href="/tickets/closed">
+            href="?pageType=CLOSED">
             {$_("pages.tickets.closed")}
           </a>
         </div>
       </div>
+      {/if}
     </div>
     <Tickets
       tickets="{data.tickets}"
@@ -37,16 +52,15 @@
     page="{data.page}"
     totalPage="{data.totalPage}"
     loading="{false}"
-    on:firstPageClick="{() => reloadData(1)}"
-    on:lastPageClick="{() => reloadData(data.totalPage)}"
-    on:pageLinkClick="{(event) => reloadData(event.detail.page)}" />
+    on:firstPageClick="{() => onPageClick(1)}"
+    on:lastPageClick="{() => onPageClick(data.totalPage)}"
+    on:pageLinkClick="{(event) => onPageClick(event.detail.page)}" />
 {/if}
 
 <script context="module">
-  import ProfileSidebar, {
-    load as loadSidebar,
-  } from "$lib/component/sidebars/ProfileSidebar.svelte";
+  import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
   import { getTickets } from "$lib/services/tickets.js";
+  import { error } from "@sveltejs/kit";
 
   export const PageTypes = Object.freeze({
     ALL: "ALL",
@@ -58,35 +72,33 @@
   /**
    * @type {import('@sveltejs/kit').Load}
    */
-  export async function load(event, pageType = DefaultPageType) {
-    const { parent } = event;
+  export async function load(event) {
+    const { parent, url: { searchParams } } = event;
     await parent();
 
-    pageType = pageType.toUpperCase()
+    const page = parseInt(searchParams.get("page")) || 1;
+    const pageType = searchParams.get("pageType") || DefaultPageType;
+    const categoryUrl = searchParams.get("category");
 
-    let data = {
-      tickets: [],
-      ticketCount: 0,
-      page: 1,
-      totalPage: 1,
+    const data = await getTickets({
+      page,
       pageType,
-    };
-
-    await loadSidebar(event);
-
-    await getTickets({
-      page: event.params.page || 1,
-      pageType,
+      categoryUrl,
       request: event,
-    }).then((body) => {
-      if (body.error) {
-        data = {};
+    })
 
-        return;
+    if (data.error) {
+      if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS") {
+        throw error(404, data.error);
       }
 
-      data = body;
-    });
+      throw error(500, data.error);
+    }
+
+    data.pageType = pageType;
+    data.categoryUrl = categoryUrl;
+
+    await loadSidebar(event);
 
     return { ...data, sidebar: ProfileSidebar };
   }
@@ -106,25 +118,24 @@
   } from "$lib/component/modals/CloseTicketConfirmModal.svelte";
 
   import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
+  import { buildQueryParams } from "../../pano-ui/js/api.util.js";
 
   export let data;
 
-  function reloadData(page = data.page, pageType = data.pageType) {
-    getTickets({ page, pageType }).then((body) => {
-      if (body.result === "ok") {
-        if (page !== data.page) {
-          goto(
-            page === 1
-              ? "/tickets/" + pageType
-              : "/tickets/" + pageType + "/" + page
-          );
-        } else {
-          data = body;
-        }
-      } else if (body.error === "PAGE_NOT_FOUND") {
-        reloadData(page - 1);
-      }
+  async function refreshData() {
+    const queryParams = buildQueryParams({
+      page: data.page,
+      pageType: data.pageType,
+      category: data.categoryUrl
     });
+
+    await goto(queryParams, { invalidateAll: true });
+  }
+
+  async function onPageClick(page) {
+    data.page = page;
+
+    await refreshData();
   }
 
   const onCloseTicketClick = (updatedTicket) => {
