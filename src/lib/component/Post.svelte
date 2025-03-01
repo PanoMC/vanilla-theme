@@ -1,6 +1,6 @@
 <div class="card mb-3">
   {#if post.thumbnailUrl}
-    <a href="/blog/post/{post.url}">
+    <a href="/post/{post.url}">
       <img
         src={post.thumbnailUrl}
         class="card-img-top rounded-top"
@@ -11,7 +11,7 @@
   <div class="card-body">
     <div class="row mb-3 justify-content-center">
       <div class="col">
-        <a href="/blog/post/{post.url}" class="card-title text-black">
+        <a class="card-title text-black" href="/post/{post.url}">
           <h3 class="mb-0 d-inline-block text-break">
             {truncate(post.title, 100)}{@html post.title.length > 100
               ? "&hellip;"
@@ -23,7 +23,7 @@
         {#if post.category.title !== "-"}
           <a
             class="badge bg-secondary text-dark rounded-pill"
-            href="/blog/category/{post.category.url}"
+            href="?category={post.category.url}"
             use:tooltip={["Filtrele", { placement: "bottom" }]}>
             {post.category.title}
           </a>
@@ -62,7 +62,7 @@
         </a>
       </div>
     {:else}
-      <a href="/blog/post/{post.url}">
+      <a href="/post/{post.url}">
         {$_("components.post.read-more")}
       </a>
 

@@ -3,7 +3,7 @@
 <div class="row justify-content-between">
   <div class="col-auto">
     <a
-      href="/blog/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
+      href="/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
       class="btn btn-link ps-0"
       class:disabled="{data.previousPost === '-'}"
       use:tooltip="{[data.previousPost.title, { placement: 'bottom' }]}">
@@ -12,7 +12,7 @@
   </div>
   <div class="col-auto">
     <a
-      href="/blog/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
+      href="/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
       class="btn btn-link pe-0"
       class:disabled="{data.nextPost === '-'}"
       use:tooltip="{[data.nextPost.title, { placement: 'bottom' }]}">
@@ -24,9 +24,7 @@
 <script context="module">
   import { error } from "@sveltejs/kit";
 
-  import HomeSidebar, {
-    load as loadSidebar,
-  } from "$lib/component/sidebars/HomeSidebar.svelte";
+  import HomeSidebar, { load as loadSidebar } from "$lib/component/sidebars/HomeSidebar.svelte";
 
   import { getPostDetail } from "$lib/services/posts.js";
 

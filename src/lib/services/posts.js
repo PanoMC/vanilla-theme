@@ -1,21 +1,10 @@
-import ApiUtil from "$lib/api.util.js";
+import ApiUtil, { buildQueryParams } from "$lib/api.util.js";
 
-export const getCategoryPosts = async ({ page, url, request, csrfToken }) => {
+export const getPosts = async ({ page, categoryUrl, request, csrfToken }) => {
+  const queryParams = buildQueryParams({ page, categoryUrl });
+
   return ApiUtil.get({
-    path: `/api/posts?page=${page}&categoryUrl=${url}`,
-    request,
-    csrfToken
-  }).then((body) => {
-    body.page = parseInt(page);
-    body.url = url;
-
-    return body;
-  });
-};
-
-export const getPosts = async ({ page, request, csrfToken }) => {
-  return ApiUtil.get({
-    path: `/api/posts?page=${page}`,
+    path: `/api/posts${queryParams}`,
     request,
     csrfToken
   }).then((body) => {
