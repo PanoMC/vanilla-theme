@@ -24,7 +24,7 @@
             class="btn btn-sm btn-outline-light btn-link"
             class:active="{data.pageType === PageTypes.ALL}"
             role="button"
-            href="?pageType=ALL">
+            href="/tickets">
             {$_("pages.tickets.all")}
           </a>
           <a
