@@ -31,7 +31,7 @@
   export const load = async (event) => {
     data.set({
       ...(await ApiUtil.get({
-        path: `/api/sidebars/profiles/${event.params.player}`,
+        path: `/api/sidebars/profile/${event.params.player}`,
         request: event,
       })),
       username: event.params.player,

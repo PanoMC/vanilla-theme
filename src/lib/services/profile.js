@@ -9,7 +9,7 @@ export const getProfile = async ({ request }) => {
 
 export const getPlayerProfile = async ({ request, username }) => {
   return ApiUtil.get({
-    path: `/api/profile/${username}`,
+    path: `/api/profiles/${username}`,
     request,
   });
 };
