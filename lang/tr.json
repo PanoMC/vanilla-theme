@@ -1,9 +1,4 @@
 {
-  "name": "Türkçe (TR)",
-  "derivatives": [
-    "tr-tr"
-  ],
-  "date-fns-code": "tr",
   "nav-links": {
     "support": "Destek",
     "panel": "Panel",
