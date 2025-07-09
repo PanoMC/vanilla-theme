@@ -34,7 +34,7 @@
               {getTime(
                 checkTime,
                 parseInt(notification.date),
-                locales[$currentLanguage["date-fns-code"]],
+                locales[$currentLanguage.dateFnsCode],
               )}
             </small>
           </a>
@@ -72,7 +72,7 @@
 <ConfirmRemoveAllNotificationsModal />
 
 <script context="module">
-  import { writable, get } from "svelte/store";
+  import { get, writable } from "svelte/store";
 
   import { browser } from "$app/environment";
 

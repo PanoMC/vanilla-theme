@@ -40,7 +40,7 @@
 
   function getOfflineRelativeDateText(checkTime) {
     return formatRelative(new Date(parseInt(lastActivityTime)), new Date(), {
-      locale: locales[$currentLanguage["date-fns-code"]],
+      locale: locales[$currentLanguage.dateFnsCode]
     }).capitalize();
   }
 
