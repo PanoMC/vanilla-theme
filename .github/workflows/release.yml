@@ -82,7 +82,7 @@ jobs:
         run: |
           cat <<EOF > build/manifest.json
           {
-            "id": "panel-ui",
+            "id": "vanila-theme",
             "version": "${{ needs.get-next-version.outputs.new_tag_version }}",
             "author": "Pano MC",
             "license": "MIT",
