@@ -1,11 +1,4 @@
-import {
-  API_URL,
-  COOKIE_PREFIX,
-  CSRF_TOKEN_COOKIE_NAME,
-  JWT_COOKIE_NAME,
-  updateApiUrl,
-  updatePanoWebsiteUrl
-} from "$lib/variables.js";
+import { API_URL, COOKIE_PREFIX, CSRF_TOKEN_COOKIE_NAME, JWT_COOKIE_NAME, updateApiUrl } from "$lib/variables.js";
 import { getCredentialsServerSide } from "$lib/services/auth.js";
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -22,16 +15,9 @@ export async function handle({
   // noinspection JSUnresolvedReference
   const apiUrlEnv = process.env.API_URL;
 
-  // noinspection JSUnresolvedReference
-  const panoWebsiteUrlEnv = process.env.PANO_WEBSITE_URL;
-
   if (apiUrlEnv) {
     updateApiUrl(apiUrlEnv);
     locals.apiUrlEnv = apiUrlEnv;
-  }
-
-  if (panoWebsiteUrlEnv) {
-    updatePanoWebsiteUrl(panoWebsiteUrlEnv);
   }
 
   const jwt = cookies.get(COOKIE_PREFIX + JWT_COOKIE_NAME);
