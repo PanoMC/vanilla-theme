@@ -83,7 +83,7 @@ jobs:
           cat <<EOF > build/manifest.json
           {
             "id": "vanila-theme",
-            "version": "${{ needs.get-next-version.outputs.new_tag_version }}",
+            "version": "v${{ needs.get-next-version.outputs.new_tag_version }}",
             "author": "Pano MC",
             "license": "MIT",
             "panoVersion": "local-build"
