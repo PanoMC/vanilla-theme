@@ -32,6 +32,7 @@ export async function handle({
 
   if (panoWebsiteUrlEnv) {
     updatePanoWebsiteUrl(panoWebsiteUrlEnv);
+    locals.panoWebsiteUrlEnv = panoWebsiteUrlEnv;
   }
 
   const jwt = cookies.get(COOKIE_PREFIX + JWT_COOKIE_NAME);

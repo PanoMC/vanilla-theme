@@ -47,7 +47,7 @@
 
   import { addListener } from "$lib/NotificationManager.js";
   import { initializePlugins } from "$lib/PluginManager.js";
-  import { updateApiUrl } from "$lib/variables.js";
+  import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables.js";
 
   function sendVisitorVisitRequest({ event, csrfToken }) {
     ApiUtil.post({ path: "/api/visitorVisit", request: event, csrfToken });
@@ -76,7 +76,7 @@
    */
   export async function loadServer(event) {
     const {
-      locals: { user, csrfToken, apiUrlEnv },
+      locals: { user, csrfToken, apiUrlEnv, panoWebsiteUrlEnv }
     } = event;
 
     let siteInfo = await ApiUtil.get({
@@ -85,7 +85,7 @@
       csrfToken,
     });
 
-    return { user, csrfToken, siteInfo, apiUrlEnv };
+    return { user, csrfToken, siteInfo, apiUrlEnv, panoWebsiteUrlEnv };
   }
 
   /**
@@ -93,13 +93,17 @@
    */
   export async function load(event) {
     const {
-      data: { user, csrfToken, siteInfo, apiUrlEnv },
+      data: { user, csrfToken, siteInfo, apiUrlEnv, panoWebsiteUrlEnv },
       parent,
     } = event;
     await parent();
 
     if (apiUrlEnv) {
       updateApiUrl(apiUrlEnv);
+    }
+
+    if (panoWebsiteUrlEnv) {
+      updatePanoWebsiteUrl(panoWebsiteUrlEnv);
     }
 
     await initializePlugins(siteInfo);
