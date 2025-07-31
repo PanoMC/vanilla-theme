@@ -12,7 +12,6 @@ function copyFolderPlugin(folder) {
     name: `copy-${folder}-folder`,
     apply: "build", // Run only during build
     configResolved(config) {
-      // Get the output directory from Vite config
       outDir = "build/";
     },
     async closeBundle() {
@@ -41,7 +40,7 @@ function copyManifestPlugin(filename = "manifest.json") {
     name: "copy-manifest-json",
     apply: "build",
     configResolved(config) {
-      outDir = config.build.outDir || "build";
+      outDir = "build/";
     },
     async closeBundle() {
       const srcPath = path.resolve(process.cwd(), filename);
