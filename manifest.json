@@ -1,0 +1,11 @@
+{
+  "id": "vanilla-theme",
+  "version": "v${version}",
+  "author": "Pano MC",
+  "license": "MIT",
+  "screenshots": [
+    "screenshots/1.png"
+  ],
+  "sourceUrl": "https://github.com/PanoMC/vanilla-theme",
+  "panoVersion": "local-build"
+}
