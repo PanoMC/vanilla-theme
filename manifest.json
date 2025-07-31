@@ -1,6 +1,6 @@
 {
   "id": "vanilla-theme",
-  "version": "v${version}",
+  "version": "v{version}",
   "author": "Pano MC",
   "license": "MIT",
   "screenshots": [
