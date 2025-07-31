@@ -5,31 +5,30 @@ import path from "path";
 
 const env = loadEnv("", process.cwd());
 
-function copyLangFolderPlugin() {
+function copyFolderPlugin(folder) {
   let outDir = "";
 
   return {
-    name: "copy-lang-folder",
+    name: `copy-${folder}-folder`,
     apply: "build", // Run only during build
     configResolved(config) {
       // Get the output directory from Vite config
       outDir = "build/";
     },
     async closeBundle() {
-      const srcDir = path.resolve(process.cwd(), "lang");
-      const destDir = path.resolve(process.cwd(), outDir, "lang");
+      const srcDir = path.resolve(process.cwd(), folder);
+      const destDir = path.resolve(process.cwd(), outDir, folder);
 
       if (!fs.existsSync(srcDir)) {
-        console.warn(`Source folder "lang" not found at: ${srcDir}`);
+        console.warn(`Source folder "${folder}" not found at: ${srcDir}`);
         return;
       }
 
       try {
-        // Copy the "lang" folder recursively to the destination
         await fs.promises.cp(srcDir, destDir, { recursive: true });
-        console.log(`Copied "lang" folder from ${srcDir} to ${destDir}`);
+        console.log(`Copied "${folder}" folder from ${srcDir} to ${destDir}`);
       } catch (error) {
-        console.error("Error copying \"lang\" folder:", error);
+        console.error(`Error copying "${folder}" folder:`, error);
       }
     }
   };
@@ -39,7 +38,8 @@ function copyLangFolderPlugin() {
 const config = {
   plugins: [
     sveltekit(),
-    copyLangFolderPlugin()
+    copyFolderPlugin("lang"),
+    copyFolderPlugin("screenshots")
   ],
   server: {
     proxy: {

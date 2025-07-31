@@ -86,6 +86,7 @@ jobs:
             "version": "v${{ needs.get-next-version.outputs.new_tag_version }}",
             "author": "Pano MC",
             "license": "MIT",
+            "screenshots": ["screenshots/1.png"]
             "sourceUrl": "https://github.com/PanoMC/vanilla-theme",
             "panoVersion": "local-build"
           }
