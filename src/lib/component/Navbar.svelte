@@ -26,7 +26,7 @@
           {#if $session.user && $session.user.panelAccess}
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="btn btn-secondary rounded-pill"
                 href={PANEL_URL}
                 target="_blank"
                 rel="noreferrer">
