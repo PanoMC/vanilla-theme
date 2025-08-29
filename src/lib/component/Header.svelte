@@ -5,7 +5,7 @@
       title={$session.siteInfo.websiteName}
       alt={$_("components.header.alt")}
       class="img-fluid d-block m-auto p-3"
-      src="/api/websiteLogo" />
+      src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}" />
   </div>
 </div>
 
