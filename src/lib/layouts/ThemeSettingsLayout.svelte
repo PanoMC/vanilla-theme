@@ -21,7 +21,7 @@
     const parentData = await parent();
     const { user, siteInfo: { themeSettings } } = parentData;
 
-    if (!hasPermission(Permissions.MANAGE_VIEW, user)) {
+    if (!hasPermission(Permissions.MANAGE_VIEW, user || {})) {
       throw redirect(302, "/");
     }
 
