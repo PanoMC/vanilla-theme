@@ -2,20 +2,7 @@
 
 <!-- Gives a gray background color to the container area -->
 <Navbar />
-<!-- Announcement Alert -->
-<div class="container">
-  <div class="mb-3">
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      <button
-        aria-label="Close"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        type="button"></button>
-      Alert 1
-    </div>
-  </div>
-</div>
-<!--Announcement Alert End-->
+
 <Main>
   <slot />
 </Main>
