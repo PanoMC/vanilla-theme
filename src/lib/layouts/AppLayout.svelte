@@ -6,6 +6,13 @@
   <slot></slot>
 </App>
 
+<!-- Modals Start-->
+<LoginModal />
+
+<RegisterModal />
+
+<NotificationContainer />
+
 <script context="module">
   import { writable } from "svelte/store";
   import { browser } from "$app/environment";
@@ -99,6 +106,10 @@
   import App from "$lib/component/App.svelte";
 
   import { initialized } from "$lib/Store.js";
+
+  import LoginModal from "$lib/component/modals/LoginModal.svelte";
+  import RegisterModal from "$lib/component/modals/RegisterModal.svelte";
+  import NotificationContainer from "$lib/component/NotificationContainer.svelte";
 
   export let data;
 
