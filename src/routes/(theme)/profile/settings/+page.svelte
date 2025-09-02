@@ -1,5 +1,5 @@
 <Settings />
 
 <script>
-  import Settings from "$lib/pages/profile/Settings.svelte";
+  import Settings from "$lib/pages/profile/SettingsPage.svelte";
 </script>

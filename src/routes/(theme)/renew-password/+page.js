@@ -1,1 +1,1 @@
-export { load } from "$lib/pages/RenewPassword.svelte";
+export { load } from "$lib/pages/RenewPasswordPage.svelte";

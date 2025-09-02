@@ -20,9 +20,7 @@
 </div>
 
 <script context="module">
-  import ProfileSidebar, {
-    load as loadSidebar,
-  } from "$lib/component/sidebars/ProfileSidebar.svelte";
+  import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
 
   import { getProfile } from "$lib/services/profile.js";
 

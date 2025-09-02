@@ -16,9 +16,7 @@
 <script context="module">
   import { error } from "@sveltejs/kit";
 
-  import PlayerProfileSidebar, {
-    load as loadSidebar,
-  } from "$lib/component/sidebars/PlayerProfileSidebar.svelte";
+  import PlayerProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/PlayerProfileSidebar.svelte";
 
   import { getPlayerProfile } from "$lib/services/profile.js";
 

@@ -1,1 +1,1 @@
-export { load } from "$lib/pages/ThemeSettings.svelte";
+export { load } from "$lib/pages/ThemeSettingsPage.svelte";

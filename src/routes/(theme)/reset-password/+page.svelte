@@ -1,5 +1,5 @@
 <ResetPassword />
 
 <script>
-  import ResetPassword from "$lib/pages/ResetPassword.svelte";
+  import ResetPassword from "$lib/pages/ResetPasswordPage.svelte";
 </script>

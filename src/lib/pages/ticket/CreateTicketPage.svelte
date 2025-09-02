@@ -42,7 +42,7 @@
 
 <script context="module">
   import TicketCreateAndDetailSidebar, {
-    load as loadSidebar,
+    load as loadSidebar
   } from "$lib/component/sidebars/TicketCreateAndDetailSidebar.svelte";
   import { getTicketCategories } from "$lib/services/tickets";
   import { error as throwError } from "@sveltejs/kit";

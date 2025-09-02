@@ -1,1 +1,1 @@
-export { load } from "$lib/pages/ActivateNewEmail.svelte";
+export { load } from "$lib/pages/ConfirmNewEmailPage.svelte";

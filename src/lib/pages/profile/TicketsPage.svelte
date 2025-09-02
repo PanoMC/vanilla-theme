@@ -118,7 +118,7 @@
   } from "$lib/component/modals/CloseTicketConfirmModal.svelte";
 
   import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
-  import { buildQueryParams } from "../../pano-ui/js/api.util.js";
+  import { buildQueryParams } from "../../../pano-ui/js/api.util.js";
 
   export let data;
 

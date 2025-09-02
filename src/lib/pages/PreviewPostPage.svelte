@@ -4,10 +4,9 @@
 
 <script context="module">
   /**
-   * @type {import('@sveltejs/kit').Load}
+   * @type {import("@sveltejs/kit").Load}
    */
   import { getPostPreview } from "$lib/services/posts.js";
-  import { get } from "svelte/store";
 
   export async function load(event) {
     const { parent } = event;

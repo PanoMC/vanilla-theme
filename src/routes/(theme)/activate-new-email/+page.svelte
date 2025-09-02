@@ -1,7 +1,7 @@
 <Activate data="{data}" />
 
 <script>
-  import Activate from "$lib/pages/ActivateNewEmail.svelte";
+  import Activate from "$lib/pages/ConfirmNewEmailPage.svelte";
 
   export let data;
 </script>
