@@ -14,45 +14,13 @@
 </div>
 
 <script context="module">
-  import { error } from "@sveltejs/kit";
-
-  import PlayerProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/PlayerProfileSidebar.svelte";
-
-  import { getPlayerProfile } from "$lib/services/profile.js";
+  import { processLoad } from "$lib/ui-logics/page-logics/PlayerDetailPageLogics";
 
   /**
    * @type {import('@sveltejs/kit').Load}
    */
   export async function load(event) {
-    const { parent } = event;
-    await parent();
-
-    let data = {
-      registerDate: 0,
-    };
-
-    await loadSidebar(event);
-
-    await getPlayerProfile({
-      username: event.params.player,
-      request: event,
-    }).then((body) => {
-      if (body.error) {
-        if (body.error === "NOT_EXISTS") {
-          throw error(404, body.error);
-        }
-
-        throw error(500, body.error);
-      }
-
-      data = body;
-    });
-
-    return {
-      ...data,
-      sidebar: PlayerProfileSidebar,
-      sidebarProps: { side: "left" },
-    };
+    return processLoad(event);
   }
 </script>
 

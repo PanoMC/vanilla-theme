@@ -22,55 +22,13 @@
 </div>
 
 <script context="module">
-  import { error } from "@sveltejs/kit";
-
-  import HomeSidebar, { load as loadSidebar } from "$lib/component/sidebars/HomeSidebar.svelte";
-
-  import { getPostDetail } from "$lib/services/posts.js";
+  import { processLoad } from "$lib/ui-logics/page-logics/PostDetailPageLogics";
 
   /**
    * @type {import('@sveltejs/kit').Load}
    */
   export async function load(event) {
-    const { parent } = event;
-    await parent();
-
-    let data = {
-      post: {
-        id: -1,
-        title: "",
-        category: "-",
-        writer: {
-          username: "",
-        },
-        text: "",
-        date: 0,
-        status: 1,
-        image: "",
-        views: 0,
-        url: "",
-      },
-      previousPost: "-",
-      nextPost: "-",
-    };
-
-    await loadSidebar(event);
-
-    await getPostDetail({ url: event.params.url, request: event }).then(
-      (body) => {
-        if (body.error) {
-          if (body.error === "POST_NOT_FOUND") {
-            throw error(404, body.error);
-          }
-
-          throw error(500, body.error);
-        }
-
-        data = body;
-      }
-    );
-
-    return { ...data, sidebar: HomeSidebar };
+    return processLoad(event);
   }
 </script>
 

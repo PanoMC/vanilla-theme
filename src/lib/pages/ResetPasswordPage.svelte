@@ -2,9 +2,9 @@
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">{$_("pages.reset-password.title")}</h3>
-      <ErrorAlert error="{error}" />
-      <SuccessAlert message="{message}" />
-      <form on:submit|preventDefault="{onSubmit}">
+      <ErrorAlert error="{$error}" />
+      <SuccessAlert message="{$message}" />
+      <form on:submit|preventDefault="{() => onSubmit(error, message, loading, usernameOrEmail)}">
         <p>
           {$_("pages.reset-password.description")}
         </p>
@@ -16,13 +16,13 @@
               placeholder="{$_('pages.reset-password.inputs.email-username.placeholder')}"
               id="email"
               class="form-control"
-              bind:value="{usernameOrEmail}" />
+              bind:value="{$usernameOrEmail}" />
           </div>
         </div>
         <button
           type="submit"
           class="btn btn-primary w-100"
-          class:disabled="{loading}">
+          class:disabled="{$loading}">
           {$_("pages.reset-password.reset-password-button")}
         </button>
       </form>
@@ -31,52 +31,27 @@
 </div>
 
 <script context="module">
-  import { requireNotLogin } from "$lib/Store.js";
+  import { processLoad } from "$lib/ui-logics/page-logics/ResetPasswordPageLogics.js";
 
   /**
    * @type {import('@sveltejs/kit').LayoutLoad}
    */
-  export async function load({ parent }) {
-    const parentData = await parent();
-
-    const { session } = parentData;
-
-    requireNotLogin(session);
+  export async function load(event) {
+    return await processLoad(event);
   }
 </script>
 
 <script>
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import SuccessAlert from "$lib/component/SuccessAlert.svelte";
-  import { sendResetPassword } from "$lib/services/auth.js";
-  import { NETWORK_ERROR } from "$lib/api.util.js";
+  import { writable } from "svelte/store";
   import { _ } from "svelte-i18n";
 
-  let error;
-  let message;
-  let loading;
-  let usernameOrEmail = "";
+  import { onSubmit } from "$lib/ui-logics/page-logics/ResetPasswordPageLogics";
 
-  async function onSubmit() {
-    error = null;
-    message = null;
-    loading = true;
+  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import SuccessAlert from "$lib/component/SuccessAlert.svelte";
 
-    await sendResetPassword(usernameOrEmail)
-      .then((body) => {
-        loading = false;
-
-        if (body.result === "ok") {
-          message = "RESET_PASSWORD_SUCCESSFUL";
-
-          return;
-        }
-
-        error = body.error;
-      })
-      .catch(() => {
-        error = NETWORK_ERROR;
-        loading = false;
-      });
-  }
+  const error = writable();
+  const message = writable();
+  const loading = writable();
+  const usernameOrEmail = writable("");
 </script>

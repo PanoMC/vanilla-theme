@@ -29,18 +29,13 @@
 </div>
 
 <script context="module">
-  import SupportSidebar, { load as loadSidebar } from "$lib/component/sidebars/SupportSidebar.svelte";
+  import { processLoad } from "$lib/ui-logics/page-logics/SupportPageLogics";
 
   /**
    * @type {import('@sveltejs/kit').Load}
    */
   export async function load(event) {
-    const { parent } = event;
-    await parent();
-
-    await loadSidebar(event);
-
-    return { sidebar: SupportSidebar };
+    return await processLoad(event);
   }
 </script>
 

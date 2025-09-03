@@ -9,17 +9,17 @@
       <div class="col col-form-label">
         <button
           class="btn btn-outline-primary"
-          disabled="{resetPasswordLoading || !$session.siteInfo.emailEnabled}"
+          class:is-invalid="{$resetPasswordError}"
           on:click="{sendResetPasswordLink}"
           aria-describedby="resetPassword validationResetPassword"
-          class:is-invalid="{resetPasswordError}"
+          disabled="{$resetPasswordLoading || !$session.siteInfo.emailEnabled}"
           type="button"
         >{$_("pages.settings.inputs.change-password.description")}</button>
 
         <div id="validationResetPassword" class="invalid-feedback">
-          {resetPasswordError}
+          {$resetPasswordError}
         </div>
-        {#if resetPasswordSuccess}
+        {#if $resetPasswordSuccess}
           <p class="text-dark mb-0">
             {$_("pages.settings.inputs.change-password.success-message")}
           </p>
@@ -34,16 +34,26 @@
       <div class="col col-form-label">
         <form
           on:submit|preventDefault="{() =>
-            changingEmail2ndStep
-              ? sendChangeEmailLink()
-              : startChangingEmail2ndStep()}">
+            $changingEmail2ndStep
+              ? sendChangeEmailLink(
+                changingEmailError,
+              changingEmailLoading,
+              changingEmailSuccess,
+              currentPassword,
+              newEmail,
+              changingEmail,
+              changingEmail2ndStep
+              )
+              : startChangingEmail2ndStep(
+                changingEmail2ndStep
+              )}">
           <div class="row">
-            {#if !changingEmail}
+            {#if !$changingEmail}
               <div class="col-12">
-                {#if changingEmailSuccess}
+                {#if $changingEmailSuccess}
                   <p class="text-dark mb-0">
                     {$_("pages.settings.inputs.change-email.success-message", {
-                      values: { newEmail },
+                      values: { $newEmail },
                     })}
                   </p>
                 {:else}
@@ -51,12 +61,12 @@
                     type="button"
                     class="btn btn-outline-primary"
                     aria-describedby="userEmail"
-                    on:click="{startChangingEmail}"
+                    on:click="{() => startChangingEmail(changingEmail)}"
                     disabled="{!$session.siteInfo.emailEnabled}"
                   >{$_("pages.settings.inputs.change-email.description")}</button>
                 {/if}
               </div>
-            {:else if changingEmail2ndStep}
+            {:else if $changingEmail2ndStep}
               <div class="col">
                 <input
                   type="email"
@@ -66,24 +76,24 @@
                   )}"
                   class="form-control"
                   aria-describedby="validationChangingEmail"
-                  bind:value="{newEmail}"
-                  class:is-invalid="{changingEmailError}"
+                  bind:value="{$newEmail}"
+                  class:is-invalid="{$changingEmailError}"
                   autofocus />
                 <div id="validationChangingEmail" class="invalid-feedback">
-                  {changingEmailError}
+                  {$changingEmailError}
                 </div>
               </div>
               <div class="col-auto">
                 <button
                   type="reset"
                   class="btn btn-link link-primary"
-                  on:click="{stopChangingEmail2ndStep}">
+                  on:click="{() => stopChangingEmail2ndStep(changingEmail2ndStep)}">
                   {$_("pages.settings.inputs.change-email.back")}
                 </button>
                 <button
                   type="submit"
                   class="btn btn-link link-secondary"
-                  class:disabled="{changingEmailLoading}">
+                  class:disabled="{$changingEmailLoading}">
                   {$_("pages.settings.inputs.change-email.confirm")}
                 </button>
               </div>
@@ -96,14 +106,16 @@
                     'pages.settings.inputs.change-email.current-password-placeholder',
                   )}"
                   class="form-control"
-                  bind:value="{currentPassword}"
+                  bind:value="{$currentPassword}"
                   autofocus />
               </div>
               <div class="col-auto">
                 <button
                   type="reset"
                   class="btn btn-link link-danger"
-                  on:click="{stopChangingEmail}">
+                  on:click="{() => stopChangingEmail(
+                    currentPassword, newEmail, changingEmail
+                  )}">
                   {$_("pages.settings.inputs.change-email.cancel")}
                 </button>
                 <button type="submit" class="btn btn-link"
@@ -118,18 +130,13 @@
 </div>
 
 <script context="module">
-  import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
+  import { processLoad } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   /**
    * @type {import('@sveltejs/kit').Load}
    */
   export async function load(event) {
-    const { parent } = event;
-    await parent();
-
-    await loadSidebar(event);
-
-    return { sidebar: ProfileSidebar };
+    return processLoad(event);
   }
 </script>
 
@@ -137,87 +144,25 @@
   import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
-  import { sendChangeEmail, sendResetPassword } from "$lib/services/profile.js";
-  import { NETWORK_ERROR } from "$lib/api.util.js";
+  import {
+    init,
+    sendChangeEmailLink,
+    startChangingEmail,
+    startChangingEmail2ndStep, stopChangingEmail, stopChangingEmail2ndStep
+  } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
-  let resetPasswordError;
-  let resetPasswordLoading;
-  let resetPasswordSuccess;
-
-  let currentPassword;
-  let newEmail;
-
-  let changingEmail;
-  let changingEmail2ndStep;
-
-  let changingEmailError;
-  let changingEmailLoading;
-  let changingEmailSuccess;
+  const {
+    resetPasswordError,
+    resetPasswordLoading,
+    resetPasswordSuccess,
+    currentPassword,
+    newEmail,
+    changingEmail,
+    changingEmail2ndStep,
+    changingEmailError,
+    changingEmailLoading,
+    changingEmailSuccess
+  } = init();
 
   const session = getContext("session");
-
-  async function sendResetPasswordLink() {
-    resetPasswordError = null;
-    resetPasswordLoading = true;
-    resetPasswordSuccess = false;
-
-    await sendResetPassword()
-      .then((body) => {
-        resetPasswordLoading = false;
-
-        if (body.result === "ok") {
-          resetPasswordSuccess = true;
-        } else {
-          resetPasswordError = body.error || NETWORK_ERROR;
-        }
-      })
-      .catch(() => {
-        resetPasswordLoading = false;
-        resetPasswordError = NETWORK_ERROR;
-      });
-  }
-
-  async function sendChangeEmailLink() {
-    changingEmailError = null;
-    changingEmailLoading = true;
-    changingEmailSuccess = false;
-
-    await sendChangeEmail(currentPassword, newEmail)
-      .then((body) => {
-        changingEmailLoading = false;
-
-        if (body.result === "ok") {
-          changingEmail = false;
-          changingEmail2ndStep = false;
-
-          changingEmailSuccess = true;
-        } else {
-          changingEmailError = body.error || NETWORK_ERROR;
-        }
-      })
-      .catch(() => {
-        changingEmailLoading = false;
-
-        changingEmailError = NETWORK_ERROR;
-      });
-  }
-
-  function startChangingEmail() {
-    changingEmail = true;
-  }
-
-  function startChangingEmail2ndStep() {
-    changingEmail2ndStep = true;
-  }
-
-  function stopChangingEmail() {
-    currentPassword = "";
-    newEmail = "";
-
-    changingEmail = false;
-  }
-
-  function stopChangingEmail2ndStep() {
-    changingEmail2ndStep = false;
-  }
 </script>

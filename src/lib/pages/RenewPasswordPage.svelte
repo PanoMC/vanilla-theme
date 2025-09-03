@@ -2,16 +2,16 @@
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">{$_("pages.renew-password.title")}</h3>
-      <ErrorAlert error="{error}" />
-      <SuccessAlert message="{message}" />
-      <form on:submit|preventDefault="{onSubmit}">
+      <ErrorAlert error="{$error}" />
+      <SuccessAlert message="{$message}" />
+      <form on:submit|preventDefault="{() => onSubmit(error, message, loading, newPassword, newPasswordRepeat, data)}">
         <div class="mb-3">
           <label for="newPassword">{$_("pages.renew-password.inputs.new-password")}</label>
           <input
             type="password"
             id="newPassword"
             class="form-control"
-            bind:value="{newPassword}" />
+            bind:value="{$newPassword}" />
         </div>
         <div class="mb-3">
           <label for="newPasswordRepeat">{$_("pages.renew-password.inputs.new-password-repeat")}</label>
@@ -19,12 +19,12 @@
             type="password"
             id="newPasswordRepeat"
             class="form-control"
-            bind:value="{newPasswordRepeat}" />
+            bind:value="{$newPasswordRepeat}" />
         </div>
         <button
           type="submit"
           class="btn btn-secondary w-100"
-          class:disabled="{loading}">
+          class:disabled="{$loading}">
           {$_("pages.renew-password.change-password-button")}
         </button>
       </form>
@@ -33,52 +33,30 @@
 </div>
 
 <script context="module">
+  import { processLoad } from "$lib/ui-logics/page-logics/RenewPasswordPageLogics";
+
   /**
    * @type {import('@sveltejs/kit').PageLoad}
    */
-  export async function load({ parent, url: { searchParams } }) {
-    await parent();
-
-    const token = searchParams.get("token") || "";
-
-    return { token };
+  export async function load(event) {
+    return await processLoad(event);
   }
 </script>
 
 <script>
   import { _ } from "svelte-i18n";
+  import { writable } from "svelte/store";
+
+  import { onSubmit } from "$lib/ui-logics/page-logics/RenewPasswordPageLogics";
+
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
   import SuccessAlert from "$lib/component/SuccessAlert.svelte";
-  import { sendRenewPassword } from "$lib/services/auth.js";
-  import { NETWORK_ERROR } from "$lib/api.util";
 
   export let data;
-  let error;
-  let message;
-  let loading;
-  let newPassword = "";
-  let newPasswordRepeat = "";
 
-  async function onSubmit() {
-    error = null;
-    message = null;
-    loading = true;
-
-    await sendRenewPassword(newPassword, newPasswordRepeat, data.token)
-      .then((body) => {
-        loading = false;
-
-        if (body.result === "ok") {
-          message = "RENEW_PASSWORD_SUCCESSFUL";
-
-          return;
-        }
-
-        error = body.error;
-      })
-      .catch(() => {
-        error = NETWORK_ERROR;
-        loading = false;
-      });
-  }
+  let error = writable();
+  let message = writable();
+  let loading = writable();
+  let newPassword = writable("");
+  let newPasswordRepeat = writable("");
 </script>

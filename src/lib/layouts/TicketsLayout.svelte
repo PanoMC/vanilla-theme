@@ -5,15 +5,10 @@
 <CloseTicketConfirmModal />
 
 <script context="module">
-  import { requireLogin } from "$lib/Store.js";
+  import { processLoad } from "$lib/ui-logics/layout-logics/TicketsLayoutLogics";
 
-  export async function load({ parent }) {
-    const parentData = await parent();
-    const { session } = parentData;
-
-    requireLogin(session);
-
-    return parentData;
+  export async function load(event) {
+    return await processLoad(event);
   }
 </script>
 

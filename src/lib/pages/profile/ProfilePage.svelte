@@ -20,29 +20,13 @@
 </div>
 
 <script context="module">
-  import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
-
-  import { getProfile } from "$lib/services/profile.js";
+  import { processLoad } from "$lib/ui-logics/page-logics/ProfilePageLogics";
 
   /**
    * @type {import('@sveltejs/kit').Load}
    */
   export async function load(event) {
-    const { parent } = event;
-    await parent();
-
-    let data = {
-      registerDate: 0,
-      lastLoginDate: 0,
-    };
-
-    await loadSidebar(event);
-
-    await getProfile({ request: event }).then((body) => {
-      data = body;
-    });
-
-    return { ...data, sidebar: ProfileSidebar };
+    return processLoad(event);
   }
 </script>
 
