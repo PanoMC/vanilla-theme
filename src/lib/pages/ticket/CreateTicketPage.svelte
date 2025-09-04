@@ -1,41 +1,36 @@
 <div class="card">
+  <div class="card-header">
+    {$_("pages.create-ticket.title")}
+  </div>
   <div class="card-body">
-    <div class="row justify-content-between mb-3">
-      <div class="col-auto">
-        <h4 class="card-title">{$_("pages.create-ticket.title")}</h4>
-      </div>
-    </div>
+    <ErrorAlert error={$error} />
 
-    <ErrorAlert error="{$error}" />
-
-    <div class="mb-3">
+    <div class="input-group mb-3">
       <input
         type="text"
-        class="form-control form-control-lg mb-3"
-        placeholder="{$_('pages.create-ticket.inputs.title')}"
-        bind:value="{$title}" />
+        class="form-control"
+        placeholder={$_("pages.create-ticket.inputs.title")}
+        bind:value={$title} />
 
-      <select
-        class="form-select"
-        id="datalistOptions"
-        bind:value="{$categoryId}">
-        <option value="{-1}">{$_("pages.create-ticket.inputs.no-category")}</option>
+      <select class="form-select" id="datalistOptions" bind:value={$categoryId}>
+        <option value={-1}
+          >{$_("pages.create-ticket.inputs.no-category")}</option>
         {#each data.categories as category, index (category)}
-          <option value="{category.id}">{category.title}</option>
+          <option value={category.id}>{category.title}</option>
         {/each}
       </select>
     </div>
 
     <!-- Ticket Editor -->
     <div class="mb-3">
-      <textarea bind:value="{$message}" class="form-control" rows="6"></textarea>
+      <textarea bind:value={$message} class="form-control" rows="6"></textarea>
     </div>
 
     <button
       class="btn btn-primary w-100"
-      class:disabled="{$loading || isButtonDisabled}"
-      disabled="{$loading || isButtonDisabled}"
-      on:click="{() => submit(error, loading, title, message, categoryId)}">
+      class:disabled={$loading || isButtonDisabled}
+      disabled={$loading || isButtonDisabled}
+      on:click={() => submit(error, loading, title, message, categoryId)}>
       {$_("pages.create-ticket.create-button")}</button>
   </div>
 </div>

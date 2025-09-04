@@ -26,7 +26,7 @@
   </div>
 
   <!-- Profile Menu Card -->
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-body">
       <ul class="nav nav-pills nav-fill flex-column">
         <li class="nav-item">

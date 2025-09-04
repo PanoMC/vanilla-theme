@@ -3,20 +3,18 @@
   <div class="card-header">
     {$_("pages.profile.title")}
   </div>
-  <div class="card-body">
-    <table class="table mb-0">
-      <tbody>
-        <tr>
-          <td>{$_("pages.profile.register-date")}</td>
-          <td><Date time={data.registerDate} /></td>
-        </tr>
-        <tr>
-          <td>{$_("pages.profile.last-login")}</td>
-          <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>{$_("pages.profile.register-date")}</td>
+        <td><Date time={data.registerDate} /></td>
+      </tr>
+      <tr>
+        <td>{$_("pages.profile.last-login")}</td>
+        <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <script context="module">

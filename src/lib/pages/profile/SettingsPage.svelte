@@ -1,20 +1,22 @@
 <!-- Settings -->
 <div class="card">
+  <div class="card-header">
+    {$_("pages.settings.title")}
+  </div>
   <div class="card-body">
-    <h5 class="card-title">{$_("pages.settings.title")}</h5>
-    <div class="row mb-3">
+    <div class="row">
       <label class="col-md-4 col-form-label" for="resetPassword">
         {$_("pages.settings.inputs.change-password.title")}
       </label>
       <div class="col col-form-label">
         <button
           class="btn btn-outline-primary"
-          class:is-invalid="{$resetPasswordError}"
-          on:click="{sendResetPasswordLink}"
+          class:is-invalid={$resetPasswordError}
+          on:click={sendResetPasswordLink}
           aria-describedby="resetPassword validationResetPassword"
-          disabled="{$resetPasswordLoading || !$session.siteInfo.emailEnabled}"
+          disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}
           type="button"
-        >{$_("pages.settings.inputs.change-password.description")}</button>
+          >{$_("pages.settings.inputs.change-password.description")}</button>
 
         <div id="validationResetPassword" class="invalid-feedback">
           {$resetPasswordError}
@@ -27,26 +29,24 @@
       </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row">
       <label class="col-md-4 col-form-label" for="userEmail">
         {$_("pages.settings.inputs.change-email.title")}
       </label>
       <div class="col col-form-label">
         <form
-          on:submit|preventDefault="{() =>
+          on:submit|preventDefault={() =>
             $changingEmail2ndStep
               ? sendChangeEmailLink(
-                changingEmailError,
-              changingEmailLoading,
-              changingEmailSuccess,
-              currentPassword,
-              newEmail,
-              changingEmail,
-              changingEmail2ndStep
-              )
-              : startChangingEmail2ndStep(
-                changingEmail2ndStep
-              )}">
+                  changingEmailError,
+                  changingEmailLoading,
+                  changingEmailSuccess,
+                  currentPassword,
+                  newEmail,
+                  changingEmail,
+                  changingEmail2ndStep,
+                )
+              : startChangingEmail2ndStep(changingEmail2ndStep)}>
           <div class="row">
             {#if !$changingEmail}
               <div class="col-12">
@@ -61,9 +61,11 @@
                     type="button"
                     class="btn btn-outline-primary"
                     aria-describedby="userEmail"
-                    on:click="{() => startChangingEmail(changingEmail)}"
-                    disabled="{!$session.siteInfo.emailEnabled}"
-                  >{$_("pages.settings.inputs.change-email.description")}</button>
+                    on:click={() => startChangingEmail(changingEmail)}
+                    disabled={!$session.siteInfo.emailEnabled}
+                    >{$_(
+                      "pages.settings.inputs.change-email.description",
+                    )}</button>
                 {/if}
               </div>
             {:else if $changingEmail2ndStep}
@@ -71,13 +73,13 @@
                 <input
                   type="email"
                   id="newEmail"
-                  placeholder="{$_(
-                    'pages.settings.inputs.change-password.new-email-placeholder',
-                  )}"
+                  placeholder={$_(
+                    "pages.settings.inputs.change-password.new-email-placeholder",
+                  )}
                   class="form-control"
                   aria-describedby="validationChangingEmail"
-                  bind:value="{$newEmail}"
-                  class:is-invalid="{$changingEmailError}"
+                  bind:value={$newEmail}
+                  class:is-invalid={$changingEmailError}
                   autofocus />
                 <div id="validationChangingEmail" class="invalid-feedback">
                   {$changingEmailError}
@@ -87,13 +89,14 @@
                 <button
                   type="reset"
                   class="btn btn-link link-primary"
-                  on:click="{() => stopChangingEmail2ndStep(changingEmail2ndStep)}">
+                  on:click={() =>
+                    stopChangingEmail2ndStep(changingEmail2ndStep)}>
                   {$_("pages.settings.inputs.change-email.back")}
                 </button>
                 <button
                   type="submit"
                   class="btn btn-link link-secondary"
-                  class:disabled="{$changingEmailLoading}">
+                  class:disabled={$changingEmailLoading}>
                   {$_("pages.settings.inputs.change-email.confirm")}
                 </button>
               </div>
@@ -102,20 +105,23 @@
                 <input
                   type="password"
                   id="currentPassword"
-                  placeholder="{$_(
-                    'pages.settings.inputs.change-email.current-password-placeholder',
-                  )}"
+                  placeholder={$_(
+                    "pages.settings.inputs.change-email.current-password-placeholder",
+                  )}
                   class="form-control"
-                  bind:value="{$currentPassword}"
+                  bind:value={$currentPassword}
                   autofocus />
               </div>
               <div class="col-auto">
                 <button
                   type="reset"
                   class="btn btn-link link-danger"
-                  on:click="{() => stopChangingEmail(
-                    currentPassword, newEmail, changingEmail
-                  )}">
+                  on:click={() =>
+                    stopChangingEmail(
+                      currentPassword,
+                      newEmail,
+                      changingEmail,
+                    )}>
                   {$_("pages.settings.inputs.change-email.cancel")}
                 </button>
                 <button type="submit" class="btn btn-link"
@@ -148,7 +154,9 @@
     init,
     sendChangeEmailLink,
     startChangingEmail,
-    startChangingEmail2ndStep, stopChangingEmail, stopChangingEmail2ndStep
+    startChangingEmail2ndStep,
+    stopChangingEmail,
+    stopChangingEmail2ndStep,
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   const {
@@ -161,7 +169,7 @@
     changingEmail2ndStep,
     changingEmailError,
     changingEmailLoading,
-    changingEmailSuccess
+    changingEmailSuccess,
   } = init();
 
   const session = getContext("session");

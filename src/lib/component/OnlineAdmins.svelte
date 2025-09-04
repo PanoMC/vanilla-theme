@@ -1,6 +1,6 @@
 <!-- Online Admins Card -->
 <div class="card">
-  <h5 class="card-body">{$_("components.online-admins.online-admins")}</h5>
+  <div class="card-header">{$_("components.online-admins.online-admins")}</div>
   <div class="card-body">
     <div class="row">
       {#each onlineAdmins as onlineAdmin, index (onlineAdmin)}
@@ -10,7 +10,7 @@
               alt=""
               class="rounded"
               src="https://minotar.net/avatar/{onlineAdmin}"
-              use:tooltip="{[onlineAdmin, { placement: 'bottom' }]}"
+              use:tooltip={[onlineAdmin, { placement: "bottom" }]}
               width="24" />
           </a>
         </div>
@@ -18,6 +18,7 @@
     </div>
   </div>
 </div>
+
 <!-- Online Admins Card End -->
 <script>
   import { _ } from "svelte-i18n";

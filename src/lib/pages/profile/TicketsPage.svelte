@@ -1,47 +1,47 @@
 <div class="card">
-  <div class="card-body">
-    <div class="row justify-content-between pb-3 align-items-center">
-      <div class="col-auto">
-        <h4 class="card-title mb-md-0">
-          {#if data.categoryUrl}
-            {@html $_("pages.category-tickets.title", {
-              values: {
-                categoryName: `<strong
-            >"${data.category.title === "-"
-                  ? $_("pages.category-tickets.no-category")
-                  : data.category.title}"</strong>`
-              }
-            })}
-          {:else}
-            {$_("pages.tickets.title")}
-          {/if}
-        </h4>
+  <div class="card-header">
+  <div class="row d-flex align-items-center gx-0 gy-2">
+      <div class="col-lg-6 d-flex justify-content-lg-between justify-content-center">
+        {#if data.categoryUrl}
+          {@html $_("pages.category-tickets.title", {
+            values: {
+              categoryName: `<strong
+          >"${
+            data.category.title === "-"
+              ? $_("pages.category-tickets.no-category")
+              : data.category.title
+          }"</strong>`,
+            },
+          })}
+        {:else}
+          {$_("pages.tickets.title")}
+        {/if}
       </div>
       {#if !data.categoryUrl}
-      <div class="col-md-auto col-12 text-md-right text-center">
-        <div class="btn-group">
-          <a
-            class="btn btn-sm btn-outline-light btn-link"
-            class:active="{data.pageType === PageTypes.ALL}"
-            role="button"
-            href="/tickets">
-            {$_("pages.tickets.all")}
-          </a>
-          <a
-            class="btn btn-sm btn-outline-light btn-link text-danger"
-            class:active="{data.pageType === PageTypes.CLOSED}"
-            role="button"
-            href="?pageType=CLOSED">
-            {$_("pages.tickets.closed")}
-          </a>
+        <div class="col-lg-6 d-flex justify-content-lg-end justify-content-center">
+          <div class="btn-group">
+            <a
+              class="btn btn-sm btn-outline-primary"
+              class:active={data.pageType === PageTypes.ALL}
+              role="button"
+              href="/tickets">
+              {$_("pages.tickets.all")}
+            </a>
+            <a
+              class="btn btn-sm btn-outline-primary"
+              class:active={data.pageType === PageTypes.CLOSED}
+              role="button"
+              href="?pageType=CLOSED">
+              {$_("pages.tickets.closed")}
+            </a>
+          </div>
         </div>
-      </div>
       {/if}
     </div>
-    <Tickets
-      on:closeTicket="{(event) => onCloseTicketClick(tickets, event.detail.ticket)}"
-      tickets="{$tickets}" />
   </div>
+  <Tickets
+    on:closeTicket={(event) => onCloseTicketClick(tickets, event.detail.ticket)}
+    tickets={$tickets} />
 </div>
 
 <br />
@@ -49,12 +49,12 @@
 <!-- Pagination -->
 {#if data.ticketCount > 0}
   <Pagination
-    page="{data.page}"
-    totalPage="{data.totalPage}"
-    loading="{false}"
-    on:firstPageClick="{() => onPageClick(data, 1)}"
-    on:lastPageClick="{() => onPageClick(data, data.totalPage)}"
-    on:pageLinkClick="{(event) => onPageClick(data, event.detail.page)}" />
+    page={data.page}
+    totalPage={data.totalPage}
+    loading={false}
+    on:firstPageClick={() => onPageClick(data, 1)}
+    on:lastPageClick={() => onPageClick(data, data.totalPage)}
+    on:pageLinkClick={(event) => onPageClick(data, event.detail.page)} />
 {/if}
 
 <script context="module">
@@ -71,7 +71,12 @@
 <script>
   import { _ } from "svelte-i18n";
 
-  import { init, onCloseTicketClick, onPageClick, PageTypes } from "$lib/ui-logics/page-logics/TicketsPageLogics";
+  import {
+    init,
+    onCloseTicketClick,
+    onPageClick,
+    PageTypes,
+  } from "$lib/ui-logics/page-logics/TicketsPageLogics";
 
   import Pagination from "$lib/component/Pagination.svelte";
   import Tickets from "$lib/component/Tickets.svelte";

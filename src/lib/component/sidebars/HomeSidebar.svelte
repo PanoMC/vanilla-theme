@@ -13,7 +13,7 @@
       ]}>
       <b>{$data.ipAddress}</b>
       <br />
-      <small>Click to copy</small>
+      <small class="fs-6">Click to copy</small>
     </button>
     <!-- Play Button End -->
 

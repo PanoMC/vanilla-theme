@@ -1,16 +1,16 @@
 <!-- Statistics -->
 <div class="card">
-  <div class="card-body">
-    <h4 class="card-title">{$_("pages.player-profile.title")}</h4>
-    <table class="table mb-0">
-      <tbody>
-        <tr>
-          <td>{$_("pages.player-profile.register-date")}</td>
-          <td><Date time="{data.registerDate}" /></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card-header">
+    {$_("pages.player-profile.title")}
   </div>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>{$_("pages.player-profile.register-date")}</td>
+        <td><Date time={data.registerDate} /></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <script context="module">

@@ -1,28 +1,32 @@
 <div class="col-lg-4 col-md-6 m-auto">
   <div class="card">
+    <div class="card-header">
+      {$_("pages.reset-password.title")}
+    </div>
     <div class="card-body">
-      <h3 class="card-title">{$_("pages.reset-password.title")}</h3>
-      <ErrorAlert error="{$error}" />
-      <SuccessAlert message="{$message}" />
-      <form on:submit|preventDefault="{() => onSubmit(error, message, loading, usernameOrEmail)}">
+      <ErrorAlert error={$error} />
+      <SuccessAlert message={$message} />
+      <form
+        on:submit|preventDefault={() =>
+          onSubmit(error, message, loading, usernameOrEmail)}>
         <p>
           {$_("pages.reset-password.description")}
         </p>
 
         <div class="mb-3">
-          <div class="form-group">
-            <input
-              type="text"
-              placeholder="{$_('pages.reset-password.inputs.email-username.placeholder')}"
-              id="email"
-              class="form-control"
-              bind:value="{$usernameOrEmail}" />
-          </div>
+          <input
+            type="text"
+            placeholder={$_(
+              "pages.reset-password.inputs.email-username.placeholder",
+            )}
+            id="email"
+            class="form-control"
+            bind:value={$usernameOrEmail} />
         </div>
         <button
           type="submit"
-          class="btn btn-primary w-100"
-          class:disabled="{$loading}">
+          class="btn btn-secondary w-100"
+          class:disabled={$loading}>
           {$_("pages.reset-password.reset-password-button")}
         </button>
       </form>
