@@ -12,7 +12,7 @@
         <button
           class="btn btn-outline-primary"
           class:is-invalid={$resetPasswordError}
-          on:click={sendResetPasswordLink}
+          on:click={() => sendResetPasswordLink(resetPasswordError, resetPasswordLoading, resetPasswordSuccess)}
           aria-describedby="resetPassword validationResetPassword"
           disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}
           type="button"
@@ -152,11 +152,11 @@
 
   import {
     init,
-    sendChangeEmailLink,
+    sendChangeEmailLink, sendResetPasswordLink,
     startChangingEmail,
     startChangingEmail2ndStep,
     stopChangingEmail,
-    stopChangingEmail2ndStep,
+    stopChangingEmail2ndStep
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   const {
