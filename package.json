@@ -11,6 +11,7 @@
     "format:prettier": "prettier --write . --config .prettierrc"
   },
   "devDependencies": {
+    "@jill64/universal-sanitizer": "^1.4.6",
     "@sveltejs/adapter-node": "^5.2.12",
     "@sveltejs/kit": "^2.22.2",
     "@sveltejs/vite-plugin-svelte": "^5.1.0",

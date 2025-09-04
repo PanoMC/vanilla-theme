@@ -1,4 +1,8 @@
 {
+  "buttons": {
+    "view": "View",
+    "show-all": "Show All"
+  },
   "nav-links": {
     "support": "Support",
     "panel": "Panel",
@@ -36,6 +40,9 @@
     }
   },
   "components": {
+    "notification-container": {
+      "notification": "Notification"
+    },
     "post": {
       "read-more": "Read More",
       "view": "Views"
@@ -231,5 +238,9 @@
     "new": "New",
     "replied": "Replied",
     "closed": "Closed"
+  },
+  "notifications": {
+    "AN_ADMIN_CLOSED_TICKET": "An admin closed your ticket (<b>#{id}</b>).",
+    "AN_ADMIN_REPLIED_TICKET": "An admin replied to your ticket (<b>#{id}</b>)."
   }
 }

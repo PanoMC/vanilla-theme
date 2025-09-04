@@ -37,60 +37,81 @@
           {/if}
 
           <!-- Notifications Dropdown -->
-          <div
-            class="nav-item mx-lg-0 mx-3"
-            id="quickNotificationsDropdown"
-            class:d-none={!$session.user}>
-            <div class="dropdown">
-              <button
-                class="nav-link"
-                data-bs-toggle="dropdown"
-                type="button"
-                title={$_("navbar.notifications.title")}>
-                <i class="fas fa-bolt"></i>
 
-                {#if $notificationsCount !== 0}
-                  <span
-                    class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
-                    {$notificationsCount}
-                  </span>
-                {/if}
-              </button>
-              <div class="dropdown-menu dropdown-menu-end position-absolute">
-                <h6 class="dropdown-header">
-                  {$_("navbar.notifications.title")}
-                  {$notificationsCount === 0
-                    ? ""
-                    : "(" + $notificationsCount + ")"}
-                </h6>
+          <div class="nav-item position-relative" id="quickNotificationsDropdown">
+            <button
+              class="nav-link"
+              data-bs-toggle="dropdown"
+              href="javascript:void(0);"
+              title={$_("navbar.notifications.title")}
+              type="button">
+              <i class="fa-regular fa-bolt"></i>
+              {#if $notificationsCount !== 0}
+              <span
+                class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
+                {$notificationsCount}
+              </span>
+              {/if}
+            </button>
+            <div
+              class="dropdown-menu dropdown-menu-end"
+              class:d-none={!$session.user}
+              style="width: 300px;">
+              <h6 class="dropdown-header">
+                {$_("navbar.notifications.title")}
+                {$notificationsCount === 0 ? "" : "(" + $notificationsCount + ")"}
+              </h6>
 
-                {#if $quickNotifications.length === 0}
-                  <NoContent />
-                {:else}
+              {#if $quickNotifications.length === 0}
+                <NoContent />
+              {:else}
+                <div class="list-group list-group-flush">
                   {#each $quickNotifications as notification, index (notification)}
-                    <button
-                      type="button"
-                      on:click={() => onNotificationClick(notification)}
-                      class="dropdown-item"
-                      class:notification-unread={notification.status ===
-                        "NOT_READ"}>
-                      <p class="mb-0">{notification.type}</p>
-                      <small class="text-dark">
-                        {getTime(
-                          checkTime,
-                          parseInt(notification.date),
-                          locales[$currentLanguage.dateFnsCode],
-                        )}
-                      </small>
-                    </button>
-                  {/each}
-                {/if}
+                    <div
+                      class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
+                      class:notification-unread={notification.status === "NOT_READ"}>
+                      <button
+                        type="button"
+                        title={$_("buttons.view")}
+                        on:click={() => onNotificationClick(notification)}
+                        class="text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
 
-                <li class="dropdown-item bg-transparent">
-                  <a href="/notifications" class="btn btn-sm btn-primary w-100"
-                    >{$_("navbar.notifications.show-all")}</a>
-                </li>
-              </div>
+                    <span class="d-flex align-items-center">
+                      {#if notification.details.faIcon}
+                        <i class="{notification.details.faIcon} fa-fw"></i>
+                      {:else if notification.details.image || notification.details.username}
+                        <img
+                          src="{notification.details.image || `https://minotar.net/avatar/${notification.details.username}/64`}"
+                          width="48"
+                          height="48"
+                          class="rounded" />
+                      {:else}
+                        <i class="fa fa-fw fa-bolt"></i>
+                      {/if}
+                    </span>
+
+                        <span class="text-start">
+                        <span
+                          class="text-wrap markdown-renderer text-break">{@html $_('notifications.' + notification.type, { values: { ...sanitizeObject(notification.details || {}) } })}</span>
+                            <br />
+                        <small class="text-muted">
+                          {getTime(
+                            checkTime,
+                            parseInt(notification.createdAt),
+                            locales[$currentLanguage.dateFnsCode],
+                          )}
+                        </small>
+                      </span>
+                      </button>
+                    </div>
+                  {/each}
+                </div>
+              {/if}
+
+              <a class="dropdown-item bg-transparent" href="/notifications">
+                <button class="btn btn-sm btn-primary w-100">
+                  {$_("buttons.show-all")}</button>
+              </a>
             </div>
           </div>
 
@@ -149,21 +170,24 @@
 
 <!-- Navbar End -->
 <script>
-  import { formatDistanceToNow } from "date-fns";
   import { getContext, onDestroy, onMount } from "svelte";
   import { _ } from "svelte-i18n";
+
+  import { sanitize } from "@jill64/universal-sanitizer";
+
+  import { formatDistanceToNow } from "date-fns";
+  import * as locales from "date-fns/locale";
 
   import { PANEL_URL } from "$lib/variables.js";
   import { notificationsCount, quickNotifications } from "$lib/Store";
   import ApiUtil from "$lib/api.util.js";
+  import { currentLanguage } from "$lib/language.util.js";
   import { onNotificationClick } from "$lib/NotificationManager.js";
 
   import NoContent from "$lib/component/NoContent.svelte";
 
-  import { show as showLoginModal } from "./modals/LoginModal.svelte";
-  import { show as showRegisterModal } from "./modals/RegisterModal.svelte";
-  import * as locales from "date-fns/locale";
-  import { currentLanguage } from "$lib/language.util.js";
+  import { show as showLoginModal } from "$lib/component/modals/LoginModal.svelte";
+  import { show as showRegisterModal } from "$lib/component/modals/RegisterModal.svelte";
 
   let quickNotificationProcessID = 0;
 
@@ -229,4 +253,11 @@
   onDestroy(() => {
     clearInterval(interval);
   });
+
+  function sanitizeObject(obj) {
+    return Object.keys(obj).reduce((sanitizedObj, key) => {
+      sanitizedObj[key] = sanitize(obj[key]);
+      return sanitizedObj;
+    }, {});
+  }
 </script>

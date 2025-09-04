@@ -1,6 +1,8 @@
 import { onDestroy, onMount } from "svelte";
 import { get, writable } from "svelte/store";
+
 import { formatDistanceToNow } from "date-fns";
+import { sanitize } from "@jill64/universal-sanitizer";
 
 import { browser } from "$app/environment";
 
@@ -119,7 +121,7 @@ export function loadMore(notifications, loadMoreLoading) {
   });
 }
 
-export function deleteNotification(notifications, count, id) {
+export function onDeleteNotificationClick(notifications, count, id) {
   ApiUtil.delete({
     path: `/api/notifications/${id}`
   }).then((body) => {
@@ -205,4 +207,11 @@ export function init(data) {
     checkTime,
     interval
   };
+}
+
+export function sanitizeObject(obj) {
+  return Object.keys(obj).reduce((sanitizedObj, key) => {
+    sanitizedObj[key] = sanitize(obj[key]);
+    return sanitizedObj;
+  }, {});
 }

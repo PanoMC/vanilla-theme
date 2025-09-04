@@ -21,33 +21,59 @@
       <h3 class="card-title">
         {$_("navbar.notifications.title")}
       </h3>
-      {#each $notifications as notification, index (notification)}
-        <div class="list-group list-group-flush">
-          <a
-            href="javascript:void(0);"
-            on:click="{() => onNotificationClick(notification)}"
-            class="list-group-item list-group-item-action"
-            class:notification-unread="{notification.status === 'NOT_READ'}">
-            <span class="text-wrap">{notification.type}</span>
-            <br />
-            <small class="text-muted">
-              {getTime(
-                $checkTime,
-                parseInt(notification.date),
-                locales[$currentLanguage.dateFnsCode],
-              )}
-            </small>
-          </a>
-          <button
-            class="btn-close btn-sm mx-2"
-            use:tooltip="{[
-              $_('pages.notifications.delete-notification'),
-              { placement: 'right' },
-            ]}"
-            on:click="{() => deleteNotification(notifications, count, notification.id)}">
+      <div class="list-group">
+        {#each $notifications as notification, index (notification)}
+          <div
+            class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
+            class:notification-unread={notification.status === "NOT_READ"}>
+            <button
+              type="button"
+              title={$_("buttons.view")}
+              on:click={() => onNotificationClick(notification)}
+              class="flex-grow-1 text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
+
+            <span class="d-flex align-items-center">
+              {#if notification.details.faIcon}
+                <i class="{notification.details.faIcon} fa-fw"></i>
+              {:else if notification.details.image || notification.details.username}
+                <img
+                  src="{notification.details.image || `https://minotar.net/avatar/${notification.details.username}/64`}"
+                  width="48"
+                  height="48"
+                  class="rounded" />
+              {:else}
+                <i
+                  class="fa fa-fw fa-bolt"></i>
+              {/if}
+            </span>
+
+              <span class="flex-grow-1 text-start">
+              <span
+                class="text-wrap markdown-renderer">{@html $_('notifications.' + notification.type, { values: { ...sanitizeObject(notification.details || {}) } })}</span>
+                  <br />
+              <small class="text-muted">
+                {getTime(
+                  checkTime,
+                  parseInt(notification.createdAt),
+                  locales[$currentLanguage.dateFnsCode],
+                )}
+              </small>
+            </span>
+            </button>
+
+            <button
+              type="button"
+              class="btn-close ms-2"
+              aria-label={$_("pages.notifications.delete-notification")}
+              use:tooltip={[
+                $_("pages.notifications.delete-notification"),
+                { placement: "bottom" },
+              ]}
+              on:click={() => onDeleteNotificationClick(notification.id)}>
           </button>
         </div>
       {/each}
+      </div>
 
       {#if $notifications.length === 0}
         <NoContent />
@@ -92,10 +118,10 @@
   import { currentLanguage } from "$lib/language.util";
 
   import {
-    deleteNotification,
+    onDeleteNotificationClick,
     getTime,
     init, loadMore,
-    onDeleteAllClick
+    onDeleteAllClick, sanitizeObject
   } from "$lib/ui-logics/page-logics/NotificationsPageLogics";
 
   import ConfirmRemoveAllNotificationsModal from "$lib/component/modals/ConfirmRemoveAllNotificationsModal.svelte";

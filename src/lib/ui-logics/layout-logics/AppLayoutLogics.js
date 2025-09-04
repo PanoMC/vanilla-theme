@@ -21,7 +21,7 @@ async function sendVisitorVisitRequest({ event, csrfToken }) {
 function initNotificationListeners() {
   addListener("AN_ADMIN_REPLIED_TICKET", async (notification) => {
     const {
-      properties: { id }
+      details: { id }
     } = notification;
 
     await goto("/ticket/" + id, { invalidateAll: true });
@@ -29,7 +29,7 @@ function initNotificationListeners() {
 
   addListener("AN_ADMIN_CLOSED_TICKET", async (notification) => {
     const {
-      properties: { id }
+      details: { id }
     } = notification;
 
     await goto("/ticket/" + id, { invalidateAll: true });
