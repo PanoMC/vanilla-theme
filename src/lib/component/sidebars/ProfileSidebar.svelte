@@ -4,21 +4,23 @@
     <div class="card">
       <div class="card-body">
         <PlayerHead
-          username="{user.username}"
-          inGame="{$data.inGame}"
-          lastActivityTime="{$data.lastActivityTime}"
-          checkTime="{checkTime}" />
+          width="128"
+          height="128"
+          username={user.username}
+          inGame={$data.inGame}
+          lastActivityTime={$data.lastActivityTime}
+          checkTime={checkTime} />
         <div class="text-center">
           <h2 class="mt-3">{user.username}</h2>
           <p
-            use:tooltip="{[
-              $_('sidebars.profile.secret'),
-              { placement: 'top', hideOnClick: false },
-            ]}">
+            use:tooltip={[
+              $_("sidebars.profile.secret"),
+              { placement: "top", hideOnClick: false },
+            ]}>
             {user.email}
           </p>
           <PlayerPermissionBadge
-            permissionGroupName="{$data.permissionGroupName}" />
+            permissionGroupName={$data.permissionGroupName} />
         </div>
       </div>
     </div>
@@ -33,7 +35,7 @@
           <a
             class="nav-link"
             href="/profile"
-            class:active="{matching($page.url.pathname, '/profile')}">
+            class:active={matching($page.url.pathname, "/profile")}>
             {$_("sidebars.profile.links.statistics")}
           </a>
         </li>
@@ -41,7 +43,7 @@
           <a
             class="nav-link"
             href="/tickets"
-            class:active="{matching($page.url.pathname, '/tickets', true)}">
+            class:active={matching($page.url.pathname, "/tickets", true)}>
             {$_("sidebars.profile.links.tickets")}
           </a>
         </li>
@@ -49,19 +51,16 @@
           <a
             class="nav-link"
             href="/profile/settings"
-            class:active="{matching(
+            class:active={matching(
               $page.url.pathname,
-              '/profile/settings',
+              "/profile/settings",
               true,
-            )}">
+            )}>
             {$_("sidebars.profile.links.settings")}
           </a>
         </li>
         <li class="nav-item">
-          <button
-            class="nav-link link-danger"
-            on:click="{logout}"
-            type="button">
+          <button class="nav-link link-danger" on:click={logout} type="button">
             {$_("sidebars.profile.links.logout")}
           </button>
         </li>

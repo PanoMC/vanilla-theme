@@ -1,4 +1,7 @@
 <Sidebar>
+  <!-- Online Admins Card -->
+  <OnlineAdmins onlineAdmins={$data.onlineAdmins} />
+  <!-- Online Admins Card End -->
   <!-- Close Ticket Button -->
   {#if $ticketData}
     {#if $ticketData.status !== TicketStatuses.CLOSED}
@@ -6,7 +9,7 @@
         <button
           class="btn btn-lg btn-danger w-100"
           type="button"
-          on:click="{() => showCloseTicketConfirmModal($ticketData)}">
+          on:click={() => showCloseTicketConfirmModal($ticketData)}>
           <i class="fas fa-times me-2"></i>
           {$_("components.ticket-create-and-detail.close-ticket-button")}
         </button>
@@ -14,10 +17,6 @@
     {/if}
   {/if}
   <!-- Close Ticket Button End -->
-
-  <!-- Online Admins Card -->
-  <OnlineAdmins onlineAdmins="{$data.onlineAdmins}" />
-  <!-- Online Admins Card End -->
 </Sidebar>
 
 <script context="module">

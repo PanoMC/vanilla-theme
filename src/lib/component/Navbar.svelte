@@ -38,7 +38,9 @@
 
           <!-- Notifications Dropdown -->
 
-          <div class="nav-item position-relative" id="quickNotificationsDropdown">
+          <div
+            class="nav-item position-relative"
+            id="quickNotificationsDropdown">
             <button
               class="nav-link"
               data-bs-toggle="dropdown"
@@ -47,10 +49,10 @@
               type="button">
               <i class="fa-regular fa-bolt"></i>
               {#if $notificationsCount !== 0}
-              <span
-                class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
-                {$notificationsCount}
-              </span>
+                <span
+                  class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
+                  {$notificationsCount}
+                </span>
               {/if}
             </button>
             <div
@@ -59,7 +61,9 @@
               style="width: 300px;">
               <h6 class="dropdown-header">
                 {$_("navbar.notifications.title")}
-                {$notificationsCount === 0 ? "" : "(" + $notificationsCount + ")"}
+                {$notificationsCount === 0
+                  ? ""
+                  : "(" + $notificationsCount + ")"}
               </h6>
 
               {#if $quickNotifications.length === 0}
@@ -69,40 +73,45 @@
                   {#each $quickNotifications as notification, index (notification)}
                     <div
                       class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
-                      class:notification-unread={notification.status === "NOT_READ"}>
+                      class:notification-unread={notification.status ===
+                        "NOT_READ"}>
                       <button
                         type="button"
                         title={$_("buttons.view")}
                         on:click={() => onNotificationClick(notification)}
                         class="text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
-
-                    <span class="d-flex align-items-center">
-                      {#if notification.details.faIcon}
-                        <i class="{notification.details.faIcon} fa-fw"></i>
-                      {:else if notification.details.image || notification.details.username}
-                        <img
-                          src="{notification.details.image || `https://minotar.net/avatar/${notification.details.username}/64`}"
-                          alt="{$_('buttons.view')}"
-                          width="48"
-                          height="48"
-                          class="rounded" />
-                      {:else}
-                        <i class="fa fa-fw fa-bolt"></i>
-                      {/if}
-                    </span>
+                        <span class="d-flex align-items-center">
+                          {#if notification.details.faIcon}
+                            <i class="{notification.details.faIcon} fa-fw"></i>
+                          {:else if notification.details.image || notification.details.username}
+                            <img
+                              src={notification.details.image ||
+                                `https://minotar.net/avatar/${notification.details.username}/64`}
+                              alt={$_("buttons.view")}
+                              width="48"
+                              height="48"
+                              class="rounded" />
+                          {:else}
+                            <i class="fa fa-fw fa-bolt"></i>
+                          {/if}
+                        </span>
 
                         <span class="text-start">
-                        <span
-                          class="text-wrap markdown-renderer text-break">{@html $_('notifications.' + notification.type, { values: { ...sanitizeObject(notification.details || {}) } })}</span>
-                            <br />
-                        <small class="text-muted">
-                          {getTime(
-                            checkTime,
-                            parseInt(notification.createdAt),
-                            locales[$currentLanguage.dateFnsCode],
-                          )}
-                        </small>
-                      </span>
+                          <span class="text-wrap markdown-renderer text-break"
+                            >{@html $_("notifications." + notification.type, {
+                              values: {
+                                ...sanitizeObject(notification.details || {}),
+                              },
+                            })}</span>
+                          <br />
+                          <small class="text-muted">
+                            {getTime(
+                              checkTime,
+                              parseInt(notification.createdAt),
+                              locales[$currentLanguage.dateFnsCode],
+                            )}
+                          </small>
+                        </span>
                       </button>
                     </div>
                   {/each}
