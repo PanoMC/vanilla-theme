@@ -12,7 +12,7 @@
         <button
           class="btn btn-outline-primary"
           class:is-invalid={$resetPasswordError}
-          on:click={() => sendResetPasswordLink(resetPasswordError, resetPasswordLoading, resetPasswordSuccess)}
+          on:click={() => sendResetPasswordLink(resetPasswordError, resetPasswordLoading, resetPasswordSuccess, session)}
           aria-describedby="resetPassword validationResetPassword"
           disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}
           type="button"

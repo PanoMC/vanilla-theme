@@ -22,13 +22,14 @@ export async function processLoad(event) {
 export async function sendResetPasswordLink(
   resetPasswordError,
   resetPasswordLoading,
-  resetPasswordSuccess
+  resetPasswordSuccess,
+  session
 ) {
   resetPasswordError.set(null);
   resetPasswordLoading.set(true);
   resetPasswordSuccess.set(false);
 
-  await sendResetPassword()
+  await sendResetPassword(get(session).user.email)
     .then((body) => {
       resetPasswordLoading.set(false);
 
