@@ -21,7 +21,7 @@
       <h3 class="card-title">
         {$_("navbar.notifications.title")}
       </h3>
-      <div class="list-group">
+      <div class="list-group" class:d-none="{$notifications.length === 0}">
         {#each $notifications as notification, index (notification)}
           <div
             class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
