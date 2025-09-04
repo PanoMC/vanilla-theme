@@ -26,6 +26,10 @@ Array.prototype.remove = function(index) {
   return this;
 };
 
+function delay(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 function setNotifications(notifications, newNotifications) {
   if (get(notifications).length === 0 || newNotifications.length === 0)
     notifications.set(newNotifications);
@@ -83,7 +87,9 @@ export async function processLoad(event) {
   return { notifications, notificationCount: parseInt(notificationCount) };
 }
 
-function getNotifications(notifications, notificationProcessID, count, id) {
+async function getNotifications(notifications, notificationProcessID, count, id) {
+  await delay(1000);
+
   loadData({}).then((data) => {
     if (get(notificationProcessID) === id) {
       if (data.result === "ok") {
@@ -97,6 +103,22 @@ function getNotifications(notifications, notificationProcessID, count, id) {
           startNotificationsCountdown(notifications, notificationProcessID, count);
         }
       }, 1000);
+
+      get(notifications).forEach(notification => {
+        if (notification.status === "NOT_READ") {
+          setTimeout(() => {
+            notifications.update(notifications => {
+              notifications.forEach(subNotification => {
+                if (subNotification.id === notification.id) {
+                  notification.status = "READ";
+                }
+              });
+
+              return notifications;
+            });
+          }, 3000);
+        }
+      });
     }
   });
 }
@@ -126,13 +148,19 @@ export function onDeleteNotificationClick(notifications, count, id) {
     path: `/api/notifications/${id}`
   }).then((body) => {
     if (body.result === "ok") {
+
       get(notifications).forEach((notification) => {
         if (notification.id === id) {
-          notifications.update((value) =>
-            value.remove(value.indexOf(notification))
+          notifications.update((value) => {
+              return value.remove(value.indexOf(notification));
+            }
           );
 
-          count.update((value) => value--);
+          count.update((value) => {
+            value--;
+
+            return value;
+          });
         }
       });
     }

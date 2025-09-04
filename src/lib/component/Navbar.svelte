@@ -202,11 +202,17 @@
   let quickNotificationProcessID = 0;
 
   let checkTime = 0;
-  let interval;
+  let interval, showingQuickNotification;
 
   const session = getContext("session");
 
-  function markQuickNotificationsAsRead(id) {
+  function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
+  async function markQuickNotificationsAsRead(id) {
+    await delay(1000);
+
     ApiUtil.post({
       path: "/api/notifications/quick/markAsRead",
     }).then((body) => {
@@ -217,42 +223,64 @@
 
         setTimeout(() => {
           if (quickNotificationProcessID === id) {
-            startMarkQuickNotificationsAsReadCountDown();
+            startMarkQuickNotificationsAsReadCountDown(id);
           }
         }, 1000);
       }
     });
   }
 
-  function startMarkQuickNotificationsAsReadCountDown() {
-    quickNotificationProcessID++;
-
-    const id = quickNotificationProcessID;
-
-    if ($quickNotifications.length > 0) {
-      markQuickNotificationsAsRead(id);
-    } else {
-      setTimeout(() => {
-        if (quickNotificationProcessID === id) {
-          startMarkQuickNotificationsAsReadCountDown();
-        }
-      }, 1000);
-    }
+  function startMarkQuickNotificationsAsReadCountDown(id) {
+    markQuickNotificationsAsRead(id);
   }
 
   function getTime(check, time, locale) {
     return formatDistanceToNow(time, { addSuffix: true, locale });
   }
 
+  function scheduleReadForLast5(notifications) {
+    if (!showingQuickNotification) return;
+
+    notifications.slice(0, 5).forEach(notification => {
+      if (notification.status === "NOT_READ") {
+        setTimeout(() => {
+          if (!showingQuickNotification) return;
+
+          quickNotifications.update(notifications => {
+            notifications.forEach(subNotification => {
+              if (subNotification.id === notification.id) {
+                notification.status = "READ";
+              }
+            });
+
+            return notifications;
+          });
+        }, 3000);
+      }
+    });
+  }
+
+  onDestroy(quickNotifications.subscribe(scheduleReadForLast5));
+
   onMount(() => {
     const dropdown = document.getElementById("quickNotificationsDropdown");
 
     dropdown.addEventListener("show.bs.dropdown", function () {
-      startMarkQuickNotificationsAsReadCountDown();
+      quickNotificationProcessID++;
+
+      const id = quickNotificationProcessID;
+
+      startMarkQuickNotificationsAsReadCountDown(id);
+
+      showingQuickNotification = true;
+
+      scheduleReadForLast5($quickNotifications);
     });
 
     dropdown.addEventListener("hide.bs.dropdown", function () {
       quickNotificationProcessID++;
+
+      showingQuickNotification = false;
     });
 
     interval = setInterval(() => {

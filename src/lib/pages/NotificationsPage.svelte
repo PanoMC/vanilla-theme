@@ -1,18 +1,18 @@
-<div class="container">
+<div class="container  vstack gap-3">
   <!-- Action Menu -->
-  <div
-    class="row justify-content-end mb-3 animate__animated animate__slideInUp">
-    {#if $notifications.length !== 0}
-      <div class="col-auto">
+  <PageActions leftClasses="d-lg-flex d-none" middleClasses="d-lg-flex d-none">
+    <div slot="right">
+      {#if $notifications.length !== 0}
         <button
           type="button"
-          class="btn btn-danger"
-          on:click={() => onDeleteAllClick(notificationProcessID, interval)}
-          >{$_("pages.notifications.delete-all-button")}
+          class="btn btn-secondary"
+          on:click={() => onDeleteAllClick(notificationProcessID, interval)}>
+          <i class="fa fa-minus me-2"></i>
+          {$_("pages.notifications.delete-all-button")}
         </button>
-      </div>
-    {/if}
-  </div>
+      {/if}
+    </div>
+  </PageActions>
 
   <!-- All Notifications -->
 
@@ -71,11 +71,12 @@
                 $_("pages.notifications.delete-notification"),
                 { placement: "bottom" },
               ]}
-              on:click={() => onDeleteNotificationClick(notification.id)}>
-            </button>
-          </div>
-        {/each}
+              on:click={() => onDeleteNotificationClick(notifications, count, notification.id)}>
+          </button>
+        </div>
+      {/each}
       </div>
+    </div>
 
       {#if $notifications.length === 0}
         <NoContent />
@@ -93,7 +94,6 @@
           </button>
         </div>
       {/if}
-    </div>
   </div>
 </div>
 
@@ -130,6 +130,7 @@
 
   import ConfirmRemoveAllNotificationsModal from "$lib/component/modals/ConfirmRemoveAllNotificationsModal.svelte";
   import NoContent from "$lib/component/NoContent.svelte";
+  import PageActions from "$lib/component/PageActions.svelte";
 
   export let data;
 

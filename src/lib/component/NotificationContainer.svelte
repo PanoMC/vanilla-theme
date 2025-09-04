@@ -219,7 +219,13 @@
     });
   }
 
-  function getQuickNotifications(id) {
+  function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
+  async function getQuickNotifications(id) {
+    await delay();
+
     ApiUtil.get({
       path: "/api/notifications/quick",
     }).then((body) => {
