@@ -68,7 +68,7 @@
                 $_("pages.notifications.delete-notification"),
                 { placement: "bottom" },
               ]}
-              on:click={() => onDeleteNotificationClick(notification.id)}>
+              on:click={() => onDeleteNotificationClick(notifications, count, notification.id)}>
           </button>
         </div>
       {/each}
