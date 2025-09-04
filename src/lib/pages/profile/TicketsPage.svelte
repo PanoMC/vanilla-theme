@@ -31,7 +31,7 @@
               class="btn btn-sm btn-outline-primary"
               class:active={data.pageType === PageTypes.CLOSED}
               role="button"
-              href="?pageType=CLOSED">
+              href="/tickets?pageType=CLOSED">
               {$_("pages.tickets.closed")}
             </a>
           </div>
@@ -83,5 +83,9 @@
 
   export let data;
 
-  const { tickets } = init(data);
+  let tickets;
+
+  $: {
+    tickets = init(data).tickets;
+  }
 </script>
