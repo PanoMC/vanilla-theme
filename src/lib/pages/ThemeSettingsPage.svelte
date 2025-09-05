@@ -19,12 +19,78 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          data-bs-target="#logo"
+          data-bs-toggle="tab"
+          id="logo-tab"
+          role="tab"
+          type="button">
+          Logo
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
           data-bs-target="#colors"
           data-bs-toggle="tab"
           id="colors-tab"
           role="tab"
           type="button">
           Renkler
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          data-bs-target="#header"
+          data-bs-toggle="tab"
+          id="header-tab"
+          role="tab"
+          type="button">
+          Kapak
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          data-bs-target="#navbar"
+          data-bs-toggle="tab"
+          id="navbar-tab"
+          role="tab"
+          type="button">
+          Navigasyon Barı
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          data-bs-target="#sidebar"
+          data-bs-toggle="tab"
+          id="sidebar-tab"
+          role="tab"
+          type="button">
+          Yan Bar
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          data-bs-target="#post-card"
+          data-bs-toggle="tab"
+          id="post-card-tab"
+          role="tab"
+          type="button">
+          Yazı Kartı
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          data-bs-target="#footer"
+          data-bs-toggle="tab"
+          id="footer-tab"
+          role="tab"
+          type="button">
+          Alt Bilgi
         </button>
       </li>
       <li class="nav-item" role="presentation">
@@ -42,104 +108,314 @@
   </div>
   <div class="card-body">
     <div class="tab-content">
-      <!-- Genel Ayarlar -->
+      <!-- General -->
       <div class="tab-pane fade show active" id="general" role="tabpanel">
-        <div class="mb-3 form-floating">
-          <input class="form-control" type="text" />
-          <label class="form-label">Site Başlığı</label>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Logo Görünürlüğü</label>
-          <div class="form-check form-switch">
+        <div class="row mb-3">
+          <label for="" class="col-md-6 col-form-label">Arka Plan Rengi</label>
+          <div class="col-md-6">
             <input
-              class="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckDefault" />
+              id=""
+              class="form-control form-control-color"
+              type="color"
+              value="#ffffff" />
           </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Kapak Arkaplanı</label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault" />
-              </div>
-            </div>
-            <div class="col-md-6">DRAG-DROP</div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="">Arka Plan Resmi</label>
+          <div class="col-md-6">
+            <input id="" class="form-control" type="file" />
           </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Yan Panel</label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-floating">
-                <select class="form-select">
-                  <option value="1">Sağ</option>
-                  <option value="2">Sol</option>
-                </select>
-                <label for="">Yan Panel Konumu</label>
-              </div>
-            </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for=""
+            >Arka Plan Resmi Yerleşimi</label>
+          <div class="col-md-6">
+            <select class="form-select" id="">
+              <option value="1">Doldur</option>
+              <option value="2">Sığdır</option>
+              <option value="2">Genişlet</option>
+              <option value="1">Döşe</option>
+              <option value="1">Ortala</option>
+              <option value="1">Karış</option>
+            </select>
           </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Son Kayıt Olanlar</label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-floating">
-                <select class="form-select">
-                  <option value="1">Liste</option>
-                  <option value="2">Kafalar</option>
-                </select>
-                <label for="">Tablo Stili</label>
-              </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6" for="">Arka Plan Resmini Tekrarla</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Renk Ayarları -->
+      <!-- Logo -->
+      <div class="tab-pane fade" id="logo" role="tabpanel">
+        <div class="row mb-3">
+          <label class="col-md-6" for=""> Görünürlük </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="coverHeight"
+            >Yükseklik (px)</label>
+          <div class="col-md-6">
+            <input
+              id=""
+              class="form-control"
+              type="number"
+              value="128"
+              max="512" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="" class="col-md-6 col-form-label">Genişlik (px)</label>
+          <div class="col-md-6">
+            <input
+              id=""
+              class="form-control"
+              type="number"
+              value="128"
+              max="512" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Color -->
       <div class="tab-pane fade" id="colors" role="tabpanel">
-        <div class="mb-3">
-          <label class="form-label">Ana Renk</label>
-          <input
-            class="form-control form-control-color"
-            type="color"
-            value="#0d6efd" />
+        <div class="row mb-3">
+          <label class="col-md-6" for="">Ana Renk</label>
+          <div class="col-md-6">
+            <input
+              class="form-control form-control-color"
+              type="color"
+              id=""
+              value="#0d6efd" />
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Arka Plan Rengi</label>
-          <input
-            class="form-control form-control-color"
-            type="color"
-            value="#ffffff" />
+        <div class="row mb-3">
+          <label class="col-md-6" for="">Arka Plan Rengi</label>
+          <div class="col-md-6">
+            <input
+              class="form-control form-control-color"
+              type="color"
+              id=""
+              value="#ffffff" />
+          </div>
         </div>
       </div>
 
-      <!-- Gelişmiş Ayarlar -->
+      <!-- Cover -->
+      <div class="tab-pane fade" id="header" role="tabpanel">
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="">Arka Plan Resmi</label>
+          <div class="col-md-6">
+            <input id="" class="form-control" type="file" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="">Arka Plan Rengi</label>
+          <div class="col-md-6">
+            <input
+              id=""
+              class="form-control form-control-color"
+              type="color"
+              value="#ffffff" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="">Yükseklik (px)</label>
+          <div class="col-md-6">
+            <input
+              id=""
+              class="form-control"
+              type="number"
+              value="256"
+              max="500" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="" class="col-md-6 col-form-label">Genişlik</label>
+          <div class="col-md-6">
+            <select class="form-select" id="">
+              <option value="1">İçeriğe Göre</option>
+              <option value="2">Tam Genişlik</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="tab-pane fade" id="sidebar" role="tabpanel">
+        <div class="row mb-3">
+          <label class="col-md-6" for="">Görünürlük</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="">Konum</label>
+          <div class="col-md-6">
+            <select class="form-select">
+              <option value="1">Sağ</option>
+              <option value="2">Sol</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="">Son Kayıt Olanlar Kartı</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for=""
+            >Son Kayıt Olanlar Kartı Tablo Görünümü</label>
+          <div class="col-md-6">
+            <select class="form-select">
+              <option value="1">Liste</option>
+              <option value="2">Kafalar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6" for=""
+            >Çevrimiçi Yöneticiler Kartı (Destek)</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for=""
+            >Çevrimiçi Yöneticiler Kartı Tablo Görünümü</label>
+          <div class="col-md-6">
+            <select class="form-select">
+              <option value="1">Liste</option>
+              <option value="2">Kafalar</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navbar -->
+      <div class="tab-pane fade" id="navbar" role="tabpanel">
+        <div class="row mb-3">
+          <label for="" class="col-md-6">Renk</label>
+          <div class="col-md-6">
+            <input
+              id=""
+              class="form-control form-control-color"
+              type="color"
+              value="#ffffff" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="" class="col-md-6 col-form-label">Genişlik</label>
+          <div class="col-md-6">
+            <select class="form-select">
+              <option value="1">İçeriğe Göre</option>
+              <option value="2">Tam Genişlik</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="" class="col-md-6 col-form-label">Bağlantılar</label>
+          <div class="col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="" />
+              <label class="form-check-label" for=""> Ana Sayfa </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id=""
+                checked />
+              <label class="form-check-label" for="">Destek</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Card -->
+      <div class="tab-pane fade" id="post-card" role="tabpanel">
+        <div class="row mb-3">
+          <label class="col-md-6" for=""> Görünürlük </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for=""> Kapak Resmi </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for=""> Devamını Oku Butonu </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for=""> Yazar Kafa Resmi </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="tab-pane fade" id="footer" role="tabpanel">
+        <div class="row mb-3">
+          <label class="col-md-6" for=""> Alt Bilgi </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for=""> İçerik </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">HTML</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced -->
       <div class="tab-pane fade" id="advanced" role="tabpanel">
-        <div class="mb-3 form-floating">
-          <textarea class="form-control" style="height: 200px;"></textarea>
-          <label class="form-label">Custom CSS</label>
+        <div class="row">
+          <label class="col col-form-label" for="">Custom CSS</label>
+          <div class="col-6">
+            <textarea class="form-control" style="height: 200px;"></textarea>
+          </div>
         </div>
       </div>
     </div>
