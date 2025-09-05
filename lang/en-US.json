@@ -32,10 +32,6 @@
     "been-created-with": "Created with {pano}."
   },
   "sidebars": {
-    "player-head": {
-      "in-game": "Online In Game",
-      "in-website": "Online In Website"
-    },
     "home": {
       "copied": "Copied!",
       "copy": "Copy",
@@ -56,6 +52,10 @@
     }
   },
   "components": {
+    "player-head": {
+      "in-game": "Online In Game",
+      "in-website": "Online In Website"
+    },
     "notification-container": {
       "notification": "Notification"
     },
