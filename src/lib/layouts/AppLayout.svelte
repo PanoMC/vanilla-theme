@@ -11,8 +11,6 @@
 
 <RegisterModal />
 
-<NotificationContainer />
-
 <script context="module">
   import { processLoad, processServerLoad } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
@@ -38,7 +36,6 @@
 
   import LoginModal from "$lib/component/modals/LoginModal.svelte";
   import RegisterModal from "$lib/component/modals/RegisterModal.svelte";
-  import NotificationContainer from "$lib/component/NotificationContainer.svelte";
 
   export let data;
 

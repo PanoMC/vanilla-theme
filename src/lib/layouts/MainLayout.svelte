@@ -9,6 +9,8 @@
 
 <Footer />
 
+<NotificationContainer />
+
 <!-- Modals End -->
 
 <script>
@@ -16,4 +18,5 @@
   import Navbar from "$lib/component/Navbar.svelte";
   import Main from "$lib/component/Main.svelte";
   import Footer from "$lib/component/Footer.svelte";
+  import NotificationContainer from "$lib/component/NotificationContainer.svelte";
 </script>
