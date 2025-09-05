@@ -1,51 +1,51 @@
 <nav>
-  <ul class="pagination justify-content-center">
-    <li class="page-item" class:disabled="{parseInt(page) === 1 || loading}">
-      <a
+  <ul class="pagination pagination-sm mb-0 justify-content-start">
+    <li class="page-item" class:disabled="{parseInt(page) === 1}">
+      <button
         class="page-link"
-        href="javascript:void(0);"
-        on:click="{onFirstPageClick}"
-        aria-hidden="{parseInt(page) === 1 || loading}">
+        title="{$_('components.pagination.previous-page')}"
+        aria-label="{$_('components.pagination.previous-page')}"
+        onclick="{onFirstPageClick}"
+        aria-hidden="{parseInt(page) === 1}">
         <i class="fa-solid fa-caret-left"></i>
-      </a>
+      </button>
     </li>
 
     {#each pages as index}
       <li
         class="page-item"
         class:active="{parseInt(page) === index}"
-        aria-current="{parseInt(page) === index ? 'page' : ''}"
-        class:disabled="{parseInt(page) !== index && loading}">
-        <a
+        aria-current="{parseInt(page) === index ? 'page' : ''}">
+        <button
           class="page-link"
-          href="javascript:void(0);"
-          on:click="{() => (loading ? void 0 : onPageLinkClick(index))}"
-          aria-hidden="{parseInt(page) === index}">{index}</a>
+          onclick="{onPageLinkClick(index)}"
+          aria-hidden="{parseInt(page) === index}">
+          {index}
+        </button>
       </li>
     {/each}
 
-    <li
-      class="page-item"
-      class:disabled="{parseInt(page) === totalPage || loading}">
-      <a
+    <li class="page-item" class:disabled="{parseInt(page) === totalPage}">
+      <button
         class="page-link"
-        on:click="{onLastPageClick}"
-        aria-hidden="{parseInt(page) === totalPage || loading}"
-        href="javascript:void(0);">
+        title="{$_('components.pagination.next-page')}"
+        aria-label="{$_('components.pagination.next-page')}"
+        onclick="{onLastPageClick}"
+        aria-hidden="{parseInt(page) === totalPage}">
         <i class="fa-solid fa-caret-right"></i>
-      </a>
+      </button>
     </li>
   </ul>
 </nav>
 
 <script>
   import { createEventDispatcher } from "svelte";
+  import { _ } from "svelte-i18n";
 
   const dispatch = createEventDispatcher();
   let pages;
 
   export let page;
-  export let loading = false;
   export let totalPage = 1;
 
   $: {

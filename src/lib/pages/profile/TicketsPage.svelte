@@ -1,7 +1,8 @@
 <div class="card">
   <div class="card-header">
-  <div class="row d-flex align-items-center gx-0 gy-2">
-      <div class="col-lg-6 d-flex justify-content-lg-between justify-content-center">
+    <div class="row d-flex align-items-center gx-0 gy-2">
+      <div
+        class="col-lg-6 d-flex justify-content-lg-between justify-content-center">
         {#if data.categoryUrl}
           {@html $_("pages.category-tickets.title", {
             values: {
@@ -18,7 +19,8 @@
         {/if}
       </div>
       {#if !data.categoryUrl}
-        <div class="col-lg-6 d-flex justify-content-lg-end justify-content-center">
+        <div
+          class="col-lg-6 d-flex justify-content-lg-end justify-content-center">
           <div class="btn-group">
             <a
               class="btn btn-sm btn-outline-primary"
@@ -42,20 +44,19 @@
   <Tickets
     on:closeTicket={(event) => onCloseTicketClick(tickets, event.detail.ticket)}
     tickets={$tickets} />
+
+  {#if data.ticketCount > 0}
+    <div class="card-footer">
+      <Pagination
+        page={data.page}
+        totalPage={data.totalPage}
+        loading={false}
+        on:firstPageClick={() => onPageClick(data, 1)}
+        on:lastPageClick={() => onPageClick(data, data.totalPage)}
+        on:pageLinkClick={(event) => onPageClick(data, event.detail.page)} />
+    </div>
+  {/if}
 </div>
-
-<br />
-
-<!-- Pagination -->
-{#if data.ticketCount > 0}
-  <Pagination
-    page={data.page}
-    totalPage={data.totalPage}
-    loading={false}
-    on:firstPageClick={() => onPageClick(data, 1)}
-    on:lastPageClick={() => onPageClick(data, data.totalPage)}
-    on:pageLinkClick={(event) => onPageClick(data, event.detail.page)} />
-{/if}
 
 <script context="module">
   import { processLoad } from "$lib/ui-logics/page-logics/TicketsPageLogics";
