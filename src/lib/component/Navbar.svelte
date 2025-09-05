@@ -40,6 +40,7 @@
 
           <div
             class="nav-item position-relative"
+            class:d-none={!$session.user}
             id="quickNotificationsDropdown">
             <button
               class="nav-link"
@@ -57,7 +58,6 @@
             </button>
             <div
               class="dropdown-menu dropdown-menu-end"
-              class:d-none={!$session.user}
               style="width: 300px;">
               <h6 class="dropdown-header">
                 {$_("navbar.notifications.title")}
