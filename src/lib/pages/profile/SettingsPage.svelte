@@ -53,7 +53,7 @@
                 {#if $changingEmailSuccess}
                   <p class="text-dark mb-0">
                     {$_("pages.settings.inputs.change-email.success-message", {
-                      values: { $newEmail },
+                      values: { newEmail: $newEmail },
                     })}
                   </p>
                 {:else}
