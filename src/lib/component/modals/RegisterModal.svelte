@@ -64,7 +64,7 @@
             class="btn btn-primary w-100"
             class:disabled="{loading}"
             disabled="{loading}">
-            {$_("components.modals.register.register-button")}
+            {$_("buttons.register")}
           </button>
           <a
             href="javascript:void(0);"
@@ -73,7 +73,7 @@
               hide();
               showLoginModal();
             }}">
-            {$_("components.modals.register.already-registered-button")}
+            {$_("buttons.already-registered")}
           </a>
         </div>
       </form>

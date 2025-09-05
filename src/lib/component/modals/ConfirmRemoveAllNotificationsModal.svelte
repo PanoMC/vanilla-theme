@@ -20,7 +20,7 @@
           aria-disabled="{loading}"
           disabled="{loading}"
           on:click="{hide}">
-          {$_("components.modals.confirm-remove-all-notifications.cancel-button")}
+          {$_("buttons.cancel")}
         </button>
         <button
           class="btn btn-danger col-6 m-0"
@@ -28,7 +28,7 @@
           class:disabled="{loading}"
           aria-disabled="{loading}"
           disabled="{loading}"
-          on:click="{onYesClick}">{$_("components.modals.confirm-remove-all-notifications.yes-button")}</button>
+          on:click="{onYesClick}">{$_("buttons.yes")}</button>
       </div>
     </div>
   </div>

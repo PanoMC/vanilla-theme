@@ -8,7 +8,7 @@
           type="button"
           class="btn btn-danger"
           on:click={() => onDeleteAllClick(notificationProcessID, interval)}
-        >{$_("pages.notifications.delete-all-button")}
+        >{$_("buttons.delete-all")}
         </button>
       </div>
     {/if}

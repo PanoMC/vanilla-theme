@@ -27,7 +27,7 @@
           type="submit"
           class="btn btn-secondary w-100"
           class:disabled={$loading}>
-          {$_("pages.reset-password.reset-password-button")}
+          {$_("buttons.reset-password")}
         </button>
       </form>
     </div>
@@ -35,7 +35,7 @@
 </div>
 
 <script context="module">
-  import { processLoad } from "$lib/ui-logics/page-logics/ResetPasswordPageLogics.js";
+  import { processLoad } from "$lib/ui-logics/page-logics/ResetPasswordPageLogics";
 
   /**
    * @type {import('@sveltejs/kit').LayoutLoad}

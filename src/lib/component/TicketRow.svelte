@@ -3,8 +3,8 @@
     {#if ticket.status !== TicketStatuses.CLOSED}
       <button
         type="button"
-        title={$_("components.ticket-row.close-ticket")}
-        aria-label={$_("components.ticket-row.close-ticket")}
+        title={$_("buttons.close-ticket")}
+        aria-label={$_("buttons.close-ticket")}
         class="btn btn-link"
         on:click={() => onCloseTicket()}>
         <i class="fas fa-times"></i>
@@ -42,9 +42,7 @@
   import { _ } from "svelte-i18n";
 
   import tooltip from "$lib/tooltip.util";
-  import TicketStatus, {
-    TicketStatuses,
-  } from "$lib/component/TicketStatus.svelte";
+  import TicketStatus, { TicketStatuses } from "$lib/component/TicketStatus.svelte";
   import Date from "$lib/component/Date.svelte";
 
   export let ticket;

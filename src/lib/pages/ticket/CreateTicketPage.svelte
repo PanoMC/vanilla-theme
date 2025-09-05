@@ -31,7 +31,7 @@
       class:disabled={$loading || isButtonDisabled}
       disabled={$loading || isButtonDisabled}
       on:click={() => submit(error, loading, title, message, categoryId)}>
-      {$_("pages.create-ticket.create-button")}</button>
+      {$_("buttons.create-ticket")}</button>
   </div>
 </div>
 

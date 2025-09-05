@@ -12,7 +12,7 @@
         class:disabled="{$loading ||
           $error === 'INVALID_LINK' ||
           $successMessage !== null}"
-        on:click="{() => verifyEmail($error, $successMessage, $loading, data)}">{$_("pages.activate.activate-button")}</button>
+        on:click="{() => verifyEmail($error, $successMessage, $loading, data)}">{$_("buttons.activate-email")}</button>
     </div>
   </div>
 </div>

@@ -1,7 +1,20 @@
 {
   "buttons": {
     "view": "View",
-    "show-all": "Show All"
+    "show-all": "Show All",
+    "login": "Login",
+    "forgot-password": "Forgot your password?",
+    "register": "Register",
+    "create-ticket": "Create Ticket",
+    "delete-all": "Delete All",
+    "activate-email": "Verify E-mail",
+    "change-password": "Change My Password",
+    "yes": "Yes",
+    "cancel": "Cancel",
+    "send": "Send",
+    "already-registered": "Login if you are already registered",
+    "close-ticket": "Close Ticket",
+    "reset-password": "Send Reset Email"
   },
   "nav-links": {
     "support": "Support",
@@ -9,8 +22,6 @@
     "homepage": "Homepage"
   },
   "navbar": {
-    "login-button": "Login",
-    "register-button": "Register",
     "notifications": {
       "title": "Notifications",
       "show-all": "Show All"
@@ -59,9 +70,7 @@
         "inputs": {
           "username-email": "Username / E-Mail",
           "password": "Password"
-        },
-        "login-button": "Login",
-        "forgot-password-button": "Forgot your password?"
+        }
       },
       "register": {
         "title": "Register",
@@ -72,19 +81,13 @@
           "password-repeat": "Password Repeat",
           "server-rules": "Server Rules",
           "agreement-text": "I have read and accept {link}."
-        },
-        "register-button": "Register",
-        "already-registered-button": "Login if you are already registered"
+        }
       },
       "confirm-remove-all-notifications": {
-        "title": "Are you sure you want to permanently delete all notifications?",
-        "cancel-button": "Cancel",
-        "yes-button": "Yes"
+        "title": "Are you sure you want to permanently delete all notifications?"
       },
       "close-ticket-confirm": {
-        "title": "Are you sure you want to close this ticket?",
-        "cancel-button": "Cancel",
-        "yes-button": "Yes"
+        "title": "Are you sure you want to close this ticket?"
       }
     },
     "header": {
@@ -94,7 +97,6 @@
       "text": "Here is empty."
     },
     "ticket-row": {
-      "close-ticket": "Close Ticket",
       "show-ticket": "View Ticket",
       "filter": "Filter",
       "no-category": "No Category"
@@ -106,9 +108,6 @@
         "category": "Category",
         "last-reply": "Last Reply"
       }
-    },
-    "ticket-create-and-detail": {
-      "close-ticket-button": "Close Ticket"
     }
   },
   "pages": {
@@ -135,8 +134,7 @@
       "inputs": {
         "title": "Title",
         "no-category": "No Category"
-      },
-      "create-button": "Create Ticket"
+      }
     },
     "player-profile": {
       "title": "Statistics",
@@ -148,17 +146,14 @@
       "last-login": "Last Login"
     },
     "notifications": {
-      "delete-all-button": "Delete All",
       "delete-notification": "Delete Notification",
       "show-more": "Show More ({count})"
     },
     "activate": {
-      "title": "Activate Your E-Mail",
-      "activate-button": "Verify E-Mail"
+      "title": "Activate Your E-Mail"
     },
     "activate-new-email": {
-      "title": "Verify New E-Mail",
-      "activate-button": "Verify E-Mail"
+      "title": "Verify New E-Mail"
     },
     "category-posts": {
       "title": "Category: {categoryTitle} ({postCount} Posts)",
@@ -172,8 +167,7 @@
       "inputs": {
         "new-password": "New Password",
         "new-password-repeat": "New Password Repeat"
-      },
-      "change-password-button": "Change My Password"
+      }
     },
     "reset-password": {
       "title": "Reset Password",
@@ -182,8 +176,7 @@
         "email-username": {
           "placeholder": "Username / E-Mail"
         }
-      },
-      "reset-password-button": "Send Reset Email"
+      }
     },
     "tickets": {
       "title": "Support Tickets",
@@ -202,8 +195,7 @@
         "message": {
           "placeholder": "Your message..."
         }
-      },
-      "send-button": "Send"
+      }
     },
     "settings": {
       "title": "Settings",

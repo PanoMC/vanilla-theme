@@ -11,7 +11,7 @@
           type="button"
           on:click={() => showCloseTicketConfirmModal($ticketData)}>
           <i class="fas fa-times me-2"></i>
-          {$_("components.ticket-create-and-detail.close-ticket-button")}
+          {$_("buttons.close-ticket")}
         </button>
       </div>
     {/if}

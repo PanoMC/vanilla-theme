@@ -25,7 +25,7 @@
           type="submit"
           class="btn btn-secondary w-100"
           class:disabled="{$loading}">
-          {$_("pages.renew-password.change-password-button")}
+          {$_("buttons.change-password")}
         </button>
       </form>
     </div>

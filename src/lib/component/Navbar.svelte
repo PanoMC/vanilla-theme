@@ -143,7 +143,7 @@
           {:else}
             <li class="nav-item me-xl-0 me-3">
               <button class="nav-link" on:click={showLoginModal}>
-                {$_("navbar.login-button")}
+                {$_("buttons.login")}
               </button>
             </li>
             <li class="nav-item">
@@ -151,7 +151,7 @@
                 type="button"
                 class="btn btn-warning rounded-pill"
                 on:click={showRegisterModal}>
-                {$_("navbar.register-button")}
+                {$_("buttons.register")}
               </button>
             </li>
           {/if}

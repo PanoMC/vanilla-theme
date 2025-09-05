@@ -37,13 +37,13 @@
             class="btn btn-primary w-100"
             class:disabled="{loading}"
             disabled="{loading}">
-            {$_("components.modals.login.login-button")}
+            {$_("buttons.login")}
           </button>
           <a
             href="/reset-password"
             class="btn btn-link w-100"
             on:click="{hide}">
-            {$_("components.modals.login.forgot-password-button")}
+            {$_("buttons.forgot-password")}
           </a>
         </div>
       </form>

@@ -1,7 +1,20 @@
 {
   "buttons": {
     "view": "Görüntüle",
-    "show-all": "Hepsini Görüntüle"
+    "show-all": "Hepsini Görüntüle",
+    "login": "Giriş Yap",
+    "forgot-password": "Şifreni mi unuttun?",
+    "register": "Kayıt Ol",
+    "create-ticket": "Talep Oluştur",
+    "delete-all": "Tümünü Sil",
+    "activate-email": "E-Posta'yı Doğrula",
+    "change-password": "Şifremi Değiştir",
+    "yes": "Evet",
+    "cancel": "İptal",
+    "send": "Gönder",
+    "already-registered": "Zaten kayıtlıysan Giriş Yap",
+    "close-ticket": "Talebi Kapat",
+    "reset-password": "Sıfırlama E-Postası Gönder"
   },
   "nav-links": {
     "support": "Destek",
@@ -9,8 +22,6 @@
     "homepage": "Ana Sayfa"
   },
   "navbar": {
-    "login-button": "Giriş Yap",
-    "register-button": "Kayıt Ol",
     "notifications": {
       "title": "Bildirimler",
       "show-all": "Tümünü Görüntüle"
@@ -59,9 +70,7 @@
         "inputs": {
           "username-email": "Oyuncu Adı / E-Posta",
           "password": "Şifre"
-        },
-        "login-button": "Giriş Yap",
-        "forgot-password-button": "Şifreni mi unuttun?"
+        }
       },
       "register": {
         "title": "Kayıt Ol",
@@ -72,19 +81,13 @@
           "password-repeat": "Şifre Tekrarı",
           "server-rules": "Sunucu Kurallarını",
           "agreement-text": "{link} okudum ve kabul ediyorum."
-        },
-        "register-button": "Kayıt Ol",
-        "already-registered-button": "Zaten kayıtlıysan Giriş Yap"
+        }
       },
       "confirm-remove-all-notifications": {
-        "title": "Tüm bildirimleri kalıcı olarak silmek istediğinizden emin misiniz?",
-        "cancel-button": "İptal",
-        "yes-button": "Evet"
+        "title": "Tüm bildirimleri kalıcı olarak silmek istediğinizden emin misiniz?"
       },
       "close-ticket-confirm": {
-        "title": "Bu talebi kapatmak istediğinizden emin misiniz?",
-        "cancel-button": "İptal",
-        "yes-button": "Evet"
+        "title": "Bu talebi kapatmak istediğinizden emin misiniz?"
       }
     },
     "header": {
@@ -94,7 +97,6 @@
       "text": "Burası boş."
     },
     "ticket-row": {
-      "close-ticket": "Talebi Kapat",
       "show-ticket": "Talebi Görüntüle",
       "filter": "Filtrele",
       "no-category": "Kategorisiz"
@@ -106,9 +108,6 @@
         "category": "Kategori",
         "last-reply": "Son Yanıt"
       }
-    },
-    "ticket-create-and-detail": {
-      "close-ticket-button": "Talebi Kapat"
     }
   },
   "pages": {
@@ -135,8 +134,7 @@
       "inputs": {
         "title": "Başlık",
         "no-category": "Kategorisiz"
-      },
-      "create-button": "Talep Oluştur"
+      }
     },
     "player-profile": {
       "title": "İstatistikler",
@@ -148,17 +146,14 @@
       "last-login": "Son Giriş"
     },
     "notifications": {
-      "delete-all-button": "Tümünü Sil",
       "delete-notification": "Bildirimi Sil",
       "show-more": "Daha Fazla Göster ({count})"
     },
     "activate": {
-      "title": "E-Posta Doğrula",
-      "activate-button": "E-Posta'yı Doğrula"
+      "title": "E-Posta Doğrula"
     },
     "activate-new-email": {
-      "title": "Yeni E-Posta'yı Doğrula",
-      "activate-button": "E-Posta'yı Doğrula"
+      "title": "Yeni E-Posta'yı Doğrula"
     },
     "category-posts": {
       "title": "Kategori: {categoryTitle} ({postCount} Yazı)",
@@ -172,8 +167,7 @@
       "inputs": {
         "new-password": "Yeni Şifre",
         "new-password-repeat": "Yeni Şifre Tekrarı"
-      },
-      "change-password-button": "Şifremi Değiştir"
+      }
     },
     "reset-password": {
       "title": "Şifreni Sıfırla",
@@ -182,8 +176,7 @@
         "email-username": {
           "placeholder": "Kullanıcı Adı / E-Posta"
         }
-      },
-      "reset-password-button": "Sıfırlama E-Postası Gönder"
+      }
     },
     "tickets": {
       "title": "Destek Talepleri",
@@ -202,8 +195,7 @@
         "message": {
           "placeholder": "Mesajınız..."
         }
-      },
-      "send-button": "Gönder"
+      }
     },
     "settings": {
       "title": "Ayarlar",
