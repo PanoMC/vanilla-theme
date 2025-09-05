@@ -15,7 +15,10 @@
     "already-registered": "Login if you are already registered",
     "close-ticket": "Close Ticket",
     "reset-password": "Send Reset Email",
-    "filter": "Filter"
+    "filter": "Filter",
+    "click-to-copy": "Click to copy",
+    "close": "Close",
+    "toggle": "Toggle"
   },
   "nav-links": {
     "support": "Support",
@@ -39,7 +42,8 @@
       "online": "Online",
       "offline": "Offline",
       "last-registrants": "Last Registrants",
-      "game-client-version": "Game Client Version"
+      "game-client-version": "Game Client Version",
+      "playing": "{playerCount}/{maxPlayerCount} playing"
     },
     "profile": {
       "links": {

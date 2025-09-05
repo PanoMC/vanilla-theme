@@ -13,13 +13,16 @@
       class="navbar navbar-expand-lg navbar-dark bg-primary bg-body-primary bg-gradient rounded-pill shadow">
       <div class="container">
         <ul class="navbar-nav flex-row me-auto">
-          <button
-            class="navbar-toggler d-lg-none"
-            data-bs-target="#navbar"
-            data-bs-toggle="collapse"
-            type="button">
-            <i aria-hidden="true" class="fa fa-bars"></i>
-          </button>
+          <li>
+            <button
+              aria-label="{$_('buttons.toggle')}"
+              class="navbar-toggler d-lg-none"
+              data-bs-target="#navbar"
+              data-bs-toggle="collapse"
+              type="button">
+              <i aria-hidden="true" class="fa fa-bars"></i>
+            </button>
+          </li>
         </ul>
 
         <ul class="navbar-nav flex-row ml-auto order-lg-last">

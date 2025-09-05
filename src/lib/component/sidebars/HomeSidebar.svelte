@@ -13,7 +13,7 @@
       ]}>
       <b>{$data.ipAddress}</b>
       <br />
-      <small class="fs-6">Click to copy</small>
+      <small class="fs-6">{$_('buttons.click-to-copy')}</small>
     </button>
     <!-- Play Button End -->
 
@@ -34,10 +34,15 @@
           {#if $data.mainServer}
             {$data.mainServer.playerCount}/{$data.mainServer.maxPlayerCount}
           {:else}
-            0/0 playing
+            {$_('sidebars.home.playing', {
+              values: {
+                playerCount: $data.mainServer.playerCount,
+                maxPlayerCount: $data.mainServer.maxPlayerCount
+              }
+            })}
           {/if}
         </li>
-        <li class="list-group-item">{$data.serverGameVersion} version</li>
+        <li class="list-group-item">{$data.serverGameVersion}</li>
       </ul>
     </div>
     <!-- Server Status Card End -->

@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">{$_("components.modals.register.title")}</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
+        <button aria-label="{$_('buttons.close')}" class="btn-close" data-bs-dismiss="modal" type="button"
         ></button>
       </div>
       <form on:submit|preventDefault="{onSubmit}">

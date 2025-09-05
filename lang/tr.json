@@ -15,7 +15,10 @@
     "already-registered": "Zaten kayıtlıysan Giriş Yap",
     "close-ticket": "Talebi Kapat",
     "reset-password": "Sıfırlama E-Postası Gönder",
-    "filter": "Filtrele"
+    "filter": "Filtrele",
+    "click-to-copy": "Kopyalamak için tıklayın",
+    "close": "Kapat",
+    "toggle": "Aç/Kapat"
   },
   "nav-links": {
     "support": "Destek",
@@ -39,7 +42,8 @@
       "online": "Çevrimiçi",
       "offline": "Çevrimdışı",
       "last-registrants": "Son Kayıt Olanlar",
-      "game-client-version": "Oyun Versiyonu"
+      "game-client-version": "Oyun Versiyonu",
+      "playing": "{playerCount}/{maxPlayerCount} oynuyor"
     },
     "profile": {
       "links": {
