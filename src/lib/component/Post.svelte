@@ -1,11 +1,20 @@
 <div class="card mb-3">
   {#if post.thumbnailUrl}
     <a href="/post/{post.url}">
-      <img
-        src={post.thumbnailUrl}
-        class="card-img-top rounded-top"
-        alt={post.title}
-        title={post.title} />
+      <div
+        style="
+          aspect-ratio: 16 / 9;
+          width: 100%;
+          overflow: hidden;
+        "
+      >
+        <img
+          src={post.thumbnailUrl}
+          class="card-img-top rounded-top h-100 w-100"
+          style="object-fit: cover;"
+          alt={post.title}
+          title={post.title} />
+      </div>
     </a>
   {/if}
   <div class="card-body">
