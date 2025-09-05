@@ -20,7 +20,7 @@ export async function processLoad(event) {
   const data = await getPosts({ page, categoryUrl, request: event });
 
   if (data.error) {
-    if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS") {
+    if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS" || data.error === "CATEGORY_NOT_EXISTS" || data.error === "BAD_REQUEST") {
       throw error(404, data.error);
     }
 

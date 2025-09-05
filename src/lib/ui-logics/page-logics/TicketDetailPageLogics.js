@@ -38,7 +38,7 @@ export async function processLoad(event) {
     request: event
   }).then((body) => {
     if (body.error) {
-      if (body.error === "NOT_EXISTS") {
+      if (body.error === "NOT_EXISTS" || body.error === "BAD_REQUEST") {
         throw error(404, body.error);
       }
 

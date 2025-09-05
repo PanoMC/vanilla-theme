@@ -26,7 +26,7 @@
         <button
           type="submit"
           class="btn btn-secondary w-100"
-          class:disabled={$loading}>
+          class:disabled={$loading || !$usernameOrEmail}>
           {$_("buttons.reset-password")}
         </button>
       </form>

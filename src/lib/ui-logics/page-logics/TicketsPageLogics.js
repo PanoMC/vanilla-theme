@@ -42,7 +42,7 @@ export async function processLoad(event) {
   });
 
   if (data.error) {
-    if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS") {
+    if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS" || data.error === "BAD_REQUEST") {
       throw error(404, data.error);
     }
 

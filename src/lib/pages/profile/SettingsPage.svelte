@@ -19,7 +19,7 @@
           >{$_("pages.settings.inputs.change-password.description")}</button>
 
         <div id="validationResetPassword" class="invalid-feedback">
-          {$resetPasswordError}
+          {$_('errors.' + $resetPasswordError)}
         </div>
         {#if $resetPasswordSuccess}
           <p class="text-dark mb-0">
@@ -82,7 +82,7 @@
                   class:is-invalid={$changingEmailError}
                   autofocus />
                 <div id="validationChangingEmail" class="invalid-feedback">
-                  {$changingEmailError}
+                  {$_('errors.' + $changingEmailError)}
                 </div>
               </div>
               <div class="col-auto">
