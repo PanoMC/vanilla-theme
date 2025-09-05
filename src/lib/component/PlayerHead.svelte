@@ -10,7 +10,7 @@
     class:border-success="{isOnline}"
     use:tooltip="{[
       isOnline
-        ? (inGame ? 'Oyunda' : 'Sitede') + ' Çevrimiçi'
+        ? $_('components.player-head.' + (inGame ? 'in-game' : 'in-website'))
         : getOfflineRelativeDateText(checkTime),
       { placement: 'right' },
     ]}" />
@@ -28,6 +28,8 @@
   import { formatRelative } from "date-fns";
   import * as locales from "date-fns/locale";
   import { currentLanguage } from "$lib/language.util.js";
+
+  import { _ } from "svelte-i18n";
 
   export let username;
   export let width = 64;

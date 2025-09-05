@@ -14,7 +14,8 @@
     "send": "Gönder",
     "already-registered": "Zaten kayıtlıysan Giriş Yap",
     "close-ticket": "Talebi Kapat",
-    "reset-password": "Sıfırlama E-Postası Gönder"
+    "reset-password": "Sıfırlama E-Postası Gönder",
+    "filter": "Filtrele"
   },
   "nav-links": {
     "support": "Destek",
@@ -51,6 +52,10 @@
     }
   },
   "components": {
+    "player-head": {
+      "in-game": "Oyunda Çevrimiçi",
+      "in-website": "Websitede Çevrimiçi"
+    },
     "notification-container": {
       "notification": "Bildirim"
     },

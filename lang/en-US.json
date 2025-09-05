@@ -14,7 +14,8 @@
     "send": "Send",
     "already-registered": "Login if you are already registered",
     "close-ticket": "Close Ticket",
-    "reset-password": "Send Reset Email"
+    "reset-password": "Send Reset Email",
+    "filter": "Filter"
   },
   "nav-links": {
     "support": "Support",
@@ -31,6 +32,10 @@
     "been-created-with": "Created with {pano}."
   },
   "sidebars": {
+    "player-head": {
+      "in-game": "Online In Game",
+      "in-website": "Online In Website"
+    },
     "home": {
       "copied": "Copied!",
       "copy": "Copy",

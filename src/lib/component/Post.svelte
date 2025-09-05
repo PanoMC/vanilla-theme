@@ -24,7 +24,7 @@
           <a
             class="badge bg-secondary text-dark rounded-pill"
             href="/?category={post.category.url}"
-            use:tooltip={["Filtrele", { placement: "bottom" }]}>
+            use:tooltip={[$_('buttons.filter'), { placement: "bottom" }]}>
             {post.category.title}
           </a>
         {/if}

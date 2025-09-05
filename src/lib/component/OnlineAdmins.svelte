@@ -7,7 +7,7 @@
         <div class="col-3">
           <a href="/player/{onlineAdmin}">
             <img
-              alt=""
+              alt="{onlineAdmin}"
               class="rounded"
               src="https://minotar.net/avatar/{onlineAdmin}"
               use:tooltip={[onlineAdmin, { placement: "bottom" }]}
