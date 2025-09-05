@@ -23,7 +23,7 @@
         {#if post.category.title !== "-"}
           <a
             class="badge bg-secondary text-dark rounded-pill"
-            href="?category={post.category.url}"
+            href="/?category={post.category.url}"
             use:tooltip={["Filtrele", { placement: "bottom" }]}>
             {post.category.title}
           </a>
