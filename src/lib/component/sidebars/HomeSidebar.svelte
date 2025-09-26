@@ -31,16 +31,12 @@
           {/if}
         </li>
         <li class="list-group-item">
-          {#if $data.mainServer}
-            {$data.mainServer.playerCount}/{$data.mainServer.maxPlayerCount}
-          {:else}
-            {$_('sidebars.home.playing', {
-              values: {
-                playerCount: $data.mainServer.playerCount,
-                maxPlayerCount: $data.mainServer.maxPlayerCount
-              }
-            })}
-          {/if}
+        {$_('sidebars.home.playing', {
+          values: {
+            playerCount: $data.mainServer?.playerCount || 0,
+            maxPlayerCount: $data.mainServer?.maxPlayerCount || 0
+          }
+        })}
         </li>
         <li class="list-group-item">{$data.serverGameVersion}</li>
       </ul>
