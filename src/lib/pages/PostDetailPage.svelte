@@ -6,6 +6,7 @@
       href="/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
       class="btn btn-link ps-0"
       class:disabled="{data.previousPost === '-'}"
+      hidden="{typeof themeSettings.postPreviousPageEnabled === 'undefined' ? false : !themeSettings.postPreviousPageEnabled}"
       use:tooltip="{[data.previousPost.title, { placement: 'bottom' }]}">
       {$_("pages.post-detail.previous-post")}
     </a>
@@ -15,6 +16,7 @@
       href="/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
       class="btn btn-link pe-0"
       class:disabled="{data.nextPost === '-'}"
+      hidden="{typeof themeSettings.postNextPageEnabled === 'undefined' ? false : !themeSettings.postNextPageEnabled}"
       use:tooltip="{[data.nextPost.title, { placement: 'bottom' }]}">
       {$_("pages.post-detail.next-post")}
     </a>
@@ -38,6 +40,9 @@
   import tooltip from "$lib/tooltip.util";
 
   import Post from "$lib/component/Post.svelte";
+  import { getContext } from "svelte";
 
   export let data;
+
+  const themeSettings = getContext("themeSettings");
 </script>

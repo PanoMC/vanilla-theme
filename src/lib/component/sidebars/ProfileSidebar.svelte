@@ -1,4 +1,4 @@
-<Sidebar>
+<Sidebar side="{side}">
   <div class="mb-3">
     <!-- Profile Card -->
     <div class="card">
@@ -107,6 +107,8 @@
   import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";
   import Sidebar from "$lib/component/Sidebar.svelte";
   import PlayerHead from "$lib/component/PlayerHead.svelte";
+
+  export let side;
 
   const session = getContext("session");
 

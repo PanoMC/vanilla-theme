@@ -1,5 +1,5 @@
 <div class="card mb-3">
-  {#if post.thumbnailUrl}
+  {#if (typeof themeSettings.postCoverImageEnabled === 'undefined' ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
     <a href="/post/{post.url}">
       <div
         style="
@@ -47,20 +47,25 @@
   <div
     class="card-footer bg-white d-flex align-items-center justify-content-between">
     {#if detail}
-      <ul class="m-0 p-0 text-muted">
-        <li class="list-inline">
-          <div
-            class="list-inline-item px-1"
-            use:tooltip={[$_("components.post.view"), { placement: "bottom" }]}>
-            <i class="fas fa-eye me-2"></i>
-            {post.views}
-          </div>
-        </li>
-      </ul>
+      {#if typeof themeSettings.postViewCountEnabled === 'undefined' ? true : themeSettings.postViewCountEnabled}
+        <ul class="m-0 p-0 text-muted">
+          <li class="list-inline">
+            <div
+              class="list-inline-item px-1"
+              use:tooltip={[$_("components.post.view"), { placement: "bottom" }]}>
+              <i class="fas fa-eye me-2"></i>
+              {post.views}
+            </div>
+          </li>
+        </ul>
+      {:else}
+        <div></div>
+      {/if}
 
       <div>
         <Date time={post.date} />
-        <a href="/player/{post.writer.username}">
+        <a href="/player/{post.writer.username}"
+           hidden="{typeof themeSettings.postAuthorImageEnabled === 'undefined' ? false : !themeSettings.postAuthorImageEnabled}">
           <img
             src="https://minotar.net/avatar/{post.writer.username}"
             alt={post.writer.username}
@@ -71,13 +76,18 @@
         </a>
       </div>
     {:else}
-      <a href="/post/{post.url}">
-        {$_("components.post.read-more")}
-      </a>
+      {#if typeof themeSettings.postReadMoreButtonEnabled === 'undefined' ? true : themeSettings.postReadMoreButtonEnabled}
+        <a href="/post/{post.url}">
+          {$_("components.post.read-more")}
+        </a>
+      {:else}
+        <div></div>
+      {/if}
 
       <div>
         <Date time={post.date} />
-        <a href="/player/{post.writer.username}">
+        <a href="/player/{post.writer.username}"
+           hidden="{typeof themeSettings.postAuthorImageEnabled === 'undefined' ? false : !themeSettings.postAuthorImageEnabled}">
           <img
             src="https://minotar.net/avatar/{post.writer.username}"
             alt={post.writer.username}
@@ -92,6 +102,7 @@
 </div>
 
 <script>
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
   import { truncate } from "$lib/string.util";
@@ -101,4 +112,6 @@
 
   export let post;
   export let detail = false;
+
+  const themeSettings = getContext("themeSettings");
 </script>

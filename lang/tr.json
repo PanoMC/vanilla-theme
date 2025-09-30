@@ -18,7 +18,8 @@
     "filter": "Filtrele",
     "click-to-copy": "Kopyalamak için tıklayın",
     "close": "Kapat",
-    "toggle": "Aç/Kapat"
+    "toggle": "Aç/Kapat",
+    "remove": "Kaldır"
   },
   "nav-links": {
     "support": "Destek",

@@ -1,4 +1,4 @@
-<Sidebar>
+<Sidebar side="{side}">
   <div class="mb-3">
     <!-- Online Admins Card -->
     <OnlineAdmins onlineAdmins="{$data.onlineAdmins}" />
@@ -28,4 +28,6 @@
   import Sidebar from "$lib/component/Sidebar.svelte";
 
   import OnlineAdmins from "$lib/component/OnlineAdmins.svelte";
+
+  export let side;
 </script>

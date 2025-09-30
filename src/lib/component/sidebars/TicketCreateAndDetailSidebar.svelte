@@ -1,4 +1,4 @@
-<Sidebar>
+<Sidebar side="{side}">
   <!-- Online Admins Card -->
   <OnlineAdmins onlineAdmins={$data.onlineAdmins} />
   <!-- Online Admins Card End -->
@@ -56,4 +56,6 @@
 
   import { show as showCloseTicketConfirmModal } from "$lib/component/modals/CloseTicketConfirmModal.svelte";
   import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
+
+  export let side;
 </script>

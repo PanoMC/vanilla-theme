@@ -30,17 +30,6 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
-          data-bs-target="#colors"
-          data-bs-toggle="tab"
-          id="colors-tab"
-          role="tab"
-          type="button">
-          Renkler
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
           data-bs-target="#header"
           data-bs-toggle="tab"
           id="header-tab"
@@ -111,44 +100,99 @@
       <!-- General -->
       <div class="tab-pane fade show active" id="general" role="tabpanel">
         <div class="row mb-3">
-          <label for="" class="col-md-6 col-form-label">Arka Plan Rengi</label>
+          <label class="col-md-6 col-form-label" for="theme-color"
+          >Tema Rengi</label>
           <div class="col-md-6">
-            <input
-              id=""
-              class="form-control form-control-color"
-              type="color"
-              value="#ffffff" />
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="">Arka Plan Resmi</label>
-          <div class="col-md-6">
-            <input id="" class="form-control" type="file" />
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for=""
-            >Arka Plan Resmi Yerleşimi</label>
-          <div class="col-md-6">
-            <select class="form-select" id="">
-              <option value="1">Doldur</option>
-              <option value="2">Sığdır</option>
-              <option value="2">Genişlet</option>
-              <option value="1">Döşe</option>
-              <option value="1">Ortala</option>
-              <option value="1">Karış</option>
+            <select class="form-select" id="theme-color" on:change={e => themeSettings.themeColor = e.target.value}
+                    value={themeSettings.themeColor}>
+              <option value="dark">Dark</option>
+              <option value="1">Turuncu</option>
+              <option value="2">Yeşil</option>
+              <option value="3">Mavi</option>
             </select>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="col-md-6" for="">Arka Plan Resmini Tekrarla</label>
+          <label class="col-md-6 col-form-label" for="bgColor">Arka Plan Rengi</label>
           <div class="col-md-6">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
-            </div>
+            <input
+              id="bgColor"
+              class="form-control form-control-color"
+              type="color"
+              on:input={e => themeSettings.backgroundColor = e.target.value}
+              value="{themeSettings.backgroundColor || '#ffffff'}" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="background-image-upload">Arka Plan Resmi</label>
+          <div class="col-md-6">
+            {#if themeSettings.files?.backgroundImage}
+              <div class="input-group">
+                <img
+                  alt="Arka Plan Resmi"
+                  class="border rounded-start"
+                  style="object-fit: contain;"
+                  width="71"
+                  height="40"
+                  src={'/api/theme/file/' + themeSettings.files.backgroundImage}
+                />
+
+                <input id="background-image-upload" class="form-control" type="file" accept="image/*"
+                       bind:files={backgroundImageFiles}
+                       on:change={onBackgroundImageChange} />
+                <button
+                  class="btn btn-outline-danger shadow-none rounded-end"
+                  on:click={onRemoveBackgroundImageClick}
+                >{$_("buttons.remove")}</button>
+              </div>
+            {:else}
+              <input id="background-image-upload" class="form-control" type="file" accept="image/*"
+                     bind:files={backgroundImageFiles}
+                     on:change={onBackgroundImageChange} />
+            {/if}
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="bg-image-position"
+            >Arka Plan Resmi Yerleşimi</label>
+          <div class="col-md-6">
+            <select class="form-select" id="bg-image-position" on:change={e => themeSettings.bgImagePosition = e.target.value}
+                    value={themeSettings.bgImagePosition}>
+              <option value="left top">Sol Üst</option>
+              <option selected value="center center">Ortala</option>
+              <option value="right bottom">Sağ Alt</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="bg-image-repeat"
+          >Arka Plan Resmi Tekrarla</label>
+          <div class="col-md-6">
+            <select class="form-select" id="bg-image-repeat" on:change={e => themeSettings.bgImageRepeat = e.target.value}
+                    value={themeSettings.bgImageRepeat}>
+              <option value="repeat">Döşe</option>
+              <option selected value="no-repeat">Tek Görsel</option>
+              <option value="repeat-x">Yatay Döşe</option>
+              <option value="repeat-y">Dikey Döşe</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="background-image-position"
+          >Arka Plan Resmi Boyutu</label>
+          <div class="col-md-6">
+            <select class="form-select" id="background-image-position" on:change={e => themeSettings.bgImageSize = e.target.value}
+                    value={themeSettings.bgImageSize}>
+              <option selected value="auto">Orijinal Boyut</option>
+              <option value="cover">Doldur</option>
+              <option value="contain">Sığdır</option>
+              <option value="100% 100%">Genişlet</option>
+            </select>
           </div>
         </div>
       </div>
@@ -156,157 +200,105 @@
       <!-- Logo -->
       <div class="tab-pane fade" id="logo" role="tabpanel">
         <div class="row mb-3">
-          <label class="col-md-6" for=""> Görünürlük </label>
+          <label class="col-md-6" for="logo-visibility">Görünürlük</label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
+              <input checked={typeof themeSettings.logoVisibility === 'undefined' ? true : themeSettings.logoVisibility } class="form-check-input" id="logo-visibility"
+                     on:change={e => themeSettings.logoVisibility = e.target.checked}
+                     type="checkbox" />
             </div>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="coverHeight"
+          <label class="col-md-6 col-form-label" for="logo-height"
             >Yükseklik (px)</label>
           <div class="col-md-6">
             <input
-              id=""
+              id="logo-height"
               class="form-control"
               type="number"
-              value="128"
-              max="512" />
+              on:input={e => themeSettings.logoHeight = e.target.value}
+              placeholder="auto"
+              value="{themeSettings.logoHeight}" />
           </div>
         </div>
         <div class="row mb-3">
-          <label for="" class="col-md-6 col-form-label">Genişlik (px)</label>
+          <label class="col-md-6 col-form-label" for="logo-width">Genişlik (px)</label>
           <div class="col-md-6">
             <input
-              id=""
+              id="logo-width"
               class="form-control"
               type="number"
-              value="128"
-              max="512" />
+              on:input={e => themeSettings.logoWidth = e.target.value}
+              placeholder="auto"
+              value="{themeSettings.logoWidth}" />
           </div>
         </div>
       </div>
 
-      <!-- Color -->
-      <div class="tab-pane fade" id="colors" role="tabpanel">
-        <div class="row mb-3">
-          <label class="col-md-6" for="">Ana Renk</label>
-          <div class="col-md-6">
-            <input
-              class="form-control form-control-color"
-              type="color"
-              id=""
-              value="#0d6efd" />
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label class="col-md-6" for="">Arka Plan Rengi</label>
-          <div class="col-md-6">
-            <input
-              class="form-control form-control-color"
-              type="color"
-              id=""
-              value="#ffffff" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Cover -->
+      <!-- Header -->
       <div class="tab-pane fade" id="header" role="tabpanel">
         <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="">Arka Plan Resmi</label>
+          <label class="col-md-6 col-form-label" for="headerBackgroundImage">Arka Plan Resmi</label>
           <div class="col-md-6">
-            <input id="" class="form-control" type="file" />
+            {#if themeSettings.files?.headerBackgroundImage}
+              <div class="input-group">
+                <img
+                  alt="Arka Plan Resmi"
+                  class="border rounded-start"
+                  style="object-fit: contain;"
+                  width="71"
+                  height="40"
+                  src={'/api/theme/file/' + themeSettings.files.headerBackgroundImage}
+                />
+
+                <input id="headerBackgroundImage" class="form-control" type="file" accept="image/*"
+                       bind:files={headerBackgroundImageFiles}
+                       on:change={onHeaderBackgroundImageChange} />
+
+                <button
+                  class="btn btn-outline-danger shadow-none rounded-end"
+                  on:click={onRemoveHeaderBackgroundImageClick}
+                >{$_("buttons.remove")}</button>
+              </div>
+            {:else}
+              <input id="headerBackgroundImage" class="form-control" type="file" accept="image/*"
+                     bind:files={headerBackgroundImageFiles}
+                     on:change={onHeaderBackgroundImageChange} />
+            {/if}
           </div>
         </div>
         <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="">Arka Plan Rengi</label>
+          <label class="col-md-6 col-form-label" for="headerBgColor">Arka Plan Rengi</label>
           <div class="col-md-6">
             <input
-              id=""
+              id="headerBgColor"
               class="form-control form-control-color"
               type="color"
-              value="#ffffff" />
+              on:input={e => themeSettings.headerBgColor = e.target.value}
+              value="{themeSettings.headerBgColor || '#ffffff'}" />
           </div>
         </div>
         <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="">Yükseklik (px)</label>
+          <label class="col-md-6 col-form-label" for="headerHeight">Yükseklik (px)</label>
           <div class="col-md-6">
             <input
-              id=""
               class="form-control"
+              id="headerHeight"
+              on:input={e => themeSettings.headerHeight = e.target.value}
+              placeholder="auto"
               type="number"
-              value="256"
-              max="500" />
+              value="{themeSettings.headerHeight}" />
           </div>
         </div>
         <div class="row mb-3">
-          <label for="" class="col-md-6 col-form-label">Genişlik</label>
+          <label class="col-md-6 col-form-label" for="headerWidthOption">Genişlik</label>
           <div class="col-md-6">
-            <select class="form-select" id="">
-              <option value="1">İçeriğe Göre</option>
-              <option value="2">Tam Genişlik</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar -->
-      <div class="tab-pane fade" id="sidebar" role="tabpanel">
-        <div class="row mb-3">
-          <label class="col-md-6" for="">Görünürlük</label>
-          <div class="col-md-6">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label class="col-md-6" for="">Konum</label>
-          <div class="col-md-6">
-            <select class="form-select">
-              <option value="1">Sağ</option>
-              <option value="2">Sol</option>
-            </select>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label class="col-md-6" for="">Son Kayıt Olanlar Kartı</label>
-          <div class="col-md-6">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for=""
-            >Son Kayıt Olanlar Kartı Tablo Görünümü</label>
-          <div class="col-md-6">
-            <select class="form-select">
-              <option value="1">Liste</option>
-              <option value="2">Kafalar</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="col-md-6" for=""
-            >Çevrimiçi Yöneticiler Kartı (Destek)</label>
-          <div class="col-md-6">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for=""
-            >Çevrimiçi Yöneticiler Kartı Tablo Görünümü</label>
-          <div class="col-md-6">
-            <select class="form-select">
-              <option value="1">Liste</option>
-              <option value="2">Kafalar</option>
+            <select class="form-select" id="headerWidthOption" on:change={e => themeSettings.headerWidthOption = e.target.value}
+                    value={themeSettings.headerWidthOption}>
+              <option value="BY_CONTENT">İçeriğe Göre</option>
+              <option value="FULL_SIZE">Tam Genişlik</option>
             </select>
           </div>
         </div>
@@ -315,42 +307,113 @@
       <!-- Navbar -->
       <div class="tab-pane fade" id="navbar" role="tabpanel">
         <div class="row mb-3">
-          <label for="" class="col-md-6">Renk</label>
+          <label class="col-md-6 col-form-label" for="navbarWidthOption">Genişlik</label>
           <div class="col-md-6">
-            <input
-              id=""
-              class="form-control form-control-color"
-              type="color"
-              value="#ffffff" />
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label for="" class="col-md-6 col-form-label">Genişlik</label>
-          <div class="col-md-6">
-            <select class="form-select">
-              <option value="1">İçeriğe Göre</option>
-              <option value="2">Tam Genişlik</option>
+            <select class="form-select" id="navbarWidthOption" on:change={e => themeSettings.navbarWidthOption = e.target.value}
+                    value={themeSettings.navbarWidthOption}>
+              <option value="BY_CONTENT">İçeriğe Göre</option>
+              <option value="FULL_SIZE">Tam Genişlik</option>
             </select>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label for="" class="col-md-6 col-form-label">Bağlantılar</label>
+          <label class="col-md-6" for="logo-visibility">Linklerin Görünürlüğü</label>
           <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.navLinksEnabled === 'undefined' ? true : themeSettings.navLinksEnabled} class="form-check-input" id="logo-visibility"
+                     on:change={e => themeSettings.navLinksEnabled = e.target.checked}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="navbarLinks">Bağlantılar</label>
+          <div class="col-md-6" id="navbarLinks">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="" />
-              <label class="form-check-label" for=""> Ana Sayfa </label>
+              <input checked={typeof themeSettings.navLinksEnableStatus?.home === 'undefined' ? true : themeSettings.navLinksEnableStatus?.home} class="form-check-input" id="navbarHomeLinkToggle"
+                     on:change={e => {if (!themeSettings.navLinksEnableStatus) themeSettings.navLinksEnableStatus = {}; themeSettings.navLinksEnableStatus.home = e.target.checked}}
+                     type="checkbox" />
+              <label class="form-check-label" for="navbarHomeLinkToggle"> Ana Sayfa </label>
             </div>
             <div class="form-check">
               <input
+                checked={typeof themeSettings.navLinksEnableStatus?.support === 'undefined' ? true : themeSettings.navLinksEnableStatus?.support}
                 class="form-check-input"
-                type="checkbox"
-                value=""
-                id=""
-                checked />
-              <label class="form-check-label" for="">Destek</label>
+                id="navbarSupportLinkToggle"
+                on:change={e => {if (!themeSettings.navLinksEnableStatus) themeSettings.navLinksEnableStatus = {}; themeSettings.navLinksEnableStatus.support = e.target.checked}}
+                type="checkbox" />
+              <label class="form-check-label" for="navbarSupportLinkToggle">Destek</label>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="tab-pane fade" id="sidebar" role="tabpanel">
+        <div class="row mb-3">
+          <label class="col-md-6" for="sidebarVisibility">Görünürlük</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.sidebarEnabled === 'undefined' ? true : themeSettings.sidebarEnabled} class="form-check-input" id="sidebarVisibility"
+                     on:change={e => themeSettings.sidebarEnabled = e.target.checked}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="sidebarPosition">Konum</label>
+          <div class="col-md-6">
+            <select class="form-select" id="sidebarPosition" on:change={e => themeSettings.sidebarPosition = e.target.value}
+                    value={themeSettings.sidebarPosition}>
+              <option value="RIGHT">Sağ</option>
+              <option value="LEFT">Sol</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="lastRegistrantsCartVisibility">Son Kayıt Olanlar Kartı</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.sidebarCarts?.lastRegistrants === 'undefined' ? true : themeSettings.sidebarCarts?.lastRegistrants} class="form-check-input" id="lastRegistrantsCartVisibility"
+                     on:change={e => {if (!themeSettings.sidebarCarts) themeSettings.sidebarCarts = {}; themeSettings.sidebarCarts.lastRegistrants = e.target.checked}}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="lastRegistrantsCartStyle"
+          >Son Kayıt Olanlar Kartı Tablo Görünümü</label>
+          <div class="col-md-6">
+            <select class="form-select" id="lastRegistrantsCartStyle" on:change={e => themeSettings.lastRegistrantsStyle = e.target.value}
+                    value={themeSettings.lastRegistrantsStyle}>
+              <option value="HEADS">Kafalar</option>
+              <option value="LIST">Liste</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6" for="onlineAdminsCartVisibility"
+          >Çevrimiçi Yöneticiler Kartı (Destek)</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.sidebarCarts?.onlineAdmins === 'undefined' ? true : themeSettings.sidebarCarts?.onlineAdmins} class="form-check-input" id="onlineAdminsCartVisibility"
+                     on:change={e => {if (!themeSettings.sidebarCarts) themeSettings.sidebarCarts = {}; themeSettings.sidebarCarts.onlineAdmins = e.target.checked}}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="onlineAdminsCartStyle"
+          >Çevrimiçi Yöneticiler Kartı Tablo Görünümü</label>
+          <div class="col-md-6">
+            <select class="form-select" id="onlineAdminsCartStyle" on:change={e => themeSettings.onlineAdminsStyle = e.target.value}
+                    value={themeSettings.onlineAdminsStyle}>
+              <option value="HEADS">Kafalar</option>
+              <option value="LIST">Liste</option>
+            </select>
           </div>
         </div>
       </div>
@@ -358,34 +421,72 @@
       <!-- Post Card -->
       <div class="tab-pane fade" id="post-card" role="tabpanel">
         <div class="row mb-3">
-          <label class="col-md-6" for=""> Görünürlük </label>
+          <label class="col-md-6" for="postsEnabled">Görünürlük</label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
+              <input checked={typeof themeSettings.postsEnabled === 'undefined' ? true : themeSettings.postsEnabled} class="form-check-input" id="postsEnabled"
+                     on:change={e => themeSettings.postsEnabled = e.target.checked}
+                     type="checkbox" />
             </div>
           </div>
         </div>
         <div class="row mb-3">
-          <label class="col-md-6" for=""> Kapak Resmi </label>
+          <label class="col-md-6" for="postCoverImageEnabled">Kapak Resmi</label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
+              <input checked={typeof themeSettings.postCoverImageEnabled === 'undefined' ? true : themeSettings.postCoverImageEnabled} class="form-check-input" id="postCoverImageEnabled"
+                     on:change={e => themeSettings.postCoverImageEnabled = e.target.checked}
+                     type="checkbox" />
             </div>
           </div>
         </div>
         <div class="row mb-3">
-          <label class="col-md-6" for=""> Devamını Oku Butonu </label>
+          <label class="col-md-6" for="postReadMoreButtonEnabled">Devamını Oku Butonu</label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
+              <input checked={typeof themeSettings.postReadMoreButtonEnabled === 'undefined' ? true : themeSettings.postReadMoreButtonEnabled} class="form-check-input" id="postReadMoreButtonEnabled"
+                     on:change={e => themeSettings.postReadMoreButtonEnabled = e.target.checked}
+                     type="checkbox" />
             </div>
           </div>
         </div>
         <div class="row mb-3">
-          <label class="col-md-6" for=""> Yazar Kafa Resmi </label>
+          <label class="col-md-6" for="postAuthorImageEnabled">Yazar Kafa Resmi</label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
+              <input checked={typeof themeSettings.postAuthorImageEnabled === 'undefined' ? true : themeSettings.postAuthorImageEnabled} class="form-check-input" id="postAuthorImageEnabled"
+                     on:change={e => themeSettings.postAuthorImageEnabled = e.target.checked}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="postViewCountEnabled">Görüntülenme</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.postViewCountEnabled === 'undefined' ? true : themeSettings.postViewCountEnabled} class="form-check-input" id="postViewCountEnabled"
+                     on:change={e => themeSettings.postViewCountEnabled = e.target.checked}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="postPreviousPageEnabled">Önceki Yazı Butonu</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.postPreviousPageEnabled === 'undefined' ? true : themeSettings.postPreviousPageEnabled} class="form-check-input" id="postPreviousPageEnabled"
+                     on:change={e => themeSettings.postPreviousPageEnabled = e.target.checked}
+                     type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="postNextPageEnabled">Sonraki Yazı Butonu</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input checked={typeof themeSettings.postNextPageEnabled === 'undefined' ? true : themeSettings.postNextPageEnabled} class="form-check-input" id="postNextPageEnabled"
+                     on:change={e => themeSettings.postNextPageEnabled = e.target.checked}
+                     type="checkbox" />
             </div>
           </div>
         </div>
@@ -394,17 +495,21 @@
       <!-- Footer -->
       <div class="tab-pane fade" id="footer" role="tabpanel">
         <div class="row mb-3">
-          <label class="col-md-6" for=""> Alt Bilgi </label>
+          <label class="col-md-6" for="footerEnabled"> Alt Bilgi </label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="" />
+              <input checked={typeof themeSettings.footerEnabled === 'undefined' ? true : themeSettings.footerEnabled} class="form-check-input" id="footerEnabled"
+                     on:change={e => themeSettings.footerEnabled = e.target.checked}
+                     type="checkbox" />
             </div>
           </div>
         </div>
         <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for=""> İçerik </label>
+          <label class="col-md-6 col-form-label" for="footerContent"> İçerik </label>
           <div class="col-md-6">
-            <div class="form-check form-switch">HTML</div>
+            <textarea class="form-control" id="footerContent" on:input="{e => themeSettings.footerContent = e.target.value}"
+                      style="height: 200px;"
+                      value="{themeSettings.footerContent}"></textarea>
           </div>
         </div>
       </div>
@@ -412,32 +517,122 @@
       <!-- Advanced -->
       <div class="tab-pane fade" id="advanced" role="tabpanel">
         <div class="row">
-          <label class="col col-form-label" for="">Custom CSS</label>
+          <label class="col col-form-label" for="customCss">Custom CSS</label>
           <div class="col-6">
-            <textarea class="form-control" style="height: 200px;"></textarea>
+            <textarea class="form-control" id="customCss" on:input="{e => themeSettings.customCss = e.target.value}" style="height: 200px;"
+                      value="{themeSettings.customCss}"></textarea>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-3">
-      <button class="btn btn-secondary">Kaydet</button>
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-secondary" class:disabled={saving || savingEnabled} on:click={save}>Kaydet <i
+        class="fas fa-spinner fa-spin" hidden="{!saving}"></i></button>
+      <button class="btn btn-dark" class:disabled={resetting || saving} hidden="{!resetVisible}" on:click={reset}>Reset
+        <i class="fas fa-spinner fa-spin" hidden="{!resetting}"></i></button>
     </div>
   </div>
 </div>
 
 <script context="module">
+  import { writable } from "svelte/store";
+
   /**
    * @type {import("@sveltejs/kit").Load}
    */
   export async function load(event) {
     const { parent } = event;
-    await parent();
 
-    return {};
+    const { themeSettings } = await parent();
+    const originalThemeSettings = writable(structuredClone(themeSettings));
+
+    return { themeSettings, originalThemeSettings };
   }
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
+  import { saveThemeSettings } from "$lib/services/theme-setting";
+
   export let data;
+
+  let { themeSettings, originalThemeSettings } = data;
+
+  let saving, resetting;
+  let backgroundImageFiles, headerBackgroundImageFiles = null;
+
+  $: savingEnabled = JSON.stringify($originalThemeSettings) === JSON.stringify(themeSettings);
+  $: resetVisible = Object.keys($originalThemeSettings).length > 0;
+
+  function onBackgroundImageChange(event) {
+    // const reader = new FileReader();
+    const image = event.target.files[0];
+
+    themeSettings.uploads = { ...(themeSettings.uploads || {}), backgroundImage: image };
+
+
+    // reader.readAsDataURL(image);
+    //
+    // reader.onload = (e) => {
+    //   favicon = e.target.result;
+    // };
+    //
+    // selectedFaviconFiles = faviconFiles;
+  }
+
+  function onRemoveBackgroundImageClick() {
+    delete themeSettings.files.backgroundImage;
+
+    themeSettings = themeSettings;
+  }
+
+  function onRemoveHeaderBackgroundImageClick() {
+    delete themeSettings.files.headerBackgroundImage;
+
+    themeSettings = themeSettings;
+  }
+
+  function onHeaderBackgroundImageChange(event) {
+    // const reader = new FileReader();
+    const image = event.target.files[0];
+
+    themeSettings.uploads = { ...(themeSettings.uploads || {}), headerBackgroundImage: image };
+
+
+    // reader.readAsDataURL(image);
+    //
+    // reader.onload = (e) => {
+    //   favicon = e.target.result;
+    // };
+    //
+    // selectedFaviconFiles = faviconFiles;
+  }
+
+  export async function save() {
+    saving = true;
+
+    await saveThemeSettings(themeSettings);
+
+    backgroundImageFiles = null;
+    headerBackgroundImageFiles = null;
+
+    originalThemeSettings.set(structuredClone(themeSettings));
+
+    saving = false;
+  }
+
+  export async function reset() {
+    resetting = true;
+
+    await saveThemeSettings({});
+
+    backgroundImageFiles = null;
+    headerBackgroundImageFiles = null;
+
+    themeSettings = {};
+    originalThemeSettings.set(structuredClone({}));
+
+    resetting = false;
+  }
 </script>

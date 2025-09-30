@@ -1,4 +1,4 @@
-<Sidebar>
+<Sidebar side="{side}">
   <div class="vstack gap-3">
     <!-- Play Button -->
     <button
@@ -44,7 +44,8 @@
     <!-- Server Status Card End -->
 
     <!-- Last Registrants Card -->
-    <div class="card">
+    <div class="card"
+         hidden="{typeof themeSettings.sidebarCarts?.lastRegistrants === 'undefined' ? false : !themeSettings.sidebarCarts.lastRegistrants}">
       <div class="card-header">
         {$_("sidebars.home.last-registrants")}
       </div>
@@ -87,11 +88,16 @@
 </script>
 
 <script>
+  import { getContext } from "svelte";
+  import { _ } from "svelte-i18n";
   import copy from "copy-to-clipboard";
 
   import Sidebar from "$lib/component/Sidebar.svelte";
   import tooltip from "$lib/tooltip.util";
-  import { _ } from "svelte-i18n";
+
+  export let side;
+
+  const themeSettings = getContext("themeSettings");
 
   let copyClickIDForCommandText = 0;
   let isCommandTextCopied = false;

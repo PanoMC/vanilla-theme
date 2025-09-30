@@ -94,6 +94,7 @@ export function init(data) {
   setContext("session", session);
   setContext("sidebar", sidebar);
   setContext("sidebarProps", sidebarProps);
+  setContext("themeSettings", data.session.siteInfo.themeSettings);
 
   onDestroy(pageUnsubscribe);
 

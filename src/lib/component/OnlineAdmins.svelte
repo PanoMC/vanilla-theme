@@ -1,5 +1,6 @@
 <!-- Online Admins Card -->
-<div class="card mb-3">
+<div class="card mb-3"
+     hidden="{typeof themeSettings.sidebarCarts?.onlineAdmins === 'undefined' ? false : !themeSettings.sidebarCarts.onlineAdmins}">
   <div class="card-header">{$_("components.online-admins.online-admins")}</div>
   <div class="card-body">
     <div class="row">
@@ -23,6 +24,9 @@
 <script>
   import { _ } from "svelte-i18n";
   import tooltip from "$lib/tooltip.util";
+  import { getContext } from "svelte";
 
   export let onlineAdmins;
+
+  const themeSettings = getContext("themeSettings");
 </script>

@@ -18,7 +18,8 @@
     "filter": "Filter",
     "click-to-copy": "Click to copy",
     "close": "Close",
-    "toggle": "Toggle"
+    "toggle": "Toggle",
+    "remove": "Remove"
   },
   "nav-links": {
     "support": "Support",

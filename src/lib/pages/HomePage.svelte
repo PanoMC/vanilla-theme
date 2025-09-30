@@ -20,11 +20,13 @@
 {/if}
 
 <!-- Post Cards -->
-<Posts posts="{data.posts}" />
+{#if typeof themeSettings.postsEnabled === 'undefined' ? true : themeSettings.postsEnabled}
+  <Posts posts="{data.posts}" />
+{/if}
 <!-- Post Cards End -->
 
 <!-- Pagination -->
-{#if data.postCount > 0}
+{#if (typeof themeSettings.postsEnabled === 'undefined' ? true : themeSettings.postsEnabled) && data.postCount > 0}
   <Pagination
     page="{data.page}"
     totalPage="{data.totalPage}"
@@ -47,6 +49,7 @@
 </script>
 
 <script>
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
   import { onPageClick } from "$lib/ui-logics/page-logics/HomePageLogics";
@@ -55,4 +58,6 @@
   import Posts from "$lib/component/Posts.svelte";
 
   export let data;
+
+  const themeSettings = getContext("themeSettings");
 </script>

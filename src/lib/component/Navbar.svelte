@@ -8,9 +8,9 @@
 </style>
 
 <div class="py-3">
-  <div class="container">
+  <div class="{themeSettings.navbarWidthOption === 'FULL_SIZE' ? 'container-fluid' : 'container'}">
     <nav
-      class="navbar navbar-expand-lg navbar-dark bg-primary bg-body-primary bg-gradient rounded-pill shadow">
+      class="navbar navbar-expand-lg navbar-dark bg-primary bg-gradient rounded-pill shadow">
       <div class="container">
         <ul class="navbar-nav flex-row me-auto">
           <li>
@@ -160,22 +160,26 @@
           {/if}
         </ul>
 
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" title={$_("nav-links.homepage")} href="/">
-                {$_("nav-links.homepage")}
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="/support"
-                class="nav-link"
-                title={$_("nav-links.support")}>
-                {$_("nav-links.support")}</a>
-            </li>
-          </ul>
-        </div>
+        {#if typeof themeSettings.navLinksEnabled === 'undefined' ? true : themeSettings.navLinksEnabled}
+          <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li class="nav-item"
+                  hidden="{typeof themeSettings.navLinksEnableStatus?.home === 'undefined' ? false : !themeSettings.navLinksEnableStatus.home}">
+                <a class="nav-link" title={$_("nav-links.homepage")} href="/">
+                  {$_("nav-links.homepage")}
+                </a>
+              </li>
+              <li class="nav-item"
+                  hidden="{typeof themeSettings.navLinksEnableStatus?.support === 'undefined' ? false : !themeSettings.navLinksEnableStatus.support}">
+                <a
+                  href="/support"
+                  class="nav-link"
+                  title={$_("nav-links.support")}>
+                  {$_("nav-links.support")}</a>
+              </li>
+            </ul>
+          </div>
+        {/if}
       </div>
     </nav>
   </div>
@@ -208,6 +212,7 @@
   let interval, showingQuickNotification;
 
   const session = getContext("session");
+  const themeSettings = getContext("themeSettings");
 
   function delay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));

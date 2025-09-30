@@ -1,7 +1,7 @@
 <!-- Footer -->
 <div class="container text-center my-3">
   <small>
-    {@html $_("footer.been-created-with", {
+    {@html themeSettings.footerContent || $_("footer.been-created-with", {
       values: {
         pano: `<a href="https://panomc.com" target="_blank" rel="noreferrer">Pano</a>`,
       },
@@ -14,5 +14,5 @@
   import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
-  const session = getContext("session");
+  const themeSettings = getContext("themeSettings");
 </script>
