@@ -104,7 +104,7 @@
           >Tema Rengi</label>
           <div class="col-md-6">
             <select class="form-select" id="theme-color" on:change={e => themeSettings.themeColor = e.target.value}
-                    value={themeSettings.themeColor}>
+                    value={themeSettings.themeColor || 'dark'}>
               <option value="dark">Dark</option>
               <option value="1">Turuncu</option>
               <option value="2">Yeşil</option>
@@ -160,9 +160,9 @@
             >Arka Plan Resmi Yerleşimi</label>
           <div class="col-md-6">
             <select class="form-select" id="bg-image-position" on:change={e => themeSettings.bgImagePosition = e.target.value}
-                    value={themeSettings.bgImagePosition}>
+                    value={themeSettings.bgImagePosition || 'center center'}>
               <option value="left top">Sol Üst</option>
-              <option selected value="center center">Ortala</option>
+              <option value="center center">Ortala</option>
               <option value="right bottom">Sağ Alt</option>
             </select>
           </div>
@@ -173,9 +173,9 @@
           >Arka Plan Resmi Tekrarla</label>
           <div class="col-md-6">
             <select class="form-select" id="bg-image-repeat" on:change={e => themeSettings.bgImageRepeat = e.target.value}
-                    value={themeSettings.bgImageRepeat}>
+                    value={themeSettings.bgImageRepeat || 'no-repeat'}>
               <option value="repeat">Döşe</option>
-              <option selected value="no-repeat">Tek Görsel</option>
+              <option value="no-repeat">Tek Görsel</option>
               <option value="repeat-x">Yatay Döşe</option>
               <option value="repeat-y">Dikey Döşe</option>
             </select>
@@ -187,8 +187,8 @@
           >Arka Plan Resmi Boyutu</label>
           <div class="col-md-6">
             <select class="form-select" id="background-image-position" on:change={e => themeSettings.bgImageSize = e.target.value}
-                    value={themeSettings.bgImageSize}>
-              <option selected value="auto">Orijinal Boyut</option>
+                    value={themeSettings.bgImageSize || 'auto'}>
+              <option value="auto">Orijinal Boyut</option>
               <option value="cover">Doldur</option>
               <option value="contain">Sığdır</option>
               <option value="100% 100%">Genişlet</option>
@@ -203,10 +203,30 @@
           <label class="col-md-6" for="logo-visibility">Görünürlük</label>
           <div class="col-md-6">
             <div class="form-check form-switch">
-              <input checked={typeof themeSettings.logoVisibility === 'undefined' ? true : themeSettings.logoVisibility } class="form-check-input" id="logo-visibility"
-                     on:change={e => themeSettings.logoVisibility = e.target.checked}
-                     type="checkbox" />
+              <input
+                checked={typeof themeSettings.logoVisibility === 'undefined' ? true : themeSettings.logoVisibility }
+                class="form-check-input" id="logo-visibility"
+                on:change={e => themeSettings.logoVisibility = e.target.checked}
+                type="checkbox" />
             </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="logoPosition">Pozisyon</label>
+          <div class="col-md-6">
+            <select class="form-select" id="logoPosition" on:change={e => themeSettings.logoPosition = e.target.value}
+                    value={themeSettings.logoPosition || 'CENTER'}>
+              <option value="TOP_START">Üst Sol</option>
+              <option value="TOP">Üst Orta</option>
+              <option value="TOP_END">Üst Sağ</option>
+              <option value="CENTER_START">Orta Sol</option>
+              <option value="CENTER">Orta</option>
+              <option value="CENTER_END">Orta Sağ</option>
+              <option value="BOTTOM_START">Alt Sol</option>
+              <option value="BOTTOM">Alt Orta</option>
+              <option value="BOTTOM_END">Alt Sağ</option>
+            </select>
           </div>
         </div>
 
@@ -296,7 +316,7 @@
           <label class="col-md-6 col-form-label" for="headerWidthOption">Genişlik</label>
           <div class="col-md-6">
             <select class="form-select" id="headerWidthOption" on:change={e => themeSettings.headerWidthOption = e.target.value}
-                    value={themeSettings.headerWidthOption}>
+                    value={themeSettings.headerWidthOption || 'BY_CONTENT'}>
               <option value="BY_CONTENT">İçeriğe Göre</option>
               <option value="FULL_SIZE">Tam Genişlik</option>
             </select>
@@ -310,7 +330,7 @@
           <label class="col-md-6 col-form-label" for="navbarWidthOption">Genişlik</label>
           <div class="col-md-6">
             <select class="form-select" id="navbarWidthOption" on:change={e => themeSettings.navbarWidthOption = e.target.value}
-                    value={themeSettings.navbarWidthOption}>
+                    value={themeSettings.navbarWidthOption || 'BY_CONTENT'}>
               <option value="BY_CONTENT">İçeriğe Göre</option>
               <option value="FULL_SIZE">Tam Genişlik</option>
             </select>
@@ -366,9 +386,9 @@
           <label class="col-md-6" for="sidebarPosition">Konum</label>
           <div class="col-md-6">
             <select class="form-select" id="sidebarPosition" on:change={e => themeSettings.sidebarPosition = e.target.value}
-                    value={themeSettings.sidebarPosition}>
-              <option value="RIGHT">Sağ</option>
+                    value={themeSettings.sidebarPosition || 'RIGHT'}>
               <option value="LEFT">Sol</option>
+              <option value="RIGHT">Sağ</option>
             </select>
           </div>
         </div>
@@ -387,7 +407,7 @@
           >Son Kayıt Olanlar Kartı Tablo Görünümü</label>
           <div class="col-md-6">
             <select class="form-select" id="lastRegistrantsCartStyle" on:change={e => themeSettings.lastRegistrantsStyle = e.target.value}
-                    value={themeSettings.lastRegistrantsStyle}>
+                    value={themeSettings.lastRegistrantsStyle || 'HEADS'}>
               <option value="HEADS">Kafalar</option>
               <option value="LIST">Liste</option>
             </select>
@@ -410,7 +430,7 @@
           >Çevrimiçi Yöneticiler Kartı Tablo Görünümü</label>
           <div class="col-md-6">
             <select class="form-select" id="onlineAdminsCartStyle" on:change={e => themeSettings.onlineAdminsStyle = e.target.value}
-                    value={themeSettings.onlineAdminsStyle}>
+                    value={themeSettings.onlineAdminsStyle || 'HEADS'}>
               <option value="HEADS">Kafalar</option>
               <option value="LIST">Liste</option>
             </select>
@@ -530,6 +550,7 @@
       <button class="btn btn-secondary" class:disabled={saving || savingEnabled} on:click={save}>Kaydet <i
         class="fas fa-spinner fa-spin" hidden="{!saving}"></i></button>
       <button class="btn btn-dark" class:disabled={resetting || saving} hidden="{!resetVisible}" on:click={reset}>Reset
+        All
         <i class="fas fa-spinner fa-spin" hidden="{!resetting}"></i></button>
     </div>
   </div>
@@ -612,11 +633,14 @@
   export async function save() {
     saving = true;
 
-    await saveThemeSettings(themeSettings);
+    const response = await saveThemeSettings(themeSettings);
+    const newSettings = JSON.parse(await response.text());
+    delete newSettings["result"];
 
     backgroundImageFiles = null;
     headerBackgroundImageFiles = null;
 
+    themeSettings = newSettings;
     originalThemeSettings.set(structuredClone(themeSettings));
 
     saving = false;
