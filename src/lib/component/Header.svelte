@@ -3,28 +3,27 @@
 </svelte:head>
 
 <!-- Header -->
-<div
-  class="rounded {themeSettings.headerWidthOption === 'FULL_SIZE'
-    ? 'container-fluid'
-    : 'container'} position-relative"
-  class:bg-white={!themeSettings.headerBgColor}
-  id="header"
-  style="height: {themeSettings.headerHeight || '256'}px;">
-  <img
-    alt={$_("components.header.alt")}
-    class="{themeSettings.logoHeight || themeSettings.logoWidth
-      ? ''
-      : 'img-fluid'} p-3 position-absolute {logoPositionClasses}"
-    class:d-none={themeSettings.logoVisibility === false}
-    height={themeSettings.logoHeight || "auto"}
-    src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
-    style="{!themeSettings.logoHeight && !themeSettings.logoWidth
-      ? 'height: 100%; width: 100%; object-fit: contain;'
-      : ''} "
-    title={$session.siteInfo.websiteName}
-    width={themeSettings.logoWidth || "auto"} />
+<div class:container="{headerWidthOption !== 'FULL_SIZE'}">
+  <div
+    class="rounded-bottom position-relative p-0"
+    class:bg-white={!themeSettings.headerBgColor}
+    id="header"
+    style="height: {themeSettings.headerHeight || '256'}px;">
+    <img
+      alt={$_("components.header.alt")}
+      class="{themeSettings.logoHeight || themeSettings.logoWidth
+        ? ''
+        : 'img-fluid'} p-3 position-absolute {logoPositionClasses}"
+      class:d-none={themeSettings.logoVisibility === false}
+      height={themeSettings.logoHeight || "auto"}
+      src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
+      style="{!themeSettings.logoHeight && !themeSettings.logoWidth
+        ? 'height: 100%; width: 100%; object-fit: contain;'
+        : ''} "
+      title={$session.siteInfo.websiteName}
+      width={themeSettings.logoWidth || "auto"} />
+  </div>
 </div>
-
 <!-- Header End -->
 
 <script>
@@ -38,6 +37,8 @@
     ? themeSettings.logoPosition
     : "CENTER";
   $: logoPositionClasses = getLogoPositionClasses(logoPosition);
+
+  $: headerWidthOption = themeSettings.headerWidthOption || "BY_CONTENT";
 
   function getLogoPositionClasses(logoPosition) {
     if (logoPosition === "TOP_START") {

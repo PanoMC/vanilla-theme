@@ -1,183 +1,180 @@
 <!-- Navbar -->
-
-<nav
-  class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient shadow rounded rounded-{themeSettings.navRoundLevel ?  + themeSettings.navRoundLevel : '5'} {themeSettings.navbarWidthOption ===
-  'FULL_SIZE'
-    ? 'container-fluid'
-    : 'container'}">
-  <div class="container">
-    <ul class="navbar-nav flex-row me-auto">
-      <li>
-        <button
-          aria-label={$_("buttons.toggle")}
-          class="navbar-toggler d-lg-none"
-          data-bs-target="#navbar"
-          data-bs-toggle="collapse"
-          type="button">
-          <i aria-hidden="true" class="fa fa-bars"></i>
-        </button>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
-      {#if $session.user && $session.user.panelAccess}
-        <li class="nav-item">
-          <a
-            class="btn btn-secondary rounded-pill"
-            href={PANEL_URL}
-            target="_blank"
-            rel="noreferrer">
-            <i class="fa-solid fa-up-right-from-square me-1"></i>
-            {$_("nav-links.panel")}
-          </a>
+<div class:container="{themeSettings.navbarWidthOption !== 'FULL_SIZE'}">
+  <nav
+    class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient shadow rounded rounded-{themeSettings.navRoundLevel ?  + themeSettings.navRoundLevel : '5'}">
+    <div class="container">
+      <ul class="navbar-nav flex-row me-auto">
+        <li>
+          <button
+            aria-label={$_("buttons.toggle")}
+            class="navbar-toggler d-lg-none"
+            data-bs-target="#navbar"
+            data-bs-toggle="collapse"
+            type="button">
+            <i aria-hidden="true" class="fa fa-bars"></i>
+          </button>
         </li>
-      {/if}
+      </ul>
 
-      <!-- Notifications Dropdown -->
-      <div
-        class="nav-item position-relative"
-        class:d-none={!$session.user}
-        id="quickNotificationsDropdown">
-        <button
-          class="nav-link"
-          data-bs-toggle="dropdown"
-          href="javascript:void(0);"
-          title={$_("navbar.notifications.title")}
-          type="button">
-          <i class="fa-regular fa-bolt"></i>
-          {#if $notificationsCount !== 0}
-            <span
-              class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
-              {$notificationsCount}
-            </span>
-          {/if}
-        </button>
+      <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
+        {#if $session.user && $session.user.panelAccess}
+          <li class="nav-item">
+            <a
+              class="btn btn-secondary rounded-pill"
+              href={PANEL_URL}
+              target="_blank"
+              rel="noreferrer">
+              <i class="fa-solid fa-up-right-from-square me-1"></i>
+              {$_("nav-links.panel")}
+            </a>
+          </li>
+        {/if}
+
+        <!-- Notifications Dropdown -->
         <div
-          class="dropdown-menu dropdown-menu-end position-absolute"
-          style="width: 285px;">
-          <h6 class="dropdown-header">
-            {$_("navbar.notifications.title")}
-            {$notificationsCount === 0 ? "" : "(" + $notificationsCount + ")"}
-          </h6>
+          class="nav-item position-relative"
+          class:d-none={!$session.user}
+          id="quickNotificationsDropdown">
+          <button
+            class="nav-link"
+            data-bs-toggle="dropdown"
+            href="javascript:void(0);"
+            title={$_("navbar.notifications.title")}
+            type="button">
+            <i class="fa-regular fa-bolt"></i>
+            {#if $notificationsCount !== 0}
+              <span
+                class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
+                {$notificationsCount}
+              </span>
+            {/if}
+          </button>
+          <div
+            class="dropdown-menu dropdown-menu-end position-absolute"
+            style="width: 285px;">
+            <h6 class="dropdown-header">
+              {$_("navbar.notifications.title")}
+              {$notificationsCount === 0 ? "" : "(" + $notificationsCount + ")"}
+            </h6>
 
-          {#if $quickNotifications.length === 0}
-            <NoContent />
-          {:else}
-            <div class="list-group list-group-flush">
-              {#each $quickNotifications as notification, index (notification)}
-                <div
-                  class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
-                  class:notification-unread={notification.status ===
-                    "NOT_READ"}>
-                  <button
-                    type="button"
-                    title={$_("buttons.view")}
-                    on:click={() => onNotificationClick(notification)}
-                    class="text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
-                    <span class="d-flex align-items-center">
-                      {#if notification.details.faIcon}
-                        <i
-                          class="{notification.details
-                            .faIcon} fa-lg fa-fw text-primary"></i>
-                      {:else if notification.details.image || notification.details.username}
-                        <img
-                          src={notification.details.image ||
-                            `https://minotar.net/avatar/${notification.details.username}/64`}
-                          alt={$_("buttons.view")}
-                          width="18"
-                          height="18"
-                          class="rounded-circle" />
-                      {:else}
-                        <i class="fa fa-bolt fa-lg fa-fw text-primary"></i>
-                      {/if}
-                    </span>
+            {#if $quickNotifications.length === 0}
+              <NoContent />
+            {:else}
+              <div class="list-group list-group-flush">
+                {#each $quickNotifications as notification, index (notification)}
+                  <div
+                    class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
+                    class:notification-unread={notification.status ===
+                      "NOT_READ"}>
+                    <button
+                      type="button"
+                      title={$_("buttons.view")}
+                      on:click={() => onNotificationClick(notification)}
+                      class="text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
+                      <span class="d-flex align-items-center">
+                        {#if notification.details.faIcon}
+                          <i
+                            class="{notification.details
+                              .faIcon} fa-lg fa-fw text-primary"></i>
+                        {:else if notification.details.image || notification.details.username}
+                          <img
+                            src={notification.details.image ||
+                              `https://minotar.net/avatar/${notification.details.username}/64`}
+                            alt={$_("buttons.view")}
+                            width="18"
+                            height="18"
+                            class="rounded-circle" />
+                        {:else}
+                          <i class="fa fa-bolt fa-lg fa-fw text-primary"></i>
+                        {/if}
+                      </span>
 
-                    <div class="fw-normal">
-                      <span class="text-wrap markdown-renderer text-break"
+                      <div class="fw-normal">
+                        <span class="text-wrap markdown-renderer text-break"
                         >{@html $_("notifications." + notification.type, {
                           values: {
                             ...sanitizeObject(notification.details || {}),
                           },
                         })}</span>
-                      <br />
-                      <small class="text-muted">
-                        {getTime(
-                          checkTime,
-                          parseInt(notification.createdAt),
-                          locales[$currentLanguage.dateFnsCode],
-                        )}
-                      </small>
-                    </div>
-                  </button>
-                </div>
-              {/each}
-            </div>
-          {/if}
+                        <br />
+                        <small class="text-muted">
+                          {getTime(
+                            checkTime,
+                            parseInt(notification.createdAt),
+                            locales[$currentLanguage.dateFnsCode],
+                          )}
+                        </small>
+                      </div>
+                    </button>
+                  </div>
+                {/each}
+              </div>
+            {/if}
 
-          <a class="dropdown-item bg-transparent" href="/notifications">
-            <button class="btn btn-sm btn-primary w-100">
-              {$_("buttons.show-all")}</button>
-          </a>
+            <a class="dropdown-item bg-transparent" href="/notifications">
+              <button class="btn btn-sm btn-primary w-100">
+                {$_("buttons.show-all")}</button>
+            </a>
+          </div>
         </div>
-      </div>
 
-      {#if $session.user}
-        <!-- User Dropdown -->
-        <li class="nav-item">
-          <a href="/profile" class="nav-link" title={$session.user.username}>
-            <img
-              alt={$session.user.username}
-              class="rounded d-block m-auto"
-              src="https://minotar.net/avatar/{$session.user.username}"
-              width="24"
-              height="24" />
-          </a>
-        </li>
-      {:else}
-        <li class="nav-item me-xl-0 me-3">
-          <button class="nav-link" on:click={showLoginModal}>
-            {$_("buttons.login")}
-          </button>
-        </li>
-        <li class="nav-item">
-          <button
-            type="button"
-            class="btn btn-warning rounded-pill"
-            on:click={showRegisterModal}>
-            {$_("buttons.register")}
-          </button>
-        </li>
-      {/if}
-    </ul>
-
-    {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
-      <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li
-            class="nav-item"
-            hidden={typeof themeSettings.navLinksEnableStatus?.home ===
-            "undefined"
-              ? false
-              : !themeSettings.navLinksEnableStatus.home}>
-            <a class="nav-link" title={$_("nav-links.homepage")} href="/">
-              {$_("nav-links.homepage")}
+        {#if $session.user}
+          <!-- User Dropdown -->
+          <li class="nav-item">
+            <a href="/profile" class="nav-link" title={$session.user.username}>
+              <img
+                alt={$session.user.username}
+                class="rounded d-block m-auto"
+                src="https://minotar.net/avatar/{$session.user.username}"
+                width="24"
+                height="24" />
             </a>
           </li>
-          <li
-            class="nav-item"
-            hidden={typeof themeSettings.navLinksEnableStatus?.support ===
-            "undefined"
-              ? false
-              : !themeSettings.navLinksEnableStatus.support}>
-            <a href="/support" class="nav-link" title={$_("nav-links.support")}>
-              {$_("nav-links.support")}</a>
+        {:else}
+          <li class="nav-item me-xl-0 me-3">
+            <button class="nav-link" on:click={showLoginModal}>
+              {$_("buttons.login")}
+            </button>
           </li>
-        </ul>
-      </div>
-    {/if}
-  </div>
-</nav>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-warning rounded-pill"
+              on:click={showRegisterModal}>
+              {$_("buttons.register")}
+            </button>
+          </li>
+        {/if}
+      </ul>
 
+      {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li
+              class="nav-item"
+              hidden={typeof themeSettings.navLinksEnableStatus?.home ===
+              "undefined"
+                ? false
+                : !themeSettings.navLinksEnableStatus.home}>
+              <a class="nav-link" title={$_("nav-links.homepage")} href="/">
+                {$_("nav-links.homepage")}
+              </a>
+            </li>
+            <li
+              class="nav-item"
+              hidden={typeof themeSettings.navLinksEnableStatus?.support ===
+              "undefined"
+                ? false
+                : !themeSettings.navLinksEnableStatus.support}>
+              <a href="/support" class="nav-link" title={$_("nav-links.support")}>
+                {$_("nav-links.support")}</a>
+            </li>
+          </ul>
+        </div>
+      {/if}
+    </div>
+  </nav>
+</div>
 <!-- Navbar End -->
 <script>
   import { getContext, onDestroy, onMount } from "svelte";
@@ -206,6 +203,8 @@
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");
+
+  $: navbarWidthOption = themeSettings.navbarWidthOption || "BY_CONTENT";
 
   function delay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));

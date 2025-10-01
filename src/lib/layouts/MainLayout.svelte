@@ -7,7 +7,7 @@
 </svelte:head>
 
 <div class="vstack gap-3">
-  <div class="vstack gap-{themeSettings.headerNavBarGap || '0'}">
+  <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
     <Header />
 
     <Navbar />
@@ -38,7 +38,7 @@
 
   const styles = `
     body {
-      ${themeSettings.backgroundColor ? `background-color: ${themeSettings.backgroundColor} !important;` : ""}
+      background-color: ${themeSettings.backgroundColor || "#f5f7fa"} !important;
       ${themeSettings.files?.backgroundImage ? `background-image: url(/api/theme/file/${themeSettings.files.backgroundImage}) !important;` : ""}
       ${themeSettings.bgImagePosition ? `background-position: ${themeSettings.bgImagePosition} !important;` : ""}
       ${themeSettings.bgImageRepeat ? `background-repeat: ${themeSettings.bgImageRepeat} !important;` : ""}

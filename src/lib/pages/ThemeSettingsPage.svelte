@@ -121,7 +121,7 @@
               class="form-control form-control-color"
               type="color"
               on:input={e => themeSettings.backgroundColor = e.target.value}
-              value="{themeSettings.backgroundColor || '#ffffff'}" />
+              value="{themeSettings.backgroundColor || '#f5f7fa'}" />
           </div>
         </div>
 
@@ -328,8 +328,8 @@
           <div class="col-md-6">
             <input class="form-range" id="headerNavBarGap" max="5" min="0" on:input={e => themeSettings.headerNavBarGap = e.target.value}
                    type="range"
-                   value={themeSettings.headerNavBarGap || '0'}>
-            <output aria-hidden="true" for="headerNavBarGap">{themeSettings.headerNavBarGap || '0'}</output>
+                   value={themeSettings.headerNavBarGap || '3'}>
+            <output aria-hidden="true" for="headerNavBarGap">{themeSettings.headerNavBarGap || '3'}</output>
           </div>
         </div>
       </div>
