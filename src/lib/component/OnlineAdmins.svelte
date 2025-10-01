@@ -1,6 +1,9 @@
 <!-- Online Admins Card -->
-<div class="card mb-3"
-     hidden="{typeof themeSettings.sidebarCarts?.onlineAdmins === 'undefined' ? false : !themeSettings.sidebarCarts.onlineAdmins}">
+<div
+  class="card"
+  hidden={typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
+    ? false
+    : !themeSettings.sidebarCarts.onlineAdmins}>
   <div class="card-header">{$_("components.online-admins.online-admins")}</div>
   <div class="card-body">
     <div class="row">
@@ -8,11 +11,12 @@
         <div class="col-3">
           <a href="/player/{onlineAdmin}">
             <img
-              alt="{onlineAdmin}"
+              alt={onlineAdmin}
               class="rounded"
               src="https://minotar.net/avatar/{onlineAdmin}"
               use:tooltip={[onlineAdmin, { placement: "bottom" }]}
-              width="24" />
+              width="48"
+              height="48" />
           </a>
         </div>
       {/each}

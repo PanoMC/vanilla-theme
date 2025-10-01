@@ -1,9 +1,7 @@
 <Sidebar side="{side}">
-  <div class="mb-3">
-    <!-- Online Admins Card -->
-    <OnlineAdmins onlineAdmins="{$data.onlineAdmins}" />
-    <!-- Online Admins Card End -->
-  </div>
+  <!-- Online Admins Card -->
+  <OnlineAdmins onlineAdmins="{$data.onlineAdmins}" />
+  <!-- Online Admins Card End -->
 </Sidebar>
 
 <script context="module">

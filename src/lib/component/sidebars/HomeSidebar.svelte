@@ -1,34 +1,32 @@
 <Sidebar side={side}>
   <div class="vstack gap-3">
-    <!-- Play Button -->
-    <button
-      class="btn btn-lg btn-secondary w-100 py-3l"
-      type="button"
-      on:click={onCopyCommandTextClick}
-      use:tooltip={[
-        isCommandTextCopied
-          ? $_("sidebars.home.copied")
-          : $_("sidebars.home.copy"),
-        { placement: "bottom", hideOnClick: false },
-      ]}>
-      <b>{$data.ipAddress}</b>
-    </button>
-    <!-- Play Button End -->
-
     <!-- Server Status Card -->
-    <div class="card">
-      <div class="card-header">
-        {$_("sidebars.home.server-status")}
+    <div class="card text-bg-secondary">
+      <div class="card-header text-center">
+        <!-- Play Button -->
+        <button
+          class="btn btn-lg btn-link link-black text-decoration-none w-100"
+          type="button"
+          on:click={onCopyCommandTextClick}
+          use:tooltip={[
+            isCommandTextCopied
+              ? $_("sidebars.home.copied")
+              : $_("sidebars.home.copy"),
+            { placement: "bottom", hideOnClick: false },
+          ]}>
+          <b>{$data.ipAddress}</b>
+        </button>
+        <!-- Play Button End -->
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
+      <ul class="list-group list-group-flush text-center">
+        <li class="list-group-item list-group-item-action">
           {#if serverOnline}
             {$_("sidebars.home.online")}
           {:else}
             {$_("sidebars.home.offline")}
           {/if}
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item list-group-item-action">
           {$_("sidebars.home.playing", {
             values: {
               playerCount: $data.mainServer?.playerCount || 0,
@@ -36,7 +34,9 @@
             },
           })}
         </li>
-        <li class="list-group-item">{$data.serverGameVersion}</li>
+        <li class="list-group-item list-group-item-action">
+          {$data.serverGameVersion}
+        </li>
       </ul>
     </div>
     <!-- Server Status Card End -->

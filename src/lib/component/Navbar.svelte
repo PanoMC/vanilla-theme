@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <div class:container="{themeSettings.navbarWidthOption !== 'FULL_SIZE'}">
   <nav
-    class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient shadow rounded rounded-{themeSettings.navRoundLevel ?  + themeSettings.navRoundLevel : '5'}">
+    class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient border rounded rounded-{themeSettings.navRoundLevel ?  + themeSettings.navRoundLevel : '5'}">
     <div class="container">
       <ul class="navbar-nav flex-row me-auto">
         <li>
@@ -149,7 +149,7 @@
 
       {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
         <div class="collapse navbar-collapse" id="navbar">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 text-lg-left text-center">
             <li
               class="nav-item"
               hidden={typeof themeSettings.navLinksEnableStatus?.home ===

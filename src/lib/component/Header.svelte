@@ -3,27 +3,30 @@
 </svelte:head>
 
 <!-- Header -->
-<div class:container="{headerWidthOption !== 'FULL_SIZE'}">
+<div class:container={headerWidthOption !== "FULL_SIZE"}>
   <div
-    class="rounded-bottom position-relative p-0"
+    class="rounded-bottom position-relative p-0 bg-gradient"
     class:bg-white={!themeSettings.headerBgColor}
     id="header"
     style="height: {themeSettings.headerHeight || '256'}px;">
-    <img
-      alt={$_("components.header.alt")}
-      class="{themeSettings.logoHeight || themeSettings.logoWidth
-        ? ''
-        : 'img-fluid'} p-3 position-absolute {logoPositionClasses}"
-      class:d-none={themeSettings.logoVisibility === false}
-      height={themeSettings.logoHeight || "auto"}
-      src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
-      style="{!themeSettings.logoHeight && !themeSettings.logoWidth
-        ? 'height: 100%; width: 100%; object-fit: contain;'
-        : ''} "
-      title={$session.siteInfo.websiteName}
-      width={themeSettings.logoWidth || "auto"} />
+    <a href="/">
+      <img
+        alt={$_("components.header.alt")}
+        class="{themeSettings.logoHeight || themeSettings.logoWidth
+          ? ''
+          : 'img-fluid'} p-3 position-absolute {logoPositionClasses}"
+        class:d-none={themeSettings.logoVisibility === false}
+        height={themeSettings.logoHeight || "auto"}
+        src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
+        style="{!themeSettings.logoHeight && !themeSettings.logoWidth
+          ? 'height: 100%; width: 100%; object-fit: contain;'
+          : ''} "
+        title={$session.siteInfo.websiteName}
+        width={themeSettings.logoWidth || "auto"} />
+    </a>
   </div>
 </div>
+
 <!-- Header End -->
 
 <script>

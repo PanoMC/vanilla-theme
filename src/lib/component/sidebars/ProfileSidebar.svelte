@@ -1,5 +1,5 @@
-<Sidebar side="{side}">
-  <div class="mb-3">
+<Sidebar side={side}>
+  <div class="vstack gap-3">
     <!-- Profile Card -->
     <div class="card">
       <div class="card-body">
@@ -27,49 +27,52 @@
       </div>
     </div>
     <!-- Profile Card End -->
-  </div>
 
-  <!-- Profile Menu Card -->
-  <div class="card mb-3">
-    <div class="card-body">
-      <ul class="nav nav-pills nav-fill flex-column">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/profile"
-            class:active={matching($page.url.pathname, "/profile")}>
-            {$_("sidebars.profile.links.statistics")}
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/tickets"
-            class:active={matching($page.url.pathname, "/tickets", true)}>
-            {$_("sidebars.profile.links.tickets")}
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/profile/settings"
-            class:active={matching(
-              $page.url.pathname,
-              "/profile/settings",
-              true,
-            )}>
-            {$_("sidebars.profile.links.settings")}
-          </a>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link link-danger" on:click={logout} type="button">
-            {$_("sidebars.profile.links.logout")}
-          </button>
-        </li>
-      </ul>
+    <!-- Profile Menu Card -->
+    <div class="card">
+      <div class="card-body">
+        <ul class="nav nav-pills nav-fill flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/profile"
+              class:active={matching($page.url.pathname, "/profile")}>
+              {$_("sidebars.profile.links.statistics")}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/tickets"
+              class:active={matching($page.url.pathname, "/tickets", true)}>
+              {$_("sidebars.profile.links.tickets")}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/profile/settings"
+              class:active={matching(
+                $page.url.pathname,
+                "/profile/settings",
+                true,
+              )}>
+              {$_("sidebars.profile.links.settings")}
+            </a>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link link-danger"
+              on:click={logout}
+              type="button">
+              {$_("sidebars.profile.links.logout")}
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
+    <!-- Profile Menu Card End -->
   </div>
-  <!-- Profile Menu Card End -->
 </Sidebar>
 
 <script context="module">

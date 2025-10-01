@@ -1,11 +1,11 @@
-<Sidebar side="{side}">
-  <!-- Online Admins Card -->
-  <OnlineAdmins onlineAdmins={$data.onlineAdmins} />
-  <!-- Online Admins Card End -->
-  <!-- Close Ticket Button -->
-  {#if $ticketData}
-    {#if $ticketData.status !== TicketStatuses.CLOSED}
-      <div class="mb-3">
+<Sidebar side={side}>
+  <div class="vstack gap-3">
+    <!-- Online Admins Card -->
+    <OnlineAdmins onlineAdmins={$data.onlineAdmins} />
+    <!-- Online Admins Card End -->
+    <!-- Close Ticket Button -->
+    {#if $ticketData}
+      {#if $ticketData.status !== TicketStatuses.CLOSED}
         <button
           class="btn btn-lg btn-danger w-100"
           type="button"
@@ -13,10 +13,10 @@
           <i class="fas fa-times me-2"></i>
           {$_("buttons.close-ticket")}
         </button>
-      </div>
+      {/if}
     {/if}
-  {/if}
-  <!-- Close Ticket Button End -->
+    <!-- Close Ticket Button End -->
+  </div>
 </Sidebar>
 
 <script context="module">

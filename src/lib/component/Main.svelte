@@ -7,7 +7,7 @@
     {/if}
 
     <!-- Content -->
-    <div class="col">
+    <div class="col order-first">
       <slot />
     </div>
     <!-- Content End -->
