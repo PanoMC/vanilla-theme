@@ -1,59 +1,85 @@
+<style>
+  #registerUserName {
+    margin-bottom: -2px;
+  }
+
+  #registerUserName:focus {
+    position: relative;
+    z-index: 2;
+  }
+</style>
+
 <!-- Register Modal -->
-<div class="modal fade" id="{dialogID}" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered">
+<div class="modal fade" id={dialogID} tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">{$_("components.modals.register.title")}</h4>
-        <button aria-label="{$_('buttons.close')}" class="btn-close" data-bs-dismiss="modal" type="button"
-        ></button>
+        <button
+          aria-label={$_("buttons.close")}
+          class="btn-close"
+          data-bs-dismiss="modal"
+          type="button"></button>
       </div>
-      <form on:submit|preventDefault="{onSubmit}">
+      <form on:submit|preventDefault={onSubmit}>
         <div class="modal-body">
-          <div class="mb-3">
-            <SuccessAlert message="{$successMessage}" />
-            <ErrorAlert error="{$error}" />
-          </div>
-          <div class="mb-3">
-            <label for="registerUserName">{$_("components.modals.register.inputs.username")}</label>
-            <input
-              type="text"
-              id="registerUserName"
-              class="form-control"
-              bind:value="{$data.username}" />
-          </div>
-          <div class="mb-3">
-            <label for="registerEmail">{$_("components.modals.register.inputs.email")}</label>
-            <input
-              type="email"
-              id="registerEmail"
-              class="form-control"
-              bind:value="{$data.email}" />
-          </div>
-          <div class="mb-3">
-            <label for="registerPassword">{$_("components.modals.register.inputs.password")}</label>
-            <input
-              type="password"
-              id="registerPassword"
-              class="form-control"
-              bind:value="{$data.password}" />
-          </div>
-          <div class="mb-3">
-            <label for="registerPasswordRepeat">{$_("components.modals.register.inputs.password-repeat")}</label>
-            <input
-              type="password"
-              id="registerPasswordRepeat"
-              class="form-control"
-              bind:value="{$data.passwordRepeat}" />
-          </div>
-          <div class="mb-3">
+          <SuccessAlert message={$successMessage} />
+          <ErrorAlert error={$error} />
+          <div class="vstack gap-3">
+            <div class="vstack gap-0">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  id="registerUserName"
+                  class="form-control rounded-bottom-0"
+                  bind:value={$data.username} />
+                <label for="registerUserName"
+                  >{$_("components.modals.register.inputs.username")}</label>
+              </div>
+              <div class="form-floating">
+                <input
+                  type="email"
+                  id="registerEmail"
+                  class="form-control rounded-top-0"
+                  bind:value={$data.email} />
+                <label for="registerEmail"
+                  >{$_("components.modals.register.inputs.email")}</label>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="form-floating">
+                <input
+                  type="password"
+                  id="registerPassword"
+                  class="form-control"
+                  bind:value={$data.password} />
+                <label for="registerPassword"
+                  >{$_("components.modals.register.inputs.password")}</label>
+              </div>
+              <div class="form-floating">
+                <input
+                  type="password"
+                  id="registerPasswordRepeat"
+                  class="form-control"
+                  bind:value={$data.passwordRepeat} />
+                <label for="registerPasswordRepeat"
+                  >{$_(
+                    "components.modals.register.inputs.password-repeat",
+                  )}</label>
+              </div>
+            </div>
             <div class="form-check">
               <input
                 type="checkbox"
                 class="form-check-input"
                 id="registerAcceptTerms"
-                bind:checked="{$data.agreement}" />
+                bind:checked={$data.agreement} />
               <label class="form-check-label" for="registerAcceptTerms">
-                {@html $_("components.modals.register.inputs.agreement-text", {values: {link: `<a href="javascript:void(0);">${$_("components.modals.register.inputs.server-rules")}</a>`}})}
+                {@html $_("components.modals.register.inputs.agreement-text", {
+                  values: {
+                    link: `<a href="javascript:void(0);">${$_("components.modals.register.inputs.server-rules")}</a>`,
+                  },
+                })}
               </label>
             </div>
           </div>
@@ -61,18 +87,18 @@
         <div class="modal-footer">
           <button
             type="submit"
-            class="btn btn-primary w-100"
-            class:disabled="{loading}"
-            disabled="{loading}">
+            class="btn btn-lg btn-secondary w-100"
+            class:disabled={loading}
+            disabled={loading}>
             {$_("buttons.register")}
           </button>
           <a
             href="javascript:void(0);"
             class="btn btn-link w-100"
-            on:click="{() => {
+            on:click={() => {
               hide();
               showLoginModal();
-            }}">
+            }}>
             {$_("buttons.already-registered")}
           </a>
         </div>

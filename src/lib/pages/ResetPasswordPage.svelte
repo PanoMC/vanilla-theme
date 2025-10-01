@@ -6,29 +6,34 @@
     <div class="card-body">
       <ErrorAlert error={$error} />
       <SuccessAlert message={$message} />
+      <p>
+        {$_("pages.reset-password.description")}
+      </p>
       <form
         on:submit|preventDefault={() =>
           onSubmit(error, message, loading, usernameOrEmail)}>
-        <p>
-          {$_("pages.reset-password.description")}
-        </p>
-
-        <div class="mb-3">
-          <input
-            type="text"
-            placeholder={$_(
-              "pages.reset-password.inputs.email-username.placeholder",
-            )}
-            id="email"
-            class="form-control"
-            bind:value={$usernameOrEmail} />
+        <div class="vstack gap-3">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder={$_(
+                "pages.reset-password.inputs.email-username.placeholder",
+              )}
+              id="email"
+              class="form-control"
+              bind:value={$usernameOrEmail} />
+            <label for="email"
+              >{$_(
+                "pages.reset-password.inputs.email-username.placeholder",
+              )}</label>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-lg btn-secondary w-100"
+            class:disabled={$loading || !$usernameOrEmail}>
+            {$_("buttons.reset-password")}
+          </button>
         </div>
-        <button
-          type="submit"
-          class="btn btn-secondary w-100"
-          class:disabled={$loading || !$usernameOrEmail}>
-          {$_("buttons.reset-password")}
-        </button>
       </form>
     </div>
   </div>
