@@ -1,7 +1,7 @@
 <!-- Navbar -->
 
 <nav
-  class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient shadow rounded {themeSettings.navbarWidthOption ===
+  class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient shadow rounded rounded-{themeSettings.navRoundLevel ?  + themeSettings.navRoundLevel : '5'} {themeSettings.navbarWidthOption ===
   'FULL_SIZE'
     ? 'container-fluid'
     : 'container'}">

@@ -7,7 +7,7 @@
 </svelte:head>
 
 <div class="vstack gap-3">
-  <div class="vstack gap-0">
+  <div class="vstack gap-{themeSettings.headerNavBarGap || '0'}">
     <Header />
 
     <Navbar />

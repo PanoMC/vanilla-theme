@@ -322,6 +322,16 @@
             </select>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="headerNavBarGap">Navigason Menü Aralığı</label>
+          <div class="col-md-6">
+            <input class="form-range" id="headerNavBarGap" max="5" min="0" on:input={e => themeSettings.headerNavBarGap = e.target.value}
+                   type="range"
+                   value={themeSettings.headerNavBarGap || '0'}>
+            <output aria-hidden="true" for="headerNavBarGap">{themeSettings.headerNavBarGap || '0'}</output>
+          </div>
+        </div>
       </div>
 
       <!-- Navbar -->
@@ -334,6 +344,15 @@
               <option value="BY_CONTENT">İçeriğe Göre</option>
               <option value="FULL_SIZE">Tam Genişlik</option>
             </select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="navRoundEnabled">Kenar Yuvarlaması</label>
+          <div class="col-md-6">
+            <input class="form-range" id="headerNavBarGap" max="5" min="0" on:input={e => themeSettings.navRoundLevel = e.target.value}
+                   type="range"
+                   value={themeSettings.navRoundLevel || 5}>
+            <output aria-hidden="true" for="headerNavBarGap">{themeSettings.navRoundLevel || '5'}</output>
           </div>
         </div>
 
@@ -351,13 +370,13 @@
         <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="navbarLinks">Bağlantılar</label>
           <div class="col-md-6" id="navbarLinks">
-            <div class="form-check">
+            <div class="form-check form-switch">
               <input checked={typeof themeSettings.navLinksEnableStatus?.home === 'undefined' ? true : themeSettings.navLinksEnableStatus?.home} class="form-check-input" id="navbarHomeLinkToggle"
                      on:change={e => {if (!themeSettings.navLinksEnableStatus) themeSettings.navLinksEnableStatus = {}; themeSettings.navLinksEnableStatus.home = e.target.checked}}
                      type="checkbox" />
               <label class="form-check-label" for="navbarHomeLinkToggle"> Ana Sayfa </label>
             </div>
-            <div class="form-check">
+            <div class="form-check form-switch">
               <input
                 checked={typeof themeSettings.navLinksEnableStatus?.support === 'undefined' ? true : themeSettings.navLinksEnableStatus?.support}
                 class="form-check-input"
