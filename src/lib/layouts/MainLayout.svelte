@@ -6,19 +6,22 @@
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
 
-<Header />
+<div class="vstack gap-3">
+  <div class="vstack gap-0">
+    <Header />
 
-<Navbar />
+    <Navbar />
+  </div>
 
-<Main>
-  <slot />
-</Main>
+  <Main>
+    <slot />
+  </Main>
 
-{#if typeof themeSettings.footerEnabled === 'undefined' ? true : themeSettings.footerEnabled}
-  <Footer />
-{/if}
+  {#if typeof themeSettings.footerEnabled === "undefined" ? true : themeSettings.footerEnabled}
+    <Footer />
+  {/if}
+</div>
 <NotificationContainer />
-
 
 <!-- Modals End -->
 

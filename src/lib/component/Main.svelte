@@ -1,6 +1,6 @@
 <!-- Main Container -->
 <main class="container">
-  <div class="row">
+  <div class="row g-3">
     {#if sidebarEnabled && sidebarPosition === 'LEFT'}
       <svelte:component this="{$sidebar}"
                         {...{ ...$sidebarProps, side: sidebarPosition === 'LEFT' ? 'left' : 'right' }} />

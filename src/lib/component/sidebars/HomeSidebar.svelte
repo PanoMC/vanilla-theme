@@ -1,8 +1,8 @@
-<Sidebar side="{side}">
+<Sidebar side={side}>
   <div class="vstack gap-3">
     <!-- Play Button -->
     <button
-      class="btn btn-lg btn-secondary w-100 bg-gradient"
+      class="btn btn-lg btn-secondary w-100 py-3l"
       type="button"
       on:click={onCopyCommandTextClick}
       use:tooltip={[
@@ -12,8 +12,6 @@
         { placement: "bottom", hideOnClick: false },
       ]}>
       <b>{$data.ipAddress}</b>
-      <br />
-      <small class="fs-6">{$_('buttons.click-to-copy')}</small>
     </button>
     <!-- Play Button End -->
 
@@ -31,12 +29,12 @@
           {/if}
         </li>
         <li class="list-group-item">
-        {$_('sidebars.home.playing', {
-          values: {
-            playerCount: $data.mainServer?.playerCount || 0,
-            maxPlayerCount: $data.mainServer?.maxPlayerCount || 0
-          }
-        })}
+          {$_("sidebars.home.playing", {
+            values: {
+              playerCount: $data.mainServer?.playerCount || 0,
+              maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+            },
+          })}
         </li>
         <li class="list-group-item">{$data.serverGameVersion}</li>
       </ul>
@@ -44,8 +42,11 @@
     <!-- Server Status Card End -->
 
     <!-- Last Registrants Card -->
-    <div class="card"
-         hidden="{typeof themeSettings.sidebarCarts?.lastRegistrants === 'undefined' ? false : !themeSettings.sidebarCarts.lastRegistrants}">
+    <div
+      class="card"
+      hidden={typeof themeSettings.sidebarCarts?.lastRegistrants === "undefined"
+        ? false
+        : !themeSettings.sidebarCarts.lastRegistrants}>
       <div class="card-header">
         {$_("sidebars.home.last-registrants")}
       </div>

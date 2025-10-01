@@ -19,8 +19,10 @@
             ]}>
             {user.email}
           </p>
-          <PlayerPermissionBadge
-            permissionGroupName={$data.permissionGroupName} />
+          <div use:tooltip={$_("sidebars.profile.secret")}>
+            <PlayerPermissionBadge
+              permissionGroupName={$data.permissionGroupName} />
+          </div>
         </div>
       </div>
     </div>

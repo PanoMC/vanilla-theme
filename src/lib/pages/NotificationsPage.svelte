@@ -33,22 +33,22 @@
               class="flex-grow-1 text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
               <span class="d-flex align-items-center">
                 {#if notification.details.faIcon}
-                  <i class="{notification.details.faIcon} fa-fw"></i>
+                  <i class="{notification.details.faIcon} fa-xl fa-fw text-primary"></i>
                 {:else if notification.details.image || notification.details.username}
                   <img
                     src={notification.details.image ||
                       `https://minotar.net/avatar/${notification.details.username}/64`}
                     alt={$_("buttons.view")}
-                    width="48"
-                    height="48"
+                    width="30"
+                    height="30"
                     class="rounded" />
                 {:else}
-                  <i class="fa fa-fw fa-bolt"></i>
+                  <i class="fa fa-bolt fa-xl fa-fw text-primary"></i>
                 {/if}
               </span>
 
-              <span class="flex-grow-1 text-start">
-                <span class="text-wrap markdown-renderer"
+              <div class="fw-normal">
+                <span class="text-wrap markdown-renderer text-break"
                   >{@html $_("notifications." + notification.type, {
                     values: { ...sanitizeObject(notification.details || {}) },
                   })}</span>
@@ -60,7 +60,7 @@
                     locales[$currentLanguage.dateFnsCode],
                   )}
                 </small>
-              </span>
+              </div>
             </button>
 
             <button

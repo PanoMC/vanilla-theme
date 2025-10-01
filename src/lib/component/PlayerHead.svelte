@@ -1,12 +1,12 @@
 {#if lastActivityTime}
   <img
     src="https://minotar.net/avatar/{username}"
-    class="rounded d-block m-auto"
+    class="img-thumbnail rounded d-block m-auto"
     width="{width}"
     height="{height}"
     alt="{username}"
     class:border="{isOnline}"
-    class:border-5="{isOnline}"
+    class:border-3="{isOnline}"
     class:border-success="{isOnline}"
     use:tooltip="{[
       isOnline

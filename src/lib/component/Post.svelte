@@ -1,4 +1,4 @@
-<div class="card mb-3">
+<div class="card rounded-4 mb-3">
   {#if (typeof themeSettings.postCoverImageEnabled === 'undefined' ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
     <a href="/post/{post.url}">
       <div
@@ -6,11 +6,10 @@
           aspect-ratio: 16 / 9;
           width: 100%;
           overflow: hidden;
-        "
-      >
+        ">
         <img
           src={post.thumbnailUrl}
-          class="card-img-top rounded-top h-100 w-100"
+          class="card-img-top rounded-top rounded-top-4"
           style="object-fit: cover;"
           alt={post.title}
           title={post.title} />
@@ -33,19 +32,19 @@
           <a
             class="badge bg-secondary text-dark rounded-pill"
             href="/?category={post.category.url}"
-            use:tooltip={[$_('buttons.filter'), { placement: "bottom" }]}>
+            use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
             {post.category.title}
           </a>
         {/if}
       </div>
     </div>
 
-    <div class="card-text text-break">
+    <div class="card-text text-break word-break">
       {@html post.text}
     </div>
   </div>
   <div
-    class="card-footer bg-white d-flex align-items-center justify-content-between">
+    class="card-footer d-flex align-items-center justify-content-between">
     {#if detail}
       {#if typeof themeSettings.postViewCountEnabled === 'undefined' ? true : themeSettings.postViewCountEnabled}
         <ul class="m-0 p-0 text-muted">
