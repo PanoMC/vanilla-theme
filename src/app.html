@@ -10,7 +10,7 @@
     <script>
       (function() {
         const m = document.querySelector("meta[name=\"x-theme\"]");
-        let theme = m && m.getAttribute("content");
+        const theme = m && m.getAttribute("content");
         document.documentElement.setAttribute("data-bs-theme", theme);
       })();
     </script>
