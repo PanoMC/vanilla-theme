@@ -1,4 +1,6 @@
 <svelte:head>
+  <link href="/api/favicon?hash={$session.siteInfo.faviconHash}" rel="icon" />
+
   <title>{$session.siteInfo.websiteName}</title>
 </svelte:head>
 
