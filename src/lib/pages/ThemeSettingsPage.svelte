@@ -260,26 +260,41 @@
       <!-- Header -->
       <div class="tab-pane fade" id="header" role="tabpanel">
         <div class="row mb-3">
+          <label class="col-md-6" for="logo-visibility">Varsayılan Arkaplan Resmi</label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                checked={defaultHeaderBg}
+                class="form-check-input" id="logo-visibility"
+                on:change={e => themeSettings.defaultHeaderBg = e.target.checked}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="headerBackgroundImage">Arka Plan Resmi</label>
           <div class="col-md-6">
-            {#if themeSettings.files?.headerBackgroundImage}
+            {#if themeSettings.files?.headerBackgroundImage || defaultHeaderBg}
               <div class="input-group">
-                <img
-                  alt="Arka Plan Resmi"
-                  class="border rounded-start"
-                  style="object-fit: contain;"
-                  width="71"
-                  height="40"
-                  src={'/api/theme/file/' + themeSettings.files.headerBackgroundImage}
-                />
+                <div style="height: 40px; width: 150px;">
+                  <img
+                    alt="Arka Plan Resmi"
+                    class="border rounded-start"
+                    style="height: 100%; width: 100%; object-fit: cover;"
+                    src={defaultHeaderBg ? '/assets/img/default-header-bg.png' : '/api/theme/file/' + themeSettings.files.headerBackgroundImage}
+                  />
+                </div>
 
                 <input id="headerBackgroundImage" class="form-control" type="file" accept="image/*"
                        bind:files={headerBackgroundImageFiles}
-                       on:change={onHeaderBackgroundImageChange} />
+                       on:change={onHeaderBackgroundImageChange}
+                       disabled={defaultHeaderBg} />
 
                 <button
                   class="btn btn-outline-danger shadow-none rounded-end"
                   on:click={onRemoveHeaderBackgroundImageClick}
+                  class:disabled={defaultHeaderBg}
                 >{$_("buttons.remove")}</button>
               </div>
             {:else}
@@ -604,6 +619,7 @@
 
   $: savingEnabled = JSON.stringify($originalThemeSettings) === JSON.stringify(themeSettings);
   $: resetVisible = Object.keys($originalThemeSettings).length > 0;
+  $: defaultHeaderBg = typeof themeSettings.defaultHeaderBg === "undefined" ? true : themeSettings.defaultHeaderBg;
 
   function onBackgroundImageChange(event) {
     // const reader = new FileReader();

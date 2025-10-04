@@ -8,7 +8,7 @@
     class="rounded-bottom position-relative p-0 bg-gradient"
     class:bg-white={!themeSettings.headerBgColor}
     id="header"
-    style="height: {themeSettings.headerHeight || '256'}px;">
+    style="background-position: center; height: {themeSettings.headerHeight || '256'}px;">
     <a href="/">
       <img
         alt={$_("components.header.alt")}
@@ -67,10 +67,12 @@
     return "top-50 start-50 translate-middle";
   }
 
+  const defaultHeaderBg = typeof themeSettings.defaultHeaderBg === "undefined" ? true : themeSettings.defaultHeaderBg;
+
   const styles = `
     #header {
       ${themeSettings.headerBgColor ? `background-color: ${themeSettings.headerBgColor};` : ""}
-      ${themeSettings.files?.headerBackgroundImage ? `background-image: url(/api/theme/file/${themeSettings.files.headerBackgroundImage}) !important;` : ""}
+      background-image: url(${defaultHeaderBg ? "/assets/img/default-header-bg.png" : themeSettings.files?.headerBackgroundImage ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage : ""}) !important;
     }
   `;
 </script>
