@@ -73,6 +73,9 @@
     #header {
       ${themeSettings.headerBgColor ? `background-color: ${themeSettings.headerBgColor};` : ""}
       background-image: url(${defaultHeaderBg ? "/assets/img/default-header-bg.png" : themeSettings.files?.headerBackgroundImage ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage : ""}) !important;
+      ${themeSettings.headerBgImagePosition ? `background-position: ${themeSettings.headerBgImagePosition} !important;` : ""}
+      ${themeSettings.headerBgImageRepeat ? `background-repeat: ${themeSettings.headerBgImageRepeat} !important;` : ""}
+      ${themeSettings.headerBgImageSize ? `background-size: ${themeSettings.headerBgImageSize} !important;` : ""}
     }
   `;
 </script>

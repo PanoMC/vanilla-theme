@@ -304,6 +304,50 @@
             {/if}
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="headerBgImagePosition"
+          >Arka Plan Resmi Yerleşimi</label>
+          <div class="col-md-6">
+            <select class="form-select" id="headerBgImagePosition"
+                    on:change={e => themeSettings.headerBgImagePosition = e.target.value}
+                    value={themeSettings.headerBgImagePosition || 'center center'}>
+              <option value="left top">Sol Üst</option>
+              <option value="center center">Ortala</option>
+              <option value="right bottom">Sağ Alt</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="headerBgImageRepeat"
+          >Arka Plan Resmi Tekrarla</label>
+          <div class="col-md-6">
+            <select class="form-select" id="headerBgImageRepeat"
+                    on:change={e => themeSettings.headerBgImageRepeat = e.target.value}
+                    value={themeSettings.headerBgImageRepeat || 'no-repeat'}>
+              <option value="repeat">Döşe</option>
+              <option value="no-repeat">Tek Görsel</option>
+              <option value="repeat-x">Yatay Döşe</option>
+              <option value="repeat-y">Dikey Döşe</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="headerBgImageSize"
+          >Arka Plan Resmi Boyutu</label>
+          <div class="col-md-6">
+            <select class="form-select" id="headerBgImageSize"
+                    on:change={e => themeSettings.headerBgImageSize = e.target.value}
+                    value={themeSettings.headerBgImageSize || 'auto'}>
+              <option value="auto">Orijinal Boyut</option>
+              <option value="cover">Doldur</option>
+              <option value="contain">Sığdır</option>
+              <option value="100% 100%">Genişlet</option>
+            </select>
+          </div>
+        </div>
         <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="headerBgColor">Arka Plan Rengi</label>
           <div class="col-md-6">
@@ -436,17 +480,6 @@
             </div>
           </div>
         </div>
-        <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="lastRegistrantsCartStyle"
-          >Son Kayıt Olanlar Kartı Tablo Görünümü</label>
-          <div class="col-md-6">
-            <select class="form-select" id="lastRegistrantsCartStyle" on:change={e => themeSettings.lastRegistrantsStyle = e.target.value}
-                    value={themeSettings.lastRegistrantsStyle || 'HEADS'}>
-              <option value="HEADS">Kafalar</option>
-              <option value="LIST">Liste</option>
-            </select>
-          </div>
-        </div>
 
         <div class="row mb-3">
           <label class="col-md-6" for="onlineAdminsCartVisibility"
@@ -457,17 +490,6 @@
                      on:change={e => {if (!themeSettings.sidebarCarts) themeSettings.sidebarCarts = {}; themeSettings.sidebarCarts.onlineAdmins = e.target.checked}}
                      type="checkbox" />
             </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label class="col-md-6 col-form-label" for="onlineAdminsCartStyle"
-          >Çevrimiçi Yöneticiler Kartı Tablo Görünümü</label>
-          <div class="col-md-6">
-            <select class="form-select" id="onlineAdminsCartStyle" on:change={e => themeSettings.onlineAdminsStyle = e.target.value}
-                    value={themeSettings.onlineAdminsStyle || 'HEADS'}>
-              <option value="HEADS">Kafalar</option>
-              <option value="LIST">Liste</option>
-            </select>
           </div>
         </div>
       </div>
