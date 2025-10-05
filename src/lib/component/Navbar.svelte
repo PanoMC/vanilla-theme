@@ -122,7 +122,7 @@
 
         {#if $session.user}
           <!-- User Dropdown -->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown position-relative">
             <a
               href="/profile"
               class="nav-link"
@@ -137,7 +137,7 @@
                 width="24"
                 height="24" />
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul class="dropdown-menu dropdown-menu-end position-absolute">
               <h6 class="dropdown-header">{$session.user.username}</h6>
               <li>
                 <a

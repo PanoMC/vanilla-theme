@@ -1,10 +1,8 @@
 <!-- Sidebar -->
 <aside
-  class="col-lg-4"
-  class:order-lg-last="{side === 'right'}"
-  class:order-first="{side === 'right'}"
-  class:order-lg-first="{side === 'left'}"
-  class:order-last="{side === 'left'}">
+  class="col-lg-4 order-first"
+  class:order-lg-last={side === "right"}
+  class:order-lg-first={side === "left"}>
   <slot />
 </aside>
 

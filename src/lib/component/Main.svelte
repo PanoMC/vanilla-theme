@@ -1,21 +1,17 @@
 <!-- Main Container -->
 <main class="container">
   <div class="row g-3">
-    {#if sidebarEnabled && sidebarPosition === 'LEFT'}
+    {#if sidebarEnabled}
       <svelte:component this="{$sidebar}"
                         {...{ ...$sidebarProps, side: sidebarPosition === 'LEFT' ? 'left' : 'right' }} />
     {/if}
 
     <!-- Content -->
-    <div class="col order-first">
+    <div class="col">
       <slot />
     </div>
     <!-- Content End -->
 
-    {#if sidebarEnabled && sidebarPosition === 'RIGHT' && (!$sidebarProps || !$sidebarProps.side)}
-      <svelte:component this="{$sidebar}"
-                        {...{ ...$sidebarProps, side: sidebarPosition === 'LEFT' ? 'left' : 'right' }} />
-    {/if}
   </div>
 </main>
 
