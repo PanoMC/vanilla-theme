@@ -19,7 +19,11 @@
     "click-to-copy": "Kopyalamak için tıklayın",
     "close": "Kapat",
     "toggle": "Aç/Kapat",
-    "remove": "Kaldır"
+    "remove": "Kaldır",
+    "profile": "Profil",
+    "tickets": "Talepler",
+    "settings": "Ayarlar",
+    "logout": "Çıkış Yap"
   },
   "nav-links": {
     "support": "Destek",
@@ -45,15 +49,6 @@
       "last-registrants": "Son Kayıt Olanlar",
       "game-client-version": "Oyun Versiyonu",
       "playing": "{playerCount}/{maxPlayerCount} oynuyor"
-    },
-    "profile": {
-      "links": {
-        "statistics": "İstatistikler",
-        "tickets": "Talepler",
-        "settings": "Ayarlar",
-        "logout": "Çıkış Yap"
-      },
-      "secret": "Gizli"
     }
   },
   "components": {

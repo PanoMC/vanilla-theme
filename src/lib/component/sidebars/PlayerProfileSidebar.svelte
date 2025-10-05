@@ -1,21 +1,19 @@
 <Sidebar side={side}>
-  <div class="mb-3">
-    <div class="card">
-      <div class="card-header">
-        {$data.username}
-      </div>
-      <div class="card-body vstack gap-3">
-        <PlayerHead
-          username={$data.username}
-          inGame={$data.inGame}
-          lastActivityTime={$data.lastActivityTime}
-          checkTime={checkTime}
-          width="128"
-          height="128" />
-        <div class="text-center">
-          <PlayerPermissionBadge
-            permissionGroupName={$data.permissionGroupName} />
-        </div>
+  <div class="card">
+    <div class="card-header">
+      {$data.username}
+    </div>
+    <div class="card-body vstack gap-3">
+      <PlayerHead
+        username={$data.username}
+        inGame={$data.inGame}
+        lastActivityTime={$data.lastActivityTime}
+        checkTime={checkTime}
+        width="128"
+        height="128" />
+      <div class="text-center">
+        <PlayerPermissionBadge
+          permissionGroupName={$data.permissionGroupName} />
       </div>
     </div>
   </div>

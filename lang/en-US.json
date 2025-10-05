@@ -19,7 +19,11 @@
     "click-to-copy": "Click to copy",
     "close": "Close",
     "toggle": "Toggle",
-    "remove": "Remove"
+    "remove": "Remove",
+    "profile": "Profile",
+    "tickets": "Tickets",
+    "settings": "Settings",
+    "logout": "Logout"
   },
   "nav-links": {
     "support": "Support",
@@ -45,15 +49,6 @@
       "last-registrants": "Last Registrants",
       "game-client-version": "Game Client Version",
       "playing": "{playerCount}/{maxPlayerCount} playing"
-    },
-    "profile": {
-      "links": {
-        "statistics": "Statistics",
-        "tickets": "Tickets",
-        "settings": "Settings",
-        "logout": "Logout"
-      },
-      "secret": "Secret"
     }
   },
   "components": {

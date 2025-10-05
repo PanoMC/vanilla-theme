@@ -1,7 +1,9 @@
 <!-- Navbar -->
-<div class:container="{themeSettings.navbarWidthOption !== 'FULL_SIZE'}">
+<div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
   <nav
-    class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient border rounded rounded-{themeSettings.navRoundLevel ?  + themeSettings.navRoundLevel : '5'}">
+    class="navbar navbar-expand-lg navbar-dark bg-cake bg-gradient border rounded rounded-{themeSettings.navRoundLevel
+      ? +themeSettings.navRoundLevel
+      : '5'}">
     <div class="container">
       <ul class="navbar-nav flex-row me-auto">
         <li>
@@ -62,15 +64,15 @@
             {:else}
               <div class="list-group list-group-flush">
                 {#each $quickNotifications as notification, index (notification)}
-                  <div
-                    class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
+                  <button
+                    class="list-group-item list-group-item-action"
+                    type="button"
+                    title={$_("buttons.view")}
+                    on:click={() => onNotificationClick(notification)}
                     class:notification-unread={notification.status ===
                       "NOT_READ"}>
-                    <button
-                      type="button"
-                      title={$_("buttons.view")}
-                      on:click={() => onNotificationClick(notification)}
-                      class="text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
+                    <div
+                      class="d-flex align-item-start justify-content-start gap-3">
                       <span class="d-flex align-items-center">
                         {#if notification.details.faIcon}
                           <i
@@ -91,11 +93,11 @@
 
                       <div class="fw-normal">
                         <span class="text-wrap markdown-renderer text-break"
-                        >{@html $_("notifications." + notification.type, {
-                          values: {
-                            ...sanitizeObject(notification.details || {}),
-                          },
-                        })}</span>
+                          >{@html $_("notifications." + notification.type, {
+                            values: {
+                              ...sanitizeObject(notification.details || {}),
+                            },
+                          })}</span>
                         <br />
                         <small class="text-muted">
                           {getTime(
@@ -105,8 +107,8 @@
                           )}
                         </small>
                       </div>
-                    </button>
-                  </div>
+                    </div>
+                  </button>
                 {/each}
               </div>
             {/if}
@@ -120,8 +122,14 @@
 
         {#if $session.user}
           <!-- User Dropdown -->
-          <li class="nav-item">
-            <a href="/profile" class="nav-link" title={$session.user.username}>
+          <li class="nav-item dropdown">
+            <a
+              href="/profile"
+              class="nav-link"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              title={$session.user.username}>
               <img
                 alt={$session.user.username}
                 class="rounded d-block m-auto"
@@ -129,6 +137,39 @@
                 width="24"
                 height="24" />
             </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <h6 class="dropdown-header">{$session.user.username}</h6>
+              <li>
+                <a
+                  class:active={matching($page.url.pathname, "/profile")}
+                  class="dropdown-item"
+                  href="/profile">{$_("buttons.profile")}</a>
+              </li>
+              <li>
+                <a
+                  class:active={matching(
+                    $page.url.pathname,
+                    "/tickets",
+                  )}
+                  class="dropdown-item"
+                  href="/tickets">{$_("buttons.tickets")}</a>
+              </li>
+              <li>
+                <a
+                  class:active={matching(
+                    $page.url.pathname,
+                    "/profile/settings",
+                  )}
+                  class="dropdown-item"
+                  href="/profile/settings">{$_("buttons.settings")}</a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item link-danger"
+                  on:click={logout}>{$_("buttons.logout")}</button>
+              </li>
+            </ul>
           </li>
         {:else}
           <li class="nav-item me-xl-0 me-3">
@@ -166,7 +207,10 @@
               "undefined"
                 ? false
                 : !themeSettings.navLinksEnableStatus.support}>
-              <a href="/support" class="nav-link" title={$_("nav-links.support")}>
+              <a
+                href="/support"
+                class="nav-link"
+                title={$_("nav-links.support")}>
                 {$_("nav-links.support")}</a>
             </li>
           </ul>
@@ -175,6 +219,7 @@
     </div>
   </nav>
 </div>
+
 <!-- Navbar End -->
 <script>
   import { getContext, onDestroy, onMount } from "svelte";
@@ -185,8 +230,10 @@
   import { formatDistanceToNow } from "date-fns";
   import * as locales from "date-fns/locale";
 
+  import { page } from "$app/stores";
   import { PANEL_URL } from "$lib/variables.js";
-  import { notificationsCount, quickNotifications } from "$lib/Store";
+
+  import { notificationsCount, quickNotifications, logout } from "$lib/Store";
   import ApiUtil from "$lib/api.util.js";
   import { currentLanguage } from "$lib/language.util.js";
   import { onNotificationClick } from "$lib/NotificationManager.js";
@@ -297,5 +344,13 @@
       sanitizedObj[key] = sanitize(obj[key]);
       return sanitizedObj;
     }, {});
+  }
+
+  function matching(path, pathName, startsWith = false) {
+    return (
+      path.toUpperCase() === pathName.toUpperCase() ||
+      path.toUpperCase() === (pathName + "/").toUpperCase() ||
+      (startsWith && path.startsWith(pathName))
+    );
   }
 </script>

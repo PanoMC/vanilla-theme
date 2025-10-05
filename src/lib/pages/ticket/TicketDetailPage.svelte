@@ -38,7 +38,7 @@
     {#if $messages.length < $ticket.messageCount && $ticket.messageCount > 5}
       <div class="position-relative">
         <button
-          class="btn btn-sm btn-primary top-50 start-50 translate-middle position-absolute"
+          class="btn btn-sm btn-secondary top-50 start-50 translate-middle position-absolute mt-2"
           class:disabled={$loadMoreLoading}
           on:click={() => loadMore(loadMoreLoading, messages, data)}
           ><i class="fas fa-arrow-up mr-1"></i>

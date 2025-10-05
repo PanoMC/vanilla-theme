@@ -1,9 +1,11 @@
 <!-- Online Admins Card -->
 <div
   class="card"
-  hidden={typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
-    ? false
-    : !themeSettings.sidebarCarts.onlineAdmins}>
+  hidden={onlineAdmins.length === 0
+    ? true
+    : typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
+      ? false
+      : !themeSettings.sidebarCarts.onlineAdmins}>
   <div class="card-header">{$_("components.online-admins.online-admins")}</div>
   <div class="card-body">
     <div class="row">
