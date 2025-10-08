@@ -124,10 +124,9 @@
         {#if $session.user}
           <!-- User Dropdown -->
           <li class="nav-item dropdown position-relative">
-            <a
-              href="/profile"
+            <button
+              type="button"
               class="nav-link"
-              role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
               title={$session.user.username}>
@@ -137,7 +136,7 @@
                 src="https://minotar.net/avatar/{$session.user.username}"
                 width="24"
                 height="24" />
-            </a>
+            </button>
             <ul class="dropdown-menu dropdown-menu-end position-absolute">
               <h6 class="dropdown-header">{$session.user.username}</h6>
               <li>
