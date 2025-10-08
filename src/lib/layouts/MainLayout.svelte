@@ -1,4 +1,7 @@
 <svelte:head>
+  <meta content={$session.siteInfo.keywords.join(', ')} name="keywords" />
+  <meta content={$session.siteInfo.websiteDescription} name="description" />
+
   {#if themeSettings.themeColor}
     <meta name="x-theme" content={themeSettings.themeColor} />
   {/if}
@@ -35,6 +38,7 @@
   import NotificationContainer from "$lib/component/NotificationContainer.svelte";
 
   const themeSettings = getContext("themeSettings");
+  const session = getContext("session");
 
   const styles = `
     body {
