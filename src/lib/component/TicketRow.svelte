@@ -13,6 +13,7 @@
   </th>
   <td class="align-middle text-nowrap">
     <a
+      class="rounded focus-ring"
       href="/ticket/{ticket.id}"
       title={$_("components.ticket-row.show-ticket")}
       >#{ticket.id} {ticket.title}</a>
@@ -42,7 +43,9 @@
   import { _ } from "svelte-i18n";
 
   import tooltip from "$lib/tooltip.util";
-  import TicketStatus, { TicketStatuses } from "$lib/component/TicketStatus.svelte";
+  import TicketStatus, {
+    TicketStatuses,
+  } from "$lib/component/TicketStatus.svelte";
   import Date from "$lib/component/Date.svelte";
 
   export let ticket;

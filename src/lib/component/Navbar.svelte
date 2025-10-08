@@ -22,12 +22,13 @@
         {#if $session.user && $session.user.panelAccess}
           <li class="nav-item">
             <a
-              class="btn btn-secondary rounded-pill"
+              class="nav-link"
               href={PANEL_URL}
               target="_blank"
               rel="noreferrer">
-              <i class="fa-solid fa-up-right-from-square me-1"></i>
-              {$_("nav-links.panel")}
+              <i class="fa-solid fa-user-tie"></i>
+              <span class="d-none d-lg-inline ms-2">
+                {$_("nav-links.panel")}</span>
             </a>
           </li>
         {/if}
@@ -65,7 +66,7 @@
               <div class="list-group list-group-flush">
                 {#each $quickNotifications as notification, index (notification)}
                   <button
-                    class="list-group-item list-group-item-action"
+                    class="list-group-item list-group-item-action focus-ring"
                     type="button"
                     title={$_("buttons.view")}
                     on:click={() => onNotificationClick(notification)}
@@ -113,7 +114,7 @@
               </div>
             {/if}
 
-            <a class="dropdown-item bg-transparent" href="/notifications">
+            <a class="dropdown-item bg-transparent focus-ring" href="/notifications">
               <button class="btn btn-sm btn-primary w-100">
                 {$_("buttons.show-all")}</button>
             </a>
@@ -142,16 +143,13 @@
               <li>
                 <a
                   class:active={matching($page.url.pathname, "/profile")}
-                  class="dropdown-item"
+                  class="dropdown-item focus-ring"
                   href="/profile">{$_("buttons.profile")}</a>
               </li>
               <li>
                 <a
-                  class:active={matching(
-                    $page.url.pathname,
-                    "/tickets",
-                  )}
-                  class="dropdown-item"
+                  class:active={matching($page.url.pathname, "/tickets")}
+                  class="dropdown-item focus-ring"
                   href="/tickets">{$_("buttons.tickets")}</a>
               </li>
               <li>
@@ -160,13 +158,13 @@
                     $page.url.pathname,
                     "/profile/settings",
                   )}
-                  class="dropdown-item"
+                  class="dropdown-item focus-ring"
                   href="/profile/settings">{$_("buttons.settings")}</a>
               </li>
               <li>
                 <button
                   type="button"
-                  class="dropdown-item link-danger"
+                  class="dropdown-item focus-ring link-danger"
                   on:click={logout}>{$_("buttons.logout")}</button>
               </li>
             </ul>

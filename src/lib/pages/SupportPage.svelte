@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <ul class="list-group list-group-horizontal text-center">
-      <a href="/ticket/create" class="list-group-item list-group-item-action">
+      <a href="/ticket/create" class="list-group-item list-group-item-action focus-ring">
         <i class="fas fa-ticket fa-2x my-3"></i>
         <h5>{$_("pages.support.options.create-ticket.title")}</h5>
         <small class="text-muted">
@@ -14,7 +14,7 @@
 
       <a
         href="mailto:{$session.siteInfo.supportEmail}"
-        class="list-group-item list-group-item-action">
+        class="list-group-item list-group-item-action focus-ring">
         <i class="fas fa-envelope fa-2x my-3"></i>
         <div class="col-auto">
           <h5>{$_("pages.support.options.send-email.title")}<i class="fas fa-external-link-alt ms-2"></i></h5>

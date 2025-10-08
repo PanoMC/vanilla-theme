@@ -2,8 +2,6 @@ import { error } from "@sveltejs/kit";
 
 import { getPostDetail } from "$lib/services/posts";
 
-import HomeSidebar, { load as loadSidebar } from "$lib/component/sidebars/HomeSidebar.svelte";
-
 /**
  * @type {import("@sveltejs/kit").Load}
  */
@@ -30,8 +28,6 @@ export async function processLoad(event) {
     nextPost: "-"
   };
 
-  await loadSidebar(event);
-
   await getPostDetail({ url: event.params.url, request: event }).then(
     (body) => {
       if (body.error) {
@@ -46,5 +42,5 @@ export async function processLoad(event) {
     }
   );
 
-  return { ...data, sidebar: HomeSidebar };
+  return { ...data };
 }

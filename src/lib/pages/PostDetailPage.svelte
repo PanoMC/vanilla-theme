@@ -1,25 +1,32 @@
-<Post post="{data.post}" detail="{true}" />
-
-<div class="row justify-content-between">
-  <div class="col-auto">
-    <a
-      href="/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
-      class="btn btn-link ps-0"
-      class:disabled="{data.previousPost === '-'}"
-      hidden="{typeof themeSettings.postPreviousPageEnabled === 'undefined' ? false : !themeSettings.postPreviousPageEnabled}"
-      use:tooltip="{[data.previousPost.title, { placement: 'bottom' }]}">
-      {$_("pages.post-detail.previous-post")}
-    </a>
-  </div>
-  <div class="col-auto">
-    <a
-      href="/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
-      class="btn btn-link pe-0"
-      class:disabled="{data.nextPost === '-'}"
-      hidden="{typeof themeSettings.postNextPageEnabled === 'undefined' ? false : !themeSettings.postNextPageEnabled}"
-      use:tooltip="{[data.nextPost.title, { placement: 'bottom' }]}">
-      {$_("pages.post-detail.next-post")}
-    </a>
+<div class="col-lg-8 mx-auto">
+  <Post post={data.post} detail={true} />
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <a
+        href="/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
+        class="btn btn-link ps-0"
+        class:disabled={data.previousPost === "-"}
+        hidden={typeof themeSettings.postPreviousPageEnabled === "undefined"
+          ? false
+          : !themeSettings.postPreviousPageEnabled}
+        use:tooltip={[data.previousPost.title, { placement: "bottom" }]}>
+        <i class="fas fa-caret-left me-1"></i>
+        {$_("pages.post-detail.previous-post")}
+      </a>
+    </div>
+    <div class="col-auto">
+      <a
+        href="/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
+        class="btn btn-link pe-0"
+        class:disabled={data.nextPost === "-"}
+        hidden={typeof themeSettings.postNextPageEnabled === "undefined"
+          ? false
+          : !themeSettings.postNextPageEnabled}
+        use:tooltip={[data.nextPost.title, { placement: "bottom" }]}>
+        {$_("pages.post-detail.next-post")}
+        <i class="fas fa-caret-right ms-1"></i>
+      </a>
+    </div>
   </div>
 </div>
 
