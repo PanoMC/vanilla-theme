@@ -49,23 +49,25 @@
                 )}</label>
               </div>
             </div>
-            <div class="form-check">
-              <input
-                bind:checked={agreement}
-                class="form-check-input"
-                id="registerAcceptTerms"
-                type="checkbox" />
-              <label class="form-check-label" for="registerAcceptTerms">
-                {@html $_("components.modals.register.inputs.agreement-text", {
-                  values: {
-                    link: `<a href="javascript:void(0);">${$_("components.modals.register.inputs.server-rules")}</a>`,
-                  },
-                })}
-              </label>
-            </div>
+            {#if $session.siteInfo.registerAgreement}
+              <div class="form-check">
+                <input
+                  bind:checked={agreement}
+                  class="form-check-input"
+                  id="registerAcceptTerms"
+                  type="checkbox" />
+                <label class="form-check-label" for="registerAcceptTerms">
+                  {@html $_("components.modals.register.inputs.agreement-text", {
+                    values: {
+                      link: `<a href="/rules">${$_("components.modals.register.inputs.server-rules")}</a>`,
+                    },
+                  })}
+                </label>
+              </div>
+            {/if}
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer mt-3">
           <button
             class="btn btn-lg btn-secondary w-100"
             class:disabled={loading}
@@ -85,6 +87,7 @@
 </div>
 
 <script>
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
   import { NETWORK_ERROR } from "$lib/api.util";
@@ -94,9 +97,11 @@
 
   import { sendRegister } from "$lib/services/auth.js";
 
+  const session = getContext("session");
+
   let loading, error, successMessage;
   let username = "", email = "", password = "", passwordRepeat = "";
-  let agreement = false;
+  let agreement = !$session.siteInfo.registerAgreement ? true : false;
 
   async function onSubmit() {
     error = null;
