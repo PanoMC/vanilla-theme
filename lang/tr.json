@@ -117,6 +117,9 @@
     }
   },
   "pages": {
+    "rules": {
+      "title": "Kurallar"
+    },
     "post-detail": {
       "previous-post": "Önceki Yazı",
       "next-post": "Sonraki Yazı"

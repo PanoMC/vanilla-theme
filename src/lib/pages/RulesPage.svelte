@@ -1,4 +1,13 @@
-{@html $session.siteInfo.registerAgreement}
+<div class="col-lg-8 mx-auto">
+  <div class="card">
+    <div class="card-header">
+      {$_("pages.rules.title")}
+    </div>
+    <div class="card-body">
+      {@html $session.siteInfo.registerAgreement}
+    </div>
+  </div>
+</div>
 
 <!-- Pagination End -->
 <script context="module">
@@ -22,6 +31,7 @@
 
 <script>
   import { getContext } from "svelte";
+  import { _ } from "svelte-i18n";
 
   const session = getContext("session");
 </script>
