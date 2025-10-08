@@ -8,11 +8,6 @@
   <slot></slot>
 </App>
 
-<!-- Modals Start-->
-<LoginModal />
-
-<RegisterModal />
-
 <script context="module">
   import { processLoad, processServerLoad } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
@@ -35,9 +30,6 @@
   import { init } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
   import App from "$lib/component/App.svelte";
-
-  import LoginModal from "$lib/component/modals/LoginModal.svelte";
-  import RegisterModal from "$lib/component/modals/RegisterModal.svelte";
 
   export let data;
 

@@ -171,17 +171,15 @@
           </li>
         {:else}
           <li class="nav-item me-xl-0 me-3">
-            <button class="nav-link" on:click={showLoginModal}>
+            <a href="/login" class="nav-link">
               {$_("buttons.login")}
-            </button>
+            </a>
           </li>
           <li class="nav-item">
-            <button
-              type="button"
-              class="btn btn-warning rounded-pill"
-              on:click={showRegisterModal}>
+            <a href="/register"
+               class="btn btn-warning rounded-pill">
               {$_("buttons.register")}
-            </button>
+            </a>
           </li>
         {/if}
       </ul>
@@ -231,15 +229,12 @@
   import { page } from "$app/stores";
   import { PANEL_URL } from "$lib/variables.js";
 
-  import { notificationsCount, quickNotifications, logout } from "$lib/Store";
+  import { logout, notificationsCount, quickNotifications } from "$lib/Store";
   import ApiUtil from "$lib/api.util.js";
   import { currentLanguage } from "$lib/language.util.js";
   import { onNotificationClick } from "$lib/NotificationManager.js";
 
   import NoContent from "$lib/component/NoContent.svelte";
-
-  import { show as showLoginModal } from "$lib/component/modals/LoginModal.svelte";
-  import { show as showRegisterModal } from "$lib/component/modals/RegisterModal.svelte";
 
   let quickNotificationProcessID = 0;
 
