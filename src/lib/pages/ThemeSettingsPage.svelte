@@ -444,6 +444,15 @@
                 type="checkbox" />
               <label class="form-check-label" for="navbarSupportLinkToggle">Destek</label>
             </div>
+            <div class="form-check form-switch">
+              <input
+                checked={typeof themeSettings.navLinksEnableStatus?.rules === 'undefined' ? true : themeSettings.navLinksEnableStatus?.rules}
+                class="form-check-input"
+                id="navbarRulesLinkToggle"
+                on:change={e => {if (!themeSettings.navLinksEnableStatus) themeSettings.navLinksEnableStatus = {}; themeSettings.navLinksEnableStatus.rules = e.target.checked}}
+                type="checkbox" />
+              <label class="form-check-label" for="navbarRulesLinkToggle">Kurallar</label>
+            </div>
           </div>
         </div>
       </div>

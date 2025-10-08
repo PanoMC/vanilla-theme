@@ -208,6 +208,18 @@
                 title={$_("nav-links.support")}>
                 {$_("nav-links.support")}</a>
             </li>
+            <li
+              class="nav-item"
+              hidden={!$session.siteInfo.registerAgreement  || (typeof themeSettings.navLinksEnableStatus?.rules ===
+              "undefined"
+                ? false
+                : !themeSettings.navLinksEnableStatus.rules)}>
+              <a
+                href="/rules"
+                class="nav-link"
+                title={$_("nav-links.rules")}>
+                {$_("nav-links.rules")}</a>
+            </li>
           </ul>
         </div>
       {/if}

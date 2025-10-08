@@ -28,7 +28,8 @@
   "nav-links": {
     "support": "Support",
     "panel": "Panel",
-    "homepage": "Homepage"
+    "homepage": "Homepage",
+    "rules": "Rules"
   },
   "navbar": {
     "notifications": {

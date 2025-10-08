@@ -28,7 +28,8 @@
   "nav-links": {
     "support": "Destek",
     "panel": "Panel",
-    "homepage": "Ana Sayfa"
+    "homepage": "Ana Sayfa",
+    "rules": "Kurallar"
   },
   "navbar": {
     "notifications": {
