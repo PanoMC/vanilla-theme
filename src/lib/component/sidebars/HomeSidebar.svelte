@@ -1,45 +1,51 @@
 <Sidebar side={side}>
   <div class="vstack gap-3">
-    <!-- Server Status Card -->
-    <div class="card text-bg-secondary">
-      <div class="card-header text-center">
-        <!-- Play Button -->
-        <button
-          class="btn btn-lg btn-link link-black text-decoration-none w-100"
-          type="button"
-          on:click={onCopyCommandTextClick}
-          use:tooltip={[
-            isCommandTextCopied
-              ? $_("sidebars.home.copied")
-              : $_("sidebars.home.copy"),
-            { placement: "bottom", hideOnClick: false },
-          ]}>
-          <b>{$data.ipAddress}</b>
-        </button>
-        <!-- Play Button End -->
+    <!-- Play Button -->
+    <div class="ratio ratio-1x1">
+      <div class="card">
+        <div class="card-header p-0 h-50 100">
+          <button
+            class="btn btn-lg shadow-none btn-light border-0 rounded-bottom-0 bg-gradient text-decoration-none h-100 w-100"
+            type="button"
+            on:click={onCopyCommandTextClick}
+            use:tooltip={[
+              isCommandTextCopied
+                ? $_("sidebars.home.copied")
+                : $_("sidebars.home.copy"),
+              { placement: "bottom", hideOnClick: false },
+            ]}>
+            <b>{$data.ipAddress}</b>
+            <br />
+            <span class="text-muted fs-6 fw-normal">
+              {$_("buttons.click-to-copy")}</span>
+          </button>
+        </div>
+        <div
+          class="card-body rounded-bottom d-flex flex-column align-items-center justify-content-center h-50 blocks">
+          <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
+              {#if serverOnline}
+                {$_("sidebars.home.online")}
+              {:else}
+                {$_("sidebars.home.offline")}
+              {/if}
+            </li>
+            <li class="list-group-item">
+              {$_("sidebars.home.playing", {
+                values: {
+                  playerCount: $data.mainServer?.playerCount || 0,
+                  maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+                },
+              })}
+            </li>
+            <li class="list-group-item">
+              {$data.serverGameVersion}
+            </li>
+          </ul>
+        </div>
       </div>
-      <ul class="list-group list-group-flush text-center">
-        <li class="list-group-item list-group-item-action">
-          {#if serverOnline}
-            {$_("sidebars.home.online")}
-          {:else}
-            {$_("sidebars.home.offline")}
-          {/if}
-        </li>
-        <li class="list-group-item list-group-item-action">
-          {$_("sidebars.home.playing", {
-            values: {
-              playerCount: $data.mainServer?.playerCount || 0,
-              maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-            },
-          })}
-        </li>
-        <li class="list-group-item list-group-item-action">
-          {$data.serverGameVersion}
-        </li>
-      </ul>
     </div>
-    <!-- Server Status Card End -->
+    <!-- Play Button End -->
 
     <!-- Last Registrants Card -->
     <div
@@ -54,7 +60,9 @@
         <div class="row g-3">
           {#each $data.lastRegisteredUsers as player, index (player)}
             <div class="col-auto">
-              <a href="/player/{player}">
+              <a
+                href="/player/{player}"
+                class="d-inline-block rounded focus-ring">
                 <img
                   alt={player}
                   class="rounded"

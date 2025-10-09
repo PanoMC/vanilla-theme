@@ -18,7 +18,7 @@
       title={$_("components.ticket-row.show-ticket")}
       >#{ticket.id} {ticket.title}</a>
   </td>
-  <td class="align-middle text-nowrap">
+  <td class="align-middle">
     <TicketStatus status={ticket.status} />
   </td>
   <td class="align-middle text-nowrap">
@@ -27,7 +27,7 @@
         $_("components.ticket-row.filter"),
         { placement: "bottom" },
       ]}
-      class="badge rounded-pill bg-light text-black"
+      class="badge rounded-pill text-bg-light focus-ring"
       href="/tickets?category={ticket.category.url}">
       {ticket.category.title === "-"
         ? $_("components.ticket-row.no-category")
