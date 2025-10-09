@@ -49,7 +49,7 @@
             type="submit">
             {$_("buttons.login")}
           </button>
-          <a class="btn btn-link w-100" href="/reset-password" on:click={hide}>
+          <a class="btn btn-link w-100" href="/reset-password">
             {$_("buttons.forgot-password")}
           </a>
         </div>
