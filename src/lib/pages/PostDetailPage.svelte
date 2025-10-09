@@ -24,12 +24,14 @@
           border-bottom-left-radius: 1rem;
           border-bottom-right-radius: 1rem;
         ">
-          <h1 class="m-0 text-truncate display-4">
-            {truncate(data.post.title, 100)}{@html data.post.title.length > 100
-              ? "&hellip;"
-              : ""}
-          </h1>
-
+          <div class="hstack gap-2">
+            <h1 class="m-0 text-truncate display-4">
+              {truncate(data.post.title, 100)}{@html data.post.title.length >
+              100
+                ? "&hellip;"
+                : ""}
+            </h1>
+          </div>
           <!-- Footer bilgileri -->
           <div
             class="d-flex align-items-center justify-content-between mt-2 small text-white-50">
@@ -69,26 +71,25 @@
 
   <div class="card mt-3">
     <div class="card-body">
-      {#if data.post.category.title !== "-"}
-        <div class="col text-center">
+      <div class="hstack gap-2">
+        {#if data.post.category.title !== "-"}
           <a
             class="badge text-bg-secondary text-decoration-none rounded-pill focus-ring mb-2"
             href="/?category={data.post.category.url}"
             use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
             {data.post.category.title}
           </a>
-        </div>
-      {/if}
-
-      <h1
-        class="m-0 text-truncate display-4"
-        hidden={(typeof themeSettings.postCoverImageEnabled === "undefined"
-          ? true
-          : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}>
-        {truncate(data.post.title, 100)}{@html data.post.title.length > 100
-          ? "&hellip;"
-          : ""}
-      </h1>
+        {/if}
+        <h1
+          class="m-0 text-truncate display-4"
+          hidden={(typeof themeSettings.postCoverImageEnabled === "undefined"
+            ? true
+            : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}>
+          {truncate(data.post.title, 100)}{@html data.post.title.length > 100
+            ? "&hellip;"
+            : ""}
+        </h1>
+      </div>
 
       <div class="card-text text-break word-break">
         {@html data.post.text}

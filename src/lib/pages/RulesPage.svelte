@@ -1,4 +1,11 @@
 <div class="col-lg-8 mx-auto">
+  <div
+    class="alert alert-secondary"
+    role="alert">
+    <i class="fas fa-gavel me-2"></i> Please read the rules carefully. Violating
+    its terms may result in your being banned.
+  </div>
+
   <div class="card">
     <div class="card-header">
       {$_("pages.rules.title")}

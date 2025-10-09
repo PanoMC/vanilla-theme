@@ -2,10 +2,10 @@
   <div class="vstack gap-3">
     <!-- Play Button -->
     <div class="ratio ratio-1x1">
-      <div class="card">
-        <div class="card-header p-0 h-50 100">
+      <div class="card" data-bs-theme="light">
+        <div class="card-header text-bg-secondary p-0">
           <button
-            class="btn btn-lg shadow-none btn-light border-0 rounded-bottom-0 bg-gradient text-decoration-none h-100 w-100"
+            class="btn btn-lg btn-link link-dark bg-gradient text-decoration-none w-100 focus-ring rounded-bottom-0"
             type="button"
             on:click={onCopyCommandTextClick}
             use:tooltip={[
@@ -16,12 +16,12 @@
             ]}>
             <b>{$data.ipAddress}</b>
             <br />
-            <span class="text-muted fs-6 fw-normal">
+            <span class="fs-6 fw-normal opacity-50">
               {$_("buttons.click-to-copy")}</span>
           </button>
         </div>
         <div
-          class="card-body rounded-bottom d-flex flex-column align-items-center justify-content-center h-50 blocks">
+          class="card-body rounded-bottom d-flex flex-column align-items-center justify-content-center blocks">
           <ul class="list-group list-group-flush text-center">
             <li class="list-group-item">
               {#if serverOnline}

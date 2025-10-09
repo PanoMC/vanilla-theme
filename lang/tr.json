@@ -118,7 +118,8 @@
   },
   "pages": {
     "rules": {
-      "title": "Kurallar"
+      "title": "Kurallar",
+      "rules-description": ""
     },
     "post-detail": {
       "previous-post": "Önceki Yazı",

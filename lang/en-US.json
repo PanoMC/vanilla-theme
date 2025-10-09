@@ -118,7 +118,8 @@
   },
   "pages": {
     "rules": {
-      "title": "Rules"
+      "title": "Rules",
+      "rules-description": ""
     },
     "post-detail": {
       "previous-post": "Previous Post",
