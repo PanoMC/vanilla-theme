@@ -1,18 +1,31 @@
 <!-- Footer -->
-<div class="container-fluid text-bg-primary mt-5 bg-gradient border-top py-5">
+{#if themeSettings.footerContent}
+  {@html themeSettings.footerContent}
+{:else}
+  <div class="container-fluid text-bg-primary mt-5 bg-gradient border-top py-5">
   <div class="row justify-content-center align-items-center g-3">
     <div
       class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
       <ul data-bs-theme="dark" class="nav nav-pills justify-content-center">
         <li class="nav-item">
-          <a class="nav-link rounded-pill active" href="#" aria-current="page"
+          <a class="nav-link rounded-pill" href="/" aria-current="page"
+             hidden={typeof themeSettings.navLinksEnableStatus?.home ===
+              "undefined"
+                ? false
+                : !themeSettings.navLinksEnableStatus.home}
             >Ana Sayfa</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link rounded-pill" href="#">Destek</a>
+          <a class="nav-link rounded-pill" href="/support" hidden={typeof themeSettings.navLinksEnableStatus?.support ===
+              "undefined"
+                ? false
+                : !themeSettings.navLinksEnableStatus.support}>Destek</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link rounded-pill" href="#">Kurallar</a>
+        <li class="nav-item" hidden={!$session.siteInfo.registerAgreement  || (typeof themeSettings.navLinksEnableStatus?.rules ===
+              "undefined"
+                ? false
+                : !themeSettings.navLinksEnableStatus.rules)}>
+          <a class="nav-link rounded-pill" href="/rules">Kurallar</a>
         </li>
       </ul>
     </div>
@@ -24,29 +37,25 @@
             height="128"
             width="128"
             alt={$_("components.header.alt")}
-            src="/api/websiteLogo" />
+            src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}" />
         </a>
-        <h5>Panocraft</h5>
+        <h5>{$session.siteInfo.websiteName}</h5>
         <small class="text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
-          eveniet maiores similique, excepturi, impedit quae nisi pariatur
-          dolorum quod quam officiis ut quasi est rem distinctio vero iure
-          minima eligendi!
+          {$session.siteInfo.websiteDescription}
         </small>
       </div>
     </div>
     <div
       class="col-lg-4 d-flex justify-content-center align-items-center"
       data-bs-theme="dark">
-      <span class="badge fs-6 text-bg-secondary user-select-all"
-        >play.N3d10nCr4fT.net</span>
+      <span class="badge fs-6 text-bg-white user-select-all"
+      >{$session.siteInfo.ipAddress}</span>
     </div>
     <div class="w-100"></div>
     <div class="col order-last">
       <div class="text-center mt-5">
         <small data-bs-theme="dark">
-          {@html themeSettings.footerContent ||
-            $_("footer.been-created-with", {
+          {@html $_("footer.been-created-with", {
               values: {
                 pano: `<a href="${PANO_WEBSITE_URL}" class="rounded focus-ring" target="_blank" rel="noreferrer">Pano</a>`,
               },
@@ -56,12 +65,13 @@
     </div>
   </div>
 </div>
-
+{/if}
 <!-- Footer End -->
 <script>
   import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
   import { PANO_WEBSITE_URL } from "$lib/variables";
 
+  const session = getContext("session");
   const themeSettings = getContext("themeSettings");
 </script>
