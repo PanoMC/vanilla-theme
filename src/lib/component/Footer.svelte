@@ -27,7 +27,7 @@
             src="/api/websiteLogo" />
         </a>
         <h5>Panocraft</h5>
-        <small class="text-gray px-3" style="text-align: justify;">
+        <small class="text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
           eveniet maiores similique, excepturi, impedit quae nisi pariatur
           dolorum quod quam officiis ut quasi est rem distinctio vero iure
@@ -38,7 +38,7 @@
     <div
       class="col-lg-4 d-flex justify-content-center align-items-center"
       data-bs-theme="dark">
-      <span class="badge text-bg-secondary rounded-pill user-select-all"
+      <span class="badge fs-6 text-bg-secondary user-select-all"
         >play.N3d10nCr4fT.net</span>
     </div>
     <div class="w-100"></div>

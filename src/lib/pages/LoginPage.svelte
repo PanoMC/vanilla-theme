@@ -1,61 +1,53 @@
 <style>
-    #usernameOrEmail {
-        margin-bottom: -2px;
-    }
+  #usernameOrEmail {
+    margin-bottom: -2px;
+  }
 
-    #usernameOrEmail:focus {
-        position: relative;
-        z-index: 2;
-    }
+  #usernameOrEmail:focus {
+    position: relative;
+    z-index: 2;
+  }
 </style>
 
-<div class="col-6 mx-auto">
+<div class="col-lg-6 mx-auto">
   <div class="card">
     <div class="card-header">{$_("components.modals.login.title")}</div>
-    <div class="card-body">
-      <form on:submit|preventDefault={onSubmit}>
-        <div class="modal-body">
-          <ErrorAlert error={error} />
-          <div class="vstack gap-3">
-            <div class="vstack gap-0">
-              <div class="form-floating">
-                <input
-                  bind:value={usernameOrEmail}
-                  class="form-control rounded-bottom-0"
-                  id="usernameOrEmail"
-                  type="text" />
-                <label for="usernameOrEmail"
-                >{$_("components.modals.login.inputs.username-email")}</label>
-              </div>
-
-              <div class="form-floating">
-                <input
-                  bind:value={password}
-                  class="form-control rounded-top-0"
-                  id="password"
-                  type="password" />
-                <label for="password"
-                >{$_("components.modals.login.inputs.password")}</label>
-              </div>
-            </div>
-          </div>
+    <form on:submit|preventDefault={onSubmit}>
+      <div class="card-body">
+        <ErrorAlert error={error} />
+        <div class="form-floating">
+          <input
+            bind:value={usernameOrEmail}
+            class="form-control rounded-bottom-0"
+            id="usernameOrEmail"
+            type="text" />
+          <label for="usernameOrEmail"
+            >{$_("components.modals.login.inputs.username-email")}</label>
         </div>
 
-        <div class="modal-footer">
-          <button
-            class="btn btn-lg btn-secondary w-100"
-            class:disabled={loading}
-            disabled={loading}
-            type="submit">
-            {$_("buttons.login")}
-          </button>
-          <a class="btn btn-link w-100" href="/reset-password">
-            {$_("buttons.forgot-password")}
-          </a>
+        <div class="form-floating">
+          <input
+            bind:value={password}
+            class="form-control rounded-top-0"
+            id="password"
+            type="password" />
+          <label for="password"
+            >{$_("components.modals.login.inputs.password")}</label>
         </div>
-      </form>
-
-    </div>
+      </div>
+      <div class="card-footer vstack gap-2">
+        <button
+          class="btn btn-lg btn-secondary"
+          class:disabled={loading}
+          disabled={loading}
+          type="submit">
+          {$_("buttons.login")}
+        </button>
+        <a class="btn btn-link" href="/reset-password">
+          {$_("buttons.forgot-password")}
+        </a>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -71,7 +63,8 @@
 
   import { getCredentials, sendLogin } from "$lib/services/auth.js";
 
-  let usernameOrEmail = "", password = "";
+  let usernameOrEmail = "",
+    password = "";
   let loading, error;
 
   const session = getContext("session");
@@ -100,7 +93,7 @@
                   object[key] = body[key];
 
                   return object;
-                }, {})
+                }, {}),
             };
 
             data.csrfToken = csrfToken;

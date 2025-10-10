@@ -1,4 +1,4 @@
-<div class="col-lg-8 mx-auto">
+<div class="col mx-auto">
   <div
     class="alert alert-secondary"
     role="alert">
