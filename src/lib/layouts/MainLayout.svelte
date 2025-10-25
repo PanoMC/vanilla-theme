@@ -2,9 +2,7 @@
   <meta content={$session.siteInfo.keywords.join(", ")} name="keywords" />
   <meta content={$session.siteInfo.websiteDescription} name="description" />
 
-  {#if themeSettings.themeColor}
-    <meta name="x-theme" content={themeSettings.themeColor} />
-  {/if}
+  <meta content={themeSettings.themeColor || "dark"} name="x-theme" />
 
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
