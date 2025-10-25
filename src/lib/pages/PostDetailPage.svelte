@@ -25,14 +25,14 @@
       ">
         <!-- Footer bilgileri -->
         <div
-          class="d-flex align-items-center justify-content-between mt-2 small text-white-50">
+          class="d-flex align-items-center justify-content-between mt-2 small text-white-50 position-relative">
           {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
             <div class="text-white">
               <i class="fas fa-eye me-2"></i>
               {data.post.views}
             </div>
           {/if}
-
+          <h1 class="position-absolute mx-auto">{data.post.title}</h1>
           <div class="d-flex align-items-center">
             <Date time={data.post.date} />
             <a
@@ -162,12 +162,13 @@
 </script>
 
 <script>
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
   import tooltip from "$lib/tooltip.util";
 
   import { truncate } from "$lib/string.util";
-  import { getContext } from "svelte";
+  import Date from "$lib/component/Date.svelte";
 
   export let data;
 
