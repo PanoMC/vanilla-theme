@@ -1,3 +1,13 @@
+<style global lang="scss">
+  .clamp-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
 <div class="card rounded-4">
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
     <a href="/post/{post.url}">
@@ -19,12 +29,12 @@
   <div class="card-body">
     <div class="row mb-3 justify-content-center">
       <div class="col">
-        <a class="card-title focus-ring rounded" href="/post/{post.url}">
-          <h3 class="mb-0 d-inline-block text-break">
+        <a class="focus-ring rounded" href="/post/{post.url}">
+          <h2 class="mb-0 d-inline-block text-break display-6">
             {truncate(post.title, 100)}{@html post.title.length > 100
               ? "&hellip;"
               : ""}
-          </h3>
+          </h2>
         </a>
       </div>
       <div class="col-auto">
@@ -39,7 +49,7 @@
       </div>
     </div>
 
-    <div class="card-text text-break word-break">
+    <div class="card-text text-break word-break clamp-text">
       {@html post.text}
     </div>
   </div>
