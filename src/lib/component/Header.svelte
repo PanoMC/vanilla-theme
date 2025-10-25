@@ -2,11 +2,17 @@
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
 
+<style>
+  .hero-content {
+
+  }
+</style>
+
 <!-- Header -->
-<div class:container={headerWidthOption !== "FULL_SIZE"}>
+<div class="hero" class:container={headerWidthOption !== "FULL_SIZE"}>
   <div
-    class="rounded-bottom position-relative p-0 bg-gradient"
-    class:bg-white={!themeSettings.headerBgColor}
+    class="hero-content position-relative p-0"
+    class:bg-transparent={!themeSettings.headerBgColor}
     id="header"
     style="background-position: center; height: {themeSettings.headerHeight || '256'}px;">
     <a href="/">
@@ -41,7 +47,7 @@
     : "CENTER";
   $: logoPositionClasses = getLogoPositionClasses(logoPosition);
 
-  $: headerWidthOption = themeSettings.headerWidthOption || "BY_CONTENT";
+  $: headerWidthOption = themeSettings.headerWidthOption || "FULL_SIZE";
 
   function getLogoPositionClasses(logoPosition) {
     if (logoPosition === "TOP_START") {
@@ -70,7 +76,7 @@
   const defaultHeaderBg = typeof themeSettings.defaultHeaderBg === "undefined" ? true : themeSettings.defaultHeaderBg;
 
   const styles = `
-    #header {
+    .hero::before {
       ${themeSettings.headerBgColor ? `background-color: ${themeSettings.headerBgColor};` : ""}
       background-image: url(${defaultHeaderBg ? "/assets/img/default-header-bg.png" : themeSettings.files?.headerBackgroundImage ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage : ""}) !important;
       ${themeSettings.headerBgImagePosition ? `background-position: ${themeSettings.headerBgImagePosition} !important;` : ""}

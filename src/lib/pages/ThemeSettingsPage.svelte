@@ -374,7 +374,7 @@
           <label class="col-md-6 col-form-label" for="headerWidthOption">Genişlik</label>
           <div class="col-md-6">
             <select class="form-select" id="headerWidthOption" on:change={e => themeSettings.headerWidthOption = e.target.value}
-                    value={themeSettings.headerWidthOption || 'BY_CONTENT'}>
+                    value={themeSettings.headerWidthOption || 'FULL_SIZE'}>
               <option value="BY_CONTENT">İçeriğe Göre</option>
               <option value="FULL_SIZE">Tam Genişlik</option>
             </select>
