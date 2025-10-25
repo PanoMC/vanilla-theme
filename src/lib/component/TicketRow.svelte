@@ -27,7 +27,7 @@
         $_("components.ticket-row.filter"),
         { placement: "bottom" },
       ]}
-      class="badge rounded-pill text-bg-light focus-ring"
+      class="badge rounded-pill text-bg-primary focus-ring"
       href="/tickets?category={ticket.category.url}">
       {ticket.category.title === "-"
         ? $_("components.ticket-row.no-category")

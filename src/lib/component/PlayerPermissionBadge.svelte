@@ -1,4 +1,4 @@
-<span class="badge rounded-pill text-bg-light">
+<span class="badge rounded-pill text-bg-secondary">
   {#if permissionGroupName}
     {permissionGroupName.capitalize()}
   {:else}

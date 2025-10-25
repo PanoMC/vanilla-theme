@@ -3,7 +3,7 @@
     <!-- Play Button -->
     <div class="ratio ratio-1x1">
       <div class="card">
-        <div class="card-header text-bg-secondary p-0">
+        <div class="card-header p-0">
           <button
             class="btn btn-secondary btn-lg w-100"
             type="button"
@@ -21,16 +21,16 @@
           </button>
         </div>
         <div
-          class="card-body bg-secondary bg-opacity-25 rounded-bottom d-flex flex-column align-items-center justify-content-center blocks">
-          <ul class="list-group text-center">
-            <li class="list-group-item list-group-item-secondary">
+          class="card-body rounded-bottom d-flex flex-column align-items-center justify-content-center blocks">
+          <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
               {#if serverOnline}
                 {$_("sidebars.home.online")}
               {:else}
                 {$_("sidebars.home.offline")}
               {/if}
             </li>
-            <li class="list-group-item list-group-item-secondary">
+            <li class="list-group-item">
               {$_("sidebars.home.playing", {
                 values: {
                   playerCount: $data.mainServer?.playerCount || 0,
@@ -38,7 +38,7 @@
                 },
               })}
             </li>
-            <li class="list-group-item list-group-item-secondary">
+            <li class="list-group-item">
               {$data.serverGameVersion}
             </li>
           </ul>
