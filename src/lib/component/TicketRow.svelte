@@ -1,4 +1,4 @@
-<tr class:table-primary={ticket.selected}>
+<tr class:table-active={ticket.selected}>
   <th scope="row" class="text-center align-middle">
     {#if ticket.status !== TicketStatuses.CLOSED}
       <button

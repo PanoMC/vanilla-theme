@@ -5,7 +5,7 @@
 <!-- Header -->
 <div class:container={headerWidthOption !== "FULL_SIZE"}>
   <div
-    class="rounded-bottom position-relative p-0 bg-gradient border"
+    class="rounded-bottom position-relative p-0 bg-gradient"
     class:bg-white={!themeSettings.headerBgColor}
     id="header"
     style="background-position: center; height: {themeSettings.headerHeight || '256'}px;">

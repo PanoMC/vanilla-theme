@@ -105,10 +105,9 @@
           <div class="col-md-6">
             <select class="form-select" id="theme-color" on:change={e => themeSettings.themeColor = e.target.value}
                     value={themeSettings.themeColor || 'dark'}>
-              <option value="dark">Dark</option>
-              <option value="1">Turuncu</option>
-              <option value="2">Yeşil</option>
-              <option value="3">Mavi</option>
+              <option value="dark">Koyu</option>
+              <option value="light">Açık</option>
+              <option value="copper">Bakır</option>
             </select>
           </div>
         </div>

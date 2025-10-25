@@ -10,7 +10,7 @@
       </label>
       <div class="col col-form-label">
         <button
-          class="btn btn-outline-primary"
+          class="btn btn-secondary"
           class:is-invalid={$resetPasswordError}
           on:click={() => sendResetPasswordLink(resetPasswordError, resetPasswordLoading, resetPasswordSuccess, session)}
           aria-describedby="resetPassword validationResetPassword"
@@ -59,7 +59,7 @@
                 {:else}
                   <button
                     type="button"
-                    class="btn btn-outline-primary"
+                    class="btn btn-secondary"
                     aria-describedby="userEmail"
                     on:click={() => startChangingEmail(changingEmail)}
                     disabled={!$session.siteInfo.emailEnabled}

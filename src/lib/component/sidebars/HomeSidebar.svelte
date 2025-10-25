@@ -2,10 +2,10 @@
   <div class="vstack gap-3">
     <!-- Play Button -->
     <div class="ratio ratio-1x1">
-      <div class="card" data-bs-theme="light">
+      <div class="card">
         <div class="card-header text-bg-secondary p-0">
           <button
-            class="btn btn-lg btn-link link-dark bg-gradient text-decoration-none w-100 focus-ring rounded-bottom-0"
+            class="btn btn-secondary btn-lg w-100"
             type="button"
             on:click={onCopyCommandTextClick}
             use:tooltip={[
@@ -21,16 +21,16 @@
           </button>
         </div>
         <div
-          class="card-body rounded-bottom d-flex flex-column align-items-center justify-content-center blocks">
-          <ul class="list-group list-group-flush text-center">
-            <li class="list-group-item">
+          class="card-body bg-secondary bg-opacity-25 rounded-bottom d-flex flex-column align-items-center justify-content-center blocks">
+          <ul class="list-group text-center">
+            <li class="list-group-item list-group-item-secondary">
               {#if serverOnline}
                 {$_("sidebars.home.online")}
               {:else}
                 {$_("sidebars.home.offline")}
               {/if}
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item list-group-item-secondary">
               {$_("sidebars.home.playing", {
                 values: {
                   playerCount: $data.mainServer?.playerCount || 0,
@@ -38,7 +38,7 @@
                 },
               })}
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item list-group-item-secondary">
               {$data.serverGameVersion}
             </li>
           </ul>

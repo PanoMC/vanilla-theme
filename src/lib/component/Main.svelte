@@ -2,8 +2,12 @@
 <main class="container">
   <div class="row g-3">
     {#if sidebarEnabled}
-      <svelte:component this="{$sidebar}"
-                        {...{ ...$sidebarProps, side: sidebarPosition === 'LEFT' ? 'left' : 'right' }} />
+      <svelte:component
+        this={$sidebar}
+        {...{
+          ...$sidebarProps,
+          side: sidebarPosition === "LEFT" ? "left" : "right",
+        }} />
     {/if}
 
     <!-- Content -->
@@ -11,7 +15,6 @@
       <slot />
     </div>
     <!-- Content End -->
-
   </div>
 </main>
 
@@ -23,6 +26,16 @@
   const sidebarProps = getContext("sidebarProps");
   const themeSettings = getContext("themeSettings");
 
-  $: sidebarEnabled = typeof themeSettings.sidebarEnabled === "undefined" ? true : themeSettings.sidebarEnabled;
-  $: sidebarPosition = typeof themeSettings.sidebarPosition !== "undefined" ? themeSettings.sidebarPosition : !$sidebarProps.side ? "RIGHT" : $sidebarProps.side === "left" ? "LEFT" : "RIGHT";
+  $: sidebarEnabled =
+    typeof themeSettings.sidebarEnabled === "undefined"
+      ? true
+      : themeSettings.sidebarEnabled;
+  $: sidebarPosition =
+    typeof themeSettings.sidebarPosition !== "undefined"
+      ? themeSettings.sidebarPosition
+      : !$sidebarProps.side
+        ? "RIGHT"
+        : $sidebarProps.side === "left"
+          ? "LEFT"
+          : "RIGHT";
 </script>

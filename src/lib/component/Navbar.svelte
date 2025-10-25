@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
   <nav
-    class="navbar navbar-expand-lg navbar-dark bg-primary bg-gradient border rounded rounded-{themeSettings.navRoundLevel
+    class="navbar navbar-expand-lg navbar-dark bg-primary bg-gradient rounded rounded-{themeSettings.navRoundLevel
       ? +themeSettings.navRoundLevel
       : '5'}">
     <div class="container">
@@ -100,7 +100,7 @@
                             },
                           })}</span>
                         <br />
-                        <small class="text-muted">
+                        <small>
                           {getTime(
                             checkTime,
                             parseInt(notification.createdAt),

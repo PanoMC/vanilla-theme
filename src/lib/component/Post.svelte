@@ -1,4 +1,4 @@
-<div class="card rounded-4 mb-3">
+<div class="card rounded-4">
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
     <a href="/post/{post.url}">
       <div
@@ -19,7 +19,7 @@
   <div class="card-body">
     <div class="row mb-3 justify-content-center">
       <div class="col">
-        <a class="card-title text-black focus-ring rounded" href="/post/{post.url}">
+        <a class="card-title focus-ring rounded" href="/post/{post.url}">
           <h3 class="mb-0 d-inline-block text-break">
             {truncate(post.title, 100)}{@html post.title.length > 100
               ? "&hellip;"
@@ -30,7 +30,7 @@
       <div class="col-auto">
         {#if post.category.title !== "-"}
           <a
-            class="badge text-bg-secondary text-decoration-none rounded-pill focus-ring"
+            class="badge fs-6 text-bg-secondary text-decoration-none rounded-pill focus-ring"
             href="/?category={post.category.url}"
             use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
             {post.category.title}
@@ -46,7 +46,7 @@
   <div class="card-footer d-flex align-items-center justify-content-between">
     {#if detail}
       {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
-        <ul class="m-0 p-0 text-muted">
+        <ul class="m-0 p-0">
           <li class="list-inline">
             <div
               class="list-inline-item px-1"

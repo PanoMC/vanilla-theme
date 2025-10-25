@@ -53,7 +53,7 @@
                     values: { ...sanitizeObject(notification.details || {}) },
                   })}</span>
                 <br />
-                <small class="text-muted">
+                <small>
                   {getTime(
                     checkTime,
                     parseInt(notification.createdAt),

@@ -5,8 +5,8 @@
         {$_("pages.category-posts.title", {
           values: {
             categoryTitle: data.category.title,
-            postCount: data.postCount
-          }
+            postCount: data.postCount,
+          },
         })}
       </h4>
     </div>
@@ -19,21 +19,23 @@
   </div>
 {/if}
 
-<!-- Post Cards -->
-{#if typeof themeSettings.postsEnabled === 'undefined' ? true : themeSettings.postsEnabled}
-  <Posts posts="{data.posts}" />
-{/if}
-<!-- Post Cards End -->
+<!-- Posts -->
+<div class="vstack gap-3">
+  {#if typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled}
+    <Posts posts={data.posts} />
+  {/if}
+</div>
+<!-- Posts End -->
 
 <!-- Pagination -->
-{#if (typeof themeSettings.postsEnabled === 'undefined' ? true : themeSettings.postsEnabled) && data.postCount > 0}
+{#if (typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled) && data.postCount > 0}
   <Pagination
-    page="{data.page}"
-    totalPage="{data.totalPage}"
-    loading="{false}"
-    on:firstPageClick="{() => onPageClick(data, 1)}"
-    on:lastPageClick="{() => onPageClick(data, data.totalPage)}"
-    on:pageLinkClick="{(event) => onPageClick(data, event.detail.page)}" />
+    page={data.page}
+    totalPage={data.totalPage}
+    loading={false}
+    on:firstPageClick={() => onPageClick(data, 1)}
+    on:lastPageClick={() => onPageClick(data, data.totalPage)}
+    on:pageLinkClick={(event) => onPageClick(data, event.detail.page)} />
 {/if}
 
 <!-- Pagination End -->
