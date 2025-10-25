@@ -11,7 +11,7 @@
     {/if}
 
     <!-- Content -->
-    <div class="col">
+    <div class="col-lg-8">
       <slot />
     </div>
     <!-- Content End -->
