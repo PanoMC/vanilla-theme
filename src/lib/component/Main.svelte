@@ -11,7 +11,7 @@
     {/if}
 
     <!-- Content -->
-    <div class="col-lg-8">
+    <div class:col={!sidebarEnabled} class:col-lg-8={sidebarEnabled && $sidebar}>
       <slot />
     </div>
     <!-- Content End -->
