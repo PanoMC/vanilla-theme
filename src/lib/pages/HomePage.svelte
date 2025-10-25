@@ -19,26 +19,26 @@
   </div>
 {/if}
 
-<!-- Posts -->
 <div class="vstack gap-3">
+  <!-- Posts -->
   {#if typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled}
     <Posts posts={data.posts} />
   {/if}
+  <!-- Posts End -->
+
+  <!-- Pagination -->
+  {#if (typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled) && data.postCount > 0}
+    <Pagination
+      page={data.page}
+      totalPage={data.totalPage}
+      loading={false}
+      on:firstPageClick={() => onPageClick(data, 1)}
+      on:lastPageClick={() => onPageClick(data, data.totalPage)}
+      on:pageLinkClick={(event) => onPageClick(data, event.detail.page)} />
+  {/if}
+  <!-- Pagination End -->
 </div>
-<!-- Posts End -->
 
-<!-- Pagination -->
-{#if (typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled) && data.postCount > 0}
-  <Pagination
-    page={data.page}
-    totalPage={data.totalPage}
-    loading={false}
-    on:firstPageClick={() => onPageClick(data, 1)}
-    on:lastPageClick={() => onPageClick(data, data.totalPage)}
-    on:pageLinkClick={(event) => onPageClick(data, event.detail.page)} />
-{/if}
-
-<!-- Pagination End -->
 <script context="module">
   import { processLoad } from "$lib/ui-logics/page-logics/HomePageLogics";
 
