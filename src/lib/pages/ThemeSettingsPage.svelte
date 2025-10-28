@@ -339,7 +339,7 @@
           <div class="col-md-6">
             <select class="form-select" id="headerBgImageSize"
                     on:change={e => themeSettings.headerBgImageSize = e.target.value}
-                    value={themeSettings.headerBgImageSize || 'auto'}>
+                    value={themeSettings.headerBgImageSize || 'cover'}>
               <option value="auto">Orijinal Boyut</option>
               <option value="cover">Doldur</option>
               <option value="contain">Sığdır</option>

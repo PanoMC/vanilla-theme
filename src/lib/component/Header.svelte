@@ -2,12 +2,6 @@
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
 
-<style>
-  .hero-content {
-
-  }
-</style>
-
 <!-- Header -->
 <div class="hero" class:container={headerWidthOption !== "FULL_SIZE"}>
   <div
@@ -81,7 +75,7 @@
       background-image: url(${defaultHeaderBg ? "/assets/img/default-header-bg.png" : themeSettings.files?.headerBackgroundImage ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage : ""}) !important;
       ${themeSettings.headerBgImagePosition ? `background-position: ${themeSettings.headerBgImagePosition} !important;` : ""}
       ${themeSettings.headerBgImageRepeat ? `background-repeat: ${themeSettings.headerBgImageRepeat} !important;` : ""}
-      ${themeSettings.headerBgImageSize ? `background-size: ${themeSettings.headerBgImageSize} !important;` : ""}
+      background-size: ${themeSettings.headerBgImageSize || "cover"} !important;
     }
   `;
 </script>
