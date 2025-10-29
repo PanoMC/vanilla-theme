@@ -1,17 +1,11 @@
 <div class="card rounded-5 border-0 mb-3">
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
-    <div
-      class="position-relative"
-      style="
-      aspect-ratio: 16 / 9;
-      width: 100%;
-      overflow: hidden;
-    ">
+    <div class="position-relative overflow-hidden">
       <img
         src={data.post.thumbnailUrl}
         class="w-100 h-100 d-block rounded-5"
-        style="object-fit: cover;"
+        style="object-fit: cover; min-height: 300px;"
         alt={data.post.title}
         title={data.post.title} />
 
@@ -24,17 +18,24 @@
         border-bottom-right-radius: 1rem;
       ">
         <!-- Footer bilgileri -->
-        <div
-          class="d-flex align-items-center justify-content-between mt-2 small text-white-50 position-relative">
-          {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
-            <div class="text-white">
-              <i class="fas fa-eye me-2"></i>
-              {data.post.views}
+        <div class="d-flex flex-lg-row align-items-end justify-content-between">
+          <div
+            class="col-lg-3 d-flex align-items-end justify-content-start h-100">
+            {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
+              <div class="opacity-75">
+                <i class="fas fa-eye me-2"></i>
+                {data.post.views}
+              </div>
+            {/if}
+          </div>
+          <div class="col-lg-6">
+            <h1 class="mx-auto text-center display-5">{data.post.title}</h1>
+            <div class="text-center opacity-75">
+              <Date time={data.post.date} />
             </div>
-          {/if}
-          <h1 class="position-absolute mx-auto">{data.post.title}</h1>
-          <div class="d-flex align-items-center">
-            <Date time={data.post.date} />
+          </div>
+          <div
+            class="col-lg-3 d-flex align-items-end justify-content-end opacity-75">
             <a
               href="/player/{data.post.writer.username}"
               class="d-inline-block focus-ring rounded-circle ms-2"
@@ -45,8 +46,8 @@
               <img
                 src="https://minotar.net/avatar/{data.post.writer.username}"
                 alt={data.post.writer.username}
-                width="28"
-                height="28"
+                width="24"
+                height="24"
                 use:tooltip={[
                   data.post.writer.username,
                   { placement: "bottom" },
@@ -60,9 +61,9 @@
   {/if}
 </div>
 
-<div class="vstack gap-3">
+<div class="text-center">
   <h1
-    class="m-0 text-truncate mx-auto"
+    class="display-6 mb-3"
     hidden={(typeof themeSettings.postCoverImageEnabled === "undefined"
       ? true
       : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}>
@@ -72,7 +73,7 @@
   </h1>
   {#if data.post.category.title !== "-"}
     <a
-      class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring mb-2 mx-auto"
+      class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring"
       href="/?category={data.post.category.url}"
       use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
       {data.post.category.title}
