@@ -1,7 +1,6 @@
 <style global lang="scss">
   .clamp-text {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -29,7 +28,7 @@
   <div class="card-body">
     <div class="row mb-3 justify-content-center">
       <div class="col">
-        <a class="focus-ring rounded" href="/post/{post.url}">
+        <a class="d-inline-block focus-ring rounded" href="/post/{post.url}">
           <h2 class="mb-0 d-inline-block text-break display-6">
             {truncate(post.title, 100)}{@html post.title.length > 100
               ? "&hellip;"

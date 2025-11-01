@@ -1,48 +1,46 @@
 <Sidebar side={side}>
-  <div class="vstack gap-3">
+  <div class="vstack gap-3" >
     <!-- Play Button -->
-    <div class="ratio ratio-1x1">
-      <div class="card">
-        <div class="card-header p-0">
-          <button
-            class="btn btn-secondary btn-lg w-100"
-            type="button"
-            on:click={onCopyCommandTextClick}
-            use:tooltip={[
-              isCommandTextCopied
-                ? $_("sidebars.home.copied")
-                : $_("sidebars.home.copy"),
-              { placement: "bottom", hideOnClick: false },
-            ]}>
-            <b>{$data.ipAddress}</b>
-            <br />
-            <span class="fs-6 fw-normal opacity-50">
-              {$_("buttons.click-to-copy")}</span>
-          </button>
-        </div>
-        <div
-          class="card-body rounded-bottom d-flex flex-column align-items-center justify-content-center blocks">
-          <ul class="list-group list-group-flush text-center">
-            <li class="list-group-item">
-              {#if serverOnline}
-                {$_("sidebars.home.online")}
-              {:else}
-                {$_("sidebars.home.offline")}
-              {/if}
-            </li>
-            <li class="list-group-item">
-              {$_("sidebars.home.playing", {
-                values: {
-                  playerCount: $data.mainServer?.playerCount || 0,
-                  maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-                },
-              })}
-            </li>
-            <li class="list-group-item">
-              {$data.serverGameVersion}
-            </li>
-          </ul>
-        </div>
+    <div class="card">
+      <div class="card-header p-0">
+        <button
+          class="btn btn-link btn-lg text-decoration-none d-block mx-auto focus-ring"
+          type="button"
+          on:click={onCopyCommandTextClick}
+          use:tooltip={[
+            isCommandTextCopied
+              ? $_("sidebars.home.copied")
+              : $_("sidebars.home.copy"),
+            { placement: "bottom", hideOnClick: false },
+          ]}>
+          <b>{$data.ipAddress}</b>
+          <br />
+          <span class="fs-6 fw-normal opacity-50 d-none">
+            {$_("buttons.click-to-copy")}</span>
+        </button>
+      </div>
+      <div
+        class="card-body d-flex flex-column align-items-center justify-content-center">
+        <ul class="list-group list-group-flush text-center">
+          <li class="list-group-item">
+            {#if serverOnline}
+              {$_("sidebars.home.online")}
+            {:else}
+              {$_("sidebars.home.offline")}
+            {/if}
+          </li>
+          <li class="list-group-item">
+            {$_("sidebars.home.playing", {
+              values: {
+                playerCount: $data.mainServer?.playerCount || 0,
+                maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+              },
+            })}
+          </li>
+          <li class="list-group-item">
+            {$data.serverGameVersion}
+          </li>
+        </ul>
       </div>
     </div>
     <!-- Play Button End -->

@@ -2,7 +2,7 @@
 {#if themeSettings.footerContent}
   {@html themeSettings.footerContent}
 {:else}
-  <div class="container-fluid mt-5 bg-gradient border-top py-5">
+  <div class="container-fluid mt-5 border-top py-5">
     <div class="row justify-content-center align-items-center g-3">
       <div
         class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
