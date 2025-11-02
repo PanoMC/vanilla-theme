@@ -1,4 +1,4 @@
-<div class="card rounded-5 border-0 mb-3">
+<div class="card mb-3 border-0">
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
     <div class="position-relative overflow-hidden">
@@ -11,11 +11,9 @@
 
       <!-- Başlık + footer -->
       <div
-        class="position-absolute bottom-0 start-0 w-100 text-white p-3"
+        class="position-absolute bottom-0 start-0 w-100 text-white p-3 rounded-5"
         style="
         background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
       ">
         <!-- Footer bilgileri -->
         <div class="d-flex flex-lg-row align-items-end justify-content-between">
