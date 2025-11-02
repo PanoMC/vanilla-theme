@@ -26,7 +26,7 @@
     </a>
   {/if}
   <div class="card-body">
-    <div class="row mb-3 justify-content-center">
+    <div class="row mb-3 g-2 justify-content-center">
       <div class="col">
         <a class="d-inline-block focus-ring rounded" href="/post/{post.url}">
           <h2 class="mb-0 d-inline-block text-break display-6">
@@ -36,7 +36,7 @@
           </h2>
         </a>
       </div>
-      <div class="col-auto">
+      <div class="col-sm-auto order-sm-last order-first">
         {#if post.category.title !== "-"}
           <a
             class="badge fs-6 text-bg-secondary text-decoration-none rounded-pill focus-ring"
