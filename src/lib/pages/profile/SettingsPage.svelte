@@ -132,6 +132,34 @@
         </form>
       </div>
     </div>
+
+    {#if $session.siteInfo.allowUserLocaleSelection}
+      <div class="row">
+        <label class="col-md-4 col-form-label" for="userLocaleCode">
+          {$_("pages.settings.inputs.display-language.title")}
+        </label>
+        <div class="col col-form-label">
+          <select
+            class="form-control"
+            id="userLocaleCode"
+            bind:value="{$userLocale}">
+            {#each Object.keys($Languages) as language, index (language)}
+              <option value="{$Languages[language].code}"
+              >{$Languages[language].name}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/if}
+    {#if saveButtonVisible}
+      <button
+        class="btn btn-secondary"
+        class:disabled="{saveButtonDisabled}"
+        aria-disabled="{saveButtonDisabled}"
+        on:click="{() => saveSettings(userLocale, saveButtonLoading)}"
+      >{$_("buttons.save")}
+      </button>
+    {/if}
   </div>
 </div>
 
@@ -156,8 +184,15 @@
     startChangingEmail,
     startChangingEmail2ndStep,
     stopChangingEmail,
-    stopChangingEmail2ndStep
+    stopChangingEmail2ndStep,
+    saveSettings
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
+
+  import { Languages } from "$lib/language.util";
+
+  export let data;
+
+  const session = getContext("session");
 
   const {
     resetPasswordError,
@@ -170,7 +205,10 @@
     changingEmailError,
     changingEmailLoading,
     changingEmailSuccess,
-  } = init();
+    userLocale,
+    saveButtonLoading
+  } = init($session);
 
-  const session = getContext("session");
+  $: saveButtonVisible = $session.siteInfo.allowUserLocaleSelection
+  $: saveButtonDisabled = $userLocale === $session.siteInfo.locale || $saveButtonLoading
 </script>

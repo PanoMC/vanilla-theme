@@ -23,7 +23,8 @@
     "profile": "Profil",
     "tickets": "Talepler",
     "settings": "Ayarlar",
-    "logout": "Çıkış Yap"
+    "logout": "Çıkış Yap",
+    "save": "Kaydet"
   },
   "nav-links": {
     "support": "Destek",
@@ -210,6 +211,9 @@
     "settings": {
       "title": "Ayarlar",
       "inputs": {
+        "display-language": {
+          "title": "Görüntüleme Dili"
+        },
         "change-password": {
           "title": "Şifre Değiştir",
           "description": "Şifre sıfırlama bağlantısı gönder",

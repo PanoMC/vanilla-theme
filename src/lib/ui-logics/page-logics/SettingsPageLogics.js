@@ -1,11 +1,12 @@
 import { get, writable } from "svelte/store";
 
 import { sendResetPassword } from "$lib/services/auth";
-import { sendChangeEmail } from "$lib/services/profile";
+import { sendChangeEmail, sendUpdateProfile } from "$lib/services/profile";
 
 import { NETWORK_ERROR } from "$lib/api.util";
 
 import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
+import { changeLanguage, getLanguageByLocale } from "$lib/language.util.js";
 
 /**
  * @type {import("@sveltejs/kit").Load}
@@ -101,7 +102,22 @@ export function stopChangingEmail2ndStep(changingEmail2ndStep) {
   changingEmail2ndStep.set(false);
 }
 
-export function init() {
+export async function saveSettings(userLocale, saveButtonLoading) {
+  saveButtonLoading.set(true)
+
+  await sendUpdateProfile({localeCode: get(userLocale)}).then((body) => {
+    if (body.error) {
+      location.reload();
+      return;
+    }
+
+    changeLanguage(getLanguageByLocale(get(userLocale)))
+  }).catch(() => {
+    location.reload();
+  })
+}
+
+export function init(session) {
   const resetPasswordError = writable();
   const resetPasswordLoading = writable();
   const resetPasswordSuccess = writable();
@@ -116,6 +132,9 @@ export function init() {
   const changingEmailLoading = writable();
   const changingEmailSuccess = writable();
 
+  const userLocale = writable(session.siteInfo.locale)
+  const saveButtonLoading = writable()
+
   return {
     resetPasswordError,
     resetPasswordLoading,
@@ -126,6 +145,8 @@ export function init() {
     changingEmail2ndStep,
     changingEmailError,
     changingEmailLoading,
-    changingEmailSuccess
+    changingEmailSuccess,
+    userLocale,
+    saveButtonLoading
   };
 }

@@ -29,3 +29,9 @@ export const sendChangeEmail = async (currentPassword, newEmail) => {
     },
   });
 };
+
+export const sendUpdateProfile = async (body) => {
+  return ApiUtil.put({
+    path: "/api/profile", body
+  });
+};

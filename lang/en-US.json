@@ -23,7 +23,8 @@
     "profile": "Profile",
     "tickets": "Tickets",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "save": "Save"
   },
   "nav-links": {
     "support": "Support",
@@ -210,6 +211,9 @@
     "settings": {
       "title": "Settings",
       "inputs": {
+        "display-language": {
+          "title": "Display Language"
+        },
         "change-password": {
           "title": "Change Your Password",
           "description": "Send password reset link",
