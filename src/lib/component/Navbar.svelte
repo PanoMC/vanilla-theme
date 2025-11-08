@@ -158,126 +158,18 @@
 
 <!-- Navbar End -->
 <script>
-  import { getContext, onDestroy, onMount } from "svelte";
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
-
-  import { sanitize } from "@jill64/universal-sanitizer";
-
-  import { formatDistanceToNow } from "date-fns";
-  import * as locales from "date-fns/locale";
 
   import { page } from "$app/stores";
   import { PANEL_URL } from "$lib/variables.js";
 
-  import { logout, notificationsCount, quickNotifications } from "$lib/Store";
-  import ApiUtil from "$lib/api.util.js";
-  import { currentLanguage } from "$lib/language.util.js";
-  import { onNotificationClick } from "$lib/NotificationManager.js";
-
-  import NoContent from "$lib/component/NoContent.svelte";
-
-  let quickNotificationProcessID = 0;
-
-  let checkTime = 0;
-  let interval, showingQuickNotification;
+  import { logout, notificationsCount } from "$lib/Store";
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");
 
   $: navbarWidthOption = themeSettings.navbarWidthOption || "BY_CONTENT";
-
-  function delay(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-
-  async function markQuickNotificationsAsRead(id) {
-    await delay(1000);
-
-    ApiUtil.post({
-      path: "/api/notifications/quick/markAsRead",
-    }).then((body) => {
-      if (quickNotificationProcessID === id) {
-        if (body.result === "ok") {
-          notificationsCount.set(body.notificationCount);
-        }
-
-        setTimeout(() => {
-          if (quickNotificationProcessID === id) {
-            startMarkQuickNotificationsAsReadCountDown(id);
-          }
-        }, 1000);
-      }
-    });
-  }
-
-  function startMarkQuickNotificationsAsReadCountDown(id) {
-    markQuickNotificationsAsRead(id);
-  }
-
-  function getTime(check, time, locale) {
-    return formatDistanceToNow(time, { addSuffix: true, locale });
-  }
-
-  function scheduleReadForLast5(notifications) {
-    if (!showingQuickNotification) return;
-
-    notifications.slice(0, 5).forEach((notification) => {
-      if (notification.status === "NOT_READ") {
-        setTimeout(() => {
-          if (!showingQuickNotification) return;
-
-          quickNotifications.update((notifications) => {
-            notifications.forEach((subNotification) => {
-              if (subNotification.id === notification.id) {
-                notification.status = "READ";
-              }
-            });
-
-            return notifications;
-          });
-        }, 3000);
-      }
-    });
-  }
-
-  onDestroy(quickNotifications.subscribe(scheduleReadForLast5));
-
-  onMount(() => {
-    const dropdown = document.getElementById("quickNotificationsDropdown");
-
-    dropdown.addEventListener("show.bs.dropdown", function () {
-      quickNotificationProcessID++;
-
-      const id = quickNotificationProcessID;
-
-      startMarkQuickNotificationsAsReadCountDown(id);
-
-      showingQuickNotification = true;
-
-      scheduleReadForLast5($quickNotifications);
-    });
-
-    dropdown.addEventListener("hide.bs.dropdown", function () {
-      quickNotificationProcessID++;
-
-      showingQuickNotification = false;
-    });
-
-    interval = setInterval(() => {
-      checkTime += 1;
-    }, 1000);
-  });
-
-  onDestroy(() => {
-    clearInterval(interval);
-  });
-
-  function sanitizeObject(obj) {
-    return Object.keys(obj).reduce((sanitizedObj, key) => {
-      sanitizedObj[key] = sanitize(obj[key]);
-      return sanitizedObj;
-    }, {});
-  }
 
   function matching(path, pathName, startsWith = false) {
     return (
