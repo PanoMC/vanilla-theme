@@ -2,15 +2,6 @@
   <slot />
 </div>
 
-<style global>
-    :global(html),
-    :global(body) {
-        background: transparent !important;
-        margin: 0;
-        padding: 0;
-    }
-</style>
-
 <script context="module">
   import { processLoad } from "$lib/ui-logics/layout-logics/ThemeSettingsLayoutLogics";
 

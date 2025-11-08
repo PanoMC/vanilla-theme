@@ -1,6 +1,3 @@
-<style lang="scss" global>
-  @import "src/styles/style.scss";
-</style>
 
 <slot />
 

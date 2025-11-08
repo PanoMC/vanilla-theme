@@ -1,3 +1,7 @@
+<style lang="scss" global>
+  @import "src/styles/style.scss";
+</style>
+
 <!-- Main Container -->
 <main class="container">
   <div class="row g-3">
