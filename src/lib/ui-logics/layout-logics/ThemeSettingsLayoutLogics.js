@@ -14,6 +14,14 @@ function postHeight() {
   window.parent.postMessage({ type: "theme-iframe-height", height: h }, "*");
 }
 
+function postLoaded() {
+  window.parent.postMessage({ type: "theme-settings-loaded" }, "*");
+}
+
+function postReady() {
+  window.parent.postMessage({ type: "theme-settings-ready" }, "*");
+}
+
 export async function processLoad(event) {
   const { parent } = event;
   const parentData = await parent();
@@ -54,15 +62,11 @@ export function init() {
   const hidden = writable(true);
 
   onMount(async () => {
-    // Remove existing styles (since we're inside an iframe)
-    if (typeof window !== "undefined" && window.top !== window.self) {
-      // Also check again after DOMContentLoaded (for late-loading styles)
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', removeExistingStyles);
-      } else {
-        // If already loaded, wait a bit and check again
-        setTimeout(removeExistingStyles, 100);
-      }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', postLoaded);
+    } else {
+      // If already loaded, wait a bit and check again,
+      postLoaded()
     }
 
     window.addEventListener("load", postHeight);
@@ -70,6 +74,7 @@ export function init() {
     
     // CSS inject and theme listener
     window.addEventListener("message", function(e) {
+      console.log("Received message", e);
       if (e.data && e.data.type === "theme-iframe-ping") {
         postHeight();
       }
@@ -82,6 +87,7 @@ export function init() {
       
       // CSS inject message
       if (e.data && e.data.type === "inject-css" && e.data.css) {
+        removeExistingStyles();
         console.log('Received CSS from panel:', e.data.css.substring(0, 100) + '...');
         
         // Clear previously injected CSS
@@ -108,7 +114,10 @@ export function init() {
         console.log('CSS injected successfully');
         
         // Update height after CSS is loaded
-        setTimeout(postHeight, 100);
+        setTimeout(() => {
+          postHeight();
+          postReady();
+        }, 100);
       }
     });
 
