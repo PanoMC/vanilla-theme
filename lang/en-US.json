@@ -24,19 +24,14 @@
     "tickets": "Tickets",
     "settings": "Settings",
     "logout": "Logout",
-    "save": "Save"
+    "save": "Save",
+    "notifications": "Notifications"
   },
   "nav-links": {
     "support": "Support",
     "panel": "Panel",
     "homepage": "Homepage",
     "rules": "Rules"
-  },
-  "navbar": {
-    "notifications": {
-      "title": "Notifications",
-      "show-all": "Show All"
-    }
   },
   "footer": {
     "been-created-with": "Created with {pano}."
@@ -157,6 +152,7 @@
       "last-login": "Last Login"
     },
     "notifications": {
+      "page-title": "Notifications",
       "delete-notification": "Delete Notification",
       "show-more": "Show More ({count})"
     },

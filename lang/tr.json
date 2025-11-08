@@ -24,19 +24,14 @@
     "tickets": "Talepler",
     "settings": "Ayarlar",
     "logout": "Çıkış Yap",
-    "save": "Kaydet"
+    "save": "Kaydet",
+    "notifications": "Bildirimler"
   },
   "nav-links": {
     "support": "Destek",
     "panel": "Panel",
     "homepage": "Ana Sayfa",
     "rules": "Kurallar"
-  },
-  "navbar": {
-    "notifications": {
-      "title": "Bildirimler",
-      "show-all": "Tümünü Görüntüle"
-    }
   },
   "footer": {
     "been-created-with": "{pano} ile oluşturuldu."
@@ -157,6 +152,7 @@
       "last-login": "Son Giriş"
     },
     "notifications": {
+      "page-title": "Bildirimler",
       "delete-notification": "Bildirimi Sil",
       "show-more": "Daha Fazla Göster ({count})"
     },

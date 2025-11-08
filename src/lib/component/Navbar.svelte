@@ -33,100 +33,12 @@
           </li>
         {/if}
 
-        <!-- Notifications Dropdown -->
-        <div
-          class="nav-item position-relative"
-          class:d-none={!$session.user}
-          id="quickNotificationsDropdown">
-          <button
-            class="nav-link"
-            data-bs-toggle="dropdown"
-            href="javascript:void(0);"
-            title={$_("navbar.notifications.title")}
-            type="button">
-            <i class="fa-regular fa-bolt"></i>
-            {#if $notificationsCount !== 0}
-              <span
-                class="position-absolute px-2 py-1 translate-middle badge rounded-pill bg-danger">
-                {$notificationsCount}
-              </span>
-            {/if}
-          </button>
-          <div
-            class="dropdown-menu dropdown-menu-end position-absolute"
-            style="width: 285px;">
-            <h6 class="dropdown-header">
-              {$_("navbar.notifications.title")}
-              {$notificationsCount === 0 ? "" : "(" + $notificationsCount + ")"}
-            </h6>
-
-            {#if $quickNotifications.length === 0}
-              <NoContent />
-            {:else}
-              <div class="list-group list-group-flush">
-                {#each $quickNotifications as notification, index (notification)}
-                  <button
-                    class="list-group-item list-group-item-action focus-ring"
-                    type="button"
-                    title={$_("buttons.view")}
-                    on:click={() => onNotificationClick(notification)}
-                    class:notification-unread={notification.status ===
-                      "NOT_READ"}>
-                    <div
-                      class="d-flex align-item-start justify-content-start gap-3">
-                      <span class="d-flex align-items-center">
-                        {#if notification.details.faIcon}
-                          <i
-                            class="{notification.details
-                              .faIcon} fa-lg fa-fw text-primary"></i>
-                        {:else if notification.details.image || notification.details.username}
-                          <img
-                            src={notification.details.image ||
-                              `https://minotar.net/avatar/${notification.details.username}/64`}
-                            alt={$_("buttons.view")}
-                            width="18"
-                            height="18"
-                            class="rounded-circle" />
-                        {:else}
-                          <i class="fa fa-bolt fa-lg fa-fw text-primary"></i>
-                        {/if}
-                      </span>
-
-                      <div class="fw-normal">
-                        <span class="text-wrap markdown-renderer text-break"
-                          >{@html $_("notifications." + notification.type, {
-                            values: {
-                              ...sanitizeObject(notification.details || {}),
-                            },
-                          })}</span>
-                        <br />
-                        <small>
-                          {getTime(
-                            checkTime,
-                            parseInt(notification.createdAt),
-                            locales[$currentLanguage.dateFnsCode],
-                          )}
-                        </small>
-                      </div>
-                    </div>
-                  </button>
-                {/each}
-              </div>
-            {/if}
-
-            <a class="dropdown-item bg-transparent focus-ring" href="/notifications">
-              <button class="btn btn-sm btn-primary w-100">
-                {$_("buttons.show-all")}</button>
-            </a>
-          </div>
-        </div>
-
         {#if $session.user}
           <!-- User Dropdown -->
           <li class="nav-item dropdown position-relative">
             <button
               type="button"
-              class="nav-link"
+              class="nav-link position-relative"
               data-bs-toggle="dropdown"
               aria-expanded="false"
               title={$session.user.username}>
@@ -136,6 +48,12 @@
                 src="https://minotar.net/avatar/{$session.user.username}"
                 width="24"
                 height="24" />
+              {#if $notificationsCount !== 0}
+                <span
+                  class="position-absolute top-0 end-0 badge rounded-pill bg-danger px-2 py-1">
+                  {$notificationsCount}
+                </span>
+              {/if}
             </button>
             <ul class="dropdown-menu dropdown-menu-end position-absolute">
               <h6 class="dropdown-header">{$session.user.username}</h6>
@@ -144,6 +62,17 @@
                   class:active={matching($page.url.pathname, "/profile")}
                   class="dropdown-item focus-ring"
                   href="/profile">{$_("buttons.profile")}</a>
+              </li>
+              <li>
+                <a
+                  class:active={matching($page.url.pathname, "/notifications")}
+                  class="dropdown-item focus-ring position-relative"
+                  href="/notifications">{$_("buttons.notifications")}
+                  {#if $notificationsCount !== 0}
+                    <span
+                      class="position-absolute top-0 badge rounded-pill bg-danger p-1 d-inline">
+                    </span>
+                  {/if}</a>
               </li>
               <li>
                 <a

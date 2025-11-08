@@ -18,7 +18,7 @@
 
   <div class="card">
     <div class="card-header">
-      {$_("navbar.notifications.title")}
+      {$_("pages.notifications.page-title")}
     </div>
     <div class="card-body">
       <div class="list-group" class:d-none={$notifications.length === 0}>
