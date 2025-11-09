@@ -1,1 +1,1 @@
-export { load } from "$lib/layouts/ThemeSettingsLayout.svelte";
+export { loadServer as load } from "$lib/layouts/ThemeSettingsLayout.svelte";

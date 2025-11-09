@@ -5,6 +5,7 @@ import { writable } from "svelte/store";
 import { goto } from "$app/navigation";
 
 import { hasPermission, Permissions } from "$lib/auth.util";
+import { browser } from "$app/environment";
 
 function postHeight() {
   const h = Math.max(
@@ -22,7 +23,7 @@ function postReady() {
   window.parent.postMessage({ type: "theme-settings-ready" }, "*");
 }
 
-export async function processLoad(event) {
+export async function processLoadServer(event) {
   const { parent } = event;
   const parentData = await parent();
   const { user, siteInfo: { themeSettings } } = parentData;
@@ -32,6 +33,18 @@ export async function processLoad(event) {
   }
 
   return { themeSettings };
+}
+
+export async function processLoad(event) {
+  const { data } = event;
+
+  if (browser) {
+    if (typeof window !== "undefined" && window.top === window.self) {
+      throw redirect(302, "/");
+    }
+  }
+
+  return data;
 }
 
 // First remove existing global styles
@@ -185,11 +198,6 @@ export function init() {
 
     const ro = new ResizeObserver(postHeight);
     ro.observe(document.body);
-
-    if (typeof window !== "undefined" && window.top === window.self) {
-      await goto("/");
-      return;
-    }
 
     hidden.set(false);
 
