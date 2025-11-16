@@ -1,20 +1,47 @@
+<style lang="scss">
+  .post-detail-cover {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-detail-cover .ratio {
+    min-height: 300px;
+  }
+
+  .post-detail-cover #thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-detail-cover__overlay {
+    position: absolute;
+    inset: 0;
+    padding: 1.5rem;
+    color: #fff;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+</style>
+
 <div class="card mb-3 border-0">
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
-    <div class="position-relative overflow-hidden">
-      <img
-        src={data.post.thumbnailUrl}
-        class="w-100 h-100 d-block rounded-5"
-        style="object-fit: cover; min-height: 300px;"
-        alt={data.post.title}
-        title={data.post.title} />
+    <div class="post-detail-cover rounded-5">
+      <div class="ratio ratio-16x9">
+        <img
+          id="thumbnail"
+          src={data.post.thumbnailUrl}
+          class="d-block"
+          alt={data.post.title}
+          title={data.post.title} />
+      </div>
 
       <!-- Başlık + footer -->
-      <div
-        class="position-absolute bottom-0 start-0 w-100 text-white p-3 rounded-5"
-        style="
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-      ">
+      <div class="post-detail-cover__overlay rounded-5">
         <!-- Footer bilgileri -->
         <div class="d-flex flex-lg-row align-items-end justify-content-between">
           <div
