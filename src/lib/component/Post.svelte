@@ -5,21 +5,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .post-card-thumbnail-wrapper {
+    display: block;
+    width: 100%;
+  }
+
+  .post-card-thumbnail-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 </style>
 
 <div class="card rounded-4">
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
-    <a href="/post/{post.url}">
-      <div
-        style="
-          aspect-ratio: 16 / 9;
-          width: 100%;
-          overflow: hidden;
-        ">
+    <a href="/post/{post.url}" class="post-card-thumbnail-wrapper focus-ring rounded-top rounded-top-4 d-block">
+      <div class="ratio ratio-16x9 rounded-top rounded-top-4 overflow-hidden">
         <img
           src={post.thumbnailUrl}
           class="card-img-top rounded-top rounded-top-4"
-          style="object-fit: cover;"
           alt={post.title}
           title={post.title} />
       </div>
