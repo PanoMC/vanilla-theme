@@ -41,8 +41,8 @@
           <a href="/" class="d-inline-block">
             <img
               class="d-block mx-auto"
-              height="128"
               width="128"
+              height="auto"
               alt={$_("components.header.alt")}
               src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}" />
           </a>
