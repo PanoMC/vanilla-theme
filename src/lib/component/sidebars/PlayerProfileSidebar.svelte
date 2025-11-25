@@ -7,13 +7,20 @@
       <PlayerHead
         username={$data.username}
         inGame={$data.inGame}
+        banned={$data.banned}
         lastActivityTime={$data.lastActivityTime}
         checkTime={checkTime}
         width="128"
-        height="128" />
+        height="128"/>
       <div class="text-center">
+        {#if $data.banned}
+          <span class="badge rounded-pill text-bg-danger">
+            {$_('components.player-profile-sidebar.banned')}
+          </span>
+        {:else}
         <PlayerPermissionBadge
           permissionGroupName={$data.permissionGroupName} />
+        {/if}
       </div>
     </div>
   </div>
@@ -28,6 +35,7 @@
     lastActivityTime: 0,
     inGame: false,
     permissionGroupName: "",
+    banned: false
   });
 
   export const load = async (event) => {
@@ -47,6 +55,7 @@
 
 <script>
   import { onDestroy, onMount } from "svelte";
+  import { _ } from "svelte-i18n";
 
   import Sidebar from "$lib/component/Sidebar.svelte";
   import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";

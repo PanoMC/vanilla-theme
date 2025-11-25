@@ -66,6 +66,9 @@
     "player-permission-badge": {
       "player": "Player"
     },
+    "player-profile-sidebar": {
+      "banned": "Banned"
+    },
     "modals": {
       "login": {
         "title": "Login",

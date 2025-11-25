@@ -5,10 +5,11 @@
     width="{width}"
     height="{height}"
     alt="{username}"
-    class:border="{isOnline}"
-    class:border-3="{isOnline}"
-    class:border-success="{isOnline}"
-    use:tooltip="{[
+    class:border="{banned ||isOnline}"
+    class:border-3="{banned || isOnline}"
+    class:border-success="{!banned && isOnline}"
+    class:border-danger="{banned}"
+    use:tooltip="{!banned && [
       isOnline
         ? $_('components.player-head.' + (inGame ? 'in-game' : 'in-website'))
         : getOfflineRelativeDateText(checkTime),
@@ -20,7 +21,10 @@
     class="rounded d-block m-auto"
     width="{width}"
     height="{height}"
-    alt="{username}" />
+    alt="{username}"
+    class:border="{banned}"
+    class:border-3="{banned}"
+    class:border-danger="{banned}" />
 {/if}
 
 <script>
@@ -37,6 +41,7 @@
   export let checkTime;
   export let inGame = false;
   export let lastActivityTime;
+  export let banned;
 
   $: isOnline = lastActivityTime > Date.now() - 5 * 60 * 1000 || inGame;
 

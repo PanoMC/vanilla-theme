@@ -66,6 +66,9 @@
     "player-permission-badge": {
       "player": "Oyuncu"
     },
+    "player-profile-sidebar": {
+      "banned": "Yasaklanmış"
+    },
     "modals": {
       "login": {
         "title": "Giriş Yap",
