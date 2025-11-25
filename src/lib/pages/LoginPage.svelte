@@ -54,10 +54,13 @@
 <script>
   import { _ } from "svelte-i18n";
   import { getContext } from "svelte";
+  import { format } from "date-fns";
+  import * as locales from "date-fns/locale";
 
   import { invalidateAll } from "$app/navigation";
 
   import { NETWORK_ERROR } from "$lib/api.util";
+  import { currentLanguage } from "$lib/language.util";
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
 
@@ -65,7 +68,7 @@
 
   let usernameOrEmail = "",
     password = "";
-  let loading, error;
+  let loading, error, errorProperties;
 
   const session = getContext("session");
 
@@ -78,6 +81,25 @@
         if (body.result !== "ok") {
           loading = false;
           error = body.result === "error" ? body.error : NETWORK_ERROR;
+
+          if (body.result === "error" && body.error === "LOGIN_USER_IS_BANNED") {
+            if (!body.until) {
+              error = {key: "LOGIN_USER_IS_BANNED_PERMANENTLY"};
+              if (body.reason) {
+                error = {key: "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON", props: {reason: `'${body.reason}'`}};
+              }
+            } else {
+              const formattedUntil = format(new Date(body.until), 'dd/MM/yyyy HH:mm', {
+                locale: locales[$currentLanguage.dateFnsCode]
+              });
+
+              error = {key: "LOGIN_USER_IS_BANNED_TEMPORARY", props: {untilTime: formattedUntil}};
+
+              if (body.reason) {
+                error = {key: "LOGIN_USER_IS_BANNED_TEMPORARY_WITH_REASON", props: {reason: `'${body.reason}'`, untilTime: formattedUntil}};
+              }
+            }
+          }
 
           return;
         }
