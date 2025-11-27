@@ -292,7 +292,8 @@
     "REGISTER_USERNAME_TOO_SHORT": "Kullanıcı adı çok kısa!",
     "TICKET_IS_CLOSED": "Destek talebi kapatılmış!",
     "TITLE_CANT_BE_EMPTY": "Başlık boş olamaz!",
-    "USERNAME_OR_EMAIL_NOT_EXISTS": "Kullanıcı adı veya e-mail bulunamadı!"
+    "USERNAME_OR_EMAIL_NOT_EXISTS": "Kullanıcı adı veya e-mail bulunamadı!",
+    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "E-mail değiştirmeden önce 15 dakika bekleyin."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Kayıt başarıyla tamamlandı! E-postanızı doğrulamak için bir e-posta gönderildi.",

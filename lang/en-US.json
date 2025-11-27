@@ -290,7 +290,8 @@
     "REGISTER_USERNAME_NOT_AVAILABLE": "Username is not available!",
     "REGISTER_USERNAME_TOO_LONG": "Username is too long!",
     "REGISTER_USERNAME_TOO_SHORT": "Username is too short!",
-    "TICKET_IS_CLOSED": "Ticket is closed!"
+    "TICKET_IS_CLOSED": "Ticket is closed!",
+    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Can't change e-mail, wait 15 minutes."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Successfully registered! An e-email sent to verify your e-mail.",
