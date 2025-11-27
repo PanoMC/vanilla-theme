@@ -188,7 +188,7 @@
     saveSettings
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
-  import { Languages } from "$lib/language.util";
+  import { Languages, currentLanguage } from "$lib/language.util";
 
   export let data;
 
@@ -210,5 +210,5 @@
   } = init($session);
 
   $: saveButtonVisible = $session.siteInfo.allowUserLocaleSelection
-  $: saveButtonDisabled = $userLocale === $session.siteInfo.locale || $saveButtonLoading
+  $: saveButtonDisabled = $userLocale === $currentLanguage.code || $saveButtonLoading
 </script>

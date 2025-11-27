@@ -112,6 +112,7 @@ export async function saveSettings(userLocale, saveButtonLoading) {
     }
 
     changeLanguage(getLanguageByLocale(get(userLocale)))
+    saveButtonLoading.set(false)
   }).catch(() => {
     location.reload();
   })
