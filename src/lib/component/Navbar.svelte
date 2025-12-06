@@ -105,7 +105,7 @@
           </li>
           <li class="nav-item">
             <a href="/register"
-               class="btn btn-warning rounded-pill">
+               class="btn btn-secondary rounded-pill">
               {$_("buttons.register")}
             </a>
           </li>

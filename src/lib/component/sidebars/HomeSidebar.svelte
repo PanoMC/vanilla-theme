@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-header p-0">
         <button
-          class="btn btn-link btn-lg text-decoration-none d-block mx-auto focus-ring"
+          class="btn btn-link text-reset btn-lg text-decoration-none d-block mx-auto focus-ring"
           type="button"
           on:click={onCopyCommandTextClick}
           use:tooltip={[
