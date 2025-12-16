@@ -7,14 +7,19 @@
     position: relative;
     z-index: 2;
   }
+
+  .container {
+    max-width: 400px !important;
+  }
 </style>
 
-<div class="col-lg-6 mx-auto">
-  <div class="card">
-    <div class="card-header">{$_("components.modals.login.title")}</div>
-    <form on:submit|preventDefault={onSubmit}>
-      <div class="card-body">
-        <ErrorAlert error={error} />
+<PageHeader title={$_("components.modals.login.title")} />
+
+<div class="container mx-auto">
+  <form on:submit|preventDefault={onSubmit}>
+    <div class="vstack gap-3">
+      <ErrorAlert error={error} />
+      <div class="form-group">
         <div class="form-floating">
           <input
             bind:value={usernameOrEmail}
@@ -35,7 +40,7 @@
             >{$_("components.modals.login.inputs.password")}</label>
         </div>
       </div>
-      <div class="card-footer vstack gap-2">
+      <div class="vstack gap-3">
         <button
           class="btn btn-lg btn-secondary"
           class:disabled={loading}
@@ -47,8 +52,8 @@
           {$_("buttons.forgot-password")}
         </a>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <script>
@@ -63,6 +68,7 @@
   import { currentLanguage } from "$lib/language.util";
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import PageHeader from "$lib/component/PageHeader.svelte";
 
   import { getCredentials, sendLogin } from "$lib/services/auth.js";
 
@@ -82,21 +88,40 @@
           loading = false;
           error = body.result === "error" ? body.error : NETWORK_ERROR;
 
-          if (body.result === "error" && body.error === "LOGIN_USER_IS_BANNED") {
+          if (
+            body.result === "error" &&
+            body.error === "LOGIN_USER_IS_BANNED"
+          ) {
             if (!body.until) {
-              error = {key: "LOGIN_USER_IS_BANNED_PERMANENTLY"};
+              error = { key: "LOGIN_USER_IS_BANNED_PERMANENTLY" };
               if (body.reason) {
-                error = {key: "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON", props: {reason: `'${body.reason}'`}};
+                error = {
+                  key: "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON",
+                  props: { reason: `'${body.reason}'` },
+                };
               }
             } else {
-              const formattedUntil = format(new Date(body.until), 'dd/MM/yyyy HH:mm', {
-                locale: locales[$currentLanguage.dateFnsCode]
-              });
+              const formattedUntil = format(
+                new Date(body.until),
+                "dd/MM/yyyy HH:mm",
+                {
+                  locale: locales[$currentLanguage.dateFnsCode],
+                },
+              );
 
-              error = {key: "LOGIN_USER_IS_BANNED_TEMPORARY", props: {untilTime: formattedUntil}};
+              error = {
+                key: "LOGIN_USER_IS_BANNED_TEMPORARY",
+                props: { untilTime: formattedUntil },
+              };
 
               if (body.reason) {
-                error = {key: "LOGIN_USER_IS_BANNED_TEMPORARY_WITH_REASON", props: {reason: `'${body.reason}'`, untilTime: formattedUntil}};
+                error = {
+                  key: "LOGIN_USER_IS_BANNED_TEMPORARY_WITH_REASON",
+                  props: {
+                    reason: `'${body.reason}'`,
+                    untilTime: formattedUntil,
+                  },
+                };
               }
             }
           }

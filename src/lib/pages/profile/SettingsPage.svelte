@@ -10,7 +10,7 @@
       </label>
       <div class="col col-form-label">
         <button
-          class="btn btn-secondary"
+          class="btn btn-primary"
           class:is-invalid={$resetPasswordError}
           on:click={() => sendResetPasswordLink(resetPasswordError, resetPasswordLoading, resetPasswordSuccess, session)}
           aria-describedby="resetPassword validationResetPassword"
@@ -22,7 +22,7 @@
           {$_('errors.' + $resetPasswordError)}
         </div>
         {#if $resetPasswordSuccess}
-          <p class="text-dark mb-0">
+          <p class="mb-0">
             {$_("pages.settings.inputs.change-password.success-message")}
           </p>
         {/if}
@@ -59,7 +59,7 @@
                 {:else}
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-primary"
                     aria-describedby="userEmail"
                     on:click={() => startChangingEmail(changingEmail)}
                     disabled={!$session.siteInfo.emailEnabled}

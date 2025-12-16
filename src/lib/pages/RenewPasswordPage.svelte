@@ -1,7 +1,7 @@
 <div class="col-lg-4 col-md-6 m-auto">
   <div class="card">
     <div class="card-body">
-      <h3 class="card-title">{$_("pages.renew-password.title")}</h3>
+      <h5 class="card-title">{$_("pages.renew-password.title")}</h5>
       <ErrorAlert error={$error} />
       <SuccessAlert message={$message} />
       <form
@@ -17,22 +17,22 @@
         <div class="vstack gap-3">
           <div class="input-group">
             <div class="form-floating">
-              <label for="newPassword"
-                >{$_("pages.renew-password.inputs.new-password")}</label>
               <input
                 type="password"
                 id="newPassword"
                 class="form-control"
                 bind:value={$newPassword} />
+              <label for="newPassword"
+                >{$_("pages.renew-password.inputs.new-password")}</label>
             </div>
             <div class="form-floating">
-              <label for="newPasswordRepeat"
-                >{$_("pages.renew-password.inputs.new-password-repeat")}</label>
               <input
                 type="password"
                 id="newPasswordRepeat"
                 class="form-control"
                 bind:value={$newPasswordRepeat} />
+              <label for="newPasswordRepeat"
+                >{$_("pages.renew-password.inputs.new-password-repeat")}</label>
             </div>
           </div>
           <button
