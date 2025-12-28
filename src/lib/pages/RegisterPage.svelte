@@ -51,7 +51,7 @@
         <div class="form-floating">
           <input
             bind:value={password}
-            class="form-control rounded-bottom-0"
+            class="form-control rounded-bottom-0 border-bottom-0"
             disabled={loading}
             id="registerPassword"
             type="password" />
