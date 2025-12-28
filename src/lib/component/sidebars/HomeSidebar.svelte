@@ -1,24 +1,24 @@
 <Sidebar side={side}>
-  <div class="vstack gap-3" >
+  <div class="vstack gap-3">
     <!-- Play Button -->
+    <button
+      class="btn btn-secondary btn-lg w-100"
+      type="button"
+      on:click={onCopyCommandTextClick}
+      use:tooltip={[
+        isCommandTextCopied
+          ? $_("sidebars.home.copied")
+          : $_("sidebars.home.copy"),
+        { placement: "bottom", hideOnClick: false },
+      ]}>
+      <b>{$data.ipAddress}</b>
+      <br />
+      <span class="fs-6 fw-normal opacity-75">
+        {$_("buttons.click-to-copy")}</span>
+    </button>
+
+    <!-- Server Info Card -->
     <div class="card">
-      <div class="card-header p-0">
-        <button
-          class="btn btn-link text-reset btn-lg text-decoration-none d-block mx-auto focus-ring"
-          type="button"
-          on:click={onCopyCommandTextClick}
-          use:tooltip={[
-            isCommandTextCopied
-              ? $_("sidebars.home.copied")
-              : $_("sidebars.home.copy"),
-            { placement: "bottom", hideOnClick: false },
-          ]}>
-          <b>{$data.ipAddress}</b>
-          <br />
-          <span class="fs-6 fw-normal opacity-50 d-none">
-            {$_("buttons.click-to-copy")}</span>
-        </button>
-      </div>
       <div
         class="card-body d-flex flex-column align-items-center justify-content-center">
         <ul class="list-group list-group-flush text-center">
