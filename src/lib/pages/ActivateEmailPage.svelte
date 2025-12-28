@@ -12,7 +12,18 @@
         class:disabled="{$loading ||
           $error === 'INVALID_LINK' ||
           $successMessage !== null}"
-        on:click="{() => verifyEmail($error, $successMessage, $loading, data)}">{$_("buttons.activate-email")}</button>
+        disabled={$loading || $error === "INVALID_LINK" || $successMessage !== null}
+        on:click="{() => verifyEmail($error, $successMessage, $loading, data)}">
+        {#if $loading}
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-label="Loading"></span>
+          <span>{$_("buttons.activate-email")}...</span>
+        {:else}
+          {$_("buttons.activate-email")}
+        {/if}
+      </button>
     </div>
   </div>
 </div>

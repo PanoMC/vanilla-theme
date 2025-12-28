@@ -34,6 +34,7 @@
           <input
             bind:value={username}
             class="form-control rounded-bottom-0 border-bottom-0"
+            disabled={loading}
             id="registerUserName"
             type="text" />
           <label for="registerUserName"
@@ -43,6 +44,7 @@
           <input
             bind:value={email}
             class="form-control rounded-top-0"
+            disabled={loading}
             id="registerEmail"
             type="email" />
           <label for="registerEmail"
@@ -54,6 +56,7 @@
           <input
             bind:value={password}
             class="form-control rounded-bottom-0"
+            disabled={loading}
             id="registerPassword"
             type="password" />
           <label for="registerPassword"
@@ -63,6 +66,7 @@
           <input
             bind:value={passwordRepeat}
             class="form-control rounded-top-0"
+            disabled={loading}
             id="registerPasswordRepeat"
             type="password" />
           <label for="registerPasswordRepeat"
@@ -75,6 +79,7 @@
           <input
             bind:checked={agreement}
             class="form-check-input"
+            disabled={loading}
             id="registerAcceptTerms"
             type="checkbox" />
           <label class="form-check-label" for="registerAcceptTerms">
@@ -92,9 +97,21 @@
           class:disabled={loading}
           disabled={loading}
           type="submit">
-          {$_("buttons.register")}
+          {#if loading}
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-label="Loading"></span>
+            <span>{$_("buttons.register")}...</span>
+          {:else}
+            {$_("buttons.register")}
+          {/if}
         </button>
-        <a class="btn btn-link" href="/login">
+        <a
+          class="btn btn-link {loading ? 'disabled pe-none' : ''}"
+          aria-disabled={loading}
+          tabindex={loading ? -1 : undefined}
+          href="/login">
           {$_("buttons.already-registered")}
         </a>
       </div>

@@ -21,6 +21,7 @@
                 type="password"
                 id="newPassword"
                 class="form-control"
+                disabled={$loading}
                 bind:value={$newPassword} />
               <label for="newPassword"
                 >{$_("pages.renew-password.inputs.new-password")}</label>
@@ -30,6 +31,7 @@
                 type="password"
                 id="newPasswordRepeat"
                 class="form-control"
+                disabled={$loading}
                 bind:value={$newPasswordRepeat} />
               <label for="newPasswordRepeat"
                 >{$_("pages.renew-password.inputs.new-password-repeat")}</label>
@@ -38,8 +40,17 @@
           <button
             type="submit"
             class="btn btn-lg btn-secondary w-100"
-            class:disabled={$loading}>
-            {$_("buttons.change-password")}
+            class:disabled={$loading}
+            disabled={$loading}>
+            {#if $loading}
+              <span
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-label="Loading"></span>
+              <span>{$_("buttons.change-password")}...</span>
+            {:else}
+              {$_("buttons.change-password")}
+            {/if}
           </button>
         </div>
       </form>

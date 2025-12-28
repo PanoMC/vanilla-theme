@@ -24,6 +24,7 @@
           <input
             bind:value={usernameOrEmail}
             class="form-control rounded-bottom-0"
+            disabled={loading}
             id="usernameOrEmail"
             type="text" />
           <label for="usernameOrEmail"
@@ -34,6 +35,7 @@
           <input
             bind:value={password}
             class="form-control rounded-top-0"
+            disabled={loading}
             id="password"
             type="password" />
           <label for="password"
@@ -46,9 +48,21 @@
           class:disabled={loading}
           disabled={loading}
           type="submit">
-          {$_("buttons.login")}
+          {#if loading}
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-label="Loading"></span>
+            <span>{$_("buttons.login")}...</span>
+          {:else}
+            {$_("buttons.login")}
+          {/if}
         </button>
-        <a class="btn btn-link" href="/reset-password">
+        <a
+          class="btn btn-link {loading ? 'disabled pe-none' : ''}"
+          aria-disabled={loading}
+          tabindex={loading ? -1 : undefined}
+          href="/reset-password">
           {$_("buttons.forgot-password")}
         </a>
       </div>

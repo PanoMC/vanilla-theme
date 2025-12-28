@@ -16,6 +16,7 @@
           <div class="form-floating">
             <input
               type="text"
+              disabled={$loading}
               placeholder={$_(
                 "pages.reset-password.inputs.email-username.placeholder",
               )}
@@ -30,8 +31,17 @@
           <button
             type="submit"
             class="btn btn-lg btn-secondary w-100"
-            class:disabled={$loading || !$usernameOrEmail}>
-            {$_("buttons.reset-password")}
+            class:disabled={$loading || !$usernameOrEmail}
+            disabled={$loading || !$usernameOrEmail}>
+            {#if $loading}
+              <span
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-label="Loading"></span>
+              <span>{$_("buttons.reset-password")}...</span>
+            {:else}
+              {$_("buttons.reset-password")}
+            {/if}
           </button>
         </div>
       </form>
