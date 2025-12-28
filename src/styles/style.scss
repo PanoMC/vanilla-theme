@@ -12,9 +12,6 @@
   --animate-duration: 250ms;
 }
 
-.notification-unread {
-  animation: readNotification 3s ease-in-out;
-}
 
 @keyframes readNotification {
   0% {
@@ -27,29 +24,7 @@
 
 // Theme Styles
 
-// #header {
-//   width: 100%;
-//   height: 100%;
-//   overflow: hidden;
-//   background: $light;
-//   background: linear-gradient(rgba(0, 0, 0, 0) 25%, $light),
-//     url("/assets/img/header-bg.jpg");
-//   background-size: cover;
-// }
-
-.blocks {
-  background-position:
-    bottom right,
-    bottom left,
-    bottom left;
-  background-image: url("/assets/img/red.svg"), url("/assets/img/yellow.svg"),
-    url("/assets/img/green.svg");
-  background-repeat: no-repeat;
-  background-size:
-    64px 64px,
-    128px 64px,
-    64px 128px;
-}
+// Vanilla Theme Hero
 
 .hero {
   position: relative;
