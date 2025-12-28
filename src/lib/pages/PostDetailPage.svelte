@@ -100,12 +100,12 @@
         {@html data.post.text}
       </div>
     </div>
+    {#if !(data.post.thumbnailUrl &&
+    (typeof themeSettings.postCoverImageEnabled === "undefined"
+      ? true
+      : themeSettings.postCoverImageEnabled))}
     <div
-      class="card-footer"
-      hidden={data.post.thumbnailUrl &&
-        (typeof themeSettings.postCoverImageEnabled === "undefined"
-          ? true
-          : themeSettings.postCoverImageEnabled)}>
+      class="card-footer">
       <div class="d-flex align-items-center justify-content-between small">
         {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
           <div>
@@ -133,6 +133,7 @@
         </div>
       </div>
     </div>
+    {/if}
   </div>
 
   <div class="row justify-content-between">
