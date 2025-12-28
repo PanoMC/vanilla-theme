@@ -1,8 +1,8 @@
 <div class="vstack gap-3">
   <PageTitle title={$_("pages.rules.title")} />
   <div class="alert alert-secondary mb-0" role="alert">
-    <i class="fas fa-gavel me-2"></i> Please read the rules carefully. Violating
-    its terms may result in your being banned.
+    <i class="fas fa-gavel me-2"></i>
+    {$_("pages.rules.warning")}
   </div>
 
   <div class="container">

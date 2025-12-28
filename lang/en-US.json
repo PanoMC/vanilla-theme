@@ -118,7 +118,8 @@
   "pages": {
     "rules": {
       "title": "Rules",
-      "rules-description": ""
+      "rules-description": "",
+      "warning": "Please read the rules carefully. Violating its terms may result in your being banned."
     },
     "post-detail": {
       "previous-post": "Previous Post",

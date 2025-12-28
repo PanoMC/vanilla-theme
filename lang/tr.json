@@ -118,7 +118,8 @@
   "pages": {
     "rules": {
       "title": "Kurallar",
-      "rules-description": ""
+      "rules-description": "",
+      "warning": "Lütfen kuralları dikkatlice okuyun. Şartlarını ihlal etmek hesabınızın yasaklanmasına yol açabilir."
     },
     "post-detail": {
       "previous-post": "Önceki Yazı",
