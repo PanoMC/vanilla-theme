@@ -15,9 +15,9 @@ export async function logout() {
   });
 }
 
-export function requireLogin(session) {
+export function requireLogin(session, goto = "/login") {
   if (!session.user) {
-    throw redirect(302, "/");
+    throw redirect(302, goto);
   }
 }
 
