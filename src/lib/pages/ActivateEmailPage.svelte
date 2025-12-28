@@ -45,6 +45,7 @@
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
   import SuccessAlert from "$lib/component/SuccessAlert.svelte";
+  import { verifyEmail } from "$lib/ui-logics/page-logics/ActiveEmailPageLogics.js";
 
   export let data;
 
