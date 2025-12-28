@@ -16,19 +16,15 @@
     position: relative;
     z-index: 2;
   }
-
-  .container {
-    max-width: 400px !important;
-  }
 </style>
-
-<PageHeader title={$_("components.modals.register.title")} />
 
 <div class="container mx-auto">
   <form on:submit|preventDefault={onSubmit}>
     <div class="vstack gap-3">
+      <PageTitle title={$_("components.modals.register.title")} />
       <SuccessAlert message={successMessage} />
       <ErrorAlert error={error} />
+
       <div class="form-group">
         <div class="form-floating">
           <input
@@ -91,7 +87,7 @@
           </label>
         </div>
       {/if}
-      <div class="vstack gap-3">
+      <div class="vstack gap-2">
         <button
           class="btn btn-lg btn-secondary"
           class:disabled={loading}
@@ -126,7 +122,7 @@
   import { NETWORK_ERROR } from "$lib/api.util";
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import PageHeader from "$lib/component/PageHeader.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
   import SuccessAlert from "$lib/component/SuccessAlert.svelte";
 
   import { sendRegister } from "$lib/services/auth.js";

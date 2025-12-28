@@ -1,23 +1,22 @@
-<div class="col mx-auto">
-  <div
-    class="alert alert-secondary"
-    role="alert">
+<div class="vstack gap-3">
+  <PageTitle title={$_("pages.rules.title")} />
+  <div class="alert alert-secondary mb-0" role="alert">
     <i class="fas fa-gavel me-2"></i> Please read the rules carefully. Violating
     its terms may result in your being banned.
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      {$_("pages.rules.title")}
-    </div>
-    <div class="card-body">
-      {@html $session.siteInfo.registerAgreement}
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        {@html $session.siteInfo.registerAgreement}
+      </div>
     </div>
   </div>
 </div>
 
 <!-- Pagination End -->
 <script context="module">
+  import PageTitle from "$lib/component/PageTitle.svelte";
   import { error } from "@sveltejs/kit";
 
   /**

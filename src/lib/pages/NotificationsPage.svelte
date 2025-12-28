@@ -1,25 +1,18 @@
-<div class="container">
-  <!-- Action Menu -->
-  <div
-    class="row justify-content-end mb-3 animate__animated animate__slideInUp">
-    {#if $notifications.length !== 0}
-      <div class="col-auto">
-        <button
-          type="button"
-          class="btn btn-danger"
-          on:click={() => onDeleteAllClick(notificationProcessID, interval)}
-        >{$_("buttons.delete-all")}
-        </button>
-      </div>
-    {/if}
-  </div>
+<!-- All Notifications -->
+<div class="vstack gap-3">
+  <PageTitle title={$_("pages.notifications.page-title")} />
 
-  <!-- All Notifications -->
+  <!-- Action Menu -->
+  {#if $notifications.length !== 0}
+    <button
+      type="button"
+      class="btn btn-danger"
+      on:click={() => onDeleteAllClick(notificationProcessID, interval)}
+      >{$_("buttons.delete-all")}
+    </button>
+  {/if}
 
   <div class="card">
-    <div class="card-header">
-      {$_("pages.notifications.page-title")}
-    </div>
     <div class="card-body">
       <div class="list-group" class:d-none={$notifications.length === 0}>
         {#each $notifications as notification, index (notification)}
@@ -33,7 +26,9 @@
               class="flex-grow-1 text-start border-0 bg-transparent p-0 d-flex align-items-center gap-3">
               <span class="d-flex align-items-center">
                 {#if notification.details.faIcon}
-                  <i class="{notification.details.faIcon} fa-xl fa-fw text-primary"></i>
+                  <i
+                    class="{notification.details
+                      .faIcon} fa-xl fa-fw text-primary"></i>
                 {:else if notification.details.image || notification.details.username}
                   <img
                     src={notification.details.image ||
@@ -84,7 +79,7 @@
       {#if $notifications.length < $count && $count > 10 + 10 * $page}
         <div class="mt-3">
           <button
-            class="btn btn-link bg-light d-block m-auto"
+            class="btn btn-primary d-block m-auto"
             class:disabled={$loadMoreLoading}
             on:click={() => loadMore(notifications, loadMoreLoading)}
             >{$_("pages.notifications.show-more", {
@@ -130,6 +125,7 @@
 
   import ConfirmRemoveAllNotificationsModal from "$lib/component/modals/ConfirmRemoveAllNotificationsModal.svelte";
   import NoContent from "$lib/component/NoContent.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
 
   export let data;
 

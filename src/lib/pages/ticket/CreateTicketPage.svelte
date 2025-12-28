@@ -9,46 +9,38 @@
   }
 </style>
 
-<div class="card">
-  <div class="card-header">
-    {$_("pages.create-ticket.title")}
+<div class="vstack gap-3">
+  <PageTitle title={$_("pages.create-ticket.title")} />
+  <ErrorAlert error={$error} />
+  <div class="vstack gap-0">
+    <input
+      id="ticketTitle"
+      type="text"
+      class="form-control form-control-lg rounded-bottom-0"
+      placeholder={$_("pages.create-ticket.inputs.title")}
+      bind:value={$title} />
+
+    <select
+      class="form-select form-select-lg rounded-top-0"
+      id="datalistOptions"
+      bind:value={$categoryId}>
+      <option value={-1}>{$_("pages.create-ticket.inputs.no-category")}</option>
+      {#each data.categories as category, index (category)}
+        <option value={category.id}>{category.title}</option>
+      {/each}
+    </select>
   </div>
-  <div class="card-body">
-    <ErrorAlert error={$error} />
 
-    <div class="vstack gap-3">
-      <div class="vstack gap-0">
-        <input
-          id="ticketTitle"
-          type="text"
-          class="form-control form-control-lg rounded-bottom-0"
-          placeholder={$_("pages.create-ticket.inputs.title")}
-          bind:value={$title} />
+  <!-- Ticket Editor -->
 
-        <select
-          class="form-select form-select-lg rounded-top-0"
-          id="datalistOptions"
-          bind:value={$categoryId}>
-          <option value={-1}
-            >{$_("pages.create-ticket.inputs.no-category")}</option>
-          {#each data.categories as category, index (category)}
-            <option value={category.id}>{category.title}</option>
-          {/each}
-        </select>
-      </div>
+  <textarea bind:value={$message} class="form-control" rows="6"></textarea>
 
-      <!-- Ticket Editor -->
-
-      <textarea bind:value={$message} class="form-control" rows="6"></textarea>
-
-      <button
-        class="btn btn-lg btn-secondary w-100"
-        class:disabled={$loading || isButtonDisabled}
-        disabled={$loading || isButtonDisabled}
-        on:click={() => submit(error, loading, title, message, categoryId)}>
-        {$_("buttons.create-ticket")}</button>
-    </div>
-  </div>
+  <button
+    class="btn btn-lg btn-secondary w-100"
+    class:disabled={$loading || isButtonDisabled}
+    disabled={$loading || isButtonDisabled}
+    on:click={() => submit(error, loading, title, message, categoryId)}>
+    {$_("buttons.create-ticket")}</button>
 </div>
 
 <script context="module">
@@ -69,6 +61,7 @@
   import { submit } from "$lib/ui-logics/page-logics/CreateTicketPageLogics";
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
 
   export let data;
 

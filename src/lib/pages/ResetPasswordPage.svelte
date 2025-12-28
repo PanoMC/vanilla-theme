@@ -1,52 +1,46 @@
-<div class="col-lg-4 col-md-6 m-auto">
-  <div class="card">
-    <div class="card-header">
-      {$_("pages.reset-password.title")}
+<div class="vstack gap-3">
+  <PageTitle
+    title={$_("pages.reset-password.title")}
+    subtitle={$_("pages.reset-password.description")} />
+
+  <ErrorAlert error={$error} />
+  <SuccessAlert message={$message} />
+  <form
+    on:submit|preventDefault={() =>
+      onSubmit(error, message, loading, usernameOrEmail)}>
+    <div class="vstack gap-3">
+      <div class="form-floating">
+        <input
+          type="text"
+          disabled={$loading}
+          placeholder={$_(
+            "pages.reset-password.inputs.email-username.placeholder",
+          )}
+          id="email"
+          class="form-control"
+          bind:value={$usernameOrEmail} />
+        <label for="email"
+          >{$_(
+            "pages.reset-password.inputs.email-username.placeholder",
+          )}</label>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-lg btn-secondary w-100"
+        class:disabled={$loading || !$usernameOrEmail}
+        disabled={$loading || !$usernameOrEmail}>
+        {#if $loading}
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-label="Loading"></span>
+          <span>{$_("buttons.reset-password")}...</span>
+        {:else}
+          {$_("buttons.reset-password")}
+        {/if}
+      </button>
     </div>
-    <div class="card-body">
-      <ErrorAlert error={$error} />
-      <SuccessAlert message={$message} />
-      <p>
-        {$_("pages.reset-password.description")}
-      </p>
-      <form
-        on:submit|preventDefault={() =>
-          onSubmit(error, message, loading, usernameOrEmail)}>
-        <div class="vstack gap-3">
-          <div class="form-floating">
-            <input
-              type="text"
-              disabled={$loading}
-              placeholder={$_(
-                "pages.reset-password.inputs.email-username.placeholder",
-              )}
-              id="email"
-              class="form-control"
-              bind:value={$usernameOrEmail} />
-            <label for="email"
-              >{$_(
-                "pages.reset-password.inputs.email-username.placeholder",
-              )}</label>
-          </div>
-          <button
-            type="submit"
-            class="btn btn-lg btn-secondary w-100"
-            class:disabled={$loading || !$usernameOrEmail}
-            disabled={$loading || !$usernameOrEmail}>
-            {#if $loading}
-              <span
-                class="spinner-border spinner-border-sm me-2"
-                role="status"
-                aria-label="Loading"></span>
-              <span>{$_("buttons.reset-password")}...</span>
-            {:else}
-              {$_("buttons.reset-password")}
-            {/if}
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+  </form>
 </div>
 
 <script context="module">
@@ -68,6 +62,7 @@
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
   import SuccessAlert from "$lib/component/SuccessAlert.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
 
   const error = writable();
   const message = writable();

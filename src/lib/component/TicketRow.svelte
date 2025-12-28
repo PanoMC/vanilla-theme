@@ -7,7 +7,7 @@
         aria-label={$_("buttons.close-ticket")}
         class="btn btn-link"
         on:click={() => onCloseTicket()}>
-        <i class="fas fa-times"></i>
+        <i class="fas fa-check"></i>
       </button>
     {/if}
   </th>
@@ -27,7 +27,7 @@
         $_("components.ticket-row.filter"),
         { placement: "bottom" },
       ]}
-      class="badge rounded-pill text-bg-primary focus-ring"
+      class="badge rounded-pill text-bg-primary text-decoration-none focus-ring"
       href="/tickets?category={ticket.category.url}">
       {ticket.category.title === "-"
         ? $_("components.ticket-row.no-category")

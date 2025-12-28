@@ -1,20 +1,24 @@
 <!-- Statistics -->
-<div class="card">
-  <div class="card-header">
-    {$_("pages.profile.title")}
+
+<div class="vstack gap-3">
+  <PageTitle title={$_("pages.profile.title")} />
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>{$_("pages.profile.register-date")}</td>
+            <td><Date time={data.registerDate} /></td>
+          </tr>
+          <tr>
+            <td>{$_("pages.profile.last-login")}</td>
+            <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <table class="table">
-    <tbody>
-      <tr>
-        <td>{$_("pages.profile.register-date")}</td>
-        <td><Date time={data.registerDate} /></td>
-      </tr>
-      <tr>
-        <td>{$_("pages.profile.last-login")}</td>
-        <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
-      </tr>
-    </tbody>
-  </table>
 </div>
 
 <script context="module">
@@ -32,6 +36,7 @@
   import { _ } from "svelte-i18n";
 
   import Date from "$lib/component/Date.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
 
   export let data;
 </script>

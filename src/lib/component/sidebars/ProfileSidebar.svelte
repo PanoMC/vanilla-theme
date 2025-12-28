@@ -1,25 +1,21 @@
 <Sidebar side={side}>
-  <div class="vstack gap-3">
-    <!-- Profile Card -->
-    <div class="card">
-      <div
-        class="card-body d-flex flex-column
-          align-items-center vstack gap-3">
-        <PlayerHead
-          width="128"
-          height="128"
-          username={user.username}
-          inGame={$data.inGame}
-          lastActivityTime={$data.lastActivityTime}
-          checkTime={checkTime} />
-        <div class="text-center">
-          <h2>{user.username}</h2>
-          <PlayerPermissionBadge
-            permissionGroupName={$data.permissionGroupName} />
-        </div>
+  <div class="card">
+    <div class="card-body vstack gap-3">
+      <!-- Profile Card -->
+      <PlayerHead
+        width="64"
+        height="64"
+        username={user.username}
+        inGame={$data.inGame}
+        lastActivityTime={$data.lastActivityTime}
+        checkTime={checkTime} />
+      <div class="text-center">
+        <h3>{user.username}</h3>
+        <PlayerPermissionBadge
+          permissionGroupName={$data.permissionGroupName} />
       </div>
+      <!-- Profile Card End -->
     </div>
-    <!-- Profile Card End -->
   </div>
 </Sidebar>
 

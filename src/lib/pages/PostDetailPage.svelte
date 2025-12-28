@@ -27,7 +27,19 @@
   }
 </style>
 
-<div class="card mb-3 border-0">
+<div class="vstack gap-3">
+  <PageTitle title={data.post.title} />
+  <div class="text-center">
+    {#if data.post.category.title !== "-"}
+      <a
+        class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring"
+        href="/?category={data.post.category.url}"
+        use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
+        {data.post.category.title}
+      </a>
+    {/if}
+  </div>
+
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
     <div class="post-detail-cover rounded-5">
@@ -53,11 +65,8 @@
               </div>
             {/if}
           </div>
-          <div class="col-lg-6">
-            <h1 class="mx-auto text-center display-5">{data.post.title}</h1>
-            <div class="text-center opacity-75">
-              <Date time={data.post.date} />
-            </div>
+          <div class="col-lg-6 text-center opacity-75">
+            <Date time={data.post.date} />
           </div>
           <div
             class="col-lg-3 d-flex align-items-end justify-content-end opacity-75">
@@ -84,95 +93,76 @@
       </div>
     </div>
   {/if}
-</div>
 
-<div class="text-center">
-  <h1
-    class="display-6 mb-3"
-    hidden={(typeof themeSettings.postCoverImageEnabled === "undefined"
-      ? true
-      : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}>
-    {truncate(data.post.title, 100)}{@html data.post.title.length > 100
-      ? "&hellip;"
-      : ""}
-  </h1>
-  {#if data.post.category.title !== "-"}
-    <a
-      class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring"
-      href="/?category={data.post.category.url}"
-      use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
-      {data.post.category.title}
-    </a>
-  {/if}
-</div>
-
-<div class="card mt-3">
-  <div class="card-body">
-    <div class="card-text text-break word-break">
-      {@html data.post.text}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-text text-break word-break">
+        {@html data.post.text}
+      </div>
     </div>
-  </div>
-  <div
-    class="card-footer"
-    hidden={(typeof themeSettings.postCoverImageEnabled === "undefined"
-      ? true
-      : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}>
-    <div class="d-flex align-items-center justify-content-between small">
-      {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
-        <div>
-          <i class="fas fa-eye me-2"></i>
-          {data.post.views}
-        </div>
-      {/if}
+    <div
+      class="card-footer"
+      hidden={data.post.thumbnailUrl &&
+        (typeof themeSettings.postCoverImageEnabled === "undefined"
+          ? true
+          : themeSettings.postCoverImageEnabled)}>
+      <div class="d-flex align-items-center justify-content-between small">
+        {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
+          <div>
+            <i class="fas fa-eye me-2"></i>
+            {data.post.views}
+          </div>
+        {/if}
 
-      <div class="d-flex align-items-center">
-        <Date time={data.post.date} />
-        <a
-          href="/player/{data.post.writer.username}"
-          class="d-inline-block rounded focus-ring rounded-circle ms-2"
-          hidden={typeof themeSettings.postAuthorImageEnabled === "undefined"
-            ? false
-            : !themeSettings.postAuthorImageEnabled}>
-          <img
-            src="https://minotar.net/avatar/{data.post.writer.username}"
-            alt={data.post.writer.username}
-            width="28"
-            height="28"
-            use:tooltip={[data.post.writer.username, { placement: "bottom" }]}
-            class="rounded-circle" />
-        </a>
+        <div class="d-flex align-items-center">
+          <Date time={data.post.date} />
+          <a
+            href="/player/{data.post.writer.username}"
+            class="d-inline-block rounded focus-ring rounded-circle ms-2"
+            hidden={typeof themeSettings.postAuthorImageEnabled === "undefined"
+              ? false
+              : !themeSettings.postAuthorImageEnabled}>
+            <img
+              src="https://minotar.net/avatar/{data.post.writer.username}"
+              alt={data.post.writer.username}
+              width="28"
+              height="28"
+              use:tooltip={[data.post.writer.username, { placement: "bottom" }]}
+              class="rounded-circle" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="row justify-content-between mt-3">
-  <div class="col-auto">
-    <a
-      href="/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
-      class="btn btn-link ps-0"
-      class:disabled={data.previousPost === "-"}
-      hidden={typeof themeSettings.postPreviousPageEnabled === "undefined"
-        ? false
-        : !themeSettings.postPreviousPageEnabled}
-      use:tooltip={[data.previousPost.title, { placement: "bottom" }]}>
-      <i class="fas fa-caret-left me-1"></i>
-      {$_("pages.post-detail.previous-post")}
-    </a>
-  </div>
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <a
+        href="/post/{data.previousPost === '-' ? '' : data.previousPost.url}"
+        class="btn btn-link ps-0"
+        class:disabled={data.previousPost === "-"}
+        hidden={typeof themeSettings.postPreviousPageEnabled === "undefined"
+          ? false
+          : !themeSettings.postPreviousPageEnabled}
+        use:tooltip={[data.previousPost.title, { placement: "bottom" }]}>
+        <i class="fas fa-caret-left me-1"></i>
+        {$_("pages.post-detail.previous-post")}
+      </a>
+    </div>
 
-  <div class="col-auto">
-    <a
-      href="/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
-      class="btn btn-link pe-0"
-      class:disabled={data.nextPost === "-"}
-      hidden={typeof themeSettings.postNextPageEnabled === "undefined"
-        ? false
-        : !themeSettings.postNextPageEnabled}
-      use:tooltip={[data.nextPost.title, { placement: "bottom" }]}>
-      {$_("pages.post-detail.next-post")}
-      <i class="fas fa-caret-right ms-1"></i>
-    </a>
+    <div class="col-auto">
+      <a
+        href="/post/{data.nextPost === '-' ? '' : data.nextPost.url}"
+        class="btn btn-link pe-0"
+        class:disabled={data.nextPost === "-"}
+        hidden={typeof themeSettings.postNextPageEnabled === "undefined"
+          ? false
+          : !themeSettings.postNextPageEnabled}
+        use:tooltip={[data.nextPost.title, { placement: "bottom" }]}>
+        {$_("pages.post-detail.next-post")}
+        <i class="fas fa-caret-right ms-1"></i>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -195,6 +185,7 @@
 
   import { truncate } from "$lib/string.util";
   import Date from "$lib/component/Date.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
 
   export let data;
 

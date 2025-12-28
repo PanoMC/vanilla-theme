@@ -1,5 +1,5 @@
 {#if error || alwaysVisible}
-  <div class="alert alert-danger" in:fade out:fade>
+  <div class="alert alert-danger mb-0" in:fade out:fade>
     {$_('errors.' + (error.key || error), { values: error.props })}
   </div>
 {/if}
@@ -12,3 +12,4 @@
 
   const alwaysVisible = false;
 </script>
+  

@@ -7,48 +7,42 @@
     position: relative;
     z-index: 2;
   }
-
-  .container {
-    max-width: 400px !important;
-  }
 </style>
 
-<PageHeader title={$_("components.modals.login.title")} />
-
-<div class="container mx-auto">
-  <form on:submit|preventDefault={onSubmit}>
-    <div class="vstack gap-3">
-      <ErrorAlert error={error} />
-      <div class="form-group">
-        <div class="form-floating">
-          <input
-            bind:value={usernameOrEmail}
-            class="form-control rounded-bottom-0"
-            disabled={loading}
-            id="usernameOrEmail"
-            type="text" />
-          <label for="usernameOrEmail"
-            >{$_("components.modals.login.inputs.username-email")}</label>
-        </div>
-
-        <div class="form-floating">
-          <input
-            bind:value={password}
-            class="form-control rounded-top-0"
-            disabled={loading}
-            id="password"
-            type="password" />
-          <label for="password"
-            >{$_("components.modals.login.inputs.password")}</label>
-        </div>
-      </div>
-      <div class="vstack gap-3">
-        <button
-          class="btn btn-lg btn-secondary"
-          class:disabled={loading}
+<form on:submit|preventDefault={onSubmit}>
+  <div class="vstack gap-3">
+    <PageTitle title={$_("components.modals.login.title")} />
+    <ErrorAlert error={error} />
+    <div class="form-group">
+      <div class="form-floating">
+        <input
+          bind:value={usernameOrEmail}
+          class="form-control rounded-bottom-0"
+          id="usernameOrEmail"
           disabled={loading}
-          type="submit">
-          {#if loading}
+          type="text" />
+        <label for="usernameOrEmail"
+          >{$_("components.modals.login.inputs.username-email")}</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          bind:value={password}
+          class="form-control rounded-top-0"
+          id="password"
+          disabled={loading}
+          type="password" />
+        <label for="password"
+          >{$_("components.modals.login.inputs.password")}</label>
+      </div>
+    </div>
+    <div class="vstack gap-2">
+      <button
+        class="btn btn-lg btn-secondary"
+        class:disabled={loading}
+        disabled={loading}
+        type="submit">
+        {#if loading}
             <span
               class="spinner-border spinner-border-sm me-2"
               role="status"
@@ -57,18 +51,17 @@
           {:else}
             {$_("buttons.login")}
           {/if}
-        </button>
-        <a
+      </button>
+      <a
           class="btn btn-link {loading ? 'disabled pe-none' : ''}"
           aria-disabled={loading}
           tabindex={loading ? -1 : undefined}
           href="/reset-password">
           {$_("buttons.forgot-password")}
         </a>
-      </div>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 
 <script>
   import { _ } from "svelte-i18n";
@@ -82,7 +75,7 @@
   import { currentLanguage } from "$lib/language.util";
 
   import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import PageHeader from "$lib/component/PageHeader.svelte";
+  import PageTitle from "$lib/component/PageTitle.svelte";
 
   import { getCredentials, sendLogin } from "$lib/services/auth.js";
 
