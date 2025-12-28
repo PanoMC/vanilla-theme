@@ -20,6 +20,8 @@ export async function verifyEmail(error, successMessage, loading, data) {
 
   await sendVerifyEmail(data.token)
     .then((body) => {
+      loading.set(false);
+
       if (body.result === "ok") {
         successMessage.set("VALIDATION_SUCCESSFUL");
       } else {
@@ -27,6 +29,8 @@ export async function verifyEmail(error, successMessage, loading, data) {
       }
     })
     .catch(() => {
+      loading.set(false);
+
       error.set(NETWORK_ERROR);
     });
 }

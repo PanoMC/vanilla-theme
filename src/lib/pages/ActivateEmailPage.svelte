@@ -13,7 +13,7 @@
           $error === 'INVALID_LINK' ||
           $successMessage !== null}"
         disabled={$loading || $error === "INVALID_LINK" || $successMessage !== null}
-        on:click="{() => verifyEmail($error, $successMessage, $loading, data)}">
+        on:click="{() => verifyEmail(error, successMessage, loading, data)}">
         {#if $loading}
           <span
             class="spinner-border spinner-border-sm me-2"
