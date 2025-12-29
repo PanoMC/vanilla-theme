@@ -18,30 +18,28 @@
     </button>
 
     <!-- Server Info Card -->
-    <div class="card">
-      <div
-        class="card-body d-flex flex-column align-items-center justify-content-center">
-        <ul class="list-group list-group-flush text-center">
-          <li class="list-group-item">
-            {#if serverOnline}
-              {$_("sidebars.home.online")}
-            {:else}
-              {$_("sidebars.home.offline")}
-            {/if}
-          </li>
-          <li class="list-group-item">
-            {$_("sidebars.home.playing", {
-              values: {
-                playerCount: $data.mainServer?.playerCount || 0,
-                maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-              },
-            })}
-          </li>
-          <li class="list-group-item">
-            {$data.serverGameVersion}
-          </li>
-        </ul>
-      </div>
+    <div
+      class="d-flex flex-column align-items-center justify-content-center">
+      <ul class="list-group list-group-flush text-center">
+        <li class="list-group-item">
+          {#if serverOnline}
+            <span class="badge text-bg-success">{$_("sidebars.home.online")}</span>
+          {:else}
+          <span class="badge text-bg-danger rounded-pill">{$_("sidebars.home.offline")}</span>
+          {/if}
+        </li>
+        <li class="list-group-item">
+          {$_("sidebars.home.playing", {
+            values: {
+              playerCount: $data.mainServer?.playerCount || 0,
+              maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+            },
+          })}
+        </li>
+        <li class="list-group-item">
+          {$data.serverGameVersion}
+        </li>
+      </ul>
     </div>
     <!-- Play Button End -->
 
