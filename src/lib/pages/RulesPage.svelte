@@ -5,11 +5,9 @@
     {$_("pages.rules.warning")}
   </div>
 
-  <div class="container">
-    <div class="card">
-      <div class="card-body">
-        {@html $session.siteInfo.registerAgreement}
-      </div>
+  <div class="card">
+    <div class="card-body">
+      {@html $session.siteInfo.registerAgreement}
     </div>
   </div>
 </div>

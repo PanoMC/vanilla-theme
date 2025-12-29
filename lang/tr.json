@@ -119,7 +119,7 @@
     "rules": {
       "title": "Kurallar",
       "rules-description": "",
-      "warning": "Lütfen kuralları dikkatlice okuyun. Şartlarını ihlal etmek hesabınızın yasaklanmasına yol açabilir."
+      "warning": "Lütfen kuralları dikkatlice okuyun. Şartları ihlal etmek hesabınızın yasaklanmasına yol açabilir."
     },
     "post-detail": {
       "previous-post": "Önceki Yazı",
