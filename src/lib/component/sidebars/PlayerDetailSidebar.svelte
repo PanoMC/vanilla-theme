@@ -1,8 +1,5 @@
 <Sidebar side={side}>
-  <div class="card">
-    <div class="card-header">
-      {$data.username}
-    </div>
+  <div class="card border-0">
     <div class="card-body vstack gap-3">
       <PlayerHead
         username={$data.username}
@@ -10,8 +7,11 @@
         banned={$data.banned}
         lastActivityTime={$data.lastActivityTime}
         checkTime={checkTime}
-        width="128"
-        height="128"/>
+        width="64"
+        height="64"/>
+
+      <PageTitle title="{$data.username}" />
+
       <div class="text-center">
         {#if $data.banned}
           <span class="badge rounded-pill text-bg-danger">
@@ -60,6 +60,7 @@
   import Sidebar from "$lib/component/Sidebar.svelte";
   import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";
   import PlayerHead from "$lib/component/PlayerHead.svelte";
+    import PageTitle from "../PageTitle.svelte";
 
   let checkTime = 0;
   let interval;

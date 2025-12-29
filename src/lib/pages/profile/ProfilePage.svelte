@@ -1,23 +1,21 @@
 <!-- Statistics -->
 
 <div class="vstack gap-3">
-  <PageTitle title={$_("pages.profile.title")} />
 
   <div class="card">
-    <div class="card-body">
-      <table class="table">
-        <tbody>
-          <tr>
-            <td>{$_("pages.profile.register-date")}</td>
-            <td><Date time={data.registerDate} /></td>
-          </tr>
-          <tr>
-            <td>{$_("pages.profile.last-login")}</td>
-            <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="card-header">{$_("pages.profile.title")}</div>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>{$_("pages.profile.register-date")}</td>
+          <td><Date time={data.registerDate} /></td>
+        </tr>
+        <tr>
+          <td>{$_("pages.profile.last-login")}</td>
+          <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

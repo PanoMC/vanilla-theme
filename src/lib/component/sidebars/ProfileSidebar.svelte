@@ -1,5 +1,5 @@
 <Sidebar side={side}>
-  <div class="card">
+  <div class="card border-0">
     <div class="card-body vstack gap-3">
       <!-- Profile Card -->
       <PlayerHead
@@ -9,8 +9,8 @@
         inGame={$data.inGame}
         lastActivityTime={$data.lastActivityTime}
         checkTime={checkTime} />
+      <PageTitle title={user.username} />
       <div class="text-center">
-        <h3>{user.username}</h3>
         <PlayerPermissionBadge
           permissionGroupName={$data.permissionGroupName} />
       </div>
@@ -52,6 +52,7 @@
   import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";
   import Sidebar from "$lib/component/Sidebar.svelte";
   import PlayerHead from "$lib/component/PlayerHead.svelte";
+    import PageTitle from "../PageTitle.svelte";
 
   export let side;
 

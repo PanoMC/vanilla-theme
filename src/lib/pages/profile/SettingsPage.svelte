@@ -1,8 +1,9 @@
 <!-- Settings -->
 <div class="vstack gap-3">
-  <PageTitle title={$_("pages.settings.title")} />
-
   <div class="card">
+    <div class="card-header">
+      {$_("pages.settings.title")}
+    </div>
     <div class="card-body">
       <div class="row">
         <label class="col-md-4 col-form-label" for="resetPassword">
@@ -202,7 +203,6 @@
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   import { Languages, currentLanguage } from "$lib/language.util";
-  import PageTitle from "$lib/component/PageTitle.svelte";
 
   export let data;
 

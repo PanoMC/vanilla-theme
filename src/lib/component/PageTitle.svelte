@@ -1,5 +1,5 @@
 <div class="text-center animate__animated animate__fadeInUp">
-  <h1 class="fs-3 mb-0">
+  <h1 class="fs-3 mb-0 text-break word-break">
     <slot name="title">
       {#if title}
         {#if html}

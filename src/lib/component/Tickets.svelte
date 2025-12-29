@@ -5,7 +5,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th class="align-middle" scope="col"> </th>
+          <th class="align-middle" scope="col"></th>
           <th class="align-middle" scope="col">{$_("components.tickets.table.title")}</th>
           <th class="align-middle" scope="col">{$_("components.tickets.table.status")}</th>
           <th class="align-middle" scope="col">{$_("components.tickets.table.category")}</th>

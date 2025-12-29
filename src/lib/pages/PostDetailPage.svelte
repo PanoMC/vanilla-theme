@@ -29,16 +29,16 @@
 
 <div class="vstack gap-3">
   <PageTitle title={data.post.title} />
-  <div class="text-center">
     {#if data.post.category.title !== "-"}
+    <div class="text-center">
       <a
         class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring"
         href="/?category={data.post.category.url}"
         use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
         {data.post.category.title}
       </a>
+    </div>
     {/if}
-  </div>
 
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
