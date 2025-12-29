@@ -2,7 +2,7 @@ import { error } from "@sveltejs/kit";
 
 import { getPlayerProfile } from "$lib/services/profile";
 
-import PlayerProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/PlayerProfileSidebar.svelte";
+import PlayerDetailSidebar, { load as loadSidebar } from "$lib/component/sidebars/PlayerDetailSidebar.svelte";
 
 /**
  * @type {import("@sveltejs/kit").Load}
@@ -34,7 +34,7 @@ export async function processLoad(event) {
 
   return {
     ...data,
-    sidebar: PlayerProfileSidebar,
+    sidebar: PlayerDetailSidebar,
     sidebarProps: { side: "left" }
   };
 }
