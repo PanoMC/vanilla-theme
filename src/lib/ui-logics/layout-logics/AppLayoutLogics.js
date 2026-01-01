@@ -11,7 +11,7 @@ import ApiUtil from "$lib/api.util";
 import { init as initLanguage } from "$lib/language.util";
 
 import { addListener } from "$lib/NotificationManager";
-import { initializePlugins } from "$lib/PluginManager";
+import { preparePlugins, initializePlugins } from "$lib/PluginManager";
 import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
 
 async function sendVisitorVisitRequest({ event, csrfToken }) {
@@ -46,6 +46,8 @@ export async function processServerLoad(event) {
     request: event,
     csrfToken
   });
+
+  await preparePlugins(siteInfo);
 
   return { user, csrfToken, siteInfo, apiUrlEnv, panoWebsiteUrlEnv };
 }
