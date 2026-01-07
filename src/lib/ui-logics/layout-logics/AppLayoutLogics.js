@@ -1,18 +1,27 @@
 import { onDestroy, onMount, setContext } from "svelte";
 import { writable } from "svelte/store";
+import { setPanoContext } from "@panomc/sdk/internal";
+import { _ } from "svelte-i18n";
 
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
-import { page } from "$app/stores";
+import { navigating, page } from "$app/stores";
+import { base } from "$app/paths";
 
 import { initialized } from "$lib/Store";
-import ApiUtil from "$lib/api.util";
 
-import { init as initLanguage } from "$lib/language.util";
+import * as languageStuff from "$lib/language.util";
+import ApiUtil, * as ApiUtilStuff from "$lib/api.util";
+import * as variableStuff from "$lib/variables";
+import tooltip from "$lib/tooltip.util";
 
 import { addListener } from "$lib/NotificationManager";
 import { preparePlugins, initializePlugins } from "$lib/PluginManager";
 import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
+
+import Date from "$lib/component/Date.svelte"
+
+const initLanguage = languageStuff.init;
 
 async function sendVisitorVisitRequest({ event, csrfToken }) {
   ApiUtil.post({ path: "/api/visitorVisit", request: event, csrfToken });
@@ -66,6 +75,32 @@ export async function processLoad(event) {
   if (panoWebsiteUrlEnv) {
     updatePanoWebsiteUrl(panoWebsiteUrlEnv);
   }
+
+  setPanoContext({
+    page,
+    base,
+    navigating,
+    _,
+    browser,
+    components: {
+      Date,
+    },
+    utils: {
+      api: {
+        ApiUtil,
+        ...ApiUtilStuff,
+      },
+      language: {
+        ...languageStuff,
+      },
+      tooltip: {
+        tooltip,
+      },
+    },
+    variables: {
+      ...variableStuff,
+    },
+  });
 
   await initializePlugins(siteInfo);
 

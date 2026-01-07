@@ -1,4 +1,4 @@
-import { baseAPI, pageAPI } from "../pano-ui/js/PluginAPI";
+import { baseAPI, pageAPI } from "../pano-sdk/core/js/PluginAPI";
 
 export async function init() {
 }
