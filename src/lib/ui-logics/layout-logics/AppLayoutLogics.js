@@ -80,7 +80,6 @@ export async function processLoad(event) {
     page,
     base,
     navigating,
-    _,
     browser,
     components: {
       Date,
@@ -92,6 +91,7 @@ export async function processLoad(event) {
       },
       language: {
         ...languageStuff,
+        _,
       },
       tooltip: {
         tooltip,
