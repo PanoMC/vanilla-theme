@@ -111,6 +111,15 @@ const config = {
     copyFolderPlugin("screenshots"),
     copyManifestPlugin()
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+        quietDeps: true,
+        silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import'],
+      },
+    },
+  },
   server: {
     proxy: {
       "/api": env.VITE_API_URL.replace("/api", "")
