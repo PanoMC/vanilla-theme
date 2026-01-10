@@ -8,6 +8,17 @@ import {
 } from "$lib/variables.js";
 import { getCredentialsServerSide } from "$lib/services/auth.js";
 
+function stripModulePreload(linkHeader) {
+  const parts = linkHeader
+    .split(",")
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  const kept = parts.filter((p) => !/;\s*rel="?modulepreload"?/i.test(p));
+
+  return kept.length ? kept.join(", ") : null;
+}
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({
   event,
@@ -48,7 +59,42 @@ export async function handle({
 
   event.locals = locals;
 
-  return resolve(event);
+  const response = await resolve(event, {
+    transformPageChunk: ({ html }) => {
+      const importMap = `
+  <script type="importmap" crossorigin="anonymous">
+  {
+    "imports": {
+      "svelte": "https://esm.sh/svelte@5.46.1",
+      "svelte/": "https://esm.sh/svelte@5.46.1/"
+    }
+  }
+  </script>`;
+      return html.replace("%pano_lib_import%", importMap);
+    },
+  });
+
+  const ct = response.headers.get("content-type") || "";
+  if (ct.includes("text/html")) {
+    const link = response.headers.get("link");
+    if (link) {
+      const filtered = stripModulePreload(link);
+      if (filtered) response.headers.set("link", filtered);
+      else response.headers.delete("link");
+    }
+  }
+
+  return response;
+}
+
+/** @type {import('@sveltejs/kit').HandleServerError} */
+export function handleError({ error, event }) {
+  console.log("!!! [GLOBAL ERROR EVENT]:", event.url.href);
+  console.error("!!! [GLOBAL ERROR CONTENT]:", error);
+  return {
+    message: 'Internal Error',
+    code: error?.code
+  };
 }
 
 /** @type {import("@sveltejs/kit").HandleFetch} */
