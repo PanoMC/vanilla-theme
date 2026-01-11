@@ -116,6 +116,9 @@
     }
   },
   "pages": {
+    "homepage": {
+      "title": "Haberler"
+    },
     "rules": {
       "title": "Kurallar",
       "rules-description": "",

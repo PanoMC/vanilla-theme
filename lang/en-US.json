@@ -116,6 +116,9 @@
     }
   },
   "pages": {
+    "homepage": {
+      "title": "News"
+    },
     "rules": {
       "title": "Rules",
       "rules-description": "",

@@ -1,3 +1,4 @@
+
 {#if data.categoryUrl}
   <div class="row justify-content-between mb-3">
     <div class="col-auto">
@@ -20,6 +21,10 @@
 {/if}
 
 <div class="vstack gap-3">
+  <div class="mb-3">
+    <PageTitle title={$_("pages.homepage.title")} />
+  </div>
+
   <!-- Posts -->
   {#if typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled}
     <Posts posts={data.posts} />
@@ -56,6 +61,7 @@
 
   import { onPageClick } from "$lib/ui-logics/page-logics/HomePageLogics";
 
+  import PageTitle from "$lib/component/PageTitle.svelte";
   import Pagination from "$lib/component/Pagination.svelte";
   import Posts from "$lib/component/Posts.svelte";
 
