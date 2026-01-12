@@ -20,8 +20,9 @@
   </div>
 {/if}
 
+<Hook name="page:home:top" />
+
 <div class="vstack gap-3">
-  <Hook name="page:top" />
   <div class="mb-3">
     <PageTitle title={$_("pages.homepage.title")} />
   </div>
