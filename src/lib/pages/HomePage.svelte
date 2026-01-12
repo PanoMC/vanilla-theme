@@ -1,3 +1,4 @@
+
 {#if data.categoryUrl}
   <div class="row justify-content-between mb-3">
     <div class="col-auto">
