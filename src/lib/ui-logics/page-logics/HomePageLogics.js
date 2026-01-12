@@ -40,7 +40,7 @@ export async function processLoad(event) {
     sidebar: categoryUrl ? null : HomeSidebar,
     hookProps: categoryUrl ? undefined : {
       ...parentData.hookProps,
-      'page:top': await executeHookLoad('page:top', event)
+      'page:home:top': await executeHookLoad('page:home:top', event)
     }
   };
 }
