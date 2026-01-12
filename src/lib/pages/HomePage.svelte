@@ -1,4 +1,3 @@
-
 {#if data.categoryUrl}
   <div class="row justify-content-between mb-3">
     <div class="col-auto">
@@ -21,6 +20,7 @@
 {/if}
 
 <div class="vstack gap-3">
+  <Hook name="page:top" />
   <div class="mb-3">
     <PageTitle title={$_("pages.homepage.title")} />
   </div>
@@ -62,6 +62,7 @@
   import { onPageClick } from "$lib/ui-logics/page-logics/HomePageLogics";
 
   import PageTitle from "$lib/component/PageTitle.svelte";
+  import Hook from "$lib/component/Hook.svelte";
   import Pagination from "$lib/component/Pagination.svelte";
   import Posts from "$lib/component/Posts.svelte";
 

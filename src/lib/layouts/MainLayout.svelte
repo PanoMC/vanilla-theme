@@ -7,20 +7,23 @@
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
 
-<div class="vstack gap-3">
-  <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
-    <Header />
+<div class="vstack gap-0">
+  <Hook name="theme:top" />
+  <div class="vstack gap-3">
+    <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
+      <Header />
 
-    <Navbar />
+      <Navbar />
+    </div>
+
+    <Main>
+      <slot />
+    </Main>
+
+    {#if typeof themeSettings.footerEnabled === "undefined" ? true : themeSettings.footerEnabled}
+      <Footer />
+    {/if}
   </div>
-
-  <Main>
-    <slot />
-  </Main>
-
-  {#if typeof themeSettings.footerEnabled === "undefined" ? true : themeSettings.footerEnabled}
-    <Footer />
-  {/if}
 </div>
 <NotificationContainer />
 
@@ -34,6 +37,7 @@
   import Main from "$lib/component/Main.svelte";
   import Footer from "$lib/component/Footer.svelte";
   import NotificationContainer from "$lib/component/NotificationContainer.svelte";
+  import Hook from "$lib/component/Hook.svelte";
 
   const themeSettings = getContext("themeSettings");
   const session = getContext("session");

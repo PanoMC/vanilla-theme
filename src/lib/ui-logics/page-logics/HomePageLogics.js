@@ -6,13 +6,14 @@ import { getPosts } from "$lib/services/posts";
 import { buildQueryParams } from "$lib/api.util";
 
 import HomeSidebar, { load as loadSidebar } from "$lib/component/sidebars/HomeSidebar.svelte";
+import { executeHookLoad } from "$lib/PluginAPI.js";
 
 /**
  * @type {import("@sveltejs/kit").PageLoad}
  */
 export async function processLoad(event) {
   const { parent, url: { searchParams } } = event;
-  await parent();
+  const parentData = await parent();
 
   const page = parseInt(searchParams.get("page")) || 1;
   const categoryUrl = searchParams.get("category");
@@ -34,7 +35,14 @@ export async function processLoad(event) {
     await loadSidebar(event);
   }
 
-  return { ...data, sidebar: categoryUrl ? null : HomeSidebar };
+  return {
+    ...data,
+    sidebar: categoryUrl ? null : HomeSidebar,
+    hookProps: {
+      ...parentData.hookProps,
+      'page:top': await executeHookLoad('page:top', event)
+    }
+  };
 }
 
 async function refreshData(data) {
