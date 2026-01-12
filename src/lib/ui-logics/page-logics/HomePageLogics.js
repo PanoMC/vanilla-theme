@@ -38,7 +38,7 @@ export async function processLoad(event) {
   return {
     ...data,
     sidebar: categoryUrl ? null : HomeSidebar,
-    hookProps: {
+    hookProps: categoryUrl ? undefined : {
       ...parentData.hookProps,
       'page:top': await executeHookLoad('page:top', event)
     }

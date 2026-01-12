@@ -20,7 +20,9 @@
   </div>
 {/if}
 
-<Hook name="page:home:top" />
+{#if !data.categoryUrl}
+  <Hook name="page:home:top" />
+{/if}
 
 <div class="vstack gap-3">
   <div class="mb-3">
