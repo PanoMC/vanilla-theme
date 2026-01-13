@@ -25,6 +25,7 @@
     "settings": "Settings",
     "logout": "Logout",
     "save": "Save",
+    "reset-all": "Reset All",
     "notifications": "Notifications"
   },
   "nav-links": {
@@ -238,6 +239,112 @@
     "category-tickets": {
       "title": "{categoryName} Tickets",
       "no-category": "No Category"
+    },
+    "theme-settings": {
+      "tabs": {
+        "general": "General",
+        "logo": "Logo",
+        "cover": "Cover",
+        "navbar": "Navigation Bar",
+        "sidebar": "Sidebar",
+        "post-card": "Post Card",
+        "footer": "Footer",
+        "advanced": "Advanced"
+      },
+      "general": {
+        "theme-color": "Theme Color",
+        "colors": {
+          "dark": "Dark",
+          "light": "Light",
+          "copper": "Copper"
+        },
+        "bg-color": "Background Color",
+        "bg-image": "Background Image",
+        "bg-image-placement": "Background Image Placement",
+        "placements": {
+          "left-top": "Top Left",
+          "center": "Center",
+          "right-bottom": "Bottom Right"
+        },
+        "bg-image-repeat": "Background Image Repeat",
+        "repeats": {
+          "repeat": "Repeat",
+          "no-repeat": "No Repeat",
+          "repeat-x": "Repeat X",
+          "repeat-y": "Repeat Y"
+        },
+        "bg-image-size": "Background Image Size",
+        "sizes": {
+          "auto": "Auto",
+          "cover": "Cover",
+          "contain": "Contain",
+          "stretch": "Stretch"
+        }
+      },
+      "logo": {
+        "visibility": "Visibility",
+        "position": "Position",
+        "positions": {
+          "top-start": "Top Start",
+          "top": "Top",
+          "top-end": "Top End",
+          "center-start": "Center Start",
+          "center": "Center",
+          "center-end": "Center End",
+          "bottom-start": "Bottom Start",
+          "bottom": "Bottom",
+          "bottom-end": "Bottom End"
+        },
+        "height": "Height (px)",
+        "width": "Width (px)"
+      },
+      "cover": {
+        "default-bg": "Default Background Image",
+        "bg-image": "Background Image",
+        "bg-color": "Background Color",
+        "height": "Height (px)",
+        "width": "Width",
+        "width-options": {
+          "by-content": "By Content",
+          "full-size": "Full Size"
+        },
+        "nav-gap": "Navigation Menu Gap"
+      },
+      "navbar": {
+        "width": "Width",
+        "border-radius": "Border Radius",
+        "links-visibility": "Links Visibility",
+        "links": "Links",
+        "home": "Home",
+        "rules": "Rules",
+        "support": "Support"
+      },
+      "sidebar": {
+        "visibility": "Visibility",
+        "position": "Position",
+        "positions": {
+          "left": "Left",
+          "right": "Right"
+        },
+        "last-registrants": "Last Registrants Card",
+        "online-admins": "Online Admins Card (Support)"
+      },
+      "post-card": {
+        "visibility": "Visibility",
+        "cover-image": "Cover Image",
+        "read-more": "Read More Button",
+        "author-image": "Author Head Image",
+        "views": "Views",
+        "previous-post": "Previous Post Button",
+        "next-post": "Next Post Button"
+      },
+      "footer": {
+        "visibility": "Footer",
+        "content": "Content"
+      },
+      "advanced": {
+        "custom-css": "Custom CSS"
+      }
     }
   },
   "page-errors": {

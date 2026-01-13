@@ -25,6 +25,7 @@
     "settings": "Ayarlar",
     "logout": "Çıkış Yap",
     "save": "Kaydet",
+    "reset-all": "Tümünü Sıfırla",
     "notifications": "Bildirimler"
   },
   "nav-links": {
@@ -238,6 +239,112 @@
     "category-tickets": {
       "title": "{categoryName} Talepler",
       "no-category": "Kategorisiz"
+    },
+    "theme-settings": {
+      "tabs": {
+        "general": "Genel",
+        "logo": "Logo",
+        "cover": "Kapak",
+        "navbar": "Navigasyon Barı",
+        "sidebar": "Yan Bar",
+        "post-card": "Yazı Kartı",
+        "footer": "Alt Bilgi",
+        "advanced": "Gelişmiş"
+      },
+      "general": {
+        "theme-color": "Tema Rengi",
+        "colors": {
+          "dark": "Koyu",
+          "light": "Açık",
+          "copper": "Bakır"
+        },
+        "bg-color": "Arka Plan Rengi",
+        "bg-image": "Arka Plan Resmi",
+        "bg-image-placement": "Arka Plan Resmi Yerleşimi",
+        "placements": {
+          "left-top": "Sol Üst",
+          "center": "Ortala",
+          "right-bottom": "Sağ Alt"
+        },
+        "bg-image-repeat": "Arka Plan Resmi Tekrarla",
+        "repeats": {
+          "repeat": "Döşe",
+          "no-repeat": "Tek Görsel",
+          "repeat-x": "Yatay Döşe",
+          "repeat-y": "Dikey Döşe"
+        },
+        "bg-image-size": "Arka Plan Resmi Boyutu",
+        "sizes": {
+          "auto": "Orijinal Boyut",
+          "cover": "Doldur",
+          "contain": "Sığdır",
+          "stretch": "Genişlet"
+        }
+      },
+      "logo": {
+        "visibility": "Görünürlük",
+        "position": "Pozisyon",
+        "positions": {
+          "top-start": "Üst Sol",
+          "top": "Üst Orta",
+          "top-end": "Üst Sağ",
+          "center-start": "Orta Sol",
+          "center": "Orta",
+          "center-end": "Orta Sağ",
+          "bottom-start": "Alt Sol",
+          "bottom": "Alt Orta",
+          "bottom-end": "Alt Sağ"
+        },
+        "height": "Yükseklik (px)",
+        "width": "Genişlik (px)"
+      },
+      "cover": {
+        "default-bg": "Varsayılan Arkaplan Resmi",
+        "bg-image": "Arka Plan Resmi",
+        "bg-color": "Arka Plan Rengi",
+        "height": "Yükseklik (px)",
+        "width": "Genişlik",
+        "width-options": {
+          "by-content": "İçeriğe Göre",
+          "full-size": "Tam Genişlik"
+        },
+        "nav-gap": "Navigasyon Menü Aralığı"
+      },
+      "navbar": {
+        "width": "Genişlik",
+        "border-radius": "Kenar Yuvarlaması",
+        "links-visibility": "Linklerin Görünürlüğü",
+        "links": "Bağlantılar",
+        "home": "Ana Sayfa",
+        "rules": "Kurallar",
+        "support": "Destek"
+      },
+      "sidebar": {
+        "visibility": "Görünürlük",
+        "position": "Konum",
+        "positions": {
+          "left": "Sol",
+          "right": "Sağ"
+        },
+        "last-registrants": "Son Kayıt Olanlar Kartı",
+        "online-admins": "Çevrimiçi Yöneticiler Kartı (Destek)"
+      },
+      "post-card": {
+        "visibility": "Görünürlük",
+        "cover-image": "Kapak Resmi",
+        "read-more": "Devamını Oku Butonu",
+        "author-image": "Yazar Kafa Resmi",
+        "views": "Görüntülenme",
+        "previous-post": "Önceki Yazı Butonu",
+        "next-post": "Sonraki Yazı Butonu"
+      },
+      "footer": {
+        "visibility": "Alt Bilgi",
+        "content": "İçerik"
+      },
+      "advanced": {
+        "custom-css": "Custom CSS"
+      }
     }
   },
   "page-errors": {
