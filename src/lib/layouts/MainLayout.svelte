@@ -29,6 +29,17 @@
 
 <!-- Modals End -->
 
+<script context="module">
+  import { processLoad } from "$lib/ui-logics/layout-logics/MainLayoutLogics";
+
+  /**
+   * @type {import("@sveltejs/kit").LayoutLoad}
+   */
+  export async function load(event) {
+    return await processLoad(event);
+  }
+</script>
+
 <script>
   import { getContext } from "svelte";
 

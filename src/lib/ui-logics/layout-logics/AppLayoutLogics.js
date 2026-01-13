@@ -20,7 +20,6 @@ import { preparePlugins, initializePlugins } from "$lib/PluginManager";
 import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
 
 import Date from "$lib/component/Date.svelte"
-import { executeHookLoad } from "$lib/PluginAPI.js";
 
 const initLanguage = languageStuff.init;
 
@@ -106,11 +105,7 @@ export async function processLoad(event) {
   await initializePlugins(siteInfo);
 
   const output = {
-    session: { user, csrfToken, siteInfo },
-    hookProps: {
-      'theme:top': await executeHookLoad('theme:top', event),
-      'page:top': await executeHookLoad('page:top', event)
-    }
+    session: { user, csrfToken, siteInfo }
   };
 
   await initLanguage(siteInfo.locale, event);
