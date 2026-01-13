@@ -33,6 +33,7 @@ const componentLoadCache = new WeakMap();
 
 export async function executeHookLoad(name, event) {
   // Prevent double execution of the SAME hook name during the same load cycle
+  event = {...event, hookName: name}
   if (event) {
     if (!hookExecutionCache.has(event)) {
       hookExecutionCache.set(event, {});

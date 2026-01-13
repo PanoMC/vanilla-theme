@@ -7,25 +7,23 @@
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
 
-<div class="vstack gap-0">
-  <Hook name="theme:top" />
-  <div class="vstack gap-3">
-    <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
-      <Header />
+<Hook name="theme:top" />
 
-      <Navbar />
-    </div>
+<div class="vstack gap-3">
+  <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
+    <Header />
 
-    <Hook name="page:top" />
-
-    <Main>
-      <slot />
-    </Main>
-
-    {#if typeof themeSettings.footerEnabled === "undefined" ? true : themeSettings.footerEnabled}
-      <Footer />
-    {/if}
+    <Navbar />
   </div>
+  <Hook name="page:top" />
+
+  <Main>
+    <slot />
+  </Main>
+
+  {#if typeof themeSettings.footerEnabled === "undefined" ? true : themeSettings.footerEnabled}
+    <Footer />
+  {/if}
 </div>
 <NotificationContainer />
 

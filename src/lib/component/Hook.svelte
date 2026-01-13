@@ -7,8 +7,10 @@
       hookName={name}
       {...props} />
   {:else}
-    <!-- Client Side: Manual Mount/Hydrate to prevent Runtime Mismatch -->
-    <div use:mountPlugin={{ module, props }} class="hook-view-container"></div>
+    {#if !props.hookOptions?.invisible}
+      <!-- Client Side: Manual Mount/Hydrate to prevent Runtime Mismatch -->
+      <div use:mountPlugin={{ module, props }} class="hook-view-container"></div>
+    {/if}
   {/if}
 {/each}
 

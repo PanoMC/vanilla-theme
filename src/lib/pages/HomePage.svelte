@@ -20,11 +20,10 @@
   </div>
 {/if}
 
-{#if !data.categoryUrl}
-  <Hook name="page:home:top" />
-{/if}
-
 <div class="vstack gap-3">
+  {#if !data.categoryUrl}
+    <Hook name="page:home:top" />
+  {/if}
   <div class="mb-3">
     <PageTitle title={$_("pages.homepage.title")} />
   </div>
