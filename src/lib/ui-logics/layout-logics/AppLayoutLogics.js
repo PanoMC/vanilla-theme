@@ -108,7 +108,8 @@ export async function processLoad(event) {
   const output = {
     session: { user, csrfToken, siteInfo },
     hookProps: {
-      'theme:top': await executeHookLoad('theme:top', event)
+      'theme:top': await executeHookLoad('theme:top', event),
+      'page:top': await executeHookLoad('page:top', event)
     }
   };
 

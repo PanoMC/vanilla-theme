@@ -16,6 +16,8 @@
       <Navbar />
     </div>
 
+    <Hook name="page:top" />
+
     <Main>
       <slot />
     </Main>
