@@ -42,15 +42,16 @@ export const panoApi = {
       },
     },
     hook: {
-      register({ name, component }) {
+      register(options) {
+        const { name } = options;
         hooks.update(h => {
           if (!h[name]) h[name] = [];
-          h[name].push(component);
+          h[name].push(options);
           return h;
         });
       },
       get(name) {
-        return derived(hooks, $h => $h[name] || []);
+        return derived(hooks, $h => ($h[name] || []).map(h => h.component || h));
       }
     }
   },
@@ -77,13 +78,20 @@ export async function executeHookLoad(name, event) {
   const results = [];
 
   for (let i = 0; i < list.length; i++) {
-    const raw = list[i];
+    const entry = list[i];
+    const raw = entry.component || entry;
     let module = raw;
     if (typeof raw === 'function' && !raw.prototype) {
       module = await raw();
       // Cache the resolved module back into the hooks store
       hooks.update(h => {
-        if (h[name]) h[name][i] = Object.assign(module, { _original: raw });
+        if (h[name]) {
+          if (h[name][i].component) {
+            h[name][i].component = Object.assign(module, { _original: raw });
+          } else {
+            h[name][i] = Object.assign(module, { _original: raw });
+          }
+        }
         return h;
       });
     } else if (typeof raw !== 'object' || !raw.default) {
@@ -94,7 +102,7 @@ export async function executeHookLoad(name, event) {
     const Component = module.default || module;
     const loadFn = module.load || (Component && Component.load);
 
-    if (loadFn && !raw.skipLoad) {
+    if (loadFn && !entry.skipLoad) {
       // PER-EVENT COMPONENT CACHE: If this component already loaded for another hook in this event, reuse results.
       let eventCache = null;
       if (event) {
