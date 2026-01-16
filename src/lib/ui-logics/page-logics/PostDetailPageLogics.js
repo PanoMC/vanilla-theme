@@ -8,7 +8,7 @@ import { executeHookLoad, executeLifecycle } from "$lib/PluginAPI.js";
  */
 export async function processLoad(event) {
   const { parent } = event;
-  await parent();
+  const { hookProps: parentHookProps } = await parent();
 
   let data = {
     post: {
@@ -16,17 +16,17 @@ export async function processLoad(event) {
       title: "",
       category: "-",
       writer: {
-        username: ""
+        username: "",
       },
       text: "",
       date: 0,
       status: 1,
       image: "",
       views: 0,
-      url: ""
+      url: "",
     },
     previousPost: "-",
-    nextPost: "-"
+    nextPost: "-",
   };
 
   await getPostDetail({ url: event.params.url, request: event }).then(
@@ -40,14 +40,17 @@ export async function processLoad(event) {
       }
 
       data = body;
-    }
+    },
   );
 
-  data.hookProps = {};
+  data.hookProps = { ...parentHookProps };
 
-  await executeLifecycle('theme:post-detail:load', data, event);
+  await executeLifecycle("theme:post-detail:load", data, event);
 
-  data.hookProps['theme:post-detail:bottom'] = {...data.hookProps['theme:post-detail:bottom'], ...await executeHookLoad('theme:post-detail:bottom', event)};
+  data.hookProps["theme:post-detail:bottom"] = {
+    ...data.hookProps["theme:post-detail:bottom"],
+    ...(await executeHookLoad("theme:post-detail:bottom", event)),
+  };
 
   return { ...data };
 }
