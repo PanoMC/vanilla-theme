@@ -8,6 +8,8 @@
   <slot></slot>
 </App>
 
+<ToastContainer />
+
 <script context="module">
   import { processLoad, processServerLoad } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
@@ -30,6 +32,7 @@
   import { init } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
   import App from "$lib/component/App.svelte";
+  import ToastContainer from "$lib/component/ToastContainer.svelte";
 
   export let data;
 

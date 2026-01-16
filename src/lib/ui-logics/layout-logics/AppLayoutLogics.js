@@ -13,6 +13,7 @@ import { initialized } from "$lib/Store";
 import * as languageStuff from "$lib/language.util";
 import ApiUtil, * as ApiUtilStuff from "$lib/api.util";
 import * as variableStuff from "$lib/variables";
+import * as toastStuff from "$lib/component/ToastContainer.svelte";
 import tooltip from "$lib/tooltip.util";
 
 import { addListener } from "$lib/NotificationManager";
@@ -20,6 +21,7 @@ import { preparePlugins, initializePlugins } from "$lib/PluginManager";
 import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
 
 import Date from "$lib/component/Date.svelte"
+import Pagination from "$lib/component/Pagination.svelte";
 
 const initLanguage = languageStuff.init;
 
@@ -81,8 +83,10 @@ export async function processLoad(event) {
     base,
     navigating,
     browser,
+    goto,
     components: {
       Date,
+      Pagination,
     },
     utils: {
       api: {
@@ -95,6 +99,9 @@ export async function processLoad(event) {
       },
       tooltip: {
         tooltip,
+      },
+      toast: {
+        ...toastStuff,
       },
     },
     variables: {

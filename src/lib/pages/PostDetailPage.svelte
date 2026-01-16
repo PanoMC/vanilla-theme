@@ -29,7 +29,7 @@
 
 <div class="vstack gap-3">
   <PageTitle title={data.post.title} />
-    {#if data.post.category.title !== "-"}
+  {#if data.post.category.title !== "-"}
     <div class="text-center">
       <a
         class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring"
@@ -38,7 +38,7 @@
         {data.post.category.title}
       </a>
     </div>
-    {/if}
+  {/if}
 
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
@@ -100,39 +100,39 @@
         {@html data.post.text}
       </div>
     </div>
-    {#if !(data.post.thumbnailUrl &&
-    (typeof themeSettings.postCoverImageEnabled === "undefined"
-      ? true
-      : themeSettings.postCoverImageEnabled))}
-    <div
-      class="card-footer">
-      <div class="d-flex align-items-center justify-content-between small">
-        {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
-          <div>
-            <i class="fas fa-eye me-2"></i>
-            {data.post.views}
-          </div>
-        {/if}
+    {#if !(data.post.thumbnailUrl && (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled))}
+      <div class="card-footer">
+        <div class="d-flex align-items-center justify-content-between small">
+          {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
+            <div>
+              <i class="fas fa-eye me-2"></i>
+              {data.post.views}
+            </div>
+          {/if}
 
-        <div class="d-flex align-items-center">
-          <Date time={data.post.date} />
-          <a
-            href="/player/{data.post.writer.username}"
-            class="d-inline-block rounded focus-ring rounded-circle ms-2"
-            hidden={typeof themeSettings.postAuthorImageEnabled === "undefined"
-              ? false
-              : !themeSettings.postAuthorImageEnabled}>
-            <img
-              src="https://minotar.net/avatar/{data.post.writer.username}"
-              alt={data.post.writer.username}
-              width="28"
-              height="28"
-              use:tooltip={[data.post.writer.username, { placement: "bottom" }]}
-              class="rounded-circle" />
-          </a>
+          <div class="d-flex align-items-center">
+            <Date time={data.post.date} />
+            <a
+              href="/player/{data.post.writer.username}"
+              class="d-inline-block rounded focus-ring rounded-circle ms-2"
+              hidden={typeof themeSettings.postAuthorImageEnabled ===
+              "undefined"
+                ? false
+                : !themeSettings.postAuthorImageEnabled}>
+              <img
+                src="https://minotar.net/avatar/{data.post.writer.username}"
+                alt={data.post.writer.username}
+                width="28"
+                height="28"
+                use:tooltip={[
+                  data.post.writer.username,
+                  { placement: "bottom" },
+                ]}
+                class="rounded-circle" />
+            </a>
+          </div>
         </div>
       </div>
-    </div>
     {/if}
   </div>
 
@@ -165,6 +165,8 @@
       </a>
     </div>
   </div>
+
+  <Hook name="theme:post-detail:bottom" post={data.post} />
 </div>
 
 <script context="module">
@@ -187,8 +189,10 @@
   import { truncate } from "$lib/string.util";
   import Date from "$lib/component/Date.svelte";
   import PageTitle from "$lib/component/PageTitle.svelte";
+  import Hook from "$lib/component/Hook.svelte";
 
   export let data;
 
   const themeSettings = getContext("themeSettings");
+  const session = getContext("session");
 </script>

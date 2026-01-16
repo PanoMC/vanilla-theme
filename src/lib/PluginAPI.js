@@ -5,6 +5,20 @@ const hooks = writable({});
 
 export async function init() {
   hooks.set({});
+  lifecycleHandlers.set({});
+}
+
+const lifecycleHandlers = writable({});
+
+export async function executeLifecycle(name, data, event) {
+  const handlers = get(lifecycleHandlers)[name] || [];
+  for (const handler of handlers) {
+    try {
+      await handler(data, event);
+    } catch (e) {
+      console.error(`[Lifecycle:${name}] failed`, e);
+    }
+  }
 }
 
 export const panoApi = {
@@ -12,6 +26,20 @@ export const panoApi = {
   ui: {
     ...pageAPI,
     nav: {
+    },
+    post: {
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on('theme:post-detail:load', handler);
+      }
+    },
+    lifecycle: {
+      on(name, handler) {
+        lifecycleHandlers.update(h => {
+          if (!h[name]) h[name] = [];
+          h[name].push(handler);
+          return h;
+        });
+      },
     },
     hook: {
       register({ name, component }) {
@@ -33,7 +61,7 @@ const componentLoadCache = new WeakMap();
 
 export async function executeHookLoad(name, event) {
   // Prevent double execution of the SAME hook name during the same load cycle
-  event = {...event, hookName: name}
+  event = { ...event, hookName: name }
   if (event) {
     if (!hookExecutionCache.has(event)) {
       hookExecutionCache.set(event, {});

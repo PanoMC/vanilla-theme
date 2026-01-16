@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 
 import { getPostDetail } from "$lib/services/posts";
+import { executeHookLoad, executeLifecycle } from "$lib/PluginAPI.js";
 
 /**
  * @type {import("@sveltejs/kit").Load}
@@ -41,6 +42,12 @@ export async function processLoad(event) {
       data = body;
     }
   );
+
+  data.hookProps = {};
+
+  await executeLifecycle('theme:post-detail:load', data, event);
+
+  data.hookProps['theme:post-detail:bottom'] = {...data.hookProps['theme:post-detail:bottom'], ...await executeHookLoad('theme:post-detail:bottom', event)};
 
   return { ...data };
 }
