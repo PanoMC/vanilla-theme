@@ -23,6 +23,8 @@ import { executeLifecycle } from "$lib/PluginAPI";
 
 import Date from "$lib/component/Date.svelte";
 import Pagination from "$lib/component/Pagination.svelte";
+import NoContent from "$lib/component/NoContent.svelte";
+import PageActions from "$lib/component/PageActions.svelte";
 
 const initLanguage = languageStuff.init;
 
@@ -88,6 +90,8 @@ export async function processLoad(event) {
     components: {
       Date,
       Pagination,
+      NoContent,
+      PageActions,
     },
     utils: {
       api: {

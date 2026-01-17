@@ -28,7 +28,9 @@
 </style>
 
 <div class="vstack gap-3">
+  
   <PageTitle title={data.post.title} />
+
   {#if data.post.category.title !== "-"}
     <div class="text-center">
       <a
