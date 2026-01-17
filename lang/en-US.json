@@ -25,8 +25,16 @@
     "settings": "Settings",
     "logout": "Logout",
     "save": "Save",
+    "reset-tab": "Reset Tab",
     "reset-all": "Reset All",
     "notifications": "Notifications"
+  },
+  "messages": {
+    "confirm-reset-all": "Are you sure you want to reset all theme settings to default? This action cannot be undone.",
+    "settings-save-success": "Settings saved successfully!",
+    "settings-reset-tab-success": "Tab settings have been reset to default.",
+    "settings-reset-all-success": "All theme settings have been reset to default!",
+    "settings-reset-all-error": "An error occurred while resetting settings!"
   },
   "nav-links": {
     "support": "Support",

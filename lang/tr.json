@@ -25,8 +25,16 @@
     "settings": "Ayarlar",
     "logout": "Çıkış Yap",
     "save": "Kaydet",
+    "reset-tab": "Sekmeyi Sıfırla",
     "reset-all": "Tümünü Sıfırla",
     "notifications": "Bildirimler"
+  },
+  "messages": {
+    "confirm-reset-all": "Tüm tema ayarlarını varsayılana sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "settings-save-success": "Ayarlar başarıyla kaydedildi!",
+    "settings-reset-tab-success": "Sekme ayarları varsayılana döndürüldü.",
+    "settings-reset-all-success": "Tüm tema ayarları başarıyla sıfırlandı!",
+    "settings-reset-all-error": "Ayarlar sıfırlanırken bir hata oluştu!"
   },
   "nav-links": {
     "support": "Destek",

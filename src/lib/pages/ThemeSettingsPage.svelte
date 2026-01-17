@@ -11,6 +11,7 @@
           data-bs-target="#general"
           data-bs-toggle="tab"
           id="general-tab"
+          on:click={() => (activeTab = "general")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.general")}
@@ -22,6 +23,7 @@
           data-bs-target="#logo"
           data-bs-toggle="tab"
           id="logo-tab"
+          on:click={() => (activeTab = "logo")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.logo")}
@@ -33,6 +35,7 @@
           data-bs-target="#header"
           data-bs-toggle="tab"
           id="header-tab"
+          on:click={() => (activeTab = "header")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.cover")}
@@ -44,6 +47,7 @@
           data-bs-target="#navbar"
           data-bs-toggle="tab"
           id="navbar-tab"
+          on:click={() => (activeTab = "navbar")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.navbar")}
@@ -55,6 +59,7 @@
           data-bs-target="#sidebar"
           data-bs-toggle="tab"
           id="sidebar-tab"
+          on:click={() => (activeTab = "sidebar")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.sidebar")}
@@ -66,6 +71,7 @@
           data-bs-target="#post-card"
           data-bs-toggle="tab"
           id="post-card-tab"
+          on:click={() => (activeTab = "post-card")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.post-card")}
@@ -77,6 +83,7 @@
           data-bs-target="#footer"
           data-bs-toggle="tab"
           id="footer-tab"
+          on:click={() => (activeTab = "footer")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.footer")}
@@ -88,6 +95,7 @@
           data-bs-target="#advanced"
           data-bs-toggle="tab"
           id="advanced-tab"
+          on:click={() => (activeTab = "advanced")}
           role="tab"
           type="button">
           {$_("pages.theme-settings.tabs.advanced")}
@@ -894,20 +902,46 @@
       </div>
     </div>
 
-    <div class="mt-3 d-flex gap-2">
+    <div class="mt-4 d-flex align-items-center gap-2 border-top pt-3">
       <button
-        class="btn btn-secondary"
-        class:disabled={saving || savingEnabled}
-        on:click={save}
-        >{$_("buttons.save")}
-        <i class="fas fa-spinner fa-spin" hidden={!saving}></i></button>
+        class="btn btn-primary px-4"
+        class:disabled={saving || !tabChanged}
+        on:click={save}>
+        {#if saving}
+          <i class="fas fa-spinner fa-spin me-2"></i>
+        {:else}
+          <i class="fas fa-save me-2"></i>
+        {/if}
+        {$_("buttons.save")}
+      </button>
+
       <button
-        class="btn btn-dark"
+        class="btn btn-outline-secondary"
         class:disabled={resetting || saving}
-        hidden={!resetVisible}
-        on:click={reset}
-        >{$_("buttons.reset-all")}
-        <i class="fas fa-spinner fa-spin" hidden={!resetting}></i></button>
+        hidden={!tabResetVisible}
+        on:click={resetTab}>
+        {#if resetting}
+          <i class="fas fa-spinner fa-spin me-2"></i>
+        {:else}
+          <i class="fas fa-undo me-2"></i>
+        {/if}
+        {$_("buttons.reset-tab")}
+      </button>
+
+      <div class="ms-auto">
+        <button
+          class="btn btn-link text-danger text-decoration-none"
+          class:disabled={resettingAll || saving}
+          hidden={!allResetVisible}
+          on:click={resetAll}>
+          {#if resettingAll}
+            <i class="fas fa-spinner fa-spin me-2"></i>
+          {:else}
+            <i class="fas fa-trash-alt me-2"></i>
+          {/if}
+          {$_("buttons.reset-all")}
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -930,19 +964,99 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import {
+    showToast,
+    showConfirm
+  } from "$lib/ui-logics/layout-logics/ThemeSettingsLayoutLogics";
   import { saveThemeSettings } from "$lib/services/theme-setting";
 
   export let data;
 
   let { themeSettings, originalThemeSettings } = data;
 
-  let saving, resetting;
+  let saving, resetting, resettingAll;
+  let activeTab = "general";
   let backgroundImageFiles,
     headerBackgroundImageFiles = null;
 
-  $: savingEnabled =
-    JSON.stringify($originalThemeSettings) === JSON.stringify(themeSettings);
-  $: resetVisible = Object.keys($originalThemeSettings).length > 0;
+  const tabKeys = {
+    general: [
+      "themeColor",
+      "backgroundColor",
+      "bgImagePosition",
+      "bgImageRepeat",
+      "bgImageSize",
+      "backgroundImage"
+    ],
+    logo: ["logoVisibility", "logoPosition", "logoHeight", "logoWidth"],
+    header: [
+      "defaultHeaderBg",
+      "headerBgColor",
+      "headerHeight",
+      "headerWidthOption",
+      "headerNavBarGap",
+      "headerBgImagePosition",
+      "headerBgImageRepeat",
+      "headerBgImageSize",
+      "headerBackgroundImage"
+    ],
+    navbar: [
+      "navbarWidthOption",
+      "navRoundLevel",
+      "navLinksEnabled",
+      "navLinksEnableStatus"
+    ],
+    sidebar: ["sidebarEnabled", "sidebarPosition", "sidebarCarts"],
+    "post-card": [
+      "postsEnabled",
+      "postCoverImageEnabled",
+      "postReadMoreButtonEnabled",
+      "postAuthorImageEnabled",
+      "postViewCountEnabled",
+      "postPreviousPageEnabled",
+      "postNextPageEnabled"
+    ],
+    footer: ["footerEnabled", "footerContent"],
+    advanced: ["customCss"]
+  };
+
+  const checkTabChanged = (tab, current, original) => {
+    return tabKeys[tab]?.some((key) => {
+      if (key === "backgroundImage" || key === "headerBackgroundImage") {
+        const uploadExists = !!current.uploads?.[key];
+        const fileDeleted = original.files?.[key] && !current.files?.[key];
+        return uploadExists || fileDeleted;
+      }
+      return JSON.stringify(current[key]) !== JSON.stringify(original[key]);
+    });
+  };
+
+  const checkTabHasData = (tab, original) => {
+    return tabKeys[tab]?.some((key) => {
+      if (key === "backgroundImage" || key === "headerBackgroundImage") {
+        return !!original.files?.[key];
+      }
+      return typeof original[key] !== "undefined" && original[key] !== null;
+    });
+  };
+
+  $: tabChanged = checkTabChanged(
+    activeTab,
+    themeSettings,
+    $originalThemeSettings
+  );
+  $: tabHasSavedData = checkTabHasData(activeTab, $originalThemeSettings);
+
+  $: anyUnsavedChanges = Object.keys(tabKeys).some((tab) =>
+    checkTabChanged(tab, themeSettings, $originalThemeSettings)
+  );
+  $: anySettingsExist = Object.keys(tabKeys).some((tab) =>
+    checkTabHasData(tab, $originalThemeSettings)
+  );
+
+  $: tabResetVisible = tabChanged || tabHasSavedData;
+  $: allResetVisible = anyUnsavedChanges || anySettingsExist;
+
   $: defaultHeaderBg =
     typeof themeSettings.defaultHeaderBg === "undefined"
       ? true
@@ -996,10 +1110,37 @@
     // selectedFaviconFiles = faviconFiles;
   }
 
-  export async function save() {
+  async function save() {
     saving = true;
 
-    const response = await saveThemeSettings(themeSettings);
+    // Create a copy of original and only apply current tab's settings
+    const settingsToSave = { ...$originalThemeSettings };
+
+    // Handle files and uploads separately
+    settingsToSave.files = { ...($originalThemeSettings.files || {}) };
+    settingsToSave.uploads = { ...(themeSettings.uploads || {}) };
+
+    tabKeys[activeTab].forEach((key) => {
+      if (key === "backgroundImage" || key === "headerBackgroundImage") {
+        if (!themeSettings.files?.[key]) {
+          delete settingsToSave.files[key];
+        }
+        // Uploads already handled above
+      } else {
+        settingsToSave[key] = themeSettings[key];
+      }
+    });
+
+    // Only send the relevant uploads
+    if (settingsToSave.uploads) {
+      Object.keys(settingsToSave.uploads).forEach((key) => {
+        if (!tabKeys[activeTab].includes(key)) {
+          delete settingsToSave.uploads[key];
+        }
+      });
+    }
+
+    const response = await saveThemeSettings(settingsToSave);
     const newSettings = JSON.parse(await response.text());
     delete newSettings["result"];
 
@@ -1009,20 +1150,68 @@
     themeSettings = newSettings;
     originalThemeSettings.set(structuredClone(themeSettings));
 
+    showToast(
+      $_("messages.settings-save-success") || "Ayarlar başarıyla kaydedildi!"
+    );
     saving = false;
   }
 
-  export async function reset() {
-    resetting = true;
+  async function resetTab() {
+    showConfirm("components.modals.confirm-reset-tab.title", async () => {
+      resetting = true;
 
-    await saveThemeSettings({});
+      const settingsToSave = { ...$originalThemeSettings };
+      settingsToSave.files = { ...($originalThemeSettings.files || {}) };
 
-    backgroundImageFiles = null;
-    headerBackgroundImageFiles = null;
+      tabKeys[activeTab].forEach((key) => {
+        if (key === "backgroundImage" || key === "headerBackgroundImage") {
+          delete settingsToSave.files[key];
+          if (themeSettings.uploads) delete themeSettings.uploads[key];
+        } else {
+          delete settingsToSave[key];
+        }
+      });
 
-    themeSettings = {};
-    originalThemeSettings.set(structuredClone({}));
+      const response = await saveThemeSettings(settingsToSave);
+      const newSettings = JSON.parse(await response.text());
+      delete newSettings["result"];
 
-    resetting = false;
+      backgroundImageFiles = null;
+      headerBackgroundImageFiles = null;
+
+      themeSettings = newSettings;
+      originalThemeSettings.set(structuredClone(themeSettings));
+
+      showToast(
+        $_("messages.settings-reset-tab-success") ||
+        "Sekme ayarları sıfırlandı!"
+      );
+      resetting = false;
+    });
+  }
+
+  async function resetAll() {
+    showConfirm("components.modals.confirm-reset-all.title", async () => {
+      resettingAll = true;
+
+      try {
+        const response = await saveThemeSettings({});
+        const newSettings = JSON.parse(await response.text());
+        delete newSettings["result"];
+
+        backgroundImageFiles = null;
+        headerBackgroundImageFiles = null;
+
+        themeSettings = newSettings;
+        originalThemeSettings.set(structuredClone(themeSettings));
+
+        showToast($_("messages.settings-reset-all-success"));
+      } catch (error) {
+        console.error("Failed to reset all settings:", error);
+        showToast($_("messages.settings-reset-all-error"));
+      } finally {
+        resettingAll = false;
+      }
+    });
   }
 </script>
