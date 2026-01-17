@@ -1,5 +1,5 @@
 import { sveltekit } from "@sveltejs/kit/vite";
-import { loadEnv, defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import fs from "fs";
 import path from "path";
 import { collectLicenses } from "./scripts/generate-licenses.js";
@@ -135,6 +135,9 @@ export default defineConfig(({ isSsrBuild }) => {
         "/api": env.VITE_API_URL.replace("/api", ""),
       },
       allowedHosts: true,
+      hmr: {
+        path: "/"
+      }
     },
     build: {
       manifest: true,
