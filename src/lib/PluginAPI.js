@@ -1,5 +1,5 @@
 import { baseAPI, pageAPI } from "../pano-sdk/core/js/PluginAPI";
-import { derived, writable, get } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 
 const hooks = writable({});
 
@@ -27,6 +27,11 @@ export const panoApi = {
     ...pageAPI,
     nav: {
     },
+    app: {
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on("theme:app:load", handler);
+      }
+    },
     post: {
       onLoad(handler) {
         panoApi.ui.lifecycle.on('theme:post-detail:load', handler);
@@ -51,7 +56,30 @@ export const panoApi = {
         });
       },
       get(name) {
-        return derived(hooks, $h => ($h[name] || []));
+        return derived(hooks, $h => {
+          const rawHooks = $h[name] || [];
+          // Sort by component.toString() to ensure stable order regardless of registration/import order
+          // Deterministic order is crucial for server-client prop synchronization
+          return [...rawHooks].sort((a, b) => {
+            const getSource = (item) => {
+              const comp = item.component || "";
+              return comp._importer ? comp._importer.toString() : comp.toString();
+            };
+            const keyA = getSource(a);
+            const keyB = getSource(b);
+            return keyA.localeCompare(keyB);
+          });
+        });
+      },
+      setVisible(name, component, visible) {
+        hooks.update(h => {
+          if (!h[name]) return h;
+          const idx = h[name].findIndex(item => item.component === component || item.component?._original === component);
+          if (idx !== -1) {
+            h[name][idx].invisible = !visible;
+          }
+          return h;
+        });
       }
     }
   },
@@ -74,7 +102,19 @@ export async function executeHookLoad(name, event) {
   }
 
   const $h = get(hooks);
-  const list = $h[name] || [];
+  let list = $h[name] || [];
+
+  // MUST match the sort order used in 'get' accessor
+  list = [...list].sort((a, b) => {
+    const getSource = (item) => {
+      const comp = item.component || "";
+      return comp._importer ? comp._importer.toString() : comp.toString();
+    };
+    const keyA = getSource(a);
+    const keyB = getSource(b);
+    return keyA.localeCompare(keyB);
+  });
+
   const results = [];
 
   for (let i = 0; i < list.length; i++) {

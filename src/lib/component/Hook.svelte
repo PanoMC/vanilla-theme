@@ -1,6 +1,9 @@
 {#each hookList as module, i}
   {@const props = hookProps[i] || {}}
-  {#if module}
+  {@const hasPerm =
+    !filteredHooks[i]?.permission ||
+    hasPermission(filteredHooks[i]?.permission, $page.data.user)}
+  {#if module && hasPerm}
     {#key name + i + (rest.post?.id || rest.id || "")}
       {@const Component = module.default || module}
 
@@ -17,7 +20,7 @@
             <Component hookName={name} {...props} {...rest} />
           {/if}
         </svelte:element>
-      {:else if !props.hookOptions?.invisible}
+      {:else if !props.hookOptions?.invisible && !filteredHooks[i]?.invisible}
         <!-- Client Side: Manual Mount -->
         <svelte:element
           this={tag}
@@ -35,18 +38,14 @@
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { mount, unmount, getAllContexts, untrack } from "svelte";
+  import { getAllContexts, mount, unmount, untrack } from "svelte";
   import { hasPermission } from "$lib/auth.util.js";
 
   let { name, tag = "div", ...rest } = $props();
 
   const hookStore = $derived(panoApiClient.ui.hook.get(name));
 
-  const filteredHooks = $derived(
-    ($hookStore || []).filter(
-      (h) => !h.permission || hasPermission(h.permission, $page.data.user),
-    ),
-  );
+  const filteredHooks = $derived($hookStore || []);
 
   let resolvedHooks = $state([]);
   const hookList = $derived(

@@ -13,14 +13,15 @@ import { initialized } from "$lib/Store";
 import * as languageStuff from "$lib/language.util";
 import ApiUtil, * as ApiUtilStuff from "$lib/api.util";
 import * as variableStuff from "$lib/variables";
+import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
 import * as toastStuff from "$lib/component/ToastContainer.svelte";
 import tooltip from "$lib/tooltip.util";
 
 import { addListener } from "$lib/NotificationManager";
-import { preparePlugins, initializePlugins } from "$lib/PluginManager";
-import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
+import { initializePlugins, preparePlugins } from "$lib/PluginManager";
+import { executeLifecycle } from "$lib/PluginAPI";
 
-import Date from "$lib/component/Date.svelte"
+import Date from "$lib/component/Date.svelte";
 import Pagination from "$lib/component/Pagination.svelte";
 
 const initLanguage = languageStuff.init;
@@ -114,6 +115,8 @@ export async function processLoad(event) {
   const output = {
     session: { user, csrfToken, siteInfo }
   };
+
+  await executeLifecycle("theme:app:load", output, event);
 
   await initLanguage(siteInfo.locale, event);
 
