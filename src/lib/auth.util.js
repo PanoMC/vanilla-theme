@@ -17,6 +17,10 @@ export const Permissions = Object.freeze({
 });
 
 export function hasPermission(permission, user) {
+  if (!permission) {
+    return true;
+  }
+
   if (!user) {
     let pageUser;
 
