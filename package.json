@@ -44,6 +44,7 @@
     "svelte-i18n": "^4.0.1"
   },
   "trustedDependencies": [
+    "@parcel/watcher",
     "es5-ext",
     "esbuild",
     "svelte-preprocess"
