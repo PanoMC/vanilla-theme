@@ -1,5 +1,6 @@
 import { get } from "svelte/store";
 import { page } from "$app/stores";
+import { browser } from "$app/environment";
 
 export const Permissions = Object.freeze({
   ACCESS_PANEL: "ACCESS_PANEL",
@@ -17,8 +18,17 @@ export const Permissions = Object.freeze({
 
 export function hasPermission(permission, user) {
   if (!user) {
-    const { user: pageUser } = get(page).data;
+    let pageUser;
 
+    if (browser) {
+      pageUser = get(page).data?.session?.user;
+    } else {
+      pageUser = get(page).data?.user;
+
+      if (!pageUser) {
+        pageUser = get(page).data?.session?.user;
+      }
+    }
     user = pageUser;
   }
 
