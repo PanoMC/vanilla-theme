@@ -20,6 +20,7 @@ import tooltip from "$lib/tooltip.util";
 import { addListener } from "$lib/NotificationManager";
 import { initializePlugins, preparePlugins } from "$lib/PluginManager";
 import { executeLifecycle } from "$lib/PluginAPI";
+import { hasPermission } from "$lib/auth.util";
 
 import Date from "$lib/component/Date.svelte";
 import Pagination from "$lib/component/Pagination.svelte";
@@ -108,6 +109,9 @@ export async function processLoad(event) {
       toast: {
         ...toastStuff,
       },
+      auth: {
+        hasPermission
+      }
     },
     variables: {
       ...variableStuff,
