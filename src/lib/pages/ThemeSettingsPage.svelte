@@ -904,41 +904,26 @@
 
     <div class="mt-4 d-flex align-items-center gap-2 border-top pt-3">
       <button
-        class="btn btn-primary px-4"
+        class="btn btn-secondary"
         class:disabled={saving || !tabChanged}
         on:click={save}>
-        {#if saving}
-          <i class="fas fa-spinner fa-spin me-2"></i>
-        {:else}
-          <i class="fas fa-save me-2"></i>
-        {/if}
         {$_("buttons.save")}
       </button>
 
       <button
-        class="btn btn-outline-secondary"
+        class="btn btn-link"
         class:disabled={resetting || saving}
         hidden={!tabResetVisible}
         on:click={resetTab}>
-        {#if resetting}
-          <i class="fas fa-spinner fa-spin me-2"></i>
-        {:else}
-          <i class="fas fa-undo me-2"></i>
-        {/if}
         {$_("buttons.reset-tab")}
       </button>
 
       <div class="ms-auto">
         <button
-          class="btn btn-link text-danger text-decoration-none"
+          class="btn btn-link link-danger"
           class:disabled={resettingAll || saving}
           hidden={!allResetVisible}
           on:click={resetAll}>
-          {#if resettingAll}
-            <i class="fas fa-spinner fa-spin me-2"></i>
-          {:else}
-            <i class="fas fa-trash-alt me-2"></i>
-          {/if}
           {$_("buttons.reset-all")}
         </button>
       </div>

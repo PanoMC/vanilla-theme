@@ -34,8 +34,8 @@
   {#if data.post.category.title !== "-"}
     <div class="text-center">
       <a
-        class="badge fs-6 fw-normal text-bg-secondary text-decoration-none rounded-pill focus-ring"
-        href="/?category={data.post.category.url}"
+        class="badge text-bg-primary text-decoration-none rounded-pill focus-ring"
+        href="/?cate data.post.category.url}"
         use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
         {data.post.category.title}
       </a>

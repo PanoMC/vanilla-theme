@@ -18,9 +18,8 @@
     </button>
 
     <!-- Server Info Card -->
-    <div
-      class="d-flex flex-column align-items-center justify-content-center">
-      <ul class="list-group list-group-flush text-center">
+    <div class="d-flex flex-column align-items-center justify-content-stretch">
+      <ul class="list-group w-100 text-center">
         <li class="list-group-item">
           {#if serverOnline}
             <span class="badge text-bg-success">{$_("sidebars.home.online")}</span>

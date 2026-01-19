@@ -24,9 +24,7 @@
   {#if !data.categoryUrl}
     <Hook name="page:home:top" />
   {/if}
-  <div class="mb-3">
-    <PageTitle title={$_("pages.homepage.title")} />
-  </div>
+  <PageTitle title={$_("pages.homepage.title")} />
 
   <!-- Posts -->
   {#if typeof themeSettings.postsEnabled === "undefined" ? true : themeSettings.postsEnabled}
