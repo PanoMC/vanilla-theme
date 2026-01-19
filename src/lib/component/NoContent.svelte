@@ -1,7 +1,9 @@
-<div class="container text-center">
-    <i class="{icon} text-opacity-25 m-3"></i>
-    <small class="d-block mb-3">{text}</small>
+<div class="card border-0 opacity-50 bg-transparent animate__animated animate__zoomIn">
+  <div class="card-body vstack gap-3 text-center">
+    <span class={icon}></span>
+    <p class="mb-0">{text}</p>
   <slot />
+  </div>
 </div>
 
 <script>
