@@ -2,16 +2,20 @@
 <div class="vstack gap-3">
   <PageTitle title={$_("pages.notifications.page-title")} />
 
-  <!-- Action Menu -->
-  {#if $notifications.length !== 0}
-    <button
-      type="button"
-      class="btn btn-danger"
-      on:click={() => onDeleteAllClick(notificationProcessID, interval)}
-      >{$_("buttons.delete-all")}
-    </button>
-  {/if}
-
+    <PageActions>
+      <div slot="right">
+      <!-- Action Menu -->
+      {#if $notifications.length !== 0}
+        <button
+          type="button"
+          class="btn btn-secondary"
+          on:click={() => onDeleteAllClick(notificationProcessID, interval)}
+          >{$_("buttons.delete-all")}
+        </button>
+      {/if} 
+      </div>
+    </PageActions>
+  <!-- Notifications -->
   <div class="card">
     <div class="card-body">
       <div class="list-group" class:d-none={$notifications.length === 0}>
@@ -126,6 +130,7 @@
   import ConfirmRemoveAllNotificationsModal from "$lib/component/modals/ConfirmRemoveAllNotificationsModal.svelte";
   import NoContent from "$lib/component/NoContent.svelte";
   import PageTitle from "$lib/component/PageTitle.svelte";
+    import PageActions from "$lib/component/PageActions.svelte";
 
   export let data;
 

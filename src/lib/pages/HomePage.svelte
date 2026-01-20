@@ -1,4 +1,3 @@
-
 {#if data.categoryUrl}
   <div class="row justify-content-between mb-3">
     <div class="col-auto">
@@ -21,9 +20,6 @@
 {/if}
 
 <div class="vstack gap-3">
-  {#if !data.categoryUrl}
-    <Hook name="page:home:top" />
-  {/if}
   <PageTitle title={$_("pages.homepage.title")} />
 
   <!-- Posts -->

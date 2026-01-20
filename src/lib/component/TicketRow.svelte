@@ -11,12 +11,15 @@
       </button>
     {/if}
   </th>
-  <td class="align-middle text-nowrap">
-    <a
-      class="rounded focus-ring"
-      href="/ticket/{ticket.id}"
-      title={$_("components.ticket-row.show-ticket")}
-      >#{ticket.id} {ticket.title}</a>
+  <td class="align-middle" style="max-width: 300px;">
+    <div class="text-truncate">
+      <a
+        class="rounded focus-ring text-decoration-none d-block text-truncate"
+        href="/ticket/{ticket.id}"
+        title="#{ticket.id} {ticket.title}">
+        #{ticket.id} {ticket.title}
+      </a>
+    </div>
   </td>
   <td class="align-middle">
     <TicketStatus status={ticket.status} />
@@ -27,7 +30,7 @@
         $_("components.ticket-row.filter"),
         { placement: "bottom" },
       ]}
-      class="badge rounded-pill text-bg-primary text-decoration-none focus-ring"
+      class="badge rounded-pill {ticket.category.title === '-' ? 'text-bg-primary' : 'text-bg-secondary'} text-decoration-none focus-ring"
       href="/tickets?category={ticket.category.url}">
       {ticket.category.title === "-"
         ? $_("components.ticket-row.no-category")

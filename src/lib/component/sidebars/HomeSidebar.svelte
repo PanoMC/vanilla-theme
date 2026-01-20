@@ -22,9 +22,11 @@
       <ul class="list-group w-100 text-center">
         <li class="list-group-item">
           {#if serverOnline}
-            <span class="badge text-bg-success">{$_("sidebars.home.online")}</span>
+            <span class="badge text-bg-success"
+              >{$_("sidebars.home.online")}</span>
           {:else}
-          <span class="badge text-bg-danger rounded-pill">{$_("sidebars.home.offline")}</span>
+            <span class="badge text-bg-danger rounded-pill"
+              >{$_("sidebars.home.offline")}</span>
           {/if}
         </li>
         <li class="list-group-item">
