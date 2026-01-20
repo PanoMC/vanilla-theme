@@ -2,6 +2,7 @@ import { onDestroy, onMount, setContext } from "svelte";
 import { writable } from "svelte/store";
 import { setPanoContext } from "@panomc/sdk/internal";
 import { _ } from "svelte-i18n";
+import copy from "copy-to-clipboard";
 
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
@@ -111,6 +112,9 @@ export async function processLoad(event) {
       },
       auth: {
         hasPermission
+      },
+      text: {
+        copy
       }
     },
     variables: {
