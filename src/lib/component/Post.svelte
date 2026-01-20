@@ -42,16 +42,16 @@
           </h2>
         </a>
       </div>
-      <div class="col-sm-auto order-sm-last order-first">
         {#if post.category.title !== "-"}
-          <a
-            class="badge text-bg-primary text-decoration-none rounded-pill focus-ring"
-            href="/?category={post.category.url}"
-            use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
-            {post.category.title}
-          </a>
+          <div class="col-sm-auto order-sm-last order-first">
+              <a
+                class="badge text-bg-secondary text-decoration-none rounded-pill focus-ring"
+                href="/?category={post.category.url}"
+                use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
+                {post.category.title}
+              </a>
+          </div>
         {/if}
-      </div>
     </div>
 
     <div class="card-text text-break word-break clamp-text">
