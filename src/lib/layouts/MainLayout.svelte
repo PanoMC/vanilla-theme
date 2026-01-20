@@ -7,24 +7,15 @@
   {@html `<style>;</style>`.replace(";", styles)}
 </svelte:head>
 
+<Hook name="theme:top" />
+
 <div class="vstack gap-3">
   <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
     <Header />
 
     <Navbar />
   </div>
-
-  <div class="container">
-    <div class="vstack gap-3">
-      <Hook name="theme:top" />
-
-      {#if $page.url.pathname === "/"}
-        <Hook name="page:home:top" />
-      {/if}
-
-      <Hook name="page:top" />
-    </div>
-  </div>
+  <Hook name="page:top" />
 
   <Main>
     <slot />
@@ -51,7 +42,6 @@
 
 <script>
   import { getContext } from "svelte";
-  import { page } from "$app/stores";
 
   import Header from "$lib/component/Header.svelte";
   import Navbar from "$lib/component/Navbar.svelte";
