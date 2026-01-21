@@ -2,9 +2,11 @@ import { baseAPI, pageAPI } from "../pano-sdk/core/js/PluginAPI";
 import { derived, get, writable } from "svelte/store";
 
 const hooks = writable({});
+const siteNavLinks = writable([]);
 
 export async function init() {
   hooks.set({});
+  siteNavLinks.set([]);
   lifecycleHandlers.set({});
 }
 
@@ -26,6 +28,14 @@ export const panoApi = {
   ui: {
     ...pageAPI,
     nav: {
+      site: {
+        editNavLinks(callback) {
+          siteNavLinks.update(links => callback(links) || links);
+        },
+        getNavLinks() {
+          return siteNavLinks;
+        }
+      }
     },
     app: {
       onLoad(handler) {

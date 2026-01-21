@@ -149,6 +149,23 @@
                 title={$_("nav-links.rules")}>
                 {$_("nav-links.rules")}</a>
             </li>
+
+            {#each $navLinks as link}
+              {#if (!link.loginRequired || $session.user) && (!link.permission || hasPermission(link.permission))}
+                <li class="nav-item">
+                  <a
+                    href={link.href}
+                    class="nav-link"
+                    class:active={matching($page.url.pathname, link.href, link.startsWith)}
+                    title={link.text && link.text.includes(".") ? $_(link.text) : link.text}>
+                    {#if link.icon}
+                      <i class="{link.icon} me-1" aria-hidden="true"></i>
+                    {/if}
+                    {link.text && link.text.includes(".") ? $_(link.text) : link.text}
+                  </a>
+                </li>
+              {/if}
+            {/each}
           </ul>
         </div>
       {/if}
@@ -165,6 +182,10 @@
   import { PANEL_URL } from "$lib/variables.js";
 
   import { logout, notificationsCount } from "$lib/Store";
+  import { panoApiClient } from "$lib/PluginAPI.js";
+  import { hasPermission } from "$lib/auth.util.js";
+
+  const navLinks = panoApiClient.ui.nav.site.getNavLinks();
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");

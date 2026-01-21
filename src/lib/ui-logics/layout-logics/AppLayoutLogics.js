@@ -8,6 +8,7 @@ import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { navigating, page } from "$app/stores";
 import { base } from "$app/paths";
+import { error, redirect } from "@sveltejs/kit";
 
 import { initialized } from "$lib/Store";
 
@@ -89,6 +90,8 @@ export async function processLoad(event) {
     navigating,
     browser,
     goto,
+    error,
+    redirect,
     components: {
       Date,
       Pagination,
@@ -125,7 +128,8 @@ export async function processLoad(event) {
   await initializePlugins(siteInfo);
 
   const output = {
-    session: { user, csrfToken, siteInfo }
+    session: { user, csrfToken, siteInfo },
+    pageTitle: writable(null)
   };
 
   await executeLifecycle("theme:app:load", output, event);
@@ -163,5 +167,6 @@ export function init(data) {
     sendVisitorVisitRequest({});
   });
 
-  return { session, sidebar, sidebarProps };
+  const { pageTitle } = data;
+  return { session, sidebar, sidebarProps, pageTitle };
 }

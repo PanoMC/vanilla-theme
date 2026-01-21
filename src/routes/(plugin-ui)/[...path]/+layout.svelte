@@ -25,11 +25,12 @@
 {/if}
 
 <script context="module">
-  import { error } from '@sveltejs/kit';
+  import { error } from "@sveltejs/kit";
 
-  import { registeredPages, findMatch } from '$lib/PluginManager.js';
-  import { base } from '$app/paths';
+  import { findMatch, registeredPages } from "$lib/PluginManager.js";
+  import { base } from "$app/paths";
   import { hasPermission } from "$lib/auth.util.js";
+
 
   const layouts = import.meta.glob('$lib/layouts/*.svelte', { eager: true });
 
@@ -51,7 +52,7 @@
       url: { pathname },
       parent,
     } = event;
-    const { resetLayout, user } = await parent();
+    const { session: { user } } = await parent();
 
     const registeredPage = findMatch(registeredPages, removePrefix(pathname, base));
 
@@ -63,7 +64,7 @@
       throw error(404);
     }
 
-    resetLayout.set(registeredPage.resetLayout || false);
+    const resetLayout = registeredPage.resetLayout || false;
 
     let systemLayout = null;
     let systemLayoutOutput = {};
@@ -98,7 +99,9 @@
       systemLayout,
       props: layoutOutput,
       params: registeredPage.params,
-      ...systemLayoutOutput
+      ...systemLayoutOutput,
+      resetLayout
+
     };
   }
 </script>
@@ -107,8 +110,10 @@
   import { mount, unmount, getAllContexts } from 'svelte';
   import { browser } from '$app/environment';
 
+
   export let data;
 
+  const { resetLayout } = data;
   const contexts = getAllContexts();
 
   let slotContentContainer;

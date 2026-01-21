@@ -1,7 +1,7 @@
 <svelte:head>
   <link href="/api/favicon?hash={$session.siteInfo.faviconHash}" rel="icon" />
 
-  <title>{$session.siteInfo.websiteName}</title>
+  <title>{title}</title>
 </svelte:head>
 
 <App>
@@ -29,6 +29,8 @@
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
+
   import { init } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
   import App from "$lib/component/App.svelte";
@@ -36,5 +38,9 @@
 
   export let data;
 
-  const { session } = init(data);
+  const { session, pageTitle } = init(data);
+
+  $: title = $pageTitle
+    ? `${$_($pageTitle)} \u2014 ${$session.siteInfo.websiteName}`
+    : $session.siteInfo.websiteName;
 </script>
