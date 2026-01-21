@@ -15,7 +15,7 @@ import { initialized } from "$lib/Store";
 import * as languageStuff from "$lib/language.util";
 import ApiUtil, * as ApiUtilStuff from "$lib/api.util";
 import * as variableStuff from "$lib/variables";
-import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
+import { checkDomainRedirection, updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
 import * as toastStuff from "$lib/component/ToastContainer.svelte";
 import tooltip from "$lib/tooltip.util";
 
@@ -82,6 +82,10 @@ export async function processLoad(event) {
 
   if (panoWebsiteUrlEnv) {
     updatePanoWebsiteUrl(panoWebsiteUrlEnv);
+  }
+
+  if (browser) {
+    checkDomainRedirection();
   }
 
   setPanoContext({
