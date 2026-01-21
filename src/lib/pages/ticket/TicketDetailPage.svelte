@@ -124,9 +124,10 @@
               messages,
               message,
               data,
-            )}>
+            )}
+          title={$_("buttons.send")}
+          aria-label={$_("buttons.send")}>
           <i class="fas fa-paper-plane"></i>
-          <span class="d-xl-inline d-none ms-2">{$_("buttons.send")}</span>
         </button>
       </div>
     </div>
