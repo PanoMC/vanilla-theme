@@ -34,12 +34,12 @@
     </div>
     <div class="card-body" id="messageSection" bind:this={$messagesSectionDiv}>
       {#if $messages.length < $ticket.messageCount && $ticket.messageCount > 5}
-        <div class="position-relative">
+        <div class="d-flex justify-content-center mb-3">
           <button
-            class="btn btn-sm btn-secondary top-50 start-50 translate-middle position-absolute mt-2"
+            class="btn btn-sm btn-secondary"
             class:disabled={$loadMoreLoading}
             on:click={() => loadMore(loadMoreLoading, messages, data)}
-            ><i class="fas fa-arrow-up mr-1"></i>
+            ><i class="fas fa-arrow-up me-1"></i>
             {$_("pages.ticket-detail.previous-messages", {
               values: {
                 count:
@@ -59,45 +59,45 @@
                   <img
                     src="https://minotar.net/avatar/{message.username}/48"
                     alt={message.username}
-                    class="rounded d-block mr-auto animate__animated animate__zoomIn"
+                    class="rounded-circle animate__animated animate__zoomIn"
                     use:tooltip={[message.username, { placement: "bottom" }]}
                     width="48"
                     height="48" />
                 </a>
               </div>
-              <div class="col-auto">
-                <div class="card">
-                  <div class="card-body answer">
+              <div class="col vstack align-items-start">
+                <div class="card rounded-5 text-bg-primary border-0 shadow-sm">
+                  <div class="card-body answer px-3">
                     {@html message.message}
                   </div>
-                  <div class="card-footer small">
-                    <Date time={message.date} />
-                  </div>
                 </div>
+                <small class="text-body-secondary mt-1">
+                  <Date time={message.date} relativeFormat={true} />
+                </small>
               </div>
             </div>
           {:else}
-            <div class="row g-2 flex-nowrap justify-content-end">
+            <div class="row g-2 flex-nowrap">
+              <div class="col vstack align-items-end">
+                <div class="card rounded-5 bg-transparent border shadow-sm">
+                  <div class="card-body px-3">
+                    {message.message}
+                  </div>
+                </div>
+                <small class="text-body-secondary mt-1">
+                  <Date time={message.date} relativeFormat={true} />
+                </small>
+              </div>
               <div class="col-auto">
                 <a href="/player/{message.username}">
                   <img
                     src="https://minotar.net/avatar/{message.username}/48"
                     alt={message.username}
-                    class="rounded animate__animated animate__zoomIn"
+                    class="rounded-circle animate__animated animate__zoomIn"
                     use:tooltip={[message.username, { placement: "bottom" }]}
                     width="48"
                     height="48" />
                 </a>
-              </div>
-              <div class="col-auto">
-                <div class="card">
-                  <div class="card-body">
-                    {message.message}
-                  </div>
-                  <div class="card-footer small">
-                    <Date time={message.date} />
-                  </div>
-                </div>
               </div>
             </div>
           {/if}
@@ -107,31 +107,27 @@
     <div
       class="card-footer"
       class:d-none={$ticket.status === TicketStatuses.CLOSED}>
-      <div class="row align-items-end g-2">
-        <div class="col">
-          <textarea
-            placeholder={$_("pages.ticket-detail.inputs.message.placeholder")}
-            class="form-control"
-            bind:value={$message}></textarea>
-        </div>
-        <div class="col-auto">
-          <button
-            class="btn btn-secondary"
-            :disabled={$messageSendLoading || isSendButtonDisabled}
-            class:disabled={$messageSendLoading || isSendButtonDisabled}
-            on:click={() =>
-              sendMessage(
-                messageSendLoading,
-                sentMessageCount,
-                shouldScroll,
-                messages,
-                message,
-                data,
-              )}>
-            <i class="fas fa-paper-plane"></i>
-            <span class="d-xl-inline d-none ms-2">{$_("buttons.send")}</span>
-          </button>
-        </div>
+      <div class="input-group">
+        <textarea
+          placeholder={$_("pages.ticket-detail.inputs.message.placeholder")}
+          class="form-control"
+          bind:value={$message}></textarea>
+        <button
+          class="btn btn-secondary border-left-0"
+          disabled={$messageSendLoading || isSendButtonDisabled}
+          class:disabled={$messageSendLoading || isSendButtonDisabled}
+          on:click={() =>
+            sendMessage(
+              messageSendLoading,
+              sentMessageCount,
+              shouldScroll,
+              messages,
+              message,
+              data,
+            )}>
+          <i class="fas fa-paper-plane"></i>
+          <span class="d-xl-inline d-none ms-2">{$_("buttons.send")}</span>
+        </button>
       </div>
     </div>
   </div>
