@@ -139,6 +139,7 @@ export function init() {
       document.head.appendChild(style);
 
       console.log("CSS injected successfully");
+      hidden.set(false);
 
       // Update height after CSS is loaded
       setTimeout(() => {
@@ -178,6 +179,7 @@ export function init() {
           loadedCount++;
           if (loadedCount === totalLinks) {
             console.log("All CSS links loaded successfully");
+            hidden.set(false);
             setTimeout(() => {
               postHeight();
               postReady();
@@ -189,6 +191,7 @@ export function init() {
           console.warn("Failed to load CSS link:", href);
           loadedCount++;
           if (loadedCount === totalLinks) {
+            hidden.set(false);
             setTimeout(() => {
               postHeight();
               postReady();
@@ -220,7 +223,20 @@ export function init() {
     const ro = new ResizeObserver(postHeight);
     ro.observe(document.body);
 
-    hidden.set(false);
+    // hidden.set(false); // Wait for CSS injection
+
+    // Fallback: If no CSS is received within 2 seconds, show the content anyway
+    setTimeout(() => {
+      hidden.update((n) => {
+        if (n) {
+          console.warn(
+            "Theme settings CSS injection timeout - showing content anyway"
+          );
+          return false;
+        }
+        return n;
+      });
+    }, 2000);
 
     document.body.classList.remove("bg-light");
 
