@@ -115,56 +115,20 @@
       {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0 text-lg-left text-center">
-            <li
-              class="nav-item"
-              hidden={typeof themeSettings.navLinksEnableStatus?.home ===
-              "undefined"
-                ? false
-                : !themeSettings.navLinksEnableStatus.home}>
-              <a class="nav-link" title={$_("nav-links.homepage")} href="/">
-                {$_("nav-links.homepage")}
-              </a>
-            </li>
-            <li
-              class="nav-item"
-              hidden={typeof themeSettings.navLinksEnableStatus?.support ===
-              "undefined"
-                ? false
-                : !themeSettings.navLinksEnableStatus.support}>
-              <a
-                href="/support"
-                class="nav-link"
-                title={$_("nav-links.support")}>
-                {$_("nav-links.support")}</a>
-            </li>
-            <li
-              class="nav-item"
-              hidden={!$session.siteInfo.registerAgreement  || (typeof themeSettings.navLinksEnableStatus?.rules ===
-              "undefined"
-                ? false
-                : !themeSettings.navLinksEnableStatus.rules)}>
-              <a
-                href="/rules"
-                class="nav-link"
-                title={$_("nav-links.rules")}>
-                {$_("nav-links.rules")}</a>
-            </li>
-
-            {#each $navLinks as link}
-              {#if (!link.loginRequired || $session.user) && (!link.permission || hasPermission(link.permission))}
-                <li class="nav-item">
-                  <a
-                    href={link.href}
-                    class="nav-link"
-                    class:active={matching($page.url.pathname, link.href, link.startsWith)}
-                    title={link.text && link.text.includes(".") ? $_(link.text) : link.text}>
-                    {#if link.icon}
-                      <i class="{link.icon} me-1" aria-hidden="true"></i>
-                    {/if}
-                    {link.text && link.text.includes(".") ? $_(link.text) : link.text}
-                  </a>
-                </li>
-              {/if}
+            {#each displayLinks as link (link.id)}
+              <li class="nav-item">
+                <a
+                  href={link.href}
+                  target={link.target || "_self"}
+                  class="nav-link"
+                  class:active={matching($page.url.pathname, link.href, link.startsWith)}
+                  title={link.text && link.text.includes(".") ? $_(link.text) : link.text}>
+                  {#if link.icon}
+                    <i class="{link.icon} me-1" aria-hidden="true"></i>
+                  {/if}
+                  {link.text && link.text.includes(".") ? $_(link.text) : link.text}
+                </a>
+              </li>
             {/each}
           </ul>
         </div>
@@ -192,6 +156,17 @@
 
   $: navbarWidthOption = themeSettings.navbarWidthOption || "BY_CONTENT";
 
+  $: nativeLinks = [
+    { id: "home", text: "nav-links.homepage", href: "/" },
+    { id: "support", text: "nav-links.support", href: "/support" },
+    {
+      id: "rules",
+      text: "nav-links.rules",
+      href: "/rules",
+      condition: !!$session.siteInfo?.registerAgreement
+    }
+  ];
+
   function matching(path, pathName, startsWith = false) {
     return (
       path.toUpperCase() === pathName.toUpperCase() ||
@@ -199,4 +174,54 @@
       (startsWith && path.startsWith(pathName))
     );
   }
+
+  $: displayLinks = (() => {
+    // 1. Merge
+    const pluginLinks = $navLinks.map((l) => ({
+      ...l,
+      id: l.href,
+      isPlugin: true
+    }));
+
+    const allLinks = [...nativeLinks, ...pluginLinks];
+
+    // 2. Sort
+    let order = themeSettings.navLinksOrder || [];
+    const sourceMap = new Map(allLinks.map((l) => [l.id, l]));
+    const sorted = [];
+
+    // Add ordered items
+    for (const id of order) {
+      if (sourceMap.has(id)) {
+        sorted.push(sourceMap.get(id));
+      }
+    }
+
+    // Append remaining items (ordered set first to avoid duplicates)
+    const inOrderIds = new Set(order);
+    for (const l of allLinks) {
+      // Only add if not already added (check ID presence in map is strictly better if duplicates exist in source, but here IDs are unique-ish)
+      if (!inOrderIds.has(l.id)) {
+        sorted.push(l);
+      }
+    }
+
+    // 3. Filter visibility & conditions
+    return sorted.filter((link) => {
+      // Check explicit toggle first
+      // Note: Default for native links was traditionally TRUE if undefined.
+      // Default for plugin links should also be TRUE.
+      const status = themeSettings.navLinksEnableStatus?.[link.id];
+      if (status === false) return false; // Explicitly disabled
+
+      // Check custom condition (e.g. Rules agreement)
+      if (typeof link.condition !== "undefined" && !link.condition) return false;
+
+      // Check plugin conditions
+      if (link.loginRequired && !$session.user) return false;
+      if (link.permission && !hasPermission(link.permission)) return false;
+
+      return true;
+    });
+  })();
 </script>

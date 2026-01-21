@@ -584,57 +584,39 @@
           <label class="col-md-6 col-form-label" for="navbarLinks"
             >{$_("pages.theme-settings.navbar.links")}</label>
           <div class="col-md-6" id="navbarLinks">
-            <div class="form-check form-switch">
-              <input
-                checked={typeof themeSettings.navLinksEnableStatus?.home ===
-                "undefined"
-                  ? true
-                  : themeSettings.navLinksEnableStatus?.home}
-                class="form-check-input"
-                id="navbarHomeLinkToggle"
-                on:change={(e) => {
-                  if (!themeSettings.navLinksEnableStatus)
-                    themeSettings.navLinksEnableStatus = {};
-                  themeSettings.navLinksEnableStatus.home = e.target.checked;
-                }}
-                type="checkbox" />
-              <label class="form-check-label" for="navbarHomeLinkToggle">
-                {$_("pages.theme-settings.navbar.home")}
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                checked={typeof themeSettings.navLinksEnableStatus?.support ===
-                "undefined"
-                  ? true
-                  : themeSettings.navLinksEnableStatus?.support}
-                class="form-check-input"
-                id="navbarSupportLinkToggle"
-                on:change={(e) => {
-                  if (!themeSettings.navLinksEnableStatus)
-                    themeSettings.navLinksEnableStatus = {};
-                  themeSettings.navLinksEnableStatus.support = e.target.checked;
-                }}
-                type="checkbox" />
-              <label class="form-check-label" for="navbarSupportLinkToggle"
-                >{$_("pages.theme-settings.navbar.support")}</label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                checked={typeof themeSettings.navLinksEnableStatus?.rules ===
-                "undefined"
-                  ? true
-                  : themeSettings.navLinksEnableStatus?.rules}
-                class="form-check-input"
-                id="navbarRulesLinkToggle"
-                on:change={(e) => {
-                  if (!themeSettings.navLinksEnableStatus)
-                    themeSettings.navLinksEnableStatus = {};
-                  themeSettings.navLinksEnableStatus.rules = e.target.checked;
-                }}
-                type="checkbox" />
-              <label class="form-check-label" for="navbarRulesLinkToggle"
-                >{$_("pages.theme-settings.navbar.rules")}</label>
+            <ul class="list-group">
+              {#each orderedLinks as link, index (link.id)}
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                  draggable="true"
+                  on:dragstart={(e) => onDragStart(e, index)}
+                  on:dragover={(e) => onDragOver(e, index)}
+                  on:drop={(e) => onDrop(e, index)}
+                  style="cursor: move;">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="fa fa-bars text-muted"></i>
+                    <span>
+                      {#if link.isPlugin}
+                        {link.text && link.text.includes(".")
+                          ? $_(link.text)
+                          : link.text}
+                      {:else}
+                        {$_(link.text)}
+                      {/if}
+                    </span>
+                  </div>
+                  <div class="form-check form-switch m-0">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      checked={themeSettings.navLinksEnableStatus?.[link.id] ?? true}
+                      on:change={(e) => toggleLink(link.id, e.target.checked)} />
+                  </div>
+                </li>
+              {/each}
+            </ul>
+            <div class="form-text mt-2">
+              {$_("pages.theme-settings.navbar.drag-drop-hint") || "Linkleri sürükleyip bırakarak sıralayabilirsiniz."}
             </div>
           </div>
         </div>
@@ -954,6 +936,7 @@
     showConfirm
   } from "$lib/ui-logics/layout-logics/ThemeSettingsLayoutLogics";
   import { saveThemeSettings } from "$lib/services/theme-setting";
+  import { panoApiClient } from "$lib/PluginAPI.js";
 
   export let data;
 
@@ -963,6 +946,81 @@
   let activeTab = "general";
   let backgroundImageFiles,
     headerBackgroundImageFiles = null;
+
+  const navPluginLinks = panoApiClient.ui.nav.site.getNavLinks();
+
+  let orderedLinks = [];
+
+  const nativeLinks = [
+    { id: "home", text: "pages.theme-settings.navbar.home", href: "/" },
+    { id: "support", text: "pages.theme-settings.navbar.support", href: "/support" },
+    { id: "rules", text: "pages.theme-settings.navbar.rules", href: "/rules" }
+  ];
+
+  /* Navbar Link Management */
+  $: {
+    const pluginLinks = $navPluginLinks.map((l) => ({
+      ...l,
+      id: l.href,
+      isPlugin: true
+    }));
+
+    const allLinksSource = [...nativeLinks, ...pluginLinks];
+
+    let order = themeSettings.navLinksOrder || [];
+    order = [...new Set(order)];
+
+    const sorted = [];
+    const sourceMap = new Map(allLinksSource.map((l) => [l.id, l]));
+
+    for (const id of order) {
+      if (sourceMap.has(id)) {
+        sorted.push(sourceMap.get(id));
+        sourceMap.delete(id);
+      }
+    }
+
+    for (const link of sourceMap.values()) {
+      sorted.push(link);
+    }
+
+    orderedLinks = sorted;
+  }
+
+  let draggingItemIndex = null;
+
+  function onDragStart(event, index) {
+    draggingItemIndex = index;
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", index);
+  }
+
+  function onDragOver(event, index) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }
+
+  function onDrop(event, index) {
+    event.preventDefault();
+    const fromIndex = draggingItemIndex;
+    const toIndex = index;
+
+    if (fromIndex === null || fromIndex === toIndex) return;
+
+    const newOrder = [...orderedLinks];
+    const [movedItem] = newOrder.splice(fromIndex, 1);
+    newOrder.splice(toIndex, 0, movedItem);
+
+    orderedLinks = newOrder;
+    themeSettings.navLinksOrder = newOrder.map((l) => l.id);
+  }
+
+  function toggleLink(id, checked) {
+    if (!themeSettings.navLinksEnableStatus)
+      themeSettings.navLinksEnableStatus = {};
+    themeSettings.navLinksEnableStatus[id] = checked;
+    themeSettings = themeSettings;
+  }
 
   const tabKeys = {
     general: [
@@ -989,7 +1047,8 @@
       "navbarWidthOption",
       "navRoundLevel",
       "navLinksEnabled",
-      "navLinksEnableStatus"
+      "navLinksEnableStatus",
+      "navLinksOrder"
     ],
     sidebar: ["sidebarEnabled", "sidebarPosition", "sidebarCarts"],
     "post-card": [
