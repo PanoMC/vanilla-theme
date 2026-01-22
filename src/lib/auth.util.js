@@ -38,6 +38,10 @@ export function hasPermission(permission, user) {
 
   const userObject = user;
 
+  if (!userObject) {
+    return false;
+  }
+
   if (userObject.admin) {
     return true;
   }
