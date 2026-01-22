@@ -28,6 +28,7 @@ import Date from "$lib/component/Date.svelte";
 import Pagination from "$lib/component/Pagination.svelte";
 import NoContent from "$lib/component/NoContent.svelte";
 import PageActions from "$lib/component/PageActions.svelte";
+import PageTitle from "$lib/component/PageTitle.svelte";
 
 const initLanguage = languageStuff.init;
 
@@ -101,6 +102,7 @@ export async function processLoad(event) {
       Pagination,
       NoContent,
       PageActions,
+      PageTitle
     },
     utils: {
       api: {
