@@ -325,7 +325,8 @@
         "links": "Bağlantılar",
         "home": "Ana Sayfa",
         "rules": "Kurallar",
-        "support": "Destek"
+        "support": "Destek",
+        "drag-drop-hint": "Linkleri sürükleyip bırakarak sıralayabilirsiniz."
       },
       "sidebar": {
         "visibility": "Görünürlük",

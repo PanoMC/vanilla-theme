@@ -325,7 +325,8 @@
         "links": "Links",
         "home": "Home",
         "rules": "Rules",
-        "support": "Support"
+        "support": "Support",
+        "drag-drop-hint": "You can sort the links by dragging and dropping them."
       },
       "sidebar": {
         "visibility": "Visibility",
