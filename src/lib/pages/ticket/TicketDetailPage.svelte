@@ -29,7 +29,7 @@
     time={$ticket.date} />
 
   <div class="card">
-    <div class="card-header">
+    <div class="card-header text-end">
       <TicketStatus status={$ticket.status} />
     </div>
     <div class="card-body" id="messageSection" bind:this={$messagesSectionDiv}>
