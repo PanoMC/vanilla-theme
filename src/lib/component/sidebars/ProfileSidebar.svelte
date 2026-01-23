@@ -11,6 +11,13 @@
         checkTime={checkTime} />
       <PageTitle title={user.username} />
       <div class="text-center">
+        <PlayerStatusBadge
+          banned={$data.isBanned}
+          lastActivityTime={$data.lastActivityTime}
+          inGame={$data.inGame}
+          checkTime={checkTime} />
+      </div>
+      <div class="text-center">
         <PlayerPermissionBadge
           permissionGroupName={$data.permissionGroupName} />
       </div>
@@ -27,6 +34,7 @@
     lastActivityTime: 0,
     inGame: false,
     permissionGroupName: "",
+    isBanned: false,
   });
 
   export const load = async (event) => {
@@ -50,9 +58,10 @@
   import tooltip from "$lib/tooltip.util";
 
   import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";
+  import PlayerStatusBadge from "$lib/component/PlayerStatusBadge.svelte";
   import Sidebar from "$lib/component/Sidebar.svelte";
   import PlayerHead from "$lib/component/PlayerHead.svelte";
-    import PageTitle from "../PageTitle.svelte";
+  import PageTitle from "../PageTitle.svelte";
 
   export let side;
 

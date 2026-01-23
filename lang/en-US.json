@@ -75,6 +75,13 @@
     "player-permission-badge": {
       "player": "Player"
     },
+    "player-status-badge": {
+      "banned": "Banned",
+      "in-game": "In Game",
+      "in-website": "In Website",
+      "online": "Online",
+      "offline": "Offline"
+    },
     "player-profile-sidebar": {
       "banned": "Banned"
     },

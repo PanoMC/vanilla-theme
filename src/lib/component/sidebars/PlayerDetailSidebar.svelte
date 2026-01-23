@@ -8,19 +8,20 @@
         lastActivityTime={$data.lastActivityTime}
         checkTime={checkTime}
         width="64"
-        height="64"/>
+        height="64" />
 
-      <PageTitle title="{$data.username}" />
+      <PageTitle title={$data.username} />
 
       <div class="text-center">
-        {#if $data.banned}
-          <span class="badge rounded-pill text-bg-danger">
-            {$_('components.player-profile-sidebar.banned')}
-          </span>
-        {:else}
+        <PlayerStatusBadge
+          banned={$data.banned}
+          lastActivityTime={$data.lastActivityTime}
+          inGame={$data.inGame}
+          checkTime={checkTime} />
+      </div>
+      <div class="text-center">
         <PlayerPermissionBadge
           permissionGroupName={$data.permissionGroupName} />
-        {/if}
       </div>
     </div>
   </div>
@@ -35,7 +36,7 @@
     lastActivityTime: 0,
     inGame: false,
     permissionGroupName: "",
-    banned: false
+    banned: false,
   });
 
   export const load = async (event) => {
@@ -59,8 +60,9 @@
 
   import Sidebar from "$lib/component/Sidebar.svelte";
   import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";
+  import PlayerStatusBadge from "$lib/component/PlayerStatusBadge.svelte";
   import PlayerHead from "$lib/component/PlayerHead.svelte";
-    import PageTitle from "../PageTitle.svelte";
+  import PageTitle from "../PageTitle.svelte";
 
   let checkTime = 0;
   let interval;

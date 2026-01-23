@@ -75,6 +75,13 @@
     "player-permission-badge": {
       "player": "Игрок"
     },
+    "player-status-badge": {
+      "banned": "Забанен",
+      "in-game": "В игре",
+      "in-website": "На сайте",
+      "online": "В сети",
+      "offline": "Не в сети"
+    },
     "player-profile-sidebar": {
       "banned": "Забанен"
     },

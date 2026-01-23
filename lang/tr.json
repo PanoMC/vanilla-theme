@@ -75,6 +75,13 @@
     "player-permission-badge": {
       "player": "Oyuncu"
     },
+    "player-status-badge": {
+      "banned": "Yasaklı",
+      "in-game": "Oyunda",
+      "in-website": "Sitede",
+      "online": "Çevrimiçi",
+      "offline": "Çevrimdışı"
+    },
     "player-profile-sidebar": {
       "banned": "Yasaklanmış"
     },
