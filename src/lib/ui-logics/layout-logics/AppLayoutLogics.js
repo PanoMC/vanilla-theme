@@ -29,6 +29,7 @@ import Pagination from "$lib/component/Pagination.svelte";
 import NoContent from "$lib/component/NoContent.svelte";
 import PageActions from "$lib/component/PageActions.svelte";
 import PageTitle from "$lib/component/PageTitle.svelte";
+import PlayerHead from "$lib/component/PlayerHead.svelte";
 
 const initLanguage = languageStuff.init;
 
@@ -102,7 +103,8 @@ export async function processLoad(event) {
       Pagination,
       NoContent,
       PageActions,
-      PageTitle
+      PageTitle,
+      PlayerHead
     },
     utils: {
       api: {
@@ -124,7 +126,7 @@ export async function processLoad(event) {
       },
       text: {
         copy
-      }
+      },
     },
     variables: {
       ...variableStuff,
