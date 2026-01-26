@@ -119,7 +119,7 @@
               <li class="nav-item">
                 <a
                   href={link.href}
-                  target={link.target || "_self"}
+                  target={link.target}
                   class="nav-link"
                   class:active={matching($page.url.pathname, link.href, link.startsWith)}
                   title={link.text && link.text.includes(".") ? $_(link.text) : link.text}>
@@ -180,7 +180,8 @@
     const pluginLinks = $navLinks.map((l) => ({
       ...l,
       id: l.href,
-      isPlugin: true
+      isPlugin: true,
+      target: l.target === "_self" ? null : l.target
     }));
 
     const allLinks = [...nativeLinks, ...pluginLinks];
