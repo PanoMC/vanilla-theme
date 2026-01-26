@@ -140,12 +140,7 @@ export default defineConfig(({ isSsrBuild }) => {
       }
     },
     build: {
-      manifest: true,
-      rollupOptions: {
-        external: isSsrBuild
-          ? []
-          : (id) => id === "svelte" || id.startsWith("svelte/"),
-      },
+      manifest: true
     },
   };
 });
