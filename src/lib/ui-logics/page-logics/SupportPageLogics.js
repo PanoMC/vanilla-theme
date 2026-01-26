@@ -1,4 +1,5 @@
 import SupportSidebar, { load as loadSidebar } from "$lib/component/sidebars/SupportSidebar.svelte";
+import { executeHookLoad } from "$lib/PluginAPI.js";
 
 export async function processLoad(event) {
   const { parent } = event;
@@ -6,5 +7,9 @@ export async function processLoad(event) {
 
   await loadSidebar(event);
 
-  return { sidebar: SupportSidebar };
+  const hookProps = {
+    "theme:support:content": await executeHookLoad("theme:support:content", event),
+  };
+
+  return { sidebar: SupportSidebar, hookProps };
 }

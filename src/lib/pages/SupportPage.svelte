@@ -29,10 +29,13 @@
       </div>
     </a>
   </ul>
+
+  <Hook name="theme:support:content" />
 </div>
 
 <script context="module">
   import PageTitle from "$lib/component/PageTitle.svelte";
+  import Hook from "$lib/component/Hook.svelte";
   import { processLoad } from "$lib/ui-logics/page-logics/SupportPageLogics";
 
   /**
