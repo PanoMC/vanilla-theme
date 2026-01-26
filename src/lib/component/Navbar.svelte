@@ -169,7 +169,7 @@
 
   function matching(path, pathName, startsWith = false) {
     return (
-      path.toUpperCase() === pathName.toUpperCase() ||
+      path.toUpperCase() === pathName?.toUpperCase() ||
       path.toUpperCase() === (pathName + "/").toUpperCase() ||
       (startsWith && path.startsWith(pathName))
     );
