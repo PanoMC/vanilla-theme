@@ -64,9 +64,10 @@ const removeExistingStyles = () => {
   const existingStyles = Array.from(document.querySelectorAll('style'));
   existingStyles.forEach(style => {
     // Keep scoped styles (those with data-svelte-h attribute)
-    // Keep panel-injected CSS
-    // Remove global styles
-    if (!style.hasAttribute('data-svelte-h') && style.id !== 'panel-injected-css') {
+    // Keep panel-injected CSS (either by ID or attribute)
+    if (!style.hasAttribute('data-svelte-h') &&
+      style.id !== 'panel-injected-css' &&
+      style.getAttribute('data-panel-injected') !== 'true') {
       console.log('Removing existing style:', style);
       style.remove();
     }
@@ -90,7 +91,7 @@ const removeExistingStyles = () => {
 export function init() {
   const hidden = writable(true);
 
-  const handleMessage = function(e) {
+  const handleMessage = function (e) {
     if (e.data)
       console.log("Theme received message", e.data.type);
 
@@ -112,70 +113,40 @@ export function init() {
       document.documentElement.setAttribute("data-bs-theme", e.data.theme);
     }
 
-    // CSS inject message (inline CSS from style tags)
-    if (e.data && e.data.type === "inject-css" && e.data.css) {
+    // CSS inject message (combined styles and links)
+    if (e.data && (e.data.type === "inject-css-all" || e.data.type === "inject-css" || e.data.type === "inject-css-links")) {
       removeExistingStyles();
-      console.log("Received inline CSS from panel:", e.data.css.substring(0, 100) + "...");
 
-      // Clear previously injected CSS
-      const existingInjectedStyle = document.getElementById("panel-injected-css");
-      if (existingInjectedStyle) {
-        console.log("Removing existing injected CSS");
-        existingInjectedStyle.remove();
+      const css = e.data.css || "";
+      const links = e.data.links || [];
+
+      console.log("Injecting CSS from panel:", { cssLength: css.length, linkCount: links.length });
+
+      // Handle inline CSS
+      if (css) {
+        // Clear previously injected CSS
+        const existingInjectedStyle = document.getElementById("panel-injected-css");
+        if (existingInjectedStyle) {
+          existingInjectedStyle.remove();
+        }
+
+        const style = document.createElement("style");
+        style.id = "panel-injected-css";
+        style.textContent = css;
+        style.setAttribute("data-panel-injected", "true");
+        document.head.appendChild(style);
       }
 
-      // Also clear existing global styles again (for security)
-      const existingStyles = Array.from(document.querySelectorAll("style"));
-      existingStyles.forEach(style => {
-        if (!style.hasAttribute("data-svelte-h") && style.id !== "panel-injected-css") {
-          style.remove();
-        }
-      });
+      // Handle CSS links
+      if (links && Array.isArray(links) && links.length > 0) {
+        // Clear previously injected CSS links
+        const existingInjectedLinks = Array.from(document.querySelectorAll("link[data-panel-injected=\"true\"]"));
+        existingInjectedLinks.forEach(link => link.remove());
 
-      // Add new CSS as style tag
-      const style = document.createElement("style");
-      style.id = "panel-injected-css";
-      style.textContent = e.data.css;
-      document.head.appendChild(style);
+        let loadedCount = 0;
+        const totalLinks = links.length;
 
-      console.log("CSS injected successfully");
-      hidden.set(false);
-
-      // Update height after CSS is loaded
-      setTimeout(() => {
-        postHeight();
-        postReady();
-      }, 100);
-    }
-
-    // CSS links inject message (build mode - link tags)
-    if (e.data && e.data.type === "inject-css-links" && e.data.links && Array.isArray(e.data.links)) {
-      removeExistingStyles();
-      console.log("Received CSS links from panel:", e.data.links);
-
-      // Clear previously injected CSS links
-      const existingInjectedLinks = Array.from(document.querySelectorAll("link[data-panel-injected=\"true\"]"));
-      existingInjectedLinks.forEach(link => link.remove());
-
-      // Also clear existing global styles again (for security)
-      const existingStyles = Array.from(document.querySelectorAll("style"));
-      existingStyles.forEach(style => {
-        if (!style.hasAttribute("data-svelte-h") && style.id !== "panel-injected-css") {
-          style.remove();
-        }
-      });
-
-      // Add new CSS links
-      let loadedCount = 0;
-      const totalLinks = e.data.links.length;
-
-      e.data.links.forEach((href, index) => {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = href;
-        link.setAttribute("data-panel-injected", "true");
-
-        link.onload = () => {
+        const checkReady = () => {
           loadedCount++;
           if (loadedCount === totalLinks) {
             console.log("All CSS links loaded successfully");
@@ -187,22 +158,23 @@ export function init() {
           }
         };
 
-        link.onerror = () => {
-          console.warn("Failed to load CSS link:", href);
-          loadedCount++;
-          if (loadedCount === totalLinks) {
-            hidden.set(false);
-            setTimeout(() => {
-              postHeight();
-              postReady();
-            }, 100);
-          }
-        };
-
-        document.head.appendChild(link);
-      });
-
-      console.log(`Injected ${totalLinks} CSS links`);
+        links.forEach((href) => {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href;
+          link.setAttribute("data-panel-injected", "true");
+          link.onload = checkReady;
+          link.onerror = checkReady;
+          document.head.appendChild(link);
+        });
+      } else {
+        // If no links, only inline CSS (or none)
+        hidden.set(false);
+        setTimeout(() => {
+          postHeight();
+          postReady();
+        }, 100);
+      }
     }
   };
 
@@ -225,7 +197,7 @@ export function init() {
 
     // hidden.set(false); // Wait for CSS injection
 
-    // Fallback: If no CSS is received within 2 seconds, show the content anyway
+    // Fallback: If no CSS is received within 10 seconds, show the content anyway
     setTimeout(() => {
       hidden.update((n) => {
         if (n) {
@@ -236,7 +208,7 @@ export function init() {
         }
         return n;
       });
-    }, 2000);
+    }, 10000);
 
     document.body.classList.remove("bg-light");
 
