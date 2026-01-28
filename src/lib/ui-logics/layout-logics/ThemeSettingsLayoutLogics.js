@@ -90,7 +90,7 @@ const removeExistingStyles = () => {
 export function init() {
   const hidden = writable(true);
 
-  const handleMessage = function(e) {
+  const handleMessage = function (e) {
     if (e.data)
       console.log("Theme received message", e.data.type);
 
@@ -112,97 +112,60 @@ export function init() {
       document.documentElement.setAttribute("data-bs-theme", e.data.theme);
     }
 
-    // CSS inject message (inline CSS from style tags)
-    if (e.data && e.data.type === "inject-css" && e.data.css) {
-      removeExistingStyles();
-      console.log("Received inline CSS from panel:", e.data.css.substring(0, 100) + "...");
+    // CSS inject-all message (both inline and links)
+    if (e.data && e.data.type === "inject-css-all") {
+      const { css, links } = e.data;
+      console.log("Received combined CSS. Links:", links?.length, "Inline CSS length:", css?.length);
 
-      // Clear previously injected CSS
-      const existingInjectedStyle = document.getElementById("panel-injected-css");
-      if (existingInjectedStyle) {
-        console.log("Removing existing injected CSS");
-        existingInjectedStyle.remove();
+      removeExistingStyles();
+
+      // 1. Inject Inline CSS
+      if (css) {
+        const style = document.createElement("style");
+        style.id = "panel-injected-css";
+        style.textContent = css;
+        document.head.appendChild(style);
       }
 
-      // Also clear existing global styles again (for security)
-      const existingStyles = Array.from(document.querySelectorAll("style"));
-      existingStyles.forEach(style => {
-        if (!style.hasAttribute("data-svelte-h") && style.id !== "panel-injected-css") {
-          style.remove();
-        }
-      });
+      // 2. Inject CSS Links
+      if (links && Array.isArray(links) && links.length > 0) {
+        let loadedCount = 0;
+        const totalLinks = links.length;
 
-      // Add new CSS as style tag
-      const style = document.createElement("style");
-      style.id = "panel-injected-css";
-      style.textContent = e.data.css;
-      document.head.appendChild(style);
+        links.forEach((href) => {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href;
+          link.setAttribute("data-panel-injected", "true");
 
-      console.log("CSS injected successfully");
-      hidden.set(false);
+          const onComplete = () => {
+            loadedCount++;
+            if (loadedCount === totalLinks) {
+              console.log("All CSS links loaded successfully");
+              hidden.set(false);
+              setTimeout(() => {
+                postHeight();
+                postReady();
+              }, 150);
+            }
+          };
 
-      // Update height after CSS is loaded
-      setTimeout(() => {
-        postHeight();
-        postReady();
-      }, 100);
-    }
+          link.onload = onComplete;
+          link.onerror = () => {
+            console.warn("Failed to load CSS link:", href);
+            onComplete();
+          };
 
-    // CSS links inject message (build mode - link tags)
-    if (e.data && e.data.type === "inject-css-links" && e.data.links && Array.isArray(e.data.links)) {
-      removeExistingStyles();
-      console.log("Received CSS links from panel:", e.data.links);
-
-      // Clear previously injected CSS links
-      const existingInjectedLinks = Array.from(document.querySelectorAll("link[data-panel-injected=\"true\"]"));
-      existingInjectedLinks.forEach(link => link.remove());
-
-      // Also clear existing global styles again (for security)
-      const existingStyles = Array.from(document.querySelectorAll("style"));
-      existingStyles.forEach(style => {
-        if (!style.hasAttribute("data-svelte-h") && style.id !== "panel-injected-css") {
-          style.remove();
-        }
-      });
-
-      // Add new CSS links
-      let loadedCount = 0;
-      const totalLinks = e.data.links.length;
-
-      e.data.links.forEach((href, index) => {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = href;
-        link.setAttribute("data-panel-injected", "true");
-
-        link.onload = () => {
-          loadedCount++;
-          if (loadedCount === totalLinks) {
-            console.log("All CSS links loaded successfully");
-            hidden.set(false);
-            setTimeout(() => {
-              postHeight();
-              postReady();
-            }, 100);
-          }
-        };
-
-        link.onerror = () => {
-          console.warn("Failed to load CSS link:", href);
-          loadedCount++;
-          if (loadedCount === totalLinks) {
-            hidden.set(false);
-            setTimeout(() => {
-              postHeight();
-              postReady();
-            }, 100);
-          }
-        };
-
-        document.head.appendChild(link);
-      });
-
-      console.log(`Injected ${totalLinks} CSS links`);
+          document.head.appendChild(link);
+        });
+      } else {
+        // No links to load, ready now
+        hidden.set(false);
+        setTimeout(() => {
+          postHeight();
+          postReady();
+        }, 150);
+      }
     }
   };
 
