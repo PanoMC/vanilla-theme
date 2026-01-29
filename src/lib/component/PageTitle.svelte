@@ -11,7 +11,7 @@
     </slot>
   </h1>
   {#if subtitle}
-    <p class="lead mb-0 mt-2">
+    <p class="mb-0 mt-2">
       {#if subtitleHtml}
         {@html subtitle}
       {:else}
