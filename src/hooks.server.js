@@ -77,6 +77,8 @@ export async function handle({
       "svelte/internal/flags/legacy": "/lib/svelte/internal-flags-legacy.js",
       "svelte/internal/flags/async": "/lib/svelte/internal-flags-async.js",
       "svelte/internal/flags/tracing": "/lib/svelte/internal-flags-tracing.js",
+      "svelte/internal/server": "/lib/svelte/internal-server.js",
+      "svelte/legacy": "/lib/svelte/legacy.js",
       "svelte/events": "/lib/svelte/events.js"
     }
   }
