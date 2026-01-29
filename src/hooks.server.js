@@ -65,8 +65,19 @@ export async function handle({
   <script type="importmap" crossorigin="anonymous">
   {
     "imports": {
-      "svelte": "https://esm.sh/svelte@5.46.1",
-      "svelte/": "https://esm.sh/svelte@5.46.1/"
+      "svelte": "/lib/svelte/index.js",
+      "svelte/animate": "/lib/svelte/animate.js",
+      "svelte/easing": "/lib/svelte/easing.js",
+      "svelte/motion": "/lib/svelte/motion.js",
+      "svelte/store": "/lib/svelte/store.js",
+      "svelte/transition": "/lib/svelte/transition.js",
+      "svelte/internal": "/lib/svelte/internal.js",
+      "svelte/internal/client": "/lib/svelte/internal-client.js",
+      "svelte/internal/disclose-version": "/lib/svelte/internal-disclose-version.js",
+      "svelte/internal/flags/legacy": "/lib/svelte/internal-flags-legacy.js",
+      "svelte/internal/flags/async": "/lib/svelte/internal-flags-async.js",
+      "svelte/internal/flags/tracing": "/lib/svelte/internal-flags-tracing.js",
+      "svelte/events": "/lib/svelte/events.js"
     }
   }
   </script>`;
