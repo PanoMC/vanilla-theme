@@ -57,6 +57,9 @@
       "playing": "{playerCount}/{maxPlayerCount} oynuyor"
     }
   },
+  "toasts": {
+    "session-logged-out-successful": "Oturum başarıyla kapatıldı!"
+  },
   "components": {
     "player-head": {
       "in-game": "Oyunda Çevrimiçi",
@@ -248,6 +251,14 @@
           "cancel": "İptal",
           "continue": "Devam Et",
           "current-password-placeholder": "Mevcut Şifre"
+        },
+        "sessions": {
+          "title": "Aktif Oturumlar",
+          "browser": "Tarayıcı",
+          "last-entrance": "Son Aktivite",
+          "expire-date": "Bitiş Tarihi",
+          "current-session": "Mevcut Oturum",
+          "max-sessions-warning": "Maksimum 5 aktif oturumunuz olabilir. Yeni girişte en eski oturum otomatik olarak silinir."
         }
       }
     },

@@ -57,6 +57,9 @@
       "playing": "{playerCount}/{maxPlayerCount} играют"
     }
   },
+  "toasts": {
+    "session-logged-out-successful": "Сеанс успешно завершен!"
+  },
   "components": {
     "player-head": {
       "in-game": "В игре",
@@ -248,184 +251,193 @@
           "cancel": "Отмена",
           "continue": "Продолжить",
           "current-password-placeholder": "Текущий пароль"
+        },
+        "sessions": {
+          "title": "Активные сессии",
+          "browser": "Браузер",
+          "last-entrance": "Активность",
+          "expire-date": "Истекает",
+          "current-session": "Текущая",
+          "max-sessions-warning": "У вас может быть не более 5 активных сессий. Самая старая сессия будет автоматически удалена при новом входе."
         }
-      }
-    },
-    "category-tickets": {
-      "title": "Тикеты {categoryName}",
-      "no-category": "Без категории"
-    },
-    "theme-settings": {
-      "tabs": {
-        "general": "Общие",
-        "logo": "Логотип",
-        "cover": "Обложка",
-        "navbar": "Панель навигации",
-        "sidebar": "Боковая панель",
-        "post-card": "Карточка поста",
-        "footer": "Подвал",
-        "advanced": "Дополнительно"
-      },
-      "general": {
-        "theme-color": "Цвет темы",
-        "colors": {
-          "dark": "Темная",
-          "light": "Светлая",
-          "copper": "Медная"
-        },
-        "bg-color": "Цвет фона",
-        "bg-image": "Фоновое изображение",
-        "bg-image-placement": "Расположение фонового изображения",
-        "placements": {
-          "left-top": "Сверху слева",
-          "center": "Центр",
-          "right-bottom": "Снизу справа"
-        },
-        "bg-image-repeat": "Повтор фонового изображения",
-        "repeats": {
-          "repeat": "Повторять",
-          "no-repeat": "Не повторять",
-          "repeat-x": "Повторять по X",
-          "repeat-y": "Повторять по Y"
-        },
-        "bg-image-size": "Размер фонового изображения",
-        "sizes": {
-          "auto": "Авто",
-          "cover": "Заполнение",
-          "contain": "Вписать",
-          "stretch": "Растянуть"
-        }
-      },
-      "logo": {
-        "visibility": "Видимость",
-        "position": "Позиция",
-        "positions": {
-          "top-start": "Сверху слева",
-          "top": "Сверху",
-          "top-end": "Сверху справа",
-          "center-start": "По центру слева",
-          "center": "По центру",
-          "center-end": "По центру справа",
-          "bottom-start": "Снизу слева",
-          "bottom": "Снизу",
-          "bottom-end": "Снизу справа"
-        },
-        "height": "Высота (px)",
-        "width": "Ширина (px)"
-      },
-      "cover": {
-        "default-bg": "Фоновое изображение по умолчанию",
-        "bg-image": "Фоновое изображение",
-        "bg-color": "Цвет фона",
-        "height": "Высота (px)",
-        "width": "Ширина",
-        "width-options": {
-          "by-content": "По контенту",
-          "full-size": "Во всю ширину"
-        },
-        "nav-gap": "Отступ меню навигации"
-      },
-      "navbar": {
-        "width": "Ширина",
-        "border-radius": "Радиус скругления",
-        "links-visibility": "Видимость ссылок",
-        "links": "Ссылки",
-        "home": "Главная",
-        "rules": "Правила",
-        "support": "Поддержка",
-        "drag-drop-hint": "Вы можете изменять порядок ссылок, перетаскивая их."
-      },
-      "sidebar": {
-        "visibility": "Видимость",
-        "position": "Позиция",
-        "positions": {
-          "left": "Слева",
-          "right": "Справа"
-        },
-        "last-registrants": "Карточка последних регистраций",
-        "online-admins": "Карточка админов в сети (Поддержка)"
-      },
-      "post-card": {
-        "visibility": "Видимость",
-        "cover-image": "Изображение обложки",
-        "read-more": "Кнопка «Читать далее»",
-        "author-image": "Голова автора",
-        "views": "Просмотры",
-        "previous-post": "Кнопка предыдущего поста",
-        "next-post": "Кнопка следующего поста"
-      },
-      "footer": {
-        "visibility": "Подвал",
-        "content": "Контент"
-      },
-      "advanced": {
-        "custom-css": "Пользовательский CSS"
       }
     }
   },
-  "page-errors": {
-    "404": "Страница не найдена!",
-    "404-description": "Страница, которую вы ищете, не существует или была перенесена.",
-    "need-help": "Если вы считаете, что это ошибка, обратитесь в поддержку."
+  "category-tickets": {
+    "title": "Тикеты {categoryName}",
+    "no-category": "Без категории"
   },
-  "ticket-statuses": {
-    "new": "Новый",
-    "replied": "Дан ответ",
-    "closed": "Закрыт"
-  },
-  "notifications": {
-    "AN_ADMIN_CLOSED_TICKET": "Администратор закрыл ваш тикет (<b>#{id}</b>).",
-    "AN_ADMIN_REPLIED_TICKET": "Администратор ответил на ваш тикет (<b>#{id}</b>)."
-  },
-  "errors": {
-    "NETWORK_ERROR": "Сетевая ошибка, проверьте подключение!",
-    "INTERNAL_SERVER_ERROR": "Произошла ошибка, пожалуйста, сообщите о ней.",
-    "LOGIN_IS_INVALID": "Не удалось войти, проверьте свои данные!",
-    "CANT_CHANGE_EMAIL_WAIT_15_MINUTES": "Нельзя сменить почту, подождите 15 минут.",
-    "CANT_RESET_PASSWORD_WAIT_15_MINUTES": "Нельзя сбросить пароль, подождите 15 минут.",
-    "CATEGORY_NOT_EXISTS": "Эта категория не найдена!",
-    "CURRENT_PASSWORD_NOT_CORRECT": "Текущий пароль неверен!",
-    "INVALID_DATA": "Неверные данные!",
-    "INVALID_EMAIL": "Неверный e-mail!",
-    "INVALID_IP_ADDRESS": "Неверный IP-адрес!",
-    "INVALID_LINK": "Недействительная ссылка!",
-    "LOGIN_EMAIL_NOT_VERIFIED": "E-mail не подтвержден!",
-    "LOGIN_USER_IS_BANNED_PERMANENTLY": "Вы забанены навсегда!",
-    "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON": "Вы забанены навсегда! Причина: {reason}",
-    "LOGIN_USER_IS_BANNED_TEMPORARY": "Вы временно забанены! До: {untilTime}",
-    "LOGIN_USER_IS_BANNED_TEMPORARY_WITH_REASON": "Вы временно забанены! Причина: {reason}, До: {untilTime}",
-    "MESSAGE_CANT_BE_EMPTY": "Сообщение не может быть пустым!",
-    "NEW_EMAIL_EXISTS": "Этот e-mail уже занят!",
-    "NEW_PASSWORD_EMPTY": "Новый пароль пуст!",
-    "NEW_PASSWORD_REPEAT_DOESNT_MATCH": "Повтор нового пароля не совпадает!",
-    "NEW_PASSWORD_TOO_LONG": "Новый пароль слишком длинный!",
-    "NEW_PASSWORD_TOO_SHORT": "Новый пароль слишком короткий!",
-    "NO_PERMISSION": "Нет прав для этого действия!",
-    "NOT_EXISTS": "Не существует!",
-    "NOT_FOUND": "Не найдено!",
-    "NOT_LOGGED_IN": "Вы не вошли в систему!",
-    "PAGE_NOT_FOUND": "Страница не найдена!",
-    "PASSWORD_EMPTY": "Пароль пуст!",
-    "PASSWORD_TOO_LONG": "Пароль слишком длинный!",
-    "PASSWORD_TOO_SHORT": "Пароль слишком короткий!",
-    "POST_NOT_FOUND": "Этот пост не найден!",
-    "REGISTER_EMAIL_EMPTY": "E-mail не указан!",
-    "REGISTER_EMAIL_NOT_AVAILABLE": "E-mail недоступен!",
-    "REGISTER_INVALID_EMAIL": "Неверный формат e-mail.",
-    "REGISTER_INVALID_USERNAME": "Неверное имя пользователя.",
-    "REGISTER_NOT_ACCEPTED_AGREEMENT": "Вы должны принять соглашение!",
-    "REGISTER_PASSWORD_AND_PASSWORD_REPEAT_NOT_SAME": "Пароли не совпадают!",
-    "REGISTER_USERNAME_EMPTY": "Имя пользователя не указано!",
-    "REGISTER_USERNAME_NOT_AVAILABLE": "Имя пользователя недоступно!",
-    "REGISTER_USERNAME_TOO_LONG": "Имя пользователя слишком длинное!",
-    "REGISTER_USERNAME_TOO_SHORT": "Имя пользователя слишком короткое!",
-    "TICKET_IS_CLOSED": "Тикет закрыт!",
-    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Нельзя сменить e-mail, подождите 15 минут."
-  },
-  "successes": {
-    "REGISTER_SUCCESSFUL": "Успешная регистрация! Письмо для подтверждения отправлено на вашу почту.",
-    "VALIDATION_SUCCESSFUL": "E-mail успешно подтвержден! Теперь вы можете войти.",
-    "RENEW_PASSWORD_SUCCESSFUL": "Пароль успешно изменен!",
-    "RESET_PASSWORD_SUCCESSFUL": "Письмо для сброса пароля отправлено."
+  "theme-settings": {
+    "tabs": {
+      "general": "Общие",
+      "logo": "Логотип",
+      "cover": "Обложка",
+      "navbar": "Панель навигации",
+      "sidebar": "Боковая панель",
+      "post-card": "Карточка поста",
+      "footer": "Подвал",
+      "advanced": "Дополнительно"
+    },
+    "general": {
+      "theme-color": "Цвет темы",
+      "colors": {
+        "dark": "Темная",
+        "light": "Светлая",
+        "copper": "Медная"
+      },
+      "bg-color": "Цвет фона",
+      "bg-image": "Фоновое изображение",
+      "bg-image-placement": "Расположение фонового изображения",
+      "placements": {
+        "left-top": "Сверху слева",
+        "center": "Центр",
+        "right-bottom": "Снизу справа"
+      },
+      "bg-image-repeat": "Повтор фонового изображения",
+      "repeats": {
+        "repeat": "Повторять",
+        "no-repeat": "Не повторять",
+        "repeat-x": "Повторять по X",
+        "repeat-y": "Повторять по Y"
+      },
+      "bg-image-size": "Размер фонового изображения",
+      "sizes": {
+        "auto": "Авто",
+        "cover": "Заполнение",
+        "contain": "Вписать",
+        "stretch": "Растянуть"
+      }
+    },
+    "logo": {
+      "visibility": "Видимость",
+      "position": "Позиция",
+      "positions": {
+        "top-start": "Сверху слева",
+        "top": "Сверху",
+        "top-end": "Сверху справа",
+        "center-start": "По центру слева",
+        "center": "По центру",
+        "center-end": "По центру справа",
+        "bottom-start": "Снизу слева",
+        "bottom": "Снизу",
+        "bottom-end": "Снизу справа"
+      },
+      "height": "Высота (px)",
+      "width": "Ширина (px)"
+    },
+    "cover": {
+      "default-bg": "Фоновое изображение по умолчанию",
+      "bg-image": "Фоновое изображение",
+      "bg-color": "Цвет фона",
+      "height": "Высота (px)",
+      "width": "Ширина",
+      "width-options": {
+        "by-content": "По контенту",
+        "full-size": "Во всю ширину"
+      },
+      "nav-gap": "Отступ меню навигации"
+    },
+    "navbar": {
+      "width": "Ширина",
+      "border-radius": "Радиус скругления",
+      "links-visibility": "Видимость ссылок",
+      "links": "Ссылки",
+      "home": "Главная",
+      "rules": "Правила",
+      "support": "Поддержка",
+      "drag-drop-hint": "Вы можете изменять порядок ссылок, перетаскивая их."
+    },
+    "sidebar": {
+      "visibility": "Видимость",
+      "position": "Позиция",
+      "positions": {
+        "left": "Слева",
+        "right": "Справа"
+      },
+      "last-registrants": "Карточка последних регистраций",
+      "online-admins": "Карточка админов в сети (Поддержка)"
+    },
+    "post-card": {
+      "visibility": "Видимость",
+      "cover-image": "Изображение обложки",
+      "read-more": "Кнопка «Читать далее»",
+      "author-image": "Голова автора",
+      "views": "Просмотры",
+      "previous-post": "Кнопка предыдущего поста",
+      "next-post": "Кнопка следующего поста"
+    },
+    "footer": {
+      "visibility": "Подвал",
+      "content": "Контент"
+    },
+    "advanced": {
+      "custom-css": "Пользовательский CSS"
+    }
   }
+},
+"page-errors": {
+  "404": "Страница не найдена!",
+  "404-description": "Страница, которую вы ищете, не существует или была перенесена.",
+  "need-help": "Если вы считаете, что это ошибка, обратитесь в поддержку."
+},
+"ticket-statuses": {
+  "new": "Новый",
+  "replied": "Дан ответ",
+  "closed": "Закрыт"
+},
+"notifications": {
+  "AN_ADMIN_CLOSED_TICKET": "Администратор закрыл ваш тикет (<b>#{id}</b>).",
+  "AN_ADMIN_REPLIED_TICKET": "Администратор ответил на ваш тикет (<b>#{id}</b>)."
+},
+"errors": {
+  "NETWORK_ERROR": "Сетевая ошибка, проверьте подключение!",
+  "INTERNAL_SERVER_ERROR": "Произошла ошибка, пожалуйста, сообщите о ней.",
+  "LOGIN_IS_INVALID": "Не удалось войти, проверьте свои данные!",
+  "CANT_CHANGE_EMAIL_WAIT_15_MINUTES": "Нельзя сменить почту, подождите 15 минут.",
+  "CANT_RESET_PASSWORD_WAIT_15_MINUTES": "Нельзя сбросить пароль, подождите 15 минут.",
+  "CATEGORY_NOT_EXISTS": "Эта категория не найдена!",
+  "CURRENT_PASSWORD_NOT_CORRECT": "Текущий пароль неверен!",
+  "INVALID_DATA": "Неверные данные!",
+  "INVALID_EMAIL": "Неверный e-mail!",
+  "INVALID_IP_ADDRESS": "Неверный IP-адрес!",
+  "INVALID_LINK": "Недействительная ссылка!",
+  "LOGIN_EMAIL_NOT_VERIFIED": "E-mail не подтвержден!",
+  "LOGIN_USER_IS_BANNED_PERMANENTLY": "Вы забанены навсегда!",
+  "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON": "Вы забанены навсегда! Причина: {reason}",
+  "LOGIN_USER_IS_BANNED_TEMPORARY": "Вы временно забанены! До: {untilTime}",
+  "LOGIN_USER_IS_BANNED_TEMPORARY_WITH_REASON": "Вы временно забанены! Причина: {reason}, До: {untilTime}",
+  "MESSAGE_CANT_BE_EMPTY": "Сообщение не может быть пустым!",
+  "NEW_EMAIL_EXISTS": "Этот e-mail уже занят!",
+  "NEW_PASSWORD_EMPTY": "Новый пароль пуст!",
+  "NEW_PASSWORD_REPEAT_DOESNT_MATCH": "Повтор нового пароля не совпадает!",
+  "NEW_PASSWORD_TOO_LONG": "Новый пароль слишком длинный!",
+  "NEW_PASSWORD_TOO_SHORT": "Новый пароль слишком короткий!",
+  "NO_PERMISSION": "Нет прав для этого действия!",
+  "NOT_EXISTS": "Не существует!",
+  "NOT_FOUND": "Не найдено!",
+  "NOT_LOGGED_IN": "Вы не вошли в систему!",
+  "PAGE_NOT_FOUND": "Страница не найдена!",
+  "PASSWORD_EMPTY": "Пароль пуст!",
+  "PASSWORD_TOO_LONG": "Пароль слишком длинный!",
+  "PASSWORD_TOO_SHORT": "Пароль слишком короткий!",
+  "POST_NOT_FOUND": "Этот пост не найден!",
+  "REGISTER_EMAIL_EMPTY": "E-mail не указан!",
+  "REGISTER_EMAIL_NOT_AVAILABLE": "E-mail недоступен!",
+  "REGISTER_INVALID_EMAIL": "Неверный формат e-mail.",
+  "REGISTER_INVALID_USERNAME": "Неверное имя пользователя.",
+  "REGISTER_NOT_ACCEPTED_AGREEMENT": "Вы должны принять соглашение!",
+  "REGISTER_PASSWORD_AND_PASSWORD_REPEAT_NOT_SAME": "Пароли не совпадают!",
+  "REGISTER_USERNAME_EMPTY": "Имя пользователя не указано!",
+  "REGISTER_USERNAME_NOT_AVAILABLE": "Имя пользователя недоступно!",
+  "REGISTER_USERNAME_TOO_LONG": "Имя пользователя слишком длинное!",
+  "REGISTER_USERNAME_TOO_SHORT": "Имя пользователя слишком короткое!",
+  "TICKET_IS_CLOSED": "Тикет закрыт!",
+  "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Нельзя сменить e-mail, подождите 15 минут."
+},
+"successes": {
+  "REGISTER_SUCCESSFUL": "Успешная регистрация! Письмо для подтверждения отправлено на вашу почту.",
+  "VALIDATION_SUCCESSFUL": "E-mail успешно подтвержден! Теперь вы можете войти.",
+  "RENEW_PASSWORD_SUCCESSFUL": "Пароль успешно изменен!",
+  "RESET_PASSWORD_SUCCESSFUL": "Письмо для сброса пароля отправлено."
+}
 }

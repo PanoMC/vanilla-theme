@@ -3,7 +3,7 @@ import { get, writable } from "svelte/store";
 import { sendResetPassword } from "$lib/services/auth";
 import { sendChangeEmail, sendUpdateProfile } from "$lib/services/profile";
 
-import { NETWORK_ERROR } from "$lib/api.util";
+import ApiUtil, {NETWORK_ERROR } from "$lib/api.util";
 
 import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
 import { changeLanguage, getLanguageByLocale } from "$lib/language.util.js";
@@ -17,7 +17,17 @@ export async function processLoad(event) {
 
   await loadSidebar(event);
 
-  return { sidebar: ProfileSidebar };
+  let sessions = [];
+  const body = await ApiUtil.get({
+    path: '/api/profile/sessions',
+    request: event,
+  });
+
+  if (!body.error) {
+    sessions = body.sessions;
+  }
+
+  return { sidebar: ProfileSidebar, sessions };
 }
 
 export async function sendResetPasswordLink(
@@ -105,7 +115,7 @@ export function stopChangingEmail2ndStep(changingEmail2ndStep) {
 export async function saveSettings(userLocale, saveButtonLoading) {
   saveButtonLoading.set(true)
 
-  await sendUpdateProfile({localeCode: get(userLocale)}).then((body) => {
+  await sendUpdateProfile({ localeCode: get(userLocale) }).then((body) => {
     if (body.error) {
       location.reload();
       return;
@@ -116,6 +126,30 @@ export async function saveSettings(userLocale, saveButtonLoading) {
   }).catch(() => {
     location.reload();
   })
+}
+
+export async function onLogoutSession(sessionId, isCurrent, loadingSessionId, showToast, invalidateAll) {
+  loadingSessionId.set(sessionId);
+
+  ApiUtil.delete({
+    path: `/api/profile/sessions/${sessionId}`,
+    handler: async (body) => {
+      loadingSessionId.set(null);
+
+      if (body.error) {
+        await showToast('errors.' + body.error);
+        return;
+      }
+
+      if (isCurrent) {
+        window.location.href = '/';
+        return;
+      }
+
+      await showToast('toasts.session-logged-out-successful');
+      invalidateAll();
+    },
+  });
 }
 
 export function init(session) {
@@ -135,6 +169,7 @@ export function init(session) {
 
   const userLocale = writable(session.siteInfo.locale)
   const saveButtonLoading = writable()
+  const loadingSessionId = writable(null)
 
   return {
     resetPasswordError,
@@ -148,6 +183,7 @@ export function init(session) {
     changingEmailLoading,
     changingEmailSuccess,
     userLocale,
-    saveButtonLoading
+    saveButtonLoading,
+    loadingSessionId
   };
 }

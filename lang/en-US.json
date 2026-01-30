@@ -57,6 +57,9 @@
       "playing": "{playerCount}/{maxPlayerCount} playing"
     }
   },
+  "toasts": {
+    "session-logged-out-successful": "Session logged out successfully!"
+  },
   "components": {
     "player-head": {
       "in-game": "Online In Game",
@@ -248,6 +251,14 @@
           "cancel": "Cancel",
           "continue": "Continue",
           "current-password-placeholder": "Current Password"
+        },
+        "sessions": {
+          "title": "Active Sessions",
+          "browser": "Browser",
+          "last-entrance": "Last Activity",
+          "expire-date": "Expire Date",
+          "current-session": "Current Session",
+          "max-sessions-warning": "You can have a maximum of 5 active sessions. The oldest session will be automatically deleted upon new login."
         }
       }
     },
