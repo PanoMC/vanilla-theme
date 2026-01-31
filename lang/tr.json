@@ -253,7 +253,7 @@
           "current-password-placeholder": "Mevcut Şifre"
         },
         "sessions": {
-          "title": "Aktif Oturumlar",
+          "title": "Oturumlar",
           "browser": "Tarayıcı",
           "last-entrance": "Son Aktivite",
           "expire-date": "Bitiş Tarihi",

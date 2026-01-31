@@ -253,7 +253,7 @@
           "current-password-placeholder": "Current Password"
         },
         "sessions": {
-          "title": "Active Sessions",
+          "title": "Sessions",
           "browser": "Browser",
           "last-entrance": "Last Activity",
           "expire-date": "Expire Date",

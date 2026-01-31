@@ -2,12 +2,12 @@
 <div class="vstack gap-3">
   <div class="card">
     <div class="card-header">
-      {$_('pages.settings.title')}
+      {$_("pages.settings.title")}
     </div>
     <div class="card-body">
       <div class="row">
         <label class="col-md-4 col-form-label" for="resetPassword">
-          {$_('pages.settings.inputs.change-password.title')}
+          {$_("pages.settings.inputs.change-password.title")}
         </label>
         <div class="col col-form-label">
           <button
@@ -23,14 +23,14 @@
             aria-describedby="resetPassword validationResetPassword"
             disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}
             type="button"
-            >{$_('pages.settings.inputs.change-password.description')}</button>
+            >{$_("pages.settings.inputs.change-password.description")}</button>
 
           <div id="validationResetPassword" class="invalid-feedback">
-            {$_('errors.' + $resetPasswordError)}
+            {$_("errors." + $resetPasswordError)}
           </div>
           {#if $resetPasswordSuccess}
             <p class="mb-0">
-              {$_('pages.settings.inputs.change-password.success-message')}
+              {$_("pages.settings.inputs.change-password.success-message")}
             </p>
           {/if}
         </div>
@@ -38,7 +38,7 @@
 
       <div class="row">
         <label class="col-md-4 col-form-label" for="userEmail">
-          {$_('pages.settings.inputs.change-email.title')}
+          {$_("pages.settings.inputs.change-email.title")}
         </label>
         <div class="col col-form-label">
           <form
@@ -62,7 +62,7 @@
                   {#if $changingEmailSuccess}
                     <p class="text-dark mb-0">
                       {$_(
-                        'pages.settings.inputs.change-email.success-message',
+                        "pages.settings.inputs.change-email.success-message",
                         {
                           values: { newEmail: $newEmail },
                         },
@@ -76,7 +76,7 @@
                       onclick={() => startChangingEmail(changingEmail)}
                       disabled={!$session.siteInfo.emailEnabled}
                       >{$_(
-                        'pages.settings.inputs.change-email.description',
+                        "pages.settings.inputs.change-email.description",
                       )}</button>
                   {/if}
                 </div>
@@ -86,7 +86,7 @@
                     type="email"
                     id="newEmail"
                     placeholder={$_(
-                      'pages.settings.inputs.change-password.new-email-placeholder',
+                      "pages.settings.inputs.change-password.new-email-placeholder",
                     )}
                     class="form-control"
                     aria-describedby="validationChangingEmail"
@@ -94,7 +94,7 @@
                     class:is-invalid={$changingEmailError}
                     autofocus />
                   <div id="validationChangingEmail" class="invalid-feedback">
-                    {$_('errors.' + $changingEmailError)}
+                    {$_("errors." + $changingEmailError)}
                   </div>
                 </div>
                 <div class="col-auto">
@@ -103,13 +103,13 @@
                     class="btn btn-link link-primary"
                     onclick={() =>
                       stopChangingEmail2ndStep(changingEmail2ndStep)}>
-                    {$_('pages.settings.inputs.change-email.back')}
+                    {$_("pages.settings.inputs.change-email.back")}
                   </button>
                   <button
                     type="submit"
                     class="btn btn-link link-secondary"
                     class:disabled={$changingEmailLoading}>
-                    {$_('pages.settings.inputs.change-email.confirm')}
+                    {$_("pages.settings.inputs.change-email.confirm")}
                   </button>
                 </div>
               {:else}
@@ -118,7 +118,7 @@
                     type="password"
                     id="currentPassword"
                     placeholder={$_(
-                      'pages.settings.inputs.change-email.current-password-placeholder',
+                      "pages.settings.inputs.change-email.current-password-placeholder",
                     )}
                     class="form-control"
                     bind:value={$currentPassword}
@@ -134,11 +134,11 @@
                         newEmail,
                         changingEmail,
                       )}>
-                    {$_('pages.settings.inputs.change-email.cancel')}
+                    {$_("pages.settings.inputs.change-email.cancel")}
                   </button>
                   <button type="submit" class="btn btn-link"
                     >{$_(
-                      'pages.settings.inputs.change-email.continue',
+                      "pages.settings.inputs.change-email.continue",
                     )}</button>
                 </div>
               {/if}
@@ -150,7 +150,7 @@
       {#if $session.siteInfo.allowUserLocaleSelection}
         <div class="row">
           <label class="col-md-4 col-form-label" for="userLocaleCode">
-            {$_('pages.settings.inputs.display-language.title')}
+            {$_("pages.settings.inputs.display-language.title")}
           </label>
           <div class="col col-form-label">
             <select
@@ -171,16 +171,17 @@
           class:disabled={saveButtonDisabled}
           aria-disabled={saveButtonDisabled}
           onclick={() => saveSettings(userLocale, saveButtonLoading)}
-          >{$_('buttons.save')}
+          >{$_("buttons.save")}
         </button>
       {/if}
     </div>
   </div>
-  
+
   <div class="card">
     <div class="card-header">
       {$_("pages.settings.inputs.sessions.title")}
-      <small class="text-muted d-block mt-1">{$_("pages.settings.inputs.sessions.max-sessions-warning")}</small>
+      <small class="d-block"
+        >{$_("pages.settings.inputs.sessions.max-sessions-warning")}</small>
     </div>
     {#if !sessions}
       <div class="text-center p-3">
@@ -194,14 +195,18 @@
       </div>
     {:else}
       <div class="table-responsive">
-        <table class="table table-hover mb-0">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th class="align-middle">ID</th>
-              <th class="align-middle">{$_('pages.settings.inputs.sessions.browser')}</th>
+              <th class="align-middle"></th>
+              <th class="align-middle"
+                >{$_("pages.settings.inputs.sessions.browser")}</th>
               <th class="align-middle">IP</th>
-              <th class="align-middle">{$_('pages.settings.inputs.sessions.last-entrance')}</th>
-              <th class="align-middle">{$_('pages.settings.inputs.sessions.expire-date')}</th>
+              <th class="align-middle"
+                >{$_("pages.settings.inputs.sessions.last-entrance")}</th>
+              <th class="align-middle"
+                >{$_("pages.settings.inputs.sessions.expire-date")}</th>
               <th class="align-middle"></th>
             </tr>
           </thead>
@@ -210,10 +215,13 @@
               <tr class:table-active={session.isCurrent}>
                 <td class="align-middle">
                   <code>#{session.id}</code>
+                </td>
+                <td class="align-middle">
                   {#if session.isCurrent}
-                    <span class="badge text-bg-primary ms-2"
-                      >{$_('pages.settings.inputs.sessions.current-session')}</span
-                    >
+                    <span class="badge text-bg-primary"
+                      >{$_(
+                        "pages.settings.inputs.sessions.current-session",
+                      )}</span>
                   {/if}
                 </td>
                 <td class="align-middle">
@@ -224,17 +232,29 @@
                 <td class="align-middle">
                   <code>{session.ip}</code>
                 </td>
-                <td class="align-middle"><DateComponent time={session.lastActivityTime} /></td>
-                <td class="align-middle"><DateComponent time={session.expireDate} /></td>
+                <td class="align-middle"
+                  ><DateComponent time={session.lastActivityTime} /></td>
+                <td class="align-middle"
+                  ><DateComponent time={session.expireDate} /></td>
                 <td class="align-middle text-end">
                   <button
                     class="btn btn-link text-danger"
-                    use:tooltip={[$_('buttons.logout'), { placement: 'bottom', animation: false }]}
-                    onclick={() => onLogoutSession(session.id, session.isCurrent, loadingSessionId, showToast, invalidateAll)}
+                    title={$_("buttons.logout")}
+                    aria-label={$_("buttons.logout")}
+                    onclick={() =>
+                      onLogoutSession(
+                        session.id,
+                        session.isCurrent,
+                        loadingSessionId,
+                        showToast,
+                        invalidateAll,
+                      )}
                     disabled={$loadingSessionId === session.id}>
                     {#if $loadingSessionId === session.id}
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                      ></span>
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"></span>
                     {:else}
                       <i class="fas fa-sign-out-alt"></i>
                     {/if}
@@ -250,7 +270,7 @@
 </div>
 
 <script context="module">
-  import { processLoad } from '$lib/ui-logics/page-logics/SettingsPageLogics';
+  import { processLoad } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   /**
    * @type {import('@sveltejs/kit').Load}
@@ -261,14 +281,14 @@
 </script>
 
 <script>
-  import { getContext, onMount } from 'svelte';
-  import { invalidateAll } from '$app/navigation';
-  import { _ } from 'svelte-i18n';
-  import { parseUserAgent } from '$lib/string.util';
-  import NoContent from '$lib/component/NoContent.svelte';
-  import DateComponent from '$lib/component/Date.svelte';
-  import tooltip from '$lib/tooltip.util';
-  import { show as showToast } from '$lib/component/ToastContainer.svelte';
+  import { getContext, onMount } from "svelte";
+  import { invalidateAll } from "$app/navigation";
+  import { _ } from "svelte-i18n";
+  import { parseUserAgent } from "$lib/string.util";
+  import NoContent from "$lib/component/NoContent.svelte";
+  import DateComponent from "$lib/component/Date.svelte";
+  import tooltip from "$lib/tooltip.util";
+  import { show as showToast } from "$lib/component/ToastContainer.svelte";
 
   import {
     init,
@@ -279,15 +299,15 @@
     stopChangingEmail,
     stopChangingEmail2ndStep,
     saveSettings,
-    onLogoutSession
-  } from '$lib/ui-logics/page-logics/SettingsPageLogics';
+    onLogoutSession,
+  } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
-  import { Languages, currentLanguage } from '$lib/language.util';
+  import { Languages, currentLanguage } from "$lib/language.util";
 
   export let data;
   let sessions = [];
 
-  const session = getContext('session');
+  const session = getContext("session");
 
   const {
     resetPasswordError,
@@ -304,7 +324,7 @@
     saveButtonLoading,
     loadingSessionId,
   } = init($session);
-  
+
   $: sessions = data.sessions;
 
   $: saveButtonVisible = $session.siteInfo.allowUserLocaleSelection;
