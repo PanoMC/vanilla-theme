@@ -3,34 +3,32 @@
   {@const hasPerm =
     !filteredHooks[i]?.permission ||
     hasPermission(filteredHooks[i]?.permission, $page.data.user)}
-  {#if module && hasPerm}
-    {#key name + i + (rest.post?.id || rest.id || "")}
-      {@const Component = module.default || module}
+  {#if module && hasPerm && typeof module !== 'function'}
+    {@const Component = module.default || module}
 
-      {#if !browser}
-        <!-- Server Side SSR -->
-        <svelte:element
-          this={tag}
-          class="hook-view-container {rest.class || ''}"
-          style="{tag === 'div' ? 'display: contents;' : ''} {rest.style || ''}"
-          hookName={name}
-          {...props}
-          {...rest}>
-          {#if Component}
-            <Component hookName={name} {...props} {...rest} />
-          {/if}
-        </svelte:element>
-      {:else if !props.hookOptions?.invisible && !filteredHooks[i]?.invisible}
-        <!-- Client Side: Manual Mount -->
-        <svelte:element
-          this={tag}
-          use:mountPlugin={{ module, props, rest }}
-          class="hook-view-container {rest.class || ''}"
-          style="{tag === 'div' ? 'display: contents;' : ''} {rest.style ||
-            ''}">
-        </svelte:element>
-      {/if}
-    {/key}
+    {#if !browser}
+      <!-- Server Side SSR -->
+      <svelte:element
+        this={tag}
+        class="hook-view-container {rest.class || ''}"
+        style="{tag === 'div' ? 'display: contents;' : ''} {rest.style || ''}"
+        hookName={name}
+        {...props}
+        {...rest}>
+        {#if Component}
+          <Component hookName={name} {...props} {...rest} />
+        {/if}
+      </svelte:element>
+    {:else if !props.hookOptions?.invisible && !filteredHooks[i]?.invisible}
+      <!-- Client Side: Manual Mount -->
+      <svelte:element
+        this={tag}
+        use:mountPlugin={{ module, props, rest }}
+        class="hook-view-container {rest.class || ''}"
+        style="{tag === 'div' ? 'display: contents;' : ''} {rest.style ||
+          ''}">
+      </svelte:element>
+    {/if}
   {/if}
 {/each}
 
@@ -123,7 +121,7 @@
 
         untrack(() => {
           for (const key in nextCombined) {
-            if (componentProps[key] !== nextCombined[key]) {
+            if ($state.snapshot(componentProps[key]) !== $state.snapshot(nextCombined[key])) {
               componentProps[key] = nextCombined[key];
             }
           }

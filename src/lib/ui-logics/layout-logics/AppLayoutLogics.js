@@ -1,5 +1,5 @@
 import { onDestroy, onMount, setContext } from "svelte";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { setPanoContext } from "@panomc/sdk/internal";
 import { _ } from "svelte-i18n";
 import copy from "copy-to-clipboard";
@@ -133,7 +133,9 @@ export async function processLoad(event) {
     },
   });
 
-  await initializePlugins(siteInfo);
+  if (!browser || !get(initialized)) {
+    await initializePlugins(siteInfo);
+  }
 
   const output = {
     session: { user, csrfToken, siteInfo },
@@ -144,7 +146,7 @@ export async function processLoad(event) {
 
   await initLanguage(siteInfo.locale, event);
 
-  if (browser) {
+  if (browser && !get(initialized)) {
     initNotificationListeners();
   }
 

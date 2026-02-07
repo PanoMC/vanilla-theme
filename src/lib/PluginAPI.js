@@ -73,7 +73,8 @@ export const panoApi = {
           return [...rawHooks].sort((a, b) => {
             const getSource = (item) => {
               const comp = item.component || "";
-              return comp._importer ? comp._importer.toString() : comp.toString();
+              const source = comp._original || comp;
+              return source._importer ? source._importer.toString() : source.toString();
             };
             const keyA = getSource(a);
             const keyB = getSource(b);
@@ -98,14 +99,17 @@ export const panoApi = {
 const hookExecutionCache = new WeakMap();
 const componentLoadCache = new WeakMap();
 
-export async function executeHookLoad(name, event) {
+export async function executeHookLoad(name, originalEvent) {
   // Prevent double execution of the SAME hook name during the same load cycle
-  event = { ...event, hookName: name }
-  if (event) {
-    if (!hookExecutionCache.has(event)) {
-      hookExecutionCache.set(event, {});
+  const event = originalEvent ? { ...originalEvent, hookName: name } : { hookName: name };
+  // Use originalEvent as a stable cache key if possible, otherwise fall back to the local event object
+  const cacheKey = (originalEvent && typeof originalEvent === "object") ? originalEvent : event;
+
+  if (cacheKey) {
+    if (!hookExecutionCache.has(cacheKey)) {
+      hookExecutionCache.set(cacheKey, {});
     }
-    const cache = hookExecutionCache.get(event);
+    const cache = hookExecutionCache.get(cacheKey);
     if (cache[name]) {
       return cache[name];
     }
@@ -118,7 +122,8 @@ export async function executeHookLoad(name, event) {
   list = [...list].sort((a, b) => {
     const getSource = (item) => {
       const comp = item.component || "";
-      return comp._importer ? comp._importer.toString() : comp.toString();
+      const source = comp._original || comp;
+      return source._importer ? source._importer.toString() : source.toString();
     };
     const keyA = getSource(a);
     const keyB = getSource(b);
@@ -136,10 +141,17 @@ export async function executeHookLoad(name, event) {
       // Cache the resolved module back into the hooks store
       hooks.update(h => {
         if (h[name]) {
-          if (h[name][i].component) {
-            h[name][i].component = Object.assign(module, { _original: raw });
-          } else {
-            h[name][i] = Object.assign(module, { _original: raw });
+          // Find the actual index in the original unsorted array
+          const actualIdx = h[name].findIndex(item => (item.component || item) === raw);
+          if (actualIdx !== -1) {
+            const resolved = { ...module, _original: raw };
+            if (module.default) resolved.default = module.default;
+
+            if (h[name][actualIdx].component) {
+              h[name][actualIdx].component = resolved;
+            } else {
+              h[name][actualIdx] = resolved;
+            }
           }
         }
         return h;
@@ -155,9 +167,9 @@ export async function executeHookLoad(name, event) {
     if (loadFn && !entry.skipLoad) {
       // PER-EVENT COMPONENT CACHE: If this component already loaded for another hook in this event, reuse results.
       let eventCache = null;
-      if (event) {
-        if (!componentLoadCache.has(event)) componentLoadCache.set(event, new Map());
-        eventCache = componentLoadCache.get(event);
+      if (cacheKey) {
+        if (!componentLoadCache.has(cacheKey)) componentLoadCache.set(cacheKey, new Map());
+        eventCache = componentLoadCache.get(cacheKey);
       }
 
       if (eventCache && eventCache.has(module)) {
@@ -171,12 +183,13 @@ export async function executeHookLoad(name, event) {
         }
       }
     }
-    results.push(props || {});
+    results.push(props && typeof props === "object" ? { ...props } : {});
   }
 
   // Cache the final results for this specific hook name
-  if (event) {
-    hookExecutionCache.get(event)[name] = results;
+  if (cacheKey && results.length > 0) {
+    const cache = hookExecutionCache.get(cacheKey);
+    cache[name] = results;
   }
 
   return results;
