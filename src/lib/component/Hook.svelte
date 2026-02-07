@@ -5,28 +5,21 @@
     hasPermission(filteredHooks[i]?.permission, $page.data.user)}
   {#if module && hasPerm && typeof module !== 'function'}
     {@const Component = module.default || module}
+    {@const isInvisible = props.hookOptions?.invisible || filteredHooks[i]?.invisible}
 
-    {#if !browser}
-      <!-- Server Side SSR -->
+    {#if !isInvisible}
       <svelte:element
         this={tag}
+        use:hydrateOrMount={{ module, props, rest, isSSR: !browser }}
         class="hook-view-container {rest.class || ''}"
         style="{tag === 'div' ? 'display: contents;' : ''} {rest.style || ''}"
         hookName={name}
         {...props}
         {...rest}>
-        {#if Component}
+        {#if !browser && Component}
+          <!-- Server Side SSR -->
           <Component hookName={name} {...props} {...rest} />
         {/if}
-      </svelte:element>
-    {:else if !props.hookOptions?.invisible && !filteredHooks[i]?.invisible}
-      <!-- Client Side: Manual Mount -->
-      <svelte:element
-        this={tag}
-        use:mountPlugin={{ module, props, rest }}
-        class="hook-view-container {rest.class || ''}"
-        style="{tag === 'div' ? 'display: contents;' : ''} {rest.style ||
-          ''}">
       </svelte:element>
     {/if}
   {/if}
@@ -36,7 +29,7 @@
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { getAllContexts, mount, unmount, untrack } from "svelte";
+  import { getAllContexts, hydrate, mount, unmount, untrack } from "svelte";
   import { hasPermission } from "$lib/auth.util.js";
 
   let { name, tag = "div", ...rest } = $props();
@@ -79,7 +72,7 @@
     resolvedHooks = resolved;
   }
 
-  function mountPlugin(viewContainer, params) {
+  function hydrateOrMount(viewContainer, params) {
     let { module, props: currentProps, rest: currentRest } = params;
     const Component = module.default || module;
     if (!browser || !viewContainer || !Component) return;
@@ -92,22 +85,54 @@
     });
     let componentInstance;
 
+    // Check if there's SSR content to hydrate
+    const hasSSRContent = viewContainer.children.length > 0;
+
     try {
-      if (module.mount) {
-        componentInstance = module.mount({
-          target: viewContainer,
-          props: componentProps,
-          context: contexts,
-        });
+      if (hasSSRContent) {
+        // Hydrate existing SSR content - preserves DOM and prevents animation re-triggers
+        if (module.hydrate) {
+          componentInstance = module.hydrate({
+            target: viewContainer,
+            props: componentProps,
+            context: contexts
+          });
+        } else {
+          componentInstance = hydrate(Component, {
+            target: viewContainer,
+            props: componentProps,
+            context: contexts
+          });
+        }
       } else {
+        // No SSR content, mount fresh (dynamic/lazy loaded components)
+        if (module.mount) {
+          componentInstance = module.mount({
+            target: viewContainer,
+            props: componentProps,
+            context: contexts
+          });
+        } else {
+          componentInstance = mount(Component, {
+            target: viewContainer,
+            props: componentProps,
+            context: contexts
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("[Hook] Hydrate/Mount failed, trying mount:", err);
+      // Fallback to mount if hydrate fails
+      try {
+        viewContainer.innerHTML = "";
         componentInstance = mount(Component, {
           target: viewContainer,
           props: componentProps,
-          context: contexts,
+          context: contexts
         });
+      } catch (mountErr) {
+        console.warn("[Hook] Mount also failed:", mountErr);
       }
-    } catch (err) {
-      console.warn("[Hook] Mount failed completely:", err);
     }
 
     return {
