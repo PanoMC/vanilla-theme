@@ -139,9 +139,8 @@
 
 <!-- Navbar End -->
 <script>
-  import { getContext, onMount } from "svelte";
+  import { getContext, onMount, tick } from "svelte";
   import { _ } from "svelte-i18n";
-  import { Collapse } from "bootstrap";
 
   import { page } from "$app/stores";
   import { PANEL_URL } from "$lib/variables.js";
@@ -154,10 +153,14 @@
 
   let navbarCollapseInstance = null;
 
-  onMount(() => {
+  onMount(async () => {
     const navbarElement = document.getElementById("navbar");
     if (navbarElement) {
-      navbarCollapseInstance = Collapse.getOrCreateInstance(navbarElement, { toggle: false });
+      while (!window.bootstrap) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      await tick();
+      navbarCollapseInstance = window.bootstrap.Collapse.getOrCreateInstance(navbarElement, { toggle: false });
     }
   });
 
