@@ -139,8 +139,9 @@
 
 <!-- Navbar End -->
 <script>
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { _ } from "svelte-i18n";
+  import { Collapse } from "bootstrap";
 
   import { page } from "$app/stores";
   import { PANEL_URL } from "$lib/variables.js";
@@ -150,6 +151,20 @@
   import { hasPermission } from "$lib/auth.util.js";
 
   const navLinks = panoApiClient.ui.nav.site.getNavLinks();
+
+  let navbarCollapseInstance = null;
+
+  onMount(() => {
+    const navbarElement = document.getElementById("navbar");
+    if (navbarElement) {
+      navbarCollapseInstance = Collapse.getOrCreateInstance(navbarElement, { toggle: false });
+    }
+  });
+
+  // Close navbar when page changes on mobile
+  $: if ($page.url.pathname && navbarCollapseInstance) {
+    navbarCollapseInstance.hide();
+  }
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");
