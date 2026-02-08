@@ -367,7 +367,10 @@
       },
       "footer": {
         "visibility": "Footer",
-        "content": "Content"
+        "content": "Content",
+        "links": "Links",
+        "links-visibility": "Links Visibility",
+        "plugin-links-visibility": "Show Plugin Links"
       },
       "advanced": {
         "custom-css": "Custom CSS"

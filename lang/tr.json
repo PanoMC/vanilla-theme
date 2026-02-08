@@ -367,7 +367,10 @@
       },
       "footer": {
         "visibility": "Alt Bilgi",
-        "content": "İçerik"
+        "content": "İçerik",
+        "links": "Bağlantılar",
+        "links-visibility": "Linklerin Görünürlüğü",
+        "plugin-links-visibility": "Eklenti Linklerini Göster"
       },
       "advanced": {
         "custom-css": "Custom CSS"

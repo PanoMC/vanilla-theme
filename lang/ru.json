@@ -367,7 +367,10 @@
       },
       "footer": {
         "visibility": "Подвал",
-        "content": "Контент"
+        "content": "Контент",
+        "links": "Ссылки",
+        "links-visibility": "Видимость ссылок",
+        "plugin-links-visibility": "Показывать ссылки плагинов"
       },
       "advanced": {
         "custom-css": "Пользовательский CSS"

@@ -585,13 +585,16 @@
             >{$_("pages.theme-settings.navbar.links")}</label>
           <div class="col-md-6" id="navbarLinks">
             <ul class="list-group">
-              {#each orderedLinks as link, index (link.id)}
+              {#each orderedNavLinks as link, index (link.id)}
                 <li
-                  class="list-group-item d-flex justify-content-between align-items-center"
+                  class="list-group-item d-flex justify-content-between align-items-center drag-item"
+                  class:dragging={draggingItemIndex === index}
+                  class:drag-over={dragOverItemIndex === index && draggingItemIndex !== index}
                   draggable="true"
                   on:dragstart={(e) => onDragStart(e, index)}
                   on:dragover={(e) => onDragOver(e, index)}
-                  on:drop={(e) => onDrop(e, index)}
+                  on:dragend={onDragEnd}
+                  on:drop={(e) => onDrop(e, index, "nav")}
                   style="cursor: move;">
                   <div class="d-flex align-items-center gap-2">
                     <i class="fa fa-bars text-muted"></i>
@@ -600,6 +603,9 @@
                         {link.text && link.text.includes(".")
                           ? $_(link.text)
                           : link.text}
+                        <span class="badge text-bg-secondary opacity-50 ms-1" style="font-size: 0.6rem;">
+                          <i class="fa-solid fa-plug me-1"></i>Plugin
+                        </span>
                       {:else}
                         {$_(link.text)}
                       {/if}
@@ -865,6 +871,93 @@
               value={themeSettings.footerContent}></textarea>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6" for="footer-links-visibility">
+            {$_("pages.theme-settings.footer.links-visibility")}
+          </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.footerLinksEnabled ?? true}
+                class="form-check-input"
+                id="footer-links-visibility"
+                on:change={(e) =>
+                  (themeSettings.footerLinksEnabled = e.target.checked)}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6" for="footer-plugin-links-visibility">
+            {$_("pages.theme-settings.footer.plugin-links-visibility")}
+          </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.footerPluginLinksEnabled ?? true}
+                class="form-check-input"
+                id="footer-plugin-links-visibility"
+                on:change={(e) =>
+                  (themeSettings.footerPluginLinksEnabled = e.target.checked)}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="footerLinks">
+            {$_("pages.theme-settings.footer.links")}
+          </label>
+          <div class="col-md-6" id="footerLinks">
+            <ul class="list-group">
+              {#each orderedFooterLinks as link, index (link.id)}
+                {#if !link.isPlugin || (themeSettings.footerPluginLinksEnabled ?? true)}
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center drag-item"
+                    class:dragging={draggingItemIndex === index}
+                    class:drag-over={dragOverItemIndex === index && draggingItemIndex !== index}
+                    draggable="true"
+                    on:dragstart={(e) => onDragStart(e, index)}
+                    on:dragover={(e) => onDragOver(e, index)}
+                    on:dragend={onDragEnd}
+                    on:drop={(e) => onDrop(e, index, "footer")}
+                    style="cursor: move;">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="fa fa-bars text-muted"></i>
+                      <span>
+                        {#if link.isPlugin}
+                          {link.text && link.text.includes(".")
+                            ? $_(link.text)
+                            : link.text}
+                          <span class="badge text-bg-secondary opacity-50 ms-1" style="font-size: 0.6rem;">
+                            <i class="fa-solid fa-plug me-1"></i>Plugin
+                          </span>
+                        {:else}
+                          {$_(link.text)}
+                        {/if}
+                      </span>
+                    </div>
+                    <div class="form-check form-switch m-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        checked={themeSettings.footerLinksEnableStatus?.[
+                          link.id
+                        ] ?? true}
+                        on:change={(e) =>
+                          toggleFooterLink(link.id, e.target.checked)} />
+                    </div>
+                  </li>
+                {/if}
+              {/each}
+            </ul>
+            <div class="form-text mt-2">
+              {$_("pages.theme-settings.navbar.drag-drop-hint") || "Linkleri sürükleyip bırakarak sıralayabilirsiniz."}
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Advanced -->
@@ -949,7 +1042,8 @@
 
   const navPluginLinks = panoApiClient.ui.nav.site.getNavLinks();
 
-  let orderedLinks = [];
+  let orderedNavLinks = [];
+  let orderedFooterLinks = [];
 
   const nativeLinks = [
     { id: "home", text: "pages.theme-settings.navbar.home", href: "/" },
@@ -967,27 +1061,43 @@
 
     const allLinksSource = [...nativeLinks, ...pluginLinks];
 
-    let order = themeSettings.navLinksOrder || [];
-    order = [...new Set(order)];
+    // Build Nav Ordered Links
+    let navOrder = themeSettings.navLinksOrder || [];
+    navOrder = [...new Set(navOrder)];
+    const navSorted = [];
+    const navSourceMap = new Map(allLinksSource.map((l) => [l.id, l]));
 
-    const sorted = [];
-    const sourceMap = new Map(allLinksSource.map((l) => [l.id, l]));
-
-    for (const id of order) {
-      if (sourceMap.has(id)) {
-        sorted.push(sourceMap.get(id));
-        sourceMap.delete(id);
+    for (const id of navOrder) {
+      if (navSourceMap.has(id)) {
+        navSorted.push(navSourceMap.get(id));
+        navSourceMap.delete(id);
       }
     }
-
-    for (const link of sourceMap.values()) {
-      sorted.push(link);
+    for (const link of navSourceMap.values()) {
+      navSorted.push(link);
     }
+    orderedNavLinks = navSorted;
 
-    orderedLinks = sorted;
+    // Build Footer Ordered Links
+    let footerOrder = themeSettings.footerLinksOrder || [];
+    footerOrder = [...new Set(footerOrder)];
+    const footerSorted = [];
+    const footerSourceMap = new Map(allLinksSource.map((l) => [l.id, l]));
+
+    for (const id of footerOrder) {
+      if (footerSourceMap.has(id)) {
+        footerSorted.push(footerSourceMap.get(id));
+        footerSourceMap.delete(id);
+      }
+    }
+    for (const link of footerSourceMap.values()) {
+      footerSorted.push(link);
+    }
+    orderedFooterLinks = footerSorted;
   }
 
   let draggingItemIndex = null;
+  let dragOverItemIndex = null;
 
   function onDragStart(event, index) {
     draggingItemIndex = index;
@@ -998,27 +1108,52 @@
   function onDragOver(event, index) {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
+    dragOverItemIndex = index;
   }
 
-  function onDrop(event, index) {
+  function onDragEnd() {
+    draggingItemIndex = null;
+    dragOverItemIndex = null;
+  }
+
+  function onDrop(event, index, target = "nav") {
     event.preventDefault();
     const fromIndex = draggingItemIndex;
     const toIndex = index;
 
+    draggingItemIndex = null;
+    dragOverItemIndex = null;
+
     if (fromIndex === null || fromIndex === toIndex) return;
 
-    const newOrder = [...orderedLinks];
-    const [movedItem] = newOrder.splice(fromIndex, 1);
-    newOrder.splice(toIndex, 0, movedItem);
+    if (target === "nav") {
+      const newOrder = [...orderedNavLinks];
+      const [movedItem] = newOrder.splice(fromIndex, 1);
+      newOrder.splice(toIndex, 0, movedItem);
 
-    orderedLinks = newOrder;
-    themeSettings.navLinksOrder = newOrder.map((l) => l.id);
+      orderedNavLinks = newOrder;
+      themeSettings.navLinksOrder = newOrder.map((l) => l.id);
+    } else if (target === "footer") {
+      const newOrder = [...orderedFooterLinks];
+      const [movedItem] = newOrder.splice(fromIndex, 1);
+      newOrder.splice(toIndex, 0, movedItem);
+
+      orderedFooterLinks = newOrder;
+      themeSettings.footerLinksOrder = newOrder.map((l) => l.id);
+    }
   }
 
   function toggleLink(id, checked) {
     if (!themeSettings.navLinksEnableStatus)
       themeSettings.navLinksEnableStatus = {};
     themeSettings.navLinksEnableStatus[id] = checked;
+    themeSettings = themeSettings;
+  }
+
+  function toggleFooterLink(id, checked) {
+    if (!themeSettings.footerLinksEnableStatus)
+      themeSettings.footerLinksEnableStatus = {};
+    themeSettings.footerLinksEnableStatus[id] = checked;
     themeSettings = themeSettings;
   }
 
@@ -1060,7 +1195,14 @@
       "postPreviousPageEnabled",
       "postNextPageEnabled"
     ],
-    footer: ["footerEnabled", "footerContent"],
+    footer: [
+      "footerEnabled",
+      "footerContent",
+      "footerLinksEnabled",
+      "footerPluginLinksEnabled",
+      "footerLinksEnableStatus",
+      "footerLinksOrder"
+    ],
     advanced: ["customCss"]
   };
 
@@ -1259,3 +1401,20 @@
     });
   }
 </script>
+
+<style>
+    .drag-item {
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .drag-item.dragging {
+        opacity: 0.4;
+        background-color: var(--bs-light);
+        border-style: dashed;
+    }
+
+    .drag-item.drag-over {
+        border-top: 2px solid var(--bs-primary);
+        background-color: rgba(var(--bs-primary-rgb), 0.05);
+    }
+</style>

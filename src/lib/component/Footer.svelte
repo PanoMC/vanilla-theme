@@ -7,33 +7,21 @@
       <div
         class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
         <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a
-              class="nav-link rounded-pill"
-              href="/"
-              aria-current="page"
-              hidden={typeof themeSettings.navLinksEnableStatus?.home ===
-              "undefined"
-                ? false
-                : !themeSettings.navLinksEnableStatus.home}>Ana Sayfa</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link rounded-pill"
-              href="/support"
-              hidden={typeof themeSettings.navLinksEnableStatus?.support ===
-              "undefined"
-                ? false
-                : !themeSettings.navLinksEnableStatus.support}>Destek</a>
-          </li>
-          <li
-            class="nav-item"
-            hidden={!$session.siteInfo.registerAgreement ||
-              (typeof themeSettings.navLinksEnableStatus?.rules === "undefined"
-                ? false
-                : !themeSettings.navLinksEnableStatus.rules)}>
-            <a class="nav-link rounded-pill" href="/rules">Kurallar</a>
-          </li>
+          {#each displayLinks as link (link.id)}
+            <li class="nav-item">
+              <a
+                class="nav-link rounded-pill"
+                href={link.href}
+                target={link.target}
+                title={link.text && link.text.includes(".")
+                  ? $_(link.text)
+                  : link.text}>
+                {link.text && link.text.includes(".")
+                  ? $_(link.text)
+                  : link.text}
+              </a>
+            </li>
+          {/each}
         </ul>
       </div>
       <div class="col-lg-4 col-sm-8">
@@ -77,7 +65,76 @@
   import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
   import { PANO_WEBSITE_URL } from "$lib/variables";
+  import { panoApiClient } from "$lib/PluginAPI.js";
+  import { hasPermission } from "$lib/auth.util.js";
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");
+
+  const navLinks = panoApiClient.ui.nav.site.getNavLinks();
+
+  $: nativeLinks = [
+    { id: "home", text: "nav-links.homepage", href: "/" },
+    { id: "support", text: "nav-links.support", href: "/support" },
+    {
+      id: "rules",
+      text: "nav-links.rules",
+      href: "/rules",
+      condition: !!$session.siteInfo?.registerAgreement
+    }
+  ];
+
+  $: displayLinks = (() => {
+    // Check if footer links are globally disabled
+    if (themeSettings.footerLinksEnabled === false) return [];
+
+    // 1. Merge
+    const pluginLinks = $navLinks.map((l) => ({
+      ...l,
+      id: l.href,
+      isPlugin: true,
+      target: l.target === "_self" ? null : l.target
+    }));
+
+    const allLinks = [...nativeLinks, ...pluginLinks];
+
+    // 2. Sort
+    let order = themeSettings.footerLinksOrder || [];
+    const sourceMap = new Map(allLinks.map((l) => [l.id, l]));
+    const sorted = [];
+
+    // Add ordered items
+    for (const id of order) {
+      if (sourceMap.has(id)) {
+        sorted.push(sourceMap.get(id));
+      }
+    }
+
+    // Append remaining items (ordered set first to avoid duplicates)
+    const inOrderIds = new Set(order);
+    for (const l of allLinks) {
+      if (!inOrderIds.has(l.id)) {
+        sorted.push(l);
+      }
+    }
+
+    // 3. Filter visibility & conditions
+    return sorted.filter((link) => {
+      // Handle plugin links visibility setting
+      if (link.isPlugin && themeSettings.footerPluginLinksEnabled === false)
+        return false;
+
+      // Check explicit footer toggle for individual link
+      const status = themeSettings.footerLinksEnableStatus?.[link.id];
+      if (status === false) return false;
+
+      if (typeof link.condition !== "undefined" && !link.condition)
+        return false;
+
+      if (link.loginRequired && !$session.user) return false;
+      if (link.permission && !hasPermission(link.permission)) return false;
+
+      return true;
+    });
+  })();
 </script>
