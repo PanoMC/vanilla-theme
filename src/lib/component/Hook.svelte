@@ -27,7 +27,7 @@
 
 <script>
   import { panoApiClient } from "$lib/PluginAPI.js";
-  import { browser } from "$app/environment";
+  import { browser, dev } from "$app/environment";
   import { page } from "$app/stores";
   import { getAllContexts, hydrate, mount, unmount, untrack } from "svelte";
   import { hasPermission } from "$lib/auth.util.js";
@@ -41,7 +41,7 @@
   let resolvedHooks = $state([]);
   const hookList = $derived(
     resolvedHooks.length > 0
-      ? resolvedHooks
+      ? resolvedHooks.map((h) => h.component || h)
       : filteredHooks.map((h) => h.component || h),
   );
 
@@ -77,20 +77,22 @@
     const Component = module.default || module;
     if (!browser || !viewContainer || !Component) return;
 
-    // Use a reactive $state object for props to maintain Svelte 5 reactivity
-    let componentProps = $state({
+    // Use $state.raw to prevent Svelte from deep-proxying these props.
+    // This ensures components (especially legacy ones) receive plain objects.
+    let componentProps = $state.raw({
       hookName: name,
-      ...currentProps,
-      ...currentRest,
+      ...$state.snapshot(currentProps),
+      ...$state.snapshot(currentRest)
     });
     let componentInstance;
 
     // Check if there's SSR content to hydrate
-    const hasSSRContent = viewContainer.children.length > 0;
+    // In dev mode, skip hydration due to potential Svelte version mismatch with pre-built plugins
+    const hasSSRContent = viewContainer.children.length > 0 && !dev;
 
     try {
       if (hasSSRContent) {
-        // Hydrate existing SSR content - preserves DOM and prevents animation re-triggers
+        // Hydrate existing SSR content (production only)
         if (module.hydrate) {
           componentInstance = module.hydrate({
             target: viewContainer,
@@ -105,7 +107,8 @@
           });
         }
       } else {
-        // No SSR content, mount fresh (dynamic/lazy loaded components)
+        // Mount fresh (always in dev mode, or when no SSR content)
+        viewContainer.innerHTML = ""; // Clear any SSR content in dev mode
         if (module.mount) {
           componentInstance = module.mount({
             target: viewContainer,
@@ -122,7 +125,6 @@
       }
     } catch (err) {
       console.warn("[Hook] Hydrate/Mount failed, trying mount:", err);
-      // Fallback to mount if hydrate fails
       try {
         viewContainer.innerHTML = "";
         componentInstance = mount(Component, {
@@ -132,25 +134,31 @@
         });
       } catch (mountErr) {
         console.warn("[Hook] Mount also failed:", mountErr);
+        // In dev mode, show a friendly message instead of breaking the page
+        if (dev) {
+          viewContainer.innerHTML = `<div style="padding: 1rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; color: #856404;">
+            <strong>⚠️ Plugin Dev Mode Issue</strong><br/>
+            <small>The plugin component could not be loaded in dev mode due to Svelte version mismatch. 
+            This works correctly in production builds.</small>
+          </div>`;
+        }
       }
     }
 
     return {
       update(newParams) {
-        // Surgical update: Only update changed properties to avoid infinite loops
+        // Direct object replacement with $state.raw triggers reactivity 
+        // without making child properties Proxies.
         const nextCombined = {
-          ...newParams.props,
-          ...newParams.rest,
+          ...$state.snapshot(newParams.props),
+          ...$state.snapshot(newParams.rest),
           hookName: name,
         };
 
         untrack(() => {
-          for (const key in nextCombined) {
-            if ($state.snapshot(componentProps[key]) !== $state.snapshot(nextCombined[key])) {
-              componentProps[key] = nextCombined[key];
-            }
-          }
-          // Support for legacy components that might not see $state changes
+          componentProps = nextCombined;
+
+          // Support for legacy components that might not see referential changes
           if (componentInstance && componentInstance.$set) {
             componentInstance.$set(nextCombined);
           }

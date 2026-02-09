@@ -101,7 +101,7 @@ function generateLicensesPlugin() {
   };
 }
 
-export default defineConfig(({ isSsrBuild }) => {
+export default defineConfig(({ isSsrBuild, command }) => {
   return {
     plugins: [
       sveltekit(),
@@ -111,7 +111,7 @@ export default defineConfig(({ isSsrBuild }) => {
       copyManifestPlugin(),
     ],
     ssr: {
-      noExternal: ["@panomc/sdk"],
+      noExternal: command === "build" ? true : ["@panomc/sdk", "svelte-i18n"]
     },
     css: {
       preprocessorOptions: {
@@ -128,6 +128,7 @@ export default defineConfig(({ isSsrBuild }) => {
       },
     },
     optimizeDeps: {
+      include: ["deepmerge", "svelte-i18n"],
       exclude: ["@panomc/sdk"],
     },
     server: {
@@ -139,8 +140,18 @@ export default defineConfig(({ isSsrBuild }) => {
         path: "/"
       }
     },
+    resolve: {
+      dedupe: ["svelte", "@panomc/sdk", "svelte-i18n"]
+    },
     build: {
-      manifest: true
+      manifest: true,
+      rollupOptions: {
+        // Only externalize in the client-side build to support the importmap.
+        // We let SSR build handle dependencies normally to avoid node_modules resolution issues.
+        ...(isSsrBuild ? {} : {
+          external: (id) => id.startsWith("svelte") || id.startsWith("@panomc/sdk")
+        })
+      }
     },
   };
 });
