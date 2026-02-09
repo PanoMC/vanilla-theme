@@ -16,21 +16,21 @@ mkdirSync(sdkOutDir, { recursive: true });
 mkdirSync(tempEntryDir, { recursive: true });
 
 const svelteEntries = {
-    "index": "svelte",
-    "animate": "svelte/animate",
-    "easing": "svelte/easing",
-    "motion": "svelte/motion",
-    "store": "svelte/store",
-    "transition": "svelte/transition",
-    "internal": "svelte/internal",
-    "internal-client": "svelte/internal/client",
-    "internal-disclose-version": "svelte/internal/disclose-version",
-    "internal-flags-legacy": "svelte/internal/flags/legacy",
-    "internal-flags-async": "svelte/internal/flags/async",
-    "internal-flags-tracing": "svelte/internal/flags/tracing",
-    "internal-server": "svelte/internal/server",
-    "legacy": "svelte/legacy",
-    "events": "svelte/events",
+  "index": "svelte",
+  "animate": "svelte/animate",
+  "easing": "svelte/easing",
+  "motion": "svelte/motion",
+  "store": "svelte/store",
+  "transition": "svelte/transition",
+  "internal": "svelte/internal",
+  "internal-client": "svelte/internal/client",
+  "internal-disclose-version": "svelte/internal/disclose-version",
+  "internal-flags-legacy": "svelte/internal/flags/legacy",
+  "internal-flags-async": "svelte/internal/flags/async",
+  "internal-flags-tracing": "svelte/internal/flags/tracing",
+  "internal-server": "svelte/internal/server",
+  "legacy": "svelte/legacy",
+  "events": "svelte/events",
   "i18n": "svelte-i18n"
 };
 
@@ -59,7 +59,8 @@ async function bundle(entries, outDir, label) {
   for (const [name, path] of Object.entries(entries)) {
     const entryPath = join(currentTempDir, `${name}.js`);
     let content = `export * from "${path}";\n`;
-    if (path === "@panomc/sdk/utils/api") {
+    // These modules have default exports that need to be preserved
+    if (path === "@panomc/sdk/utils/api" || path === "@panomc/sdk/utils/tooltip") {
       content += `export { default } from "${path}";\n`;
     }
     writeFileSync(entryPath, content);
