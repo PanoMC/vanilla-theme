@@ -241,14 +241,19 @@
                     class="btn btn-link text-danger"
                     title={$_("buttons.logout")}
                     aria-label={$_("buttons.logout")}
-                    onclick={() =>
-                      onLogoutSession(
-                        session.id,
-                        session.isCurrent,
-                        loadingSessionId,
-                        showToast,
-                        invalidateAll,
-                      )}
+                    onclick={() => {
+                      if (session.isCurrent) {
+                        setLogoutConfirmCallback(() => logout());
+                        showLogoutConfirmModal();
+                      } else {
+                        onLogoutSession(
+                          session.id,
+                          loadingSessionId,
+                          showToast,
+                          invalidateAll,
+                        );
+                      }
+                    }}
                     disabled={$loadingSessionId === session.id}>
                     {#if $loadingSessionId === session.id}
                       <span
@@ -268,6 +273,8 @@
     {/if}
   </div>
 </div>
+
+<LogoutSessionConfirmModal />
 
 <script context="module">
   import { processLoad } from "$lib/ui-logics/page-logics/SettingsPageLogics";
@@ -289,6 +296,10 @@
   import DateComponent from "$lib/component/Date.svelte";
   import tooltip from "$lib/tooltip.util";
   import { show as showToast } from "$lib/component/ToastContainer.svelte";
+  import LogoutSessionConfirmModal, {
+    show as showLogoutConfirmModal,
+    setCallback as setLogoutConfirmCallback,
+  } from "$lib/component/modals/LogoutSessionConfirmModal.svelte";
 
   import {
     init,
@@ -303,6 +314,7 @@
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   import { Languages, currentLanguage } from "$lib/language.util";
+  import { logout } from "$lib/Store";
 
   export let data;
   let sessions = [];

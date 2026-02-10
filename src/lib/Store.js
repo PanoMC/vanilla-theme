@@ -3,6 +3,7 @@ import { writable } from "svelte/store";
 import { sendLogout } from "$lib/services/auth.js";
 import { invalidateAll } from "$app/navigation";
 import { redirect } from "@sveltejs/kit";
+import { show as showToast } from "$lib/component/ToastContainer.svelte";
 
 export const notificationsCount = writable(0);
 export const quickNotifications = writable([]);
@@ -11,6 +12,7 @@ export const initialized = writable(false);
 
 export async function logout() {
   sendLogout().then(async () => {
+    await showToast("toasts.session-logged-out-successful");
     await invalidateAll();
   });
 }

@@ -115,6 +115,9 @@
       },
       "close-ticket-confirm": {
         "title": "Are you sure you want to close this ticket?"
+      },
+      "logout-session-confirm": {
+        "title": "Are you sure you want to logout from your current session?"
       }
     },
     "header": {

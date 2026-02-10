@@ -3,7 +3,7 @@ import { get, writable } from "svelte/store";
 import { sendResetPassword } from "$lib/services/auth";
 import { sendChangeEmail, sendUpdateProfile } from "$lib/services/profile";
 
-import ApiUtil, {NETWORK_ERROR } from "$lib/api.util";
+import ApiUtil, { NETWORK_ERROR } from "$lib/api.util";
 
 import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
 import { changeLanguage, getLanguageByLocale } from "$lib/language.util.js";
@@ -128,7 +128,7 @@ export async function saveSettings(userLocale, saveButtonLoading) {
   })
 }
 
-export async function onLogoutSession(sessionId, isCurrent, loadingSessionId, showToast, invalidateAll) {
+export async function onLogoutSession(sessionId, loadingSessionId, showToast, invalidateAll) {
   loadingSessionId.set(sessionId);
 
   ApiUtil.delete({
@@ -138,11 +138,6 @@ export async function onLogoutSession(sessionId, isCurrent, loadingSessionId, sh
 
       if (body.error) {
         await showToast('errors.' + body.error);
-        return;
-      }
-
-      if (isCurrent) {
-        window.location.href = '/';
         return;
       }
 

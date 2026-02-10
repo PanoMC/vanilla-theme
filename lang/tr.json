@@ -115,6 +115,9 @@
       },
       "close-ticket-confirm": {
         "title": "Bu talebi kapatmak istediğinizden emin misiniz?"
+      },
+      "logout-session-confirm": {
+        "title": "Mevcut oturumunuzdan çıkış yapmak istediğinizden emin misiniz?"
       }
     },
     "header": {
