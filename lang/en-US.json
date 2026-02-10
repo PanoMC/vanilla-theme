@@ -29,6 +29,9 @@
     "reset-all": "Reset All",
     "notifications": "Notifications"
   },
+  "labels": {
+    "plugin": "Plugin"
+  },
   "messages": {
     "confirm-reset-all": "Are you sure you want to reset all theme settings to default? This action cannot be undone.",
     "settings-save-success": "Settings saved successfully!",

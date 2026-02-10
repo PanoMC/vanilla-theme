@@ -604,7 +604,7 @@
                           ? $_(link.text)
                           : link.text}
                         <span class="badge text-bg-secondary opacity-50 ms-1" style="font-size: 0.6rem;">
-                          <i class="fa-solid fa-plug me-1"></i>Plugin
+                          <i class="fa-solid fa-plug me-1"></i>{$_("labels.plugin")}
                         </span>
                       {:else}
                         {$_(link.text)}
@@ -932,7 +932,7 @@
                             ? $_(link.text)
                             : link.text}
                           <span class="badge text-bg-secondary opacity-50 ms-1" style="font-size: 0.6rem;">
-                            <i class="fa-solid fa-plug me-1"></i>Plugin
+                            <i class="fa-solid fa-plug me-1"></i>{$_("labels.plugin")}
                           </span>
                         {:else}
                           {$_(link.text)}

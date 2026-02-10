@@ -29,6 +29,9 @@
     "reset-all": "Tümünü Sıfırla",
     "notifications": "Bildirimler"
   },
+  "labels": {
+    "plugin": "Eklenti"
+  },
   "messages": {
     "confirm-reset-all": "Tüm tema ayarlarını varsayılana sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz.",
     "settings-save-success": "Ayarlar başarıyla kaydedildi!",
