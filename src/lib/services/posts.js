@@ -15,7 +15,7 @@ export const getPosts = async ({ page, categoryUrl, request, csrfToken }) => {
 };
 
 export const getPostDetail = async ({ url, request, csrfToken }) => {
-  return ApiUtil.post({
+  return ApiUtil.get({
     path: `/api/posts/${url}`,
     request,
     csrfToken

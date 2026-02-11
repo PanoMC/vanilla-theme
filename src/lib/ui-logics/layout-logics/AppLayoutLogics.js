@@ -33,7 +33,8 @@ import PlayerHead from "$lib/component/PlayerHead.svelte";
 
 const initLanguage = languageStuff.init;
 
-async function sendVisitorVisitRequest({ event, csrfToken }) {
+async function sendVisitorVisitRequest({ event, csrfToken, isDemo }) {
+  if (isDemo) return;
   ApiUtil.post({ path: "/api/visitorVisit", request: event, csrfToken });
 }
 
@@ -174,7 +175,7 @@ export function init(data) {
   onMount(() => {
     initialized.set(true);
 
-    sendVisitorVisitRequest({});
+    sendVisitorVisitRequest({ isDemo: data.session.siteInfo.isDemo });
   });
 
   const { pageTitle } = data;

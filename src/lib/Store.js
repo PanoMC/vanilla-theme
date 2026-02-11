@@ -12,6 +12,9 @@ export const initialized = writable(false);
 
 export async function logout() {
   sendLogout().then(async () => {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('pano_demo_bubble_shown');
+    }
     await showToast("toasts.session-logged-out-successful");
     await invalidateAll();
   });

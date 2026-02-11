@@ -12,6 +12,11 @@
 <form on:submit|preventDefault={onSubmit}>
   <div class="vstack gap-3">
     <PageTitle title={$_("components.modals.login.title")} />
+    {#if $session.siteInfo.isDemo}
+      <div class="alert alert-info py-2" role="alert">
+        {$_("pages.login.demo-mode-alert")}
+      </div>
+    {/if}
     <ErrorAlert error={error} />
     <div class="form-group">
       <div class="form-floating">
@@ -65,7 +70,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { format } from "date-fns";
   import * as locales from "date-fns/locale";
 
@@ -165,4 +170,11 @@
         loading = false;
       });
   }
+
+  onMount(() => {
+    if ($session.siteInfo.isDemo) {
+      usernameOrEmail = "demo";
+      password = "123456";
+    }
+  });
 </script>

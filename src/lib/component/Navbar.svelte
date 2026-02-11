@@ -20,7 +20,7 @@
 
       <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
         {#if $session.user && $session.user.panelAccess}
-          <li class="nav-item">
+          <li class="nav-item position-relative">
             <a
               class="nav-link"
               href={PANEL_URL}
@@ -30,6 +30,16 @@
               <span class="d-none d-lg-inline ms-2">
                 {$_("nav-links.panel")}</span>
             </a>
+            {#if showPanelBubble}
+              <div class="demo-bubble">
+                <div class="demo-bubble-content">
+                  {$_("labels.demo-panel-hint")}
+                </div>
+                <button type="button" class="demo-bubble-close" on:click={() => (showPanelBubble = false)} aria-label="Close">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            {/if}
           </li>
         {/if}
 
@@ -143,6 +153,7 @@
   import { _ } from "svelte-i18n";
 
   import { page } from "$app/stores";
+  import { browser } from "$app/environment";
   import { PANEL_URL } from "$lib/variables.js";
 
   import { logout, notificationsCount } from "$lib/Store";
@@ -152,6 +163,7 @@
   const navLinks = panoApiClient.ui.nav.site.getNavLinks();
 
   let navbarCollapseInstance = null;
+  let showPanelBubble = false;
 
   onMount(async () => {
     const navbarElement = document.getElementById("navbar");
@@ -163,6 +175,16 @@
       navbarCollapseInstance = window.bootstrap.Collapse.getOrCreateInstance(navbarElement, { toggle: false });
     }
   });
+
+  $: if (browser && $session?.siteInfo?.isDemo && $session?.user?.panelAccess) {
+    const shown = localStorage.getItem('pano_demo_bubble_shown');
+    if (!shown) {
+      tick().then(() => {
+        showPanelBubble = true;
+        localStorage.setItem('pano_demo_bubble_shown', 'true');
+      });
+    }
+  }
 
   // Close navbar when page changes on mobile
   $: if ($page.url.pathname && navbarCollapseInstance) {
@@ -244,3 +266,74 @@
     });
   })();
 </script>
+
+<style>
+  .demo-bubble {
+    position: absolute;
+    bottom: calc(100% + 15px);
+    right: 0;
+    background: #212529;
+    color: #fff;
+    padding: 10px 35px 10px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    z-index: 1050;
+    white-space: nowrap;
+    animation: bubbleFadeIn 0.3s ease-out;
+  }
+
+  .demo-bubble::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #212529 transparent transparent transparent;
+  }
+
+  .demo-bubble-close {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #adb5bd;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .demo-bubble-close:hover {
+    color: #fff;
+  }
+
+  @keyframes bubbleFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 991px) {
+    .demo-bubble {
+        right: auto;
+        left: 0;
+        bottom: calc(100% + 5px);
+    }
+    .demo-bubble::before {
+        right: auto;
+        left: 20px;
+    }
+  }
+</style>
+

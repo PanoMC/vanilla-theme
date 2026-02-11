@@ -30,7 +30,8 @@
     "notifications": "Notifications"
   },
   "labels": {
-    "plugin": "Plugin"
+    "plugin": "Plugin",
+    "demo-panel-hint": "You can explore the management panel from here!"
   },
   "messages": {
     "confirm-reset-all": "Are you sure you want to reset all theme settings to default? This action cannot be undone.",
@@ -64,6 +65,9 @@
     "session-logged-out-successful": "Session logged out successfully!"
   },
   "components": {
+    "toasts": {
+      "demo-mode-restricted": "This action is disabled in demo mode."
+    },
     "player-head": {
       "in-game": "Online In Game",
       "in-website": "Online In Website"
@@ -141,6 +145,9 @@
     }
   },
   "pages": {
+    "login": {
+      "demo-mode-alert": "You are in demo mode. You can log in with the username \"demo\" and the password \"123456\"."
+    },
     "homepage": {
       "title": "News"
     },
@@ -400,6 +407,7 @@
   "errors": {
     "NETWORK_ERROR": "Network error, please check your connection!",
     "INTERNAL_SERVER_ERROR": "An error occurred, please report it.",
+    "DISABLED_FOR_DEMO": "This action is disabled in demo mode.",
     "LOGIN_IS_INVALID": "Can't login, check your information!",
     "CANT_CHANGE_EMAIL_WAIT_15_MINUTES": "Can't change email, wait 15 minutes.",
     "CANT_RESET_PASSWORD_WAIT_15_MINUTES": "Can't reset password, wait 15 minutes.",
