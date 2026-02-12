@@ -31,7 +31,8 @@
   },
   "labels": {
     "plugin": "Eklenti",
-    "demo-panel-hint": "Yönetim panelini buradan inceleyebilirsin!"
+    "demo-panel-hint": "Yönetim panelini buradan inceleyebilirsin!",
+    "demo-login-hint": "Buradan giriş yapabilirsin!"
   },
   "messages": {
     "confirm-reset-all": "Tüm tema ayarlarını varsayılana sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz.",

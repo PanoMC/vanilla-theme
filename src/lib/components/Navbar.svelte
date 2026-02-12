@@ -108,10 +108,20 @@
             </ul>
           </li>
         {:else}
-          <li class="nav-item me-xl-0 me-3">
+          <li class="nav-item position-relative me-xl-0 me-3">
             <a href="/login" class="nav-link">
               {$_("buttons.login")}
             </a>
+            {#if showLoginBubble}
+              <div class="demo-bubble">
+                <div class="demo-bubble-content">
+                  {$_("labels.demo-login-hint")}
+                </div>
+                <button type="button" class="demo-bubble-close" on:click={() => (showLoginBubble = false)} aria-label="Close">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            {/if}
           </li>
           <li class="nav-item">
             <a href="/register"
@@ -164,6 +174,7 @@
 
   let navbarCollapseInstance = null;
   let showPanelBubble = false;
+  let showLoginBubble = false;
 
   onMount(async () => {
     const navbarElement = document.getElementById("navbar");
@@ -176,13 +187,13 @@
     }
   });
 
-  $: if (browser && $session?.siteInfo?.isDemo && $session?.user?.panelAccess) {
-    const shown = localStorage.getItem('pano_demo_bubble_shown');
-    if (!shown) {
-      tick().then(() => {
-        showPanelBubble = true;
-        localStorage.setItem('pano_demo_bubble_shown', 'true');
-      });
+  $: if (browser && $session?.siteInfo?.isDemo) {
+    if (!$session?.user) {
+      showPanelBubble = false;
+      showLoginBubble = true;
+    } else {
+      showLoginBubble = false;
+      showPanelBubble = !!$session?.user?.panelAccess;
     }
   }
 

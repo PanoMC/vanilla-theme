@@ -31,7 +31,8 @@
   },
   "labels": {
     "plugin": "Plugin",
-    "demo-panel-hint": "You can explore the management panel from here!"
+    "demo-panel-hint": "You can explore the management panel from here!",
+    "demo-login-hint": "You can log in from here!"
   },
   "messages": {
     "confirm-reset-all": "Are you sure you want to reset all theme settings to default? This action cannot be undone.",
