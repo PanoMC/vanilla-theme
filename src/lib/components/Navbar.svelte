@@ -291,7 +291,9 @@
     font-weight: 500;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     z-index: 1050;
-    white-space: nowrap;
+    white-space: normal;
+    width: max-content;
+    max-width: 260px;
     animation: bubbleFadeIn 0.3s ease-out;
   }
 
@@ -337,13 +339,8 @@
 
   @media (max-width: 991px) {
     .demo-bubble {
-        right: auto;
-        left: 0;
         bottom: calc(100% + 5px);
-    }
-    .demo-bubble::before {
-        right: auto;
-        left: 20px;
+        max-width: 180px;
     }
   }
 </style>
