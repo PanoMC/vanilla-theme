@@ -62,10 +62,10 @@
 
   import { onPageClick } from "$lib/ui-logics/page-logics/HomePageLogics";
 
-  import PageTitle from "$lib/component/PageTitle.svelte";
-  import Hook from "$lib/component/Hook.svelte";
-  import Pagination from "$lib/component/Pagination.svelte";
-  import Posts from "$lib/component/Posts.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import Hook from "$lib/components/Hook.svelte";
+  import Pagination from "$lib/components/Pagination.svelte";
+  import Posts from "$lib/components/Posts.svelte";
 
   export let data;
 

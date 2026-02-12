@@ -72,8 +72,8 @@
     PageTypes,
   } from "$lib/ui-logics/page-logics/TicketsPageLogics";
 
-  import Pagination from "$lib/component/Pagination.svelte";
-  import Tickets from "$lib/component/Tickets.svelte";
+  import Pagination from "$lib/components/Pagination.svelte";
+  import Tickets from "$lib/components/Tickets.svelte";
 
   export let data;
 

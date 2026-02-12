@@ -1,18 +1,20 @@
 <Sidebar side={side}>
   <div class="card border-0">
     <div class="card-body vstack gap-3">
-      <!-- Profile Card -->
       <PlayerHead
-        width="64"
-        height="64"
-        username={user.username}
+        username={$data.username}
         inGame={$data.inGame}
+        banned={$data.banned}
         lastActivityTime={$data.lastActivityTime}
-        checkTime={checkTime} />
-      <PageTitle title={user.username} />
+        checkTime={checkTime}
+        width="64"
+        height="64" />
+
+      <PageTitle title={$data.username} />
+
       <div class="text-center">
         <PlayerStatusBadge
-          banned={$data.isBanned}
+          banned={$data.banned}
           lastActivityTime={$data.lastActivityTime}
           inGame={$data.inGame}
           checkTime={checkTime} />
@@ -21,7 +23,6 @@
         <PlayerPermissionBadge
           permissionGroupName={$data.permissionGroupName} />
       </div>
-      <!-- Profile Card End -->
     </div>
   </div>
 </Sidebar>
@@ -31,19 +32,21 @@
   import { writable } from "svelte/store";
 
   const data = writable({
+    username: "",
     lastActivityTime: 0,
     inGame: false,
     permissionGroupName: "",
-    isBanned: false,
+    banned: false,
   });
 
   export const load = async (event) => {
-    data.set(
-      await ApiUtil.get({
-        path: "/api/sidebars/profile",
+    data.set({
+      ...(await ApiUtil.get({
+        path: `/api/sidebars/profile/${event.params.player}`,
         request: event,
-      }),
-    );
+      })),
+      username: event.params.player,
+    });
   };
 
   String.prototype.capitalize = function () {
@@ -52,25 +55,19 @@
 </script>
 
 <script>
-  import { getContext, onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { _ } from "svelte-i18n";
 
-  import tooltip from "$lib/tooltip.util";
-
-  import PlayerPermissionBadge from "$lib/component/PlayerPermissionBadge.svelte";
-  import PlayerStatusBadge from "$lib/component/PlayerStatusBadge.svelte";
-  import Sidebar from "$lib/component/Sidebar.svelte";
-  import PlayerHead from "$lib/component/PlayerHead.svelte";
+  import Sidebar from "$lib/components/Sidebar.svelte";
+  import PlayerPermissionBadge from "$lib/components/PlayerPermissionBadge.svelte";
+  import PlayerStatusBadge from "$lib/components/PlayerStatusBadge.svelte";
+  import PlayerHead from "$lib/components/PlayerHead.svelte";
   import PageTitle from "../PageTitle.svelte";
-
-  export let side;
-
-  const session = getContext("session");
-
-  $: user = $session.user ? $session.user : {};
 
   let checkTime = 0;
   let interval;
+
+  export let side;
 
   onMount(() => {
     interval = setInterval(() => {

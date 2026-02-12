@@ -98,7 +98,7 @@
   import { _ } from "svelte-i18n";
   import copy from "copy-to-clipboard";
 
-  import Sidebar from "$lib/component/Sidebar.svelte";
+  import Sidebar from "$lib/components/Sidebar.svelte";
   import tooltip from "$lib/tooltip.util";
 
   export let side;

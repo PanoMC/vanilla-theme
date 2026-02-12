@@ -21,5 +21,5 @@
   import { _ } from "svelte-i18n";
 
   import { page } from "$app/state";
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 </script>

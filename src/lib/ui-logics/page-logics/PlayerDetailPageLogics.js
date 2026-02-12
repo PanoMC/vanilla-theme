@@ -2,7 +2,7 @@ import { error } from "@sveltejs/kit";
 
 import { getPlayerProfile } from "$lib/services/profile";
 
-import PlayerDetailSidebar, { load as loadSidebar } from "$lib/component/sidebars/PlayerDetailSidebar.svelte";
+import PlayerDetailSidebar, { load as loadSidebar } from "$lib/components/sidebars/PlayerDetailSidebar.svelte";
 
 /**
  * @type {import("@sveltejs/kit").Load}

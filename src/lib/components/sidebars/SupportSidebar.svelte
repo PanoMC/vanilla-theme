@@ -23,9 +23,9 @@
 </script>
 
 <script>
-  import Sidebar from "$lib/component/Sidebar.svelte";
+  import Sidebar from "$lib/components/Sidebar.svelte";
 
-  import OnlineAdmins from "$lib/component/OnlineAdmins.svelte";
+  import OnlineAdmins from "$lib/components/OnlineAdmins.svelte";
 
   export let side;
 </script>

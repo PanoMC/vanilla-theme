@@ -3,7 +3,7 @@
 <script>
   import { _ } from 'svelte-i18n';
 
-  import Toast from '$lib/component/Toast.svelte';
+  import Toast from '$lib/components/Toast.svelte';
 
   export let id;
   export let text;

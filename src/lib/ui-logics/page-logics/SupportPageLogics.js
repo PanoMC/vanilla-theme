@@ -1,4 +1,4 @@
-import SupportSidebar, { load as loadSidebar } from "$lib/component/sidebars/SupportSidebar.svelte";
+import SupportSidebar, { load as loadSidebar } from "$lib/components/sidebars/SupportSidebar.svelte";
 import { executeHookLoad } from "$lib/PluginAPI.js";
 
 export async function processLoad(event) {

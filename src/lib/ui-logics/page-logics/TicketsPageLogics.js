@@ -7,14 +7,14 @@ import { buildQueryParams } from "$lib/api.util";
 
 import { getTickets } from "$lib/services/tickets";
 
-import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
-import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
+import { TicketStatuses } from "$lib/components/TicketStatus.svelte";
+import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
 
 import {
   onHide as setCloseTicketConfirmOnHideCallback,
   setCallback as setCloseTicketConfirmCallback,
   show as showCloseTicketConfirmModal
-} from "$lib/component/modals/CloseTicketConfirmModal.svelte";
+} from "$lib/components/modals/CloseTicketConfirmModal.svelte";
 
 export const PageTypes = Object.freeze({
   ALL: "ALL",

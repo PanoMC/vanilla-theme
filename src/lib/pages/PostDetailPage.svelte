@@ -189,9 +189,9 @@
   import tooltip from "$lib/tooltip.util";
 
   import { truncate } from "$lib/string.util";
-  import Date from "$lib/component/Date.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
-  import Hook from "$lib/component/Hook.svelte";
+  import Date from "$lib/components/Date.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import Hook from "$lib/components/Hook.svelte";
 
   export let data;
 

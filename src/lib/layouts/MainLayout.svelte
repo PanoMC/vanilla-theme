@@ -43,12 +43,12 @@
 <script>
   import { getContext } from "svelte";
 
-  import Header from "$lib/component/Header.svelte";
-  import Navbar from "$lib/component/Navbar.svelte";
-  import Main from "$lib/component/Main.svelte";
-  import Footer from "$lib/component/Footer.svelte";
-  import NotificationContainer from "$lib/component/NotificationContainer.svelte";
-  import Hook from "$lib/component/Hook.svelte";
+  import Header from "$lib/components/Header.svelte";
+  import Navbar from "$lib/components/Navbar.svelte";
+  import Main from "$lib/components/Main.svelte";
+  import Footer from "$lib/components/Footer.svelte";
+  import NotificationContainer from "$lib/components/NotificationContainer.svelte";
+  import Hook from "$lib/components/Hook.svelte";
 
   const themeSettings = getContext("themeSettings");
   const session = getContext("session");

@@ -34,8 +34,8 @@
 </div>
 
 <script context="module">
-  import PageTitle from "$lib/component/PageTitle.svelte";
-  import Hook from "$lib/component/Hook.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import Hook from "$lib/components/Hook.svelte";
   import { processLoad } from "$lib/ui-logics/page-logics/SupportPageLogics";
 
   /**

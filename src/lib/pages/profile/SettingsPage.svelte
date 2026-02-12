@@ -292,14 +292,14 @@
   import { invalidateAll } from "$app/navigation";
   import { _ } from "svelte-i18n";
   import { parseUserAgent } from "$lib/string.util";
-  import NoContent from "$lib/component/NoContent.svelte";
-  import DateComponent from "$lib/component/Date.svelte";
+  import NoContent from "$lib/components/NoContent.svelte";
+  import DateComponent from "$lib/components/Date.svelte";
   import tooltip from "$lib/tooltip.util";
-  import { show as showToast } from "$lib/component/ToastContainer.svelte";
+  import { show as showToast } from "$lib/components/ToastContainer.svelte";
   import LogoutSessionConfirmModal, {
     show as showLogoutConfirmModal,
     setCallback as setLogoutConfirmCallback,
-  } from "$lib/component/modals/LogoutSessionConfirmModal.svelte";
+  } from "$lib/components/modals/LogoutSessionConfirmModal.svelte";
 
   import {
     init,

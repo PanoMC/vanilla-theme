@@ -14,7 +14,7 @@
 
 <!-- Pagination End -->
 <script context="module">
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
   import { error } from "@sveltejs/kit";
 
   /**

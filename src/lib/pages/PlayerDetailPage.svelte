@@ -27,7 +27,7 @@
 <script>
   import { _ } from "svelte-i18n";
 
-  import Date from "$lib/component/Date.svelte";
+  import Date from "$lib/components/Date.svelte";
 
   export let data;
 </script>

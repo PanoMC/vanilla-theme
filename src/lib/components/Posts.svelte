@@ -7,8 +7,8 @@
 
 <!-- Post Card End -->
 <script>
-  import Post from "$lib/component/Post.svelte";
-  import NoContent from "$lib/component/NoContent.svelte";
+  import Post from "$lib/components/Post.svelte";
+  import NoContent from "$lib/components/NoContent.svelte";
 
   export let posts;
 </script>

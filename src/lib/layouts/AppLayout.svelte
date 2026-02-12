@@ -33,8 +33,8 @@
 
   import { init } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
 
-  import App from "$lib/component/App.svelte";
-  import ToastContainer from "$lib/component/ToastContainer.svelte";
+  import App from "$lib/components/App.svelte";
+  import ToastContainer from "$lib/components/ToastContainer.svelte";
 
   export let data;
 

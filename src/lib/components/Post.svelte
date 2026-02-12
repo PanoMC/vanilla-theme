@@ -133,7 +133,7 @@
   import { truncate } from "$lib/string.util";
   import tooltip from "$lib/tooltip.util";
 
-  import Date from "$lib/component/Date.svelte";
+  import Date from "$lib/components/Date.svelte";
 
   export let post;
   export let detail = false;

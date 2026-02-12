@@ -60,8 +60,8 @@
 
   import { submit } from "$lib/ui-logics/page-logics/CreateTicketPageLogics";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 
   export let data;
 

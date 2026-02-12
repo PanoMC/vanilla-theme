@@ -33,8 +33,8 @@
 <script>
   import { _ } from "svelte-i18n";
 
-  import Date from "$lib/component/Date.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  import Date from "$lib/components/Date.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 
   export let data;
 </script>

@@ -1,6 +1,6 @@
 import { getProfile } from "$lib/services/profile";
 
-import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
+import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
 
 /**
  * @type {import("@sveltejs/kit").Load}

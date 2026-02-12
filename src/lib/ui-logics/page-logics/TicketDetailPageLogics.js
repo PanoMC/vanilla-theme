@@ -7,11 +7,11 @@ import { getTicketDetail, loadMoreTicketMessages, sendTicketMessage } from "$lib
 import TicketCreateAndDetailSidebar, {
   load as loadSidebar,
   update as updateSidebar
-} from "$lib/component/sidebars/TicketCreateAndDetailSidebar.svelte";
+} from "$lib/components/sidebars/TicketCreateAndDetailSidebar.svelte";
 
-import { setCallback as setCloseTicketConfirmCallback } from "$lib/component/modals/CloseTicketConfirmModal.svelte";
+import { setCallback as setCloseTicketConfirmCallback } from "$lib/components/modals/CloseTicketConfirmModal.svelte";
 
-import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
+import { TicketStatuses } from "$lib/components/TicketStatus.svelte";
 
 /**
  * @type {import("@sveltejs/kit").Load}

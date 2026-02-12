@@ -8,7 +8,7 @@
   import { tick } from 'svelte';
   import { writable } from 'svelte/store';
 
-  import DefaultToast from '$lib/component/DefaultToast.svelte';
+  import DefaultToast from '$lib/components/DefaultToast.svelte';
 
   const toasts = writable([]);
   let id = 0;

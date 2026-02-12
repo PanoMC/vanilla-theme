@@ -75,8 +75,8 @@
 
   import { onSubmit } from "$lib/ui-logics/page-logics/RenewPasswordPageLogics";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import SuccessAlert from "$lib/component/SuccessAlert.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import SuccessAlert from "$lib/components/SuccessAlert.svelte";
 
   export let data;
 

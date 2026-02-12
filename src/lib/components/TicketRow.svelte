@@ -48,8 +48,8 @@
   import tooltip from "$lib/tooltip.util";
   import TicketStatus, {
     TicketStatuses,
-  } from "$lib/component/TicketStatus.svelte";
-  import Date from "$lib/component/Date.svelte";
+  } from "$lib/components/TicketStatus.svelte";
+  import Date from "$lib/components/Date.svelte";
 
   export let ticket;
 

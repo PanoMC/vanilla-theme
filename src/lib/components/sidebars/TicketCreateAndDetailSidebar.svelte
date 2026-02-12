@@ -50,12 +50,12 @@
 <script>
   import { _ } from "svelte-i18n";
 
-  import Sidebar from "$lib/component/Sidebar.svelte";
+  import Sidebar from "$lib/components/Sidebar.svelte";
 
-  import OnlineAdmins from "$lib/component/OnlineAdmins.svelte";
+  import OnlineAdmins from "$lib/components/OnlineAdmins.svelte";
 
-  import { show as showCloseTicketConfirmModal } from "$lib/component/modals/CloseTicketConfirmModal.svelte";
-  import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
+  import { show as showCloseTicketConfirmModal } from "$lib/components/modals/CloseTicketConfirmModal.svelte";
+  import { TicketStatuses } from "$lib/components/TicketStatus.svelte";
 
   export let side;
 </script>

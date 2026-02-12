@@ -13,5 +13,5 @@
 </script>
 
 <script>
-  import CloseTicketConfirmModal from "$lib/component/modals/CloseTicketConfirmModal.svelte";
+  import CloseTicketConfirmModal from "$lib/components/modals/CloseTicketConfirmModal.svelte";
 </script>

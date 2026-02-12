@@ -154,13 +154,13 @@
     sendMessage,
   } from "$lib/ui-logics/page-logics/TicketDetailPageLogics";
 
-  import Date from "$lib/component/Date.svelte";
+  import Date from "$lib/components/Date.svelte";
   import tooltip from "$lib/tooltip.util";
 
   import TicketStatus, {
     TicketStatuses,
-  } from "$lib/component/TicketStatus.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  } from "$lib/components/TicketStatus.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 
   export let data;
 

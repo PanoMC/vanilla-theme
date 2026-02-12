@@ -3,7 +3,7 @@ import { writable } from "svelte/store";
 import { sendLogout } from "$lib/services/auth.js";
 import { invalidateAll } from "$app/navigation";
 import { redirect } from "@sveltejs/kit";
-import { show as showToast } from "$lib/component/ToastContainer.svelte";
+import { show as showToast } from "$lib/components/ToastContainer.svelte";
 
 export const notificationsCount = writable(0);
 export const quickNotifications = writable([]);

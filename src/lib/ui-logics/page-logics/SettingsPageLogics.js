@@ -5,7 +5,7 @@ import { sendChangeEmail, sendUpdateProfile } from "$lib/services/profile";
 
 import ApiUtil, { NETWORK_ERROR } from "$lib/api.util";
 
-import ProfileSidebar, { load as loadSidebar } from "$lib/component/sidebars/ProfileSidebar.svelte";
+import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
 import { changeLanguage, getLanguageByLocale } from "$lib/language.util.js";
 
 /**

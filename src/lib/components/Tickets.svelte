@@ -30,8 +30,8 @@
   import { createEventDispatcher } from "svelte";
   import { _ } from "svelte-i18n";
 
-  import TicketRow from "$lib/component/TicketRow.svelte";
-  import NoContent from "$lib/component/NoContent.svelte";
+  import TicketRow from "$lib/components/TicketRow.svelte";
+  import NoContent from "$lib/components/NoContent.svelte";
 
   export let tickets;
 

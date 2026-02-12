@@ -16,7 +16,7 @@
 <script>
   import { _ } from "svelte-i18n";
 
-  import Post from "$lib/component/Post.svelte";
+  import Post from "$lib/components/Post.svelte";
 
   export let post;
 </script>

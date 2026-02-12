@@ -43,8 +43,8 @@
   import { writable } from "svelte/store";
   import { _ } from "svelte-i18n";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import SuccessAlert from "$lib/component/SuccessAlert.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import SuccessAlert from "$lib/components/SuccessAlert.svelte";
   import { verifyEmail } from "$lib/ui-logics/page-logics/ActiveEmailPageLogics.js";
 
   export let data;

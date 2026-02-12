@@ -60,9 +60,9 @@
 
   import { onSubmit } from "$lib/ui-logics/page-logics/ResetPasswordPageLogics";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import SuccessAlert from "$lib/component/SuccessAlert.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import SuccessAlert from "$lib/components/SuccessAlert.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 
   const error = writable();
   const message = writable();

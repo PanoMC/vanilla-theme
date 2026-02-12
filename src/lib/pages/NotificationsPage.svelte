@@ -127,10 +127,10 @@
     sanitizeObject,
   } from "$lib/ui-logics/page-logics/NotificationsPageLogics";
 
-  import ConfirmRemoveAllNotificationsModal from "$lib/component/modals/ConfirmRemoveAllNotificationsModal.svelte";
-  import NoContent from "$lib/component/NoContent.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
-    import PageActions from "$lib/component/PageActions.svelte";
+  import ConfirmRemoveAllNotificationsModal from "$lib/components/modals/ConfirmRemoveAllNotificationsModal.svelte";
+  import NoContent from "$lib/components/NoContent.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+    import PageActions from "$lib/components/PageActions.svelte";
 
   export let data;
 

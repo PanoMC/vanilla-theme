@@ -9,7 +9,7 @@ import { NETWORK_ERROR } from "$lib/api.util";
 
 import TicketCreateAndDetailSidebar, {
   load as loadSidebar
-} from "$lib/component/sidebars/TicketCreateAndDetailSidebar.svelte";
+} from "$lib/components/sidebars/TicketCreateAndDetailSidebar.svelte";
 
 /**
  * @type {import("@sveltejs/kit").Load}

@@ -5,7 +5,7 @@ import { goto } from "$app/navigation";
 import { getPosts } from "$lib/services/posts";
 import { buildQueryParams } from "$lib/api.util";
 
-import HomeSidebar, { load as loadSidebar } from "$lib/component/sidebars/HomeSidebar.svelte";
+import HomeSidebar, { load as loadSidebar } from "$lib/components/sidebars/HomeSidebar.svelte";
 import { executeHookLoad } from "$lib/PluginAPI.js";
 
 /**

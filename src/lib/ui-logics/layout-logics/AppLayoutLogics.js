@@ -16,7 +16,7 @@ import * as languageStuff from "$lib/language.util";
 import ApiUtil, * as ApiUtilStuff from "$lib/api.util";
 import * as variableStuff from "$lib/variables";
 import { checkDomainRedirection, updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables";
-import * as toastStuff from "$lib/component/ToastContainer.svelte";
+import * as toastStuff from "$lib/components/ToastContainer.svelte";
 import tooltip from "$lib/tooltip.util";
 
 import { addListener } from "$lib/NotificationManager";
@@ -24,12 +24,12 @@ import { initializePlugins, preparePlugins } from "$lib/PluginManager";
 import { executeLifecycle } from "$lib/PluginAPI";
 import { hasPermission } from "$lib/auth.util";
 
-import Date from "$lib/component/Date.svelte";
-import Pagination from "$lib/component/Pagination.svelte";
-import NoContent from "$lib/component/NoContent.svelte";
-import PageActions from "$lib/component/PageActions.svelte";
-import PageTitle from "$lib/component/PageTitle.svelte";
-import PlayerHead from "$lib/component/PlayerHead.svelte";
+import Date from "$lib/components/Date.svelte";
+import Pagination from "$lib/components/Pagination.svelte";
+import NoContent from "$lib/components/NoContent.svelte";
+import PageActions from "$lib/components/PageActions.svelte";
+import PageTitle from "$lib/components/PageTitle.svelte";
+import PlayerHead from "$lib/components/PlayerHead.svelte";
 
 const initLanguage = languageStuff.init;
 

@@ -12,7 +12,7 @@ import { requireLogin } from "$lib/Store.js";
 import {
   setCallback as setDeleteAllNotificationsModalCallback,
   show as showDeleteAllNotificationsModal
-} from "$lib/component/modals/ConfirmRemoveAllNotificationsModal.svelte";
+} from "$lib/components/modals/ConfirmRemoveAllNotificationsModal.svelte";
 
 Array.prototype.insert = function(index, item) {
   this.splice(index, 0, item);

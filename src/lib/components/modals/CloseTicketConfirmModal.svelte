@@ -85,9 +85,9 @@
 
   import { NETWORK_ERROR } from "$lib/api.util";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import { updateTicket } from "$lib/services/tickets";
-  import { TicketStatuses } from "$lib/component/TicketStatus.svelte";
+  import { TicketStatuses } from "$lib/components/TicketStatus.svelte";
 
   let loading = false;
 

@@ -79,8 +79,8 @@
   import { NETWORK_ERROR } from "$lib/api.util";
   import { currentLanguage } from "$lib/language.util";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
-  import PageTitle from "$lib/component/PageTitle.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
 
   import { getCredentials, sendLogin } from "$lib/services/auth.js";
 
