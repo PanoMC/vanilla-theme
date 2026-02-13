@@ -49,3 +49,22 @@
   position: relative;
   z-index: 1;
 }
+
+// -128px
+@media (min-width: 992px) {
+  .container {
+    max-width: 832px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1012px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1192px;
+  }
+}

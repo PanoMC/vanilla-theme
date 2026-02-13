@@ -22,11 +22,11 @@
         {#if $session.user && $session.user.panelAccess}
           <li class="nav-item position-relative">
             <a
-              class="nav-link"
+              class="btn btn-white rounded-pill"
               href={PANEL_URL}
               target="_blank"
               rel="noreferrer">
-              <i class="fa-solid fa-user-tie"></i>
+              <i class="fa-solid fa-tachometer-alt"></i>
               <span class="d-none d-lg-inline ms-2">
                 {$_("nav-links.panel")}</span>
             </a>
