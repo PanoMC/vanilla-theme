@@ -163,14 +163,15 @@
     },
     "support": {
       "title": "Поддержка",
+      "subtitle": "Как мы можем вам помочь?",
       "description": "Как бы вы хотели получить помощь?",
       "options": {
         "create-ticket": {
-          "title": "Тикет поддержки",
+          "title": "Открыть тикет поддержки",
           "description": "Связаться с администрацией как игрок."
         },
         "send-email": {
-          "title": "E-Mail",
+          "title": "Отправить E-Mail",
           "description": "Напишите на адрес поддержки {websiteName}."
         }
       }

@@ -19,29 +19,6 @@
       </ul>
 
       <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
-        {#if $session.user && $session.user.panelAccess}
-          <li class="nav-item position-relative">
-            <a
-              class="btn btn-white rounded-pill"
-              href={PANEL_URL}
-              target="_blank"
-              rel="noreferrer">
-              <i class="fa-solid fa-tachometer-alt"></i>
-              <span class="d-none d-lg-inline ms-2">
-                {$_("nav-links.panel")}</span>
-            </a>
-            {#if showPanelBubble}
-              <div class="demo-bubble">
-                <div class="demo-bubble-content">
-                  {$_("labels.demo-panel-hint")}
-                </div>
-                <button type="button" class="demo-bubble-close" on:click={() => (showPanelBubble = false)} aria-label="Close">
-                  <i class="fa fa-times"></i>
-                </button>
-              </div>
-            {/if}
-          </li>
-        {/if}
 
         {#if $session.user}
           <!-- User Dropdown -->
@@ -73,32 +50,18 @@
                   class="dropdown-item focus-ring"
                   href="/profile">{$_("buttons.profile")}</a>
               </li>
-              <li>
-                <a
-                  class:active={matching($page.url.pathname, "/notifications")}
-                  class="dropdown-item focus-ring position-relative"
-                  href="/notifications">{$_("buttons.notifications")}
-                  {#if $notificationsCount !== 0}
-                    <span
-                      class="position-absolute top-0 badge rounded-pill bg-danger p-1 d-inline">
-                    </span>
-                  {/if}</a>
-              </li>
-              <li>
-                <a
-                  class:active={matching($page.url.pathname, "/tickets")}
-                  class="dropdown-item focus-ring"
-                  href="/tickets">{$_("buttons.tickets")}</a>
-              </li>
-              <li>
-                <a
-                  class:active={matching(
-                    $page.url.pathname,
-                    "/profile/settings",
-                  )}
-                  class="dropdown-item focus-ring"
-                  href="/profile/settings">{$_("buttons.settings")}</a>
-              </li>
+              {#if $session.user.panelAccess}
+                <li>
+                  <a
+                    class="dropdown-item focus-ring"
+                    href={PANEL_URL}
+                    target="_blank"
+                    rel="noreferrer">
+                    {$_("nav-links.panel")}
+                    <i class="fa-solid fa-external-link ms-1 small"></i>
+                  </a>
+                </li>
+              {/if}
               <li>
                 <button
                   type="button"
@@ -173,7 +136,6 @@
   const navLinks = panoApiClient.ui.nav.site.getNavLinks();
 
   let navbarCollapseInstance = null;
-  let showPanelBubble = false;
   let showLoginBubble = false;
 
   onMount(async () => {
@@ -189,11 +151,9 @@
 
   $: if (browser && $session?.siteInfo?.isDemo) {
     if (!$session?.user) {
-      showPanelBubble = false;
       showLoginBubble = true;
     } else {
       showLoginBubble = false;
-      showPanelBubble = !!$session?.user?.panelAccess;
     }
   }
 

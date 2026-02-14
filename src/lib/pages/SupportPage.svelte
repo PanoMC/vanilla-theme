@@ -1,5 +1,5 @@
 <div class="vstack gap-3">
-  <PageTitle title={$_("pages.support.title")} />
+  <PageTitle title={$_("pages.support.title")} subtitle={$_("pages.support.subtitle")} />
 
   <ul class="list-group list-group-horizontal text-center">
     <a

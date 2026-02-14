@@ -34,7 +34,7 @@
   <div class="card-body">
     <div class="row mb-3 g-2 justify-content-center">
       <div class="col">
-        <a class="d-inline-block focus-ring rounded text-reset" href="/post/{post.url}">
+        <a class="d-inline-block focus-ring rounded text-reset" href="/post/{post.url}" title={post.title}>
           <h2 class="mb-0 d-inline-block text-break display-6">
             {truncate(post.title, 100)}{@html post.title.length > 100
               ? "&hellip;"

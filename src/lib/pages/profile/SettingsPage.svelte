@@ -238,8 +238,7 @@
                   ><DateComponent time={session.expireDate} /></td>
                 <td class="align-middle text-end">
                   <button
-                    class="btn btn-link text-danger"
-                    title={$_("buttons.logout")}
+                    class="btn btn-link link-danger"
                     aria-label={$_("buttons.logout")}
                     onclick={() => {
                       if (session.isCurrent) {
