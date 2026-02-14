@@ -50,10 +50,18 @@ function setNotifications(notifications, newNotifications) {
   }
 }
 
-async function loadData({ page = 1, request }) {
-  return ApiUtil.get({
-    path: `/api/notifications?page=${page}`,
-    request
+async function loadData({ request }) {
+  return new Promise((resolve, reject) => {
+    ApiUtil.get({
+      path: "/api/notifications",
+      request
+    }).then((body) => {
+      if (body.result === "ok") {
+        resolve(body);
+      } else {
+        reject(body);
+      }
+    });
   });
 }
 
@@ -61,23 +69,22 @@ async function loadData({ page = 1, request }) {
  * @type {import("@sveltejs/kit").PageLoad}
  */
 export async function processLoad(event) {
-  const { parent, url: { searchParams } } = event;
-  await parent();
+  const { parent } = event;
+  const parentData = await parent();
 
-  const page = parseInt(searchParams.get("notificationsPage")) || 1;
+  const { session } = parentData;
 
-  const body = await loadData({ page, request: event });
+  requireLogin(session);
 
-  if (body.result !== "ok") {
-    return { notifications: [], notificationCount: 0, page: 1, totalPage: 1 };
-  }
+  // if (event.stuff.NETWORK_ERROR) {
+  //   output.props.data.NETWORK_ERROR = true;
+  //
+  //   return output;
+  // }
 
-  return {
-    notifications: body.notifications,
-    notificationCount: parseInt(body.notificationCount),
-    page,
-    totalPage: Math.ceil(parseInt(body.notificationCount) / 10)
-  };
+  const { notifications, notificationCount } = await loadData({ request: event });
+
+  return { notifications, notificationCount: parseInt(notificationCount) };
 }
 
 async function getNotifications(notifications, notificationProcessID, count, id) {
@@ -112,6 +119,26 @@ async function getNotifications(notifications, notificationProcessID, count, id)
           }, 3000);
         }
       });
+    }
+  });
+}
+
+export function loadMore(notifications, loadMoreLoading) {
+  loadMoreLoading.set(true);
+
+  ApiUtil.get({
+    path: `/api/notifications/${
+      get(notifications)[get(notifications).length - 1].id
+    }/more`
+  }).then((body) => {
+    if (body.result === "ok") {
+      body.notifications.forEach((notification) => {
+        notifications.update((value) =>
+          value.insert(value.length, notification)
+        );
+      });
+
+      loadMoreLoading.set(false);
     }
   });
 }
@@ -192,7 +219,7 @@ export function init(data) {
   });
 
   onDestroy(() => {
-    stopNotificationsCountdown(notificationProcessID, interval);
+    stopNotificationsCountdown(interval);
   });
 
   setDeleteAllNotificationsModalCallback(() => {

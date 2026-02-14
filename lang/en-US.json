@@ -163,15 +163,14 @@
     },
     "support": {
       "title": "Support",
-      "subtitle": "How can we help you?",
       "description": "How would you like to get help?",
       "options": {
         "create-ticket": {
-          "title": "Open Support Ticket",
+          "title": "Support Ticket",
           "description": "Contact the authorities as a player."
         },
         "send-email": {
-          "title": "Send E-Mail",
+          "title": "E-Mail",
           "description": "Email the {websiteName} support address."
         }
       }
@@ -189,8 +188,6 @@
     },
     "profile": {
       "title": "Statistics",
-      "status": "Status",
-      "perm-group": "Permission",
       "register-date": "Register Date",
       "last-login": "Last Login"
     },

@@ -163,15 +163,14 @@
     },
     "support": {
       "title": "Destek",
-      "subtitle": "Sana nasıl yardımcı olabiliriz?",
       "description": "Nasıl yardım almak istersin?",
       "options": {
         "create-ticket": {
-          "title": "Destek Talebi Aç",
+          "title": "Destek Talebi",
           "description": "Oyuncu olarak yetkililerle iletişime geç."
         },
         "send-email": {
-          "title": "E-Posta Gönder",
+          "title": "E-Posta",
           "description": "{websiteName} destek adresine e-posta gönder."
         }
       }
@@ -189,8 +188,6 @@
     },
     "profile": {
       "title": "İstatistikler",
-      "status": "Durum",
-      "perm-group": "Yetki",
       "register-date": "Kayıt",
       "last-login": "Son Giriş"
     },

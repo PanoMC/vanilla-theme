@@ -1,38 +1,28 @@
 <Sidebar side={side}>
-  <div class="list-group shadow-sm">
-    <div class="list-group-item d-flex flex-column align-items-center py-4">
+  <div class="card border-0">
+    <div class="card-body vstack gap-3">
       <PlayerHead
         username={$data.username}
         inGame={$data.inGame}
         banned={$data.banned}
         lastActivityTime={$data.lastActivityTime}
         checkTime={checkTime}
-        width="86"
-        height="86" />
-    </div>
+        width="64"
+        height="64" />
 
-    <div class="list-group-item p-0">
-      <table class="table table-borderless mb-0">
-        <tbody>
-          <tr>
-            <td class="text-center">
-              <PlayerStatusBadge
-                banned={$data.banned}
-                lastActivityTime={$data.lastActivityTime}
-                inGame={$data.inGame}
-                {checkTime} />
-            </td>
-          </tr>
-          <tr>
-            <td class="text-center">
-              <span use:tooltip={[$_("pages.profile.perm-group")]}>
-                <PlayerPermissionBadge
-                  permissionGroupName={$data.permissionGroupName} />
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <PageTitle title={$data.username} />
+
+      <div class="text-center">
+        <PlayerStatusBadge
+          banned={$data.banned}
+          lastActivityTime={$data.lastActivityTime}
+          inGame={$data.inGame}
+          checkTime={checkTime} />
+      </div>
+      <div class="text-center">
+        <PlayerPermissionBadge
+          permissionGroupName={$data.permissionGroupName} />
+      </div>
     </div>
   </div>
 </Sidebar>
