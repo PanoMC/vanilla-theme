@@ -10,7 +10,7 @@ import { navigating, page } from "$app/stores";
 import { base } from "$app/paths";
 import { error, redirect } from "@sveltejs/kit";
 
-import { initialized } from "$lib/Store";
+import { avatarVersion, initialized } from "$lib/Store";
 
 import * as languageStuff from "$lib/language.util";
 import ApiUtil, * as ApiUtilStuff from "$lib/api.util";
@@ -24,7 +24,7 @@ import { initializePlugins, preparePlugins } from "$lib/PluginManager";
 import { executeLifecycle, executeViewLoad } from "$lib/PluginAPI";
 import { hasPermission } from "$lib/auth.util";
 
-import Date from "$lib/components/Date.svelte";
+import DateComponent from "$lib/components/Date.svelte";
 import Pagination from "$lib/components/Pagination.svelte";
 import NoContent from "$lib/components/NoContent.svelte";
 import PageActions from "$lib/components/PageActions.svelte";
@@ -69,15 +69,32 @@ export async function processServerLoad(event) {
 
   await preparePlugins(siteInfo);
 
-  return { user, csrfToken, siteInfo, apiUrlEnv, panoWebsiteUrlEnv };
+  const avatarVersionDate = `v=${Date.now()}`;
+
+  return {
+    user,
+    csrfToken,
+    siteInfo,
+    apiUrlEnv,
+    panoWebsiteUrlEnv,
+    avatarVersionDate,
+  };
 }
 
 export async function processLoad(event) {
   const {
-    data: { user, csrfToken, siteInfo, apiUrlEnv, panoWebsiteUrlEnv },
-    parent
+    data: {
+      user,
+      csrfToken,
+      siteInfo,
+      apiUrlEnv,
+      panoWebsiteUrlEnv,
+      avatarVersionDate,
+    },
+    parent,
   } = event;
   await parent();
+  avatarVersion.set(avatarVersionDate);
 
   if (apiUrlEnv) {
     updateApiUrl(apiUrlEnv);
@@ -100,12 +117,12 @@ export async function processLoad(event) {
     error,
     redirect,
     components: {
-      Date,
+      DateComponent,
       Pagination,
       NoContent,
       PageActions,
       PageTitle,
-      PlayerHead
+      PlayerHead,
     },
     utils: {
       api: {
@@ -123,10 +140,10 @@ export async function processLoad(event) {
         ...toastStuff,
       },
       auth: {
-        hasPermission
+        hasPermission,
       },
       text: {
-        copy
+        copy,
       },
     },
     variables: {

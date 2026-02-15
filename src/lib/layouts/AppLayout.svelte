@@ -35,15 +35,13 @@
 
   import App from "$lib/components/App.svelte";
   import ToastContainer from "$lib/components/ToastContainer.svelte";
+  import { onMount } from "svelte";
+  import { get } from "svelte/store";
+  import { avatarVersion } from "$lib/Store.js";
 
   export let data;
 
   const { session, pageTitle } = init(data);
-
-
-  import { avatarVersion } from "$lib/Store";
-
-  avatarVersion.set(`&v=${Date.now()}`);
 
   $: title = $pageTitle
     ? `${$_($pageTitle)} \u2014 ${$session.siteInfo.websiteName}`
