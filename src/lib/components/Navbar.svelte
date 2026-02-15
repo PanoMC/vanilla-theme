@@ -57,7 +57,7 @@
                   <img
                     alt={$session.user.username}
                     class="rounded d-block m-auto"
-                    src="https://minotar.net/avatar/{$session.user.username}"
+                    src="/api/profile/picture?username={$session.user.username}{$avatarVersion}"
                     width="24"
                     height="24" />
                   {#if $notificationsCount !== 0}
@@ -197,7 +197,7 @@
   import { browser } from "$app/environment";
   import { PANEL_URL } from "$lib/variables.js";
 
-  import { logout, notificationsCount } from "$lib/Store";
+  import { logout, notificationsCount, avatarVersion } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { hasPermission } from "$lib/auth.util.js";
   import ViewComponent from "$lib/components/ViewComponent.svelte";

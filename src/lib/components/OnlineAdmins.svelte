@@ -13,7 +13,7 @@
             <img
               alt={onlineAdmin}
               class="rounded"
-              src="https://minotar.net/avatar/{onlineAdmin}"
+              src="/api/profile/picture?username={onlineAdmin}{$avatarVersion}"
               use:tooltip={[onlineAdmin, { placement: "bottom" }]}
               width="48"
               height="48" />
@@ -29,6 +29,7 @@
 <!-- Online Admins Card End -->
 <script>
   import { _ } from "svelte-i18n";
+  import { avatarVersion } from "$lib/Store";
   import tooltip from "$lib/tooltip.util";
   import { getContext } from "svelte";
     import NoContent from "./NoContent.svelte";

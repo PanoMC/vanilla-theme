@@ -87,7 +87,7 @@
             ? false
             : !themeSettings.postAuthorImageEnabled}>
           <img
-            src="https://minotar.net/avatar/{post.writer.username}"
+            src="/api/profile/picture?username={post.writer.username}{$avatarVersion}"
             alt={post.writer.username}
             width="32"
             height="32"
@@ -114,7 +114,7 @@
             ? false
             : !themeSettings.postAuthorImageEnabled}>
           <img
-            src="https://minotar.net/avatar/{post.writer.username}"
+            src="/api/profile/picture?username={post.writer.username}{$avatarVersion}"
             alt={post.writer.username}
             width="32"
             height="32"
@@ -138,5 +138,6 @@
   export let post;
   export let detail = false;
 
+  import { avatarVersion } from "$lib/Store";
   const themeSettings = getContext("themeSettings");
 </script>

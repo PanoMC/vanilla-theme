@@ -41,7 +41,7 @@
               <i class="{notification.details.faIcon} fa-fw"></i>
             {:else if notification.details.image || notification.details.username}
               <img
-                src="{notification.details.image || `https://minotar.net/avatar/${notification.details.username}/64`}"
+                src="{notification.details.image || `/api/profile/picture?username=${notification.details.username}${$avatarVersion}`}"
                 alt="{$_('buttons.view')}"
                 width="48"
                 height="48"
@@ -148,7 +148,7 @@
 
   import { browser } from "$app/environment";
 
-  import { notificationsCount, quickNotifications } from "$lib/Store";
+  import { notificationsCount, quickNotifications, avatarVersion } from "$lib/Store";
   import ApiUtil from "$lib/api.util";
   import { onNotificationClick } from "$lib/NotificationManager.js";
   import * as locales from "date-fns/locale";

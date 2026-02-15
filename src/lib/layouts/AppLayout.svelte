@@ -40,6 +40,11 @@
 
   const { session, pageTitle } = init(data);
 
+
+  import { avatarVersion } from "$lib/Store";
+
+  avatarVersion.set(`&v=${Date.now()}`);
+
   $: title = $pageTitle
     ? `${$_($pageTitle)} \u2014 ${$session.siteInfo.websiteName}`
     : $session.siteInfo.websiteName;

@@ -1,6 +1,6 @@
 {#if lastActivityTime}
   <img
-    src="https://minotar.net/avatar/{username}"
+    src="/api/profile/picture?username={username}{$avatarVersion}"
     class="img-thumbnail rounded d-block m-auto"
     width="{width}"
     height="{height}"
@@ -17,7 +17,7 @@
     ]}" />
 {:else}
   <img
-    src="https://minotar.net/avatar/{username}"
+    src="/api/profile/picture?username={username}{$avatarVersion}"
     class="rounded d-block m-auto"
     width="{width}"
     height="{height}"
@@ -34,6 +34,7 @@
   import { currentLanguage } from "$lib/language.util.js";
 
   import { _ } from "svelte-i18n";
+  import { avatarVersion } from "$lib/Store";
 
   export let username;
   export let width = 64;

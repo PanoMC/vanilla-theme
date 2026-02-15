@@ -57,7 +57,7 @@
               <div class="col-auto">
                 <a href="/player/{message.username}">
                   <img
-                    src="https://minotar.net/avatar/{message.username}/48"
+                    src="/api/profile/picture?username={message.username}{$avatarVersion}"
                     alt={message.username}
                     class="rounded-circle animate__animated animate__zoomIn"
                     use:tooltip={[message.username, { placement: "bottom" }]}
@@ -91,7 +91,7 @@
               <div class="col-auto">
                 <a href="/player/{message.username}">
                   <img
-                    src="https://minotar.net/avatar/{message.username}/48"
+                    src="/api/profile/picture?username={message.username}{$avatarVersion}"
                     alt={message.username}
                     class="rounded-circle animate__animated animate__zoomIn"
                     use:tooltip={[message.username, { placement: "bottom" }]}
@@ -147,6 +147,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import { avatarVersion } from "$lib/Store";
 
   import {
     init,

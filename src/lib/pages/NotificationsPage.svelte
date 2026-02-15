@@ -36,7 +36,7 @@
                 {:else if notification.details.image || notification.details.username}
                   <img
                     src={notification.details.image ||
-                      `https://minotar.net/avatar/${notification.details.username}/64`}
+                      `/api/profile/picture?username=${notification.details.username}${$avatarVersion}`}
                     alt={$_("buttons.view")}
                     width="30"
                     height="30"
@@ -111,6 +111,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import { avatarVersion } from "$lib/Store";
   import * as locales from "date-fns/locale";
 
   import tooltip from "$lib/tooltip.util.js";

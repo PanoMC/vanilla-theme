@@ -64,7 +64,7 @@
                     <img
                       alt={player}
                       class="rounded"
-                      src="https://minotar.net/avatar/{player}"
+                      src="/api/profile/picture?username={player}{$avatarVersion}"
                       use:tooltip={[player, { placement: "bottom" }]}
                       width="48"
                       height="48" />
@@ -132,6 +132,7 @@
   import tooltip from "$lib/tooltip.util";
   import Sidebar from "$lib/components/Sidebar.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
+  import { avatarVersion } from "$lib/Store";
 
   export let side;
 

@@ -80,7 +80,7 @@
                 ? false
                 : !themeSettings.postAuthorImageEnabled}>
               <img
-                src="https://minotar.net/avatar/{data.post.writer.username}"
+                src="/api/profile/picture?username={data.post.writer.username}{$avatarVersion}"
                 alt={data.post.writer.username}
                 width="24"
                 height="24"
@@ -122,7 +122,7 @@
                 ? false
                 : !themeSettings.postAuthorImageEnabled}>
               <img
-                src="https://minotar.net/avatar/{data.post.writer.username}"
+                src="/api/profile/picture?username={data.post.writer.username}{$avatarVersion}"
                 alt={data.post.writer.username}
                 width="28"
                 height="28"
@@ -185,6 +185,7 @@
 <script>
   import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
+  import { avatarVersion } from "$lib/Store";
 
   import tooltip from "$lib/tooltip.util";
 

@@ -1,6 +1,7 @@
 import { baseAPI, pageAPI } from "../pano-sdk/core/js/PluginAPI";
 import { derived, get, writable } from "svelte/store";
 import { plugins } from "../pano-sdk/core/js/PluginManager.js";
+import { avatarVersion } from "./Store.js";
 
 const hooks = writable({});
 const uiItems = writable({});
@@ -338,7 +339,12 @@ export const panoApi = {
           return h;
         });
       }
-    }
+    },
+    avatar: {
+      updateVersion() {
+        avatarVersion.set(`&v=${Date.now()}`);
+      },
+    },
   },
 };
 
