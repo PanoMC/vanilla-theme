@@ -13,7 +13,7 @@
             <img
               alt={onlineAdmin}
               class="rounded"
-              src="/api/profile/picture?username={onlineAdmin}{$avatarVersion}"
+              src="/api/profile/picture/{onlineAdmin}?{$avatarVersion}"
               use:tooltip={[onlineAdmin, { placement: "bottom" }]}
               width="48"
               height="48" />

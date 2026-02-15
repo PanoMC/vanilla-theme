@@ -80,7 +80,7 @@
                 ? false
                 : !themeSettings.postAuthorImageEnabled}>
               <img
-                src="/api/profile/picture?username={data.post.writer.username}{$avatarVersion}"
+                src="/api/profile/picture/{data.post.writer.username}?{$avatarVersion}"
                 alt={data.post.writer.username}
                 width="24"
                 height="24"
@@ -122,7 +122,7 @@
                 ? false
                 : !themeSettings.postAuthorImageEnabled}>
               <img
-                src="/api/profile/picture?username={data.post.writer.username}{$avatarVersion}"
+                src="/api/profile/picture/{data.post.writer.username}?{$avatarVersion}"
                 alt={data.post.writer.username}
                 width="28"
                 height="28"

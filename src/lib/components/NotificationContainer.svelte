@@ -41,7 +41,7 @@
               <i class="{notification.details.faIcon} fa-fw"></i>
             {:else if notification.details.image || notification.details.username}
               <img
-                src="{notification.details.image || `/api/profile/picture?username=${notification.details.username}${$avatarVersion}`}"
+                src="{notification.details.image || `/api/profile/picture/${notification.details.username}?${$avatarVersion}`}"
                 alt="{$_('buttons.view')}"
                 width="48"
                 height="48"

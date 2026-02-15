@@ -57,7 +57,7 @@
               <div class="col-auto">
                 <a href="/player/{message.username}">
                   <img
-                    src="/api/profile/picture?username={message.username}{$avatarVersion}"
+                    src="/api/profile/picture/{message.username}?{$avatarVersion}"
                     alt={message.username}
                     class="rounded-circle animate__animated animate__zoomIn"
                     use:tooltip={[message.username, { placement: "bottom" }]}
@@ -91,7 +91,7 @@
               <div class="col-auto">
                 <a href="/player/{message.username}">
                   <img
-                    src="/api/profile/picture?username={message.username}{$avatarVersion}"
+                    src="/api/profile/picture/{message.username}?{$avatarVersion}"
                     alt={message.username}
                     class="rounded-circle animate__animated animate__zoomIn"
                     use:tooltip={[message.username, { placement: "bottom" }]}

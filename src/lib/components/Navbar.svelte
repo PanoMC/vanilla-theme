@@ -57,7 +57,7 @@
                   <img
                     alt={$session.user.username}
                     class="rounded d-block m-auto"
-                    src="/api/profile/picture?username={$session.user.username}{$avatarVersion}"
+                    src="/api/profile/picture/{$session.user.username}?{$avatarVersion}"
                     width="24"
                     height="24" />
                   {#if $notificationsCount !== 0}

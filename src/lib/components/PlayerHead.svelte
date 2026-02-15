@@ -1,6 +1,6 @@
 {#if lastActivityTime}
   <img
-    src="/api/profile/picture?username={username}{$avatarVersion}"
+    src="/api/profile/picture/{username}?{$avatarVersion}"
     class="img-thumbnail rounded d-block m-auto"
     width="{width}"
     height="{height}"
@@ -17,7 +17,7 @@
     ]}" />
 {:else}
   <img
-    src="/api/profile/picture?username={username}{$avatarVersion}"
+    src="/api/profile/picture/{username}?{$avatarVersion}"
     class="rounded d-block m-auto"
     width="{width}"
     height="{height}"

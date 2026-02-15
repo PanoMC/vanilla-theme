@@ -64,7 +64,7 @@
                     <img
                       alt={player}
                       class="rounded"
-                      src="/api/profile/picture?username={player}{$avatarVersion}"
+                      src="/api/profile/picture/{player}?{$avatarVersion}"
                       use:tooltip={[player, { placement: "bottom" }]}
                       width="48"
                       height="48" />
