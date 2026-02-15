@@ -3,19 +3,28 @@ import { derived, get, writable } from "svelte/store";
 import { plugins } from "../pano-sdk/core/js/PluginManager.js";
 
 const hooks = writable({});
-const sidebarItems = writable({});
+const uiItems = writable({});
 const siteNavLinks = writable([]);
 
-// Version-based sidebar caching using plugin IDs and versions
-const sidebarLoadedCacheKeys = new Map(); // Map<sidebarId, pluginCacheKey>
+// Deduplicate items by id, keeping the last occurrence
+function deduplicateById(arr) {
+  const seen = new Map();
+  for (const item of arr) {
+    if (item.id) seen.set(item.id, item);
+    else seen.set(Symbol(), item);
+  }
+  arr.length = 0;
+  arr.push(...seen.values());
+}
+
+// Version-based UI caching using plugin IDs and versions
+const uiLoadedCacheKeys = new Map(); // Map<containerId, pluginCacheKey>
 
 function generatePluginCacheKey() {
   const loadedPlugins = get(plugins);
-  // Handle case where plugins store is not yet initialized
-  if (!loadedPlugins || typeof loadedPlugins !== 'object') {
+  if (!loadedPlugins || typeof loadedPlugins !== "object") {
     return "";
   }
-  // Create a stable cache key from plugin IDs and versions
   return Object.keys(loadedPlugins)
     .sort()
     .map((pluginId) => {
@@ -28,11 +37,10 @@ function generatePluginCacheKey() {
 
 export async function init() {
   hooks.set({});
-  sidebarItems.set({});
+  uiItems.set({});
   siteNavLinks.set([]);
   lifecycleHandlers.set({});
-  // Clear sidebar cache on init
-  sidebarLoadedCacheKeys.clear();
+  uiLoadedCacheKeys.clear();
 }
 
 const lifecycleHandlers = writable({});
@@ -49,55 +57,42 @@ export async function executeLifecycle(name, data, event) {
 }
 
 export async function executeSidebarLoad(sidebarId, event) {
-  // Execute lifecycle so plugins can register their items
   await executeLifecycle(`theme:sidebar:${sidebarId}:load`, {}, event);
+  return await executeComponentLoad(sidebarId, "Sidebar", event);
+}
 
-  // Generate current plugin cache key (lazy)
+export async function executeViewLoad(viewId, event) {
+  await executeLifecycle(`theme:view:${viewId}:load`, {}, event);
+  return await executeComponentLoad(viewId, "View", event);
+}
+
+async function executeComponentLoad(containerId, type, event) {
   const freshPluginCacheKey = generatePluginCacheKey();
 
-  // Check if sidebar is already loaded with current plugin set
-  const cachedKey = sidebarLoadedCacheKeys.get(sidebarId);
-  if (cachedKey === freshPluginCacheKey && freshPluginCacheKey !== "") {
-    // Cache is valid, return current items
-    return get(sidebarItems)[sidebarId] || [];
-  }
+  // Cache check removed because UI items are dynamic and rebuilt on navigation
 
-  // Get current sidebar items
-  const items = get(sidebarItems)[sidebarId] || [];
+  const items = get(uiItems)[containerId] || [];
 
-  // Resolve any viewComponent functions
   const resolvedItems = await Promise.all(
     items.map(async (item) => {
-      if (typeof item.component === 'function' && !item.component.prototype) {
+      if (typeof item.component === "function" && !item.component.prototype) {
         try {
           const module = await item.component();
-          return {
-            ...item,
-            component: module
-          };
+          return { ...item, component: module };
         } catch (e) {
-          console.error(`[Sidebar:${sidebarId}] Failed to load component ${item.id}`, e);
+          console.error(`[${type}:${containerId}] Failed to load component ${item.id}`, e);
           return item;
         }
       }
       return item;
-    })
+    }),
   );
 
-  // Update the store with resolved components
-  sidebarItems.update(current => {
-    return {
-      ...current,
-      [sidebarId]: resolvedItems
-    };
-  });
-
-  // Mark as loaded with current plugin cache key
-  sidebarLoadedCacheKeys.set(sidebarId, freshPluginCacheKey);
+  uiItems.update((current) => ({ ...current, [containerId]: resolvedItems }));
+  uiLoadedCacheKeys.set(containerId, freshPluginCacheKey);
 
   return resolvedItems;
 }
-
 
 export const panoApi = {
   ...baseAPI,
@@ -106,75 +101,201 @@ export const panoApi = {
     nav: {
       site: {
         editNavLinks(callback) {
-          siteNavLinks.update(links => callback(links) || links);
+          siteNavLinks.update((links) => callback(links) || links);
         },
         getNavLinks() {
           return siteNavLinks;
-        }
-      }
+        },
+      },
+      profileDropdown: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["navbar-profile-dropdown"]) items["navbar-profile-dropdown"] = [];
+            callback(items["navbar-profile-dropdown"]);
+            deduplicateById(items["navbar-profile-dropdown"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("navbar-profile-dropdown");
+        },
+      },
+      rightComponents: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["navbar-right"]) items["navbar-right"] = [];
+            callback(items["navbar-right"]);
+            deduplicateById(items["navbar-right"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("navbar-right");
+        },
+      },
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on("theme:navbar:load", handler);
+      },
+    },
+    profile: {
+      content: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["profile-content"]) items["profile-content"] = [];
+            callback(items["profile-content"]);
+            deduplicateById(items["profile-content"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("profile-content");
+        },
+      },
+      cardRows: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["profile-card-rows"]) items["profile-card-rows"] = [];
+            callback(items["profile-card-rows"]);
+            deduplicateById(items["profile-card-rows"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("profile-card-rows");
+        },
+      },
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on("theme:profile:load", handler);
+      },
+    },
+    settings: {
+      content: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["settings-content"]) items["settings-content"] = [];
+            callback(items["settings-content"]);
+            deduplicateById(items["settings-content"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("settings-content");
+        },
+      },
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on("theme:settings:load", handler);
+      },
+    },
+    tickets: {
+      content: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["tickets-content"]) items["tickets-content"] = [];
+            callback(items["tickets-content"]);
+            deduplicateById(items["tickets-content"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("tickets-content");
+        },
+      },
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on("theme:tickets:load", handler);
+      },
     },
     app: {
       onLoad(handler) {
         panoApi.ui.lifecycle.on("theme:app:load", handler);
-      }
+      },
     },
-    sidebar: {
+    view: {
       register(options) {
-        const { sidebarId, id, component, priority = 10 } = options;
-        sidebarItems.update(items => {
-          if (!items[sidebarId]) items[sidebarId] = [];
-          const existingIdx = items[sidebarId].findIndex(i => i.id === id);
+        const { viewId, id, component, priority = 10 } = options;
+        uiItems.update((items) => {
+          if (!items[viewId]) items[viewId] = [];
+          const existingIdx = items[viewId].findIndex((i) => i.id === id);
           if (existingIdx !== -1) {
-            items[sidebarId][existingIdx] = { ...items[sidebarId][existingIdx], component, priority };
+            items[viewId][existingIdx] = {
+              ...items[viewId][existingIdx],
+              component,
+              priority,
+            };
           } else {
-            items[sidebarId].push({ id, component, priority, hidden: false });
+            items[viewId].push({ id, component, priority, hidden: false });
           }
           return items;
         });
       },
-      hide(sidebarId, id) {
-        sidebarItems.update(items => {
-          if (!items[sidebarId]) return items;
-          const item = items[sidebarId].find(i => i.id === id);
+      hide(viewId, id) {
+        uiItems.update((items) => {
+          if (!items[viewId]) return items;
+          const item = items[viewId].find((i) => i.id === id);
           if (item) item.hidden = true;
           return items;
         });
       },
-      show(sidebarId, id) {
-        sidebarItems.update(items => {
-          if (!items[sidebarId]) return items;
-          const item = items[sidebarId].find(i => i.id === id);
+      show(viewId, id) {
+        uiItems.update((items) => {
+          if (!items[viewId]) return items;
+          const item = items[viewId].find((i) => i.id === id);
           if (item) item.hidden = false;
           return items;
         });
       },
-      move(sidebarId, id, priority) {
-        sidebarItems.update(items => {
-          if (!items[sidebarId]) return items;
-          const item = items[sidebarId].find(i => i.id === id);
+      move(viewId, id, priority) {
+        uiItems.update((items) => {
+          if (!items[viewId]) return items;
+          const item = items[viewId].find((i) => i.id === id);
           if (item) item.priority = priority;
           return items;
         });
       },
-      get(sidebarId) {
-        return derived(sidebarItems, $items => {
-          return ($items[sidebarId] || [])
-            .filter(item => !item.hidden)
+      get(viewId) {
+        return derived(uiItems, ($items) => {
+          return ($items[viewId] || [])
+            .filter((item) => !item.hidden)
             .sort((a, b) => b.priority - a.priority);
         });
       },
+      onLoad(viewId, handler) {
+        panoApi.ui.lifecycle.on(`theme:view:${viewId}:load`, handler);
+      },
+    },
+    sidebar: {
+      register(options) {
+        const { sidebarId, ...rest } = options;
+        panoApi.ui.view.register({ viewId: sidebarId, ...rest });
+      },
+      hide(sidebarId, id) {
+        panoApi.ui.view.hide(sidebarId, id);
+      },
+      show(sidebarId, id) {
+        panoApi.ui.view.show(sidebarId, id);
+      },
+      move(sidebarId, id, priority) {
+        panoApi.ui.view.move(sidebarId, id, priority);
+      },
+      get(sidebarId) {
+        return panoApi.ui.view.get(sidebarId);
+      },
       onLoad(sidebarId, handler) {
         panoApi.ui.lifecycle.on(`theme:sidebar:${sidebarId}:load`, handler);
-      }
+      },
     },
     post: {
       onLoad(handler) {
-        panoApi.ui.lifecycle.on('theme:post-detail:load', handler);
-      }
+        panoApi.ui.lifecycle.on("theme:post-detail:load", handler);
+      },
+    },
+    support: {
+      onLoad(handler) {
+        panoApi.ui.lifecycle.on("theme:support:load", handler);
+      },
     },
     lifecycle: {
       on(name, handler) {
-        lifecycleHandlers.update(h => {
+        lifecycleHandlers.update((h) => {
           if (!h[name]) h[name] = [];
           h[name].push(handler);
           return h;

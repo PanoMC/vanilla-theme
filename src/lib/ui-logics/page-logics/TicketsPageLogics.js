@@ -4,6 +4,7 @@ import { writable } from "svelte/store";
 import { goto } from "$app/navigation";
 
 import { buildQueryParams } from "$lib/api.util";
+import { executeLifecycle, executeViewLoad, panoApiServer } from "$lib/PluginAPI";
 
 import { getTickets } from "$lib/services/tickets";
 
@@ -51,6 +52,14 @@ export async function processLoad(event) {
 
   data.pageType = pageType;
   data.categoryUrl = categoryUrl;
+
+  // Initialize tickets content
+  panoApiServer.ui.tickets.content.edit((items) => {
+    items.push({ id: "tickets-card", priority: 100, hidden: false });
+  });
+
+  await executeLifecycle("theme:tickets:load", {}, event);
+  await executeViewLoad("tickets-content", event);
 
   await loadSidebar(event);
 

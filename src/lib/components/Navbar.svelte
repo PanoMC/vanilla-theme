@@ -19,117 +19,148 @@
       </ul>
 
       <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
-        {#if $session.user && $session.user.panelAccess}
-          <li class="nav-item position-relative">
-            <a
-              class="btn btn-white rounded-pill"
-              href={PANEL_URL}
-              target="_blank"
-              rel="noreferrer">
-              <i class="fa-solid fa-tachometer-alt"></i>
-              <span class="d-none d-lg-inline ms-2">
-                {$_("nav-links.panel")}</span>
-            </a>
-            {#if showPanelBubble}
-              <div class="demo-bubble">
-                <div class="demo-bubble-content">
-                  {$_("labels.demo-panel-hint")}
-                </div>
-                <button type="button" class="demo-bubble-close" on:click={() => (showPanelBubble = false)} aria-label="Close">
-                  <i class="fa fa-times"></i>
-                </button>
-              </div>
+        {#each $navbarRightComponents as component (component.id)}
+          {#if component.id === "panel-button"}
+            {#if $session.user && $session.user.panelAccess}
+              <li class="nav-item position-relative">
+                <a
+                  class="btn btn-white rounded-pill"
+                  href={PANEL_URL}
+                  target="_blank"
+                  rel="noreferrer">
+                  <i class="fa-solid fa-tachometer-alt"></i>
+                  <span class="d-none d-lg-inline ms-2">
+                    {$_("nav-links.panel")}</span>
+                </a>
+                {#if showPanelBubble}
+                  <div class="demo-bubble">
+                    <div class="demo-bubble-content">
+                      {$_("labels.demo-panel-hint")}
+                    </div>
+                    <button type="button" class="demo-bubble-close" on:click={() => (showPanelBubble = false)} aria-label="Close">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                {/if}
+              </li>
             {/if}
-          </li>
-        {/if}
-
-        {#if $session.user}
-          <!-- User Dropdown -->
-          <li class="nav-item dropdown position-relative">
-            <button
-              type="button"
-              class="nav-link position-relative"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              title={$session.user.username}>
-              <img
-                alt={$session.user.username}
-                class="rounded d-block m-auto"
-                src="https://minotar.net/avatar/{$session.user.username}"
-                width="24"
-                height="24" />
-              {#if $notificationsCount !== 0}
-                <span
-                  class="position-absolute top-0 end-0 badge rounded-pill bg-danger px-2 py-1">
-                  {$notificationsCount}
-                </span>
-              {/if}
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end position-absolute">
-              <h6 class="dropdown-header">{$session.user.username}</h6>
-              <li>
-                <a
-                  class:active={matching($page.url.pathname, "/profile")}
-                  class="dropdown-item focus-ring"
-                  href="/profile">{$_("buttons.profile")}</a>
-              </li>
-              <li>
-                <a
-                  class:active={matching($page.url.pathname, "/notifications")}
-                  class="dropdown-item focus-ring position-relative"
-                  href="/notifications">{$_("buttons.notifications")}
-                  {#if $notificationsCount !== 0}
-                    <span
-                      class="position-absolute top-0 badge rounded-pill bg-danger p-1 d-inline">
-                    </span>
-                  {/if}</a>
-              </li>
-              <li>
-                <a
-                  class:active={matching($page.url.pathname, "/tickets")}
-                  class="dropdown-item focus-ring"
-                  href="/tickets">{$_("buttons.tickets")}</a>
-              </li>
-              <li>
-                <a
-                  class:active={matching(
-                    $page.url.pathname,
-                    "/profile/settings",
-                  )}
-                  class="dropdown-item focus-ring"
-                  href="/profile/settings">{$_("buttons.settings")}</a>
-              </li>
-              <li>
+          {:else if component.id === "profile-dropdown"}
+            {#if $session.user}
+              <!-- User Dropdown -->
+              <li class="nav-item dropdown position-relative">
                 <button
                   type="button"
-                  class="dropdown-item focus-ring link-danger"
-                  on:click={logout}>{$_("buttons.logout")}</button>
-              </li>
-            </ul>
-          </li>
-        {:else}
-          <li class="nav-item position-relative me-xl-0 me-3">
-            <a href="/login" class="nav-link">
-              {$_("buttons.login")}
-            </a>
-            {#if showLoginBubble}
-              <div class="demo-bubble">
-                <div class="demo-bubble-content">
-                  {$_("labels.demo-login-hint")}
-                </div>
-                <button type="button" class="demo-bubble-close" on:click={() => (showLoginBubble = false)} aria-label="Close">
-                  <i class="fa fa-times"></i>
+                  class="nav-link position-relative"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  title={$session.user.username}>
+                  <img
+                    alt={$session.user.username}
+                    class="rounded d-block m-auto"
+                    src="https://minotar.net/avatar/{$session.user.username}"
+                    width="24"
+                    height="24" />
+                  {#if $notificationsCount !== 0}
+                    <span
+                      class="position-absolute top-0 end-0 badge rounded-pill bg-danger px-2 py-1">
+                      {$notificationsCount}
+                    </span>
+                  {/if}
                 </button>
-              </div>
+                <ul class="dropdown-menu dropdown-menu-end position-absolute">
+                  <h6 class="dropdown-header">{$session.user.username}</h6>
+                  {#each $profileDropdownItems as item (item.id)}
+                    {#if item.id === "profile"}
+                      <li>
+                        <a
+                          class:active={matching($page.url.pathname, "/profile")}
+                          class="dropdown-item focus-ring"
+                          href="/profile">{$_("buttons.profile")}</a>
+                      </li>
+                    {:else if item.id === "notifications"}
+                      <li>
+                        <a
+                          class:active={matching($page.url.pathname, "/notifications")}
+                          class="dropdown-item focus-ring position-relative"
+                          href="/notifications">{$_("buttons.notifications")}
+                          {#if $notificationsCount !== 0}
+                            <span
+                              class="position-absolute top-0 badge rounded-pill bg-danger p-1 d-inline">
+                            </span>
+                          {/if}</a>
+                      </li>
+                    {:else if item.id === "tickets"}
+                      <li>
+                        <a
+                          class:active={matching($page.url.pathname, "/tickets")}
+                          class="dropdown-item focus-ring"
+                          href="/tickets">{$_("buttons.tickets")}</a>
+                      </li>
+                    {:else if item.id === "settings"}
+                      <li>
+                        <a
+                          class:active={matching(
+                            $page.url.pathname,
+                            "/profile/settings",
+                          )}
+                          class="dropdown-item focus-ring"
+                          href="/profile/settings">{$_("buttons.settings")}</a>
+                      </li>
+                    {:else if item.id === "logout"}
+                      <li>
+                        <button
+                          type="button"
+                          class="dropdown-item focus-ring link-danger"
+                          on:click={logout}>{$_("buttons.logout")}</button>
+                      </li>
+                    {:else if item.props}
+                      <!-- Custom plugin item -->
+                      <li>
+                        <a
+                          class="dropdown-item focus-ring"
+                          href={item.props.href}>
+                          {#if item.props.icon}
+                            <i class="{item.props.icon} me-2"></i>
+                          {/if}
+                          {item.props.text && item.props.text.includes(".") ? $_(item.props.text) : item.props.text}
+                        </a>
+                      </li>
+                    {/if}
+                  {/each}
+                </ul>
+              </li>
             {/if}
-          </li>
-          <li class="nav-item">
-            <a href="/register"
-               class="btn btn-secondary rounded-pill">
-              {$_("buttons.register")}
-            </a>
-          </li>
-        {/if}
+          {:else if component.id === "auth-buttons"}
+            {#if !$session.user}
+              <li class="nav-item position-relative me-xl-0 me-3">
+                <a href="/login" class="nav-link">
+                  {$_("buttons.login")}
+                </a>
+                {#if showLoginBubble}
+                  <div class="demo-bubble">
+                    <div class="demo-bubble-content">
+                      {$_("labels.demo-login-hint")}
+                    </div>
+                    <button type="button" class="demo-bubble-close" on:click={() => (showLoginBubble = false)} aria-label="Close">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                {/if}
+              </li>
+              <li class="nav-item">
+                <a href="/register"
+                   class="btn btn-secondary rounded-pill">
+                  {$_("buttons.register")}
+                </a>
+              </li>
+            {/if}
+          {:else}
+            <!-- External plugin component -->
+            <li class="nav-item">
+              <ViewComponent component={component.component} />
+            </li>
+          {/if}
+        {/each}
       </ul>
 
       {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
@@ -169,8 +200,32 @@
   import { logout, notificationsCount } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { hasPermission } from "$lib/auth.util.js";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   const navLinks = panoApiClient.ui.nav.site.getNavLinks();
+
+  // Initialize navbar right components
+  panoApiClient.ui.nav.rightComponents.edit((items) => {
+    items.push(
+      { id: "panel-button", priority: 100, hidden: false },
+      { id: "profile-dropdown", priority: 90, hidden: false },
+      { id: "auth-buttons", priority: 80, hidden: false }
+    );
+  });
+
+  // Initialize profile dropdown items
+  panoApiClient.ui.nav.profileDropdown.edit((items) => {
+    items.push(
+      { id: "profile", priority: 100, hidden: false },
+      { id: "notifications", priority: 90, hidden: false },
+      { id: "tickets", priority: 80, hidden: false },
+      { id: "settings", priority: 70, hidden: false },
+      { id: "logout", priority: 10, hidden: false }
+    );
+  });
+
+  const navbarRightComponents = panoApiClient.ui.nav.rightComponents.get();
+  const profileDropdownItems = panoApiClient.ui.nav.profileDropdown.get();
 
   let navbarCollapseInstance = null;
   let showPanelBubble = false;

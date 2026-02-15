@@ -1,22 +1,45 @@
 <!-- Statistics -->
 
 <div class="vstack gap-3">
-
-  <div class="card">
-    <div class="card-header">{$_("pages.profile.title")}</div>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td>{$_("pages.profile.register-date")}</td>
-          <td><Date time={data.registerDate} /></td>
-        </tr>
-        <tr>
-          <td>{$_("pages.profile.last-login")}</td>
-          <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  {#each $contentItems as item (item.id)}
+    {#if item.id === "profile-card"}
+      <div class="card">
+        <div class="card-header">{$_("pages.profile.title")}</div>
+        <table class="table">
+          <tbody>
+            {#each $cardRowItems as row (row.id)}
+              {#if row.id === "register-date"}
+                <tr>
+                  <td>{$_("pages.profile.register-date")}</td>
+                  <td><Date time={data.registerDate} /></td>
+                </tr>
+              {:else if row.id === "last-login"}
+                <tr>
+                  <td>{$_("pages.profile.last-login")}</td>
+                  <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
+                </tr>
+              {:else if row.props}
+                <!-- Custom plugin row -->
+                <tr>
+                  <td>{row.props.label && row.props.label.includes(".") ? $_(row.props.label) : row.props.label}</td>
+                  <td>
+                    {#if row.component}
+                      <ViewComponent component={row.component} data={row.props.data} />
+                    {:else}
+                      {row.props.value || ""}
+                    {/if}
+                  </td>
+                </tr>
+              {/if}
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {:else if item.component}
+      <!-- External plugin component -->
+      <ViewComponent component={item.component} {data} />
+    {/if}
+  {/each}
 </div>
 
 <script context="module">
@@ -35,6 +58,11 @@
 
   import Date from "$lib/components/Date.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
+  import { panoApiClient } from "$lib/PluginAPI.js";
 
   export let data;
+
+  const contentItems = panoApiClient.ui.profile.content.get();
+  const cardRowItems = panoApiClient.ui.profile.cardRows.get();
 </script>

@@ -21,7 +21,7 @@ import tooltip from "$lib/tooltip.util";
 
 import { addListener } from "$lib/NotificationManager";
 import { initializePlugins, preparePlugins } from "$lib/PluginManager";
-import { executeLifecycle } from "$lib/PluginAPI";
+import { executeLifecycle, executeViewLoad } from "$lib/PluginAPI";
 import { hasPermission } from "$lib/auth.util";
 
 import Date from "$lib/components/Date.svelte";
@@ -142,6 +142,12 @@ export async function processLoad(event) {
     session: { user, csrfToken, siteInfo },
     pageTitle: writable(null)
   };
+
+  await executeLifecycle("theme:navbar:load", output, event);
+
+  // Resolve navbar dynamic components
+  await executeViewLoad("navbar-right", event);
+  await executeViewLoad("navbar-profile-dropdown", event);
 
   await executeLifecycle("theme:app:load", output, event);
 

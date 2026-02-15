@@ -4,6 +4,7 @@ import { sendResetPassword } from "$lib/services/auth";
 import { sendChangeEmail, sendUpdateProfile } from "$lib/services/profile";
 
 import ApiUtil, { NETWORK_ERROR } from "$lib/api.util";
+import { executeLifecycle, executeViewLoad, panoApiServer } from "$lib/PluginAPI";
 
 import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
 import { changeLanguage, getLanguageByLocale } from "$lib/language.util.js";
@@ -14,6 +15,14 @@ import { changeLanguage, getLanguageByLocale } from "$lib/language.util.js";
 export async function processLoad(event) {
   const { parent } = event;
   await parent();
+
+  // Initialize settings content
+  panoApiServer.ui.settings.content.edit((items) => {
+    items.push({ id: "settings-cards", priority: 100, hidden: false });
+  });
+
+  await executeLifecycle("theme:settings:load", {}, event);
+  await executeViewLoad("settings-content", event);
 
   await loadSidebar(event);
 
