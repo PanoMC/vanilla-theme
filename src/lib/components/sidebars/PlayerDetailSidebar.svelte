@@ -1,35 +1,47 @@
 <Sidebar side={side}>
-  <div class="card border-0">
-    <div class="card-body vstack gap-3">
-      <PlayerHead
-        username={$data.username}
-        inGame={$data.inGame}
-        banned={$data.banned}
-        lastActivityTime={$data.lastActivityTime}
-        checkTime={checkTime}
-        width="64"
-        height="64" />
+  <div class="vstack gap-3">
+    {#each $items as item (item.id)}
+      {#if item.id === 'player-info'}
+        <!-- Player Info Snippet -->
+        <div class="card border-0">
+          <div class="card-body vstack gap-3">
+            <PlayerHead
+              username={$data.username}
+              inGame={$data.inGame}
+              banned={$data.banned}
+              lastActivityTime={$data.lastActivityTime}
+              checkTime={checkTime}
+              width="64"
+              height="64" />
 
-      <PageTitle title={$data.username} />
+            <PageTitle title={$data.username} />
 
-      <div class="text-center">
-        <PlayerStatusBadge
-          banned={$data.banned}
-          lastActivityTime={$data.lastActivityTime}
-          inGame={$data.inGame}
-          checkTime={checkTime} />
-      </div>
-      <div class="text-center">
-        <PlayerPermissionBadge
-          permissionGroupName={$data.permissionGroupName} />
-      </div>
-    </div>
+            <div class="text-center">
+              <PlayerStatusBadge
+                banned={$data.banned}
+                lastActivityTime={$data.lastActivityTime}
+                inGame={$data.inGame}
+                checkTime={checkTime} />
+            </div>
+            <div class="text-center">
+              <PlayerPermissionBadge
+                permissionGroupName={$data.permissionGroupName} />
+            </div>
+          </div>
+        </div>
+      {:else}
+        <!-- External Component -->
+        <ViewComponent component={item.component} data={$data} checkTime={checkTime} {...item.props} />
+      {/if}
+    {/each}
   </div>
 </Sidebar>
 
 <script context="module">
   import ApiUtil from "$lib/api.util.js";
   import { writable } from "svelte/store";
+  import { panoApi } from "$lib/PluginAPI";
+  import { executeSidebarLoad } from "$lib/PluginAPI";
 
   const data = writable({
     username: "",
@@ -40,6 +52,17 @@
   });
 
   export const load = async (event) => {
+    /* Register Defaults */
+    panoApi.ui.sidebar.register({
+      sidebarId: "player-detail",
+      id: "player-info",
+      component: "local:player-info",
+      priority: 100,
+    });
+
+    // Execute sidebar load and resolve components for SSR
+    await executeSidebarLoad('player-detail', event);
+
     data.set({
       ...(await ApiUtil.get({
         path: `/api/sidebars/profile/${event.params.player}`,
@@ -59,6 +82,7 @@
   import { _ } from "svelte-i18n";
 
   import Sidebar from "$lib/components/Sidebar.svelte";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
   import PlayerPermissionBadge from "$lib/components/PlayerPermissionBadge.svelte";
   import PlayerStatusBadge from "$lib/components/PlayerStatusBadge.svelte";
   import PlayerHead from "$lib/components/PlayerHead.svelte";
@@ -78,4 +102,6 @@
   onDestroy(() => {
     clearInterval(interval);
   });
+
+  const items = panoApi.ui.sidebar.get("player-detail");
 </script>
