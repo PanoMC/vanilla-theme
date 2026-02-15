@@ -213,13 +213,13 @@
                 </tr>
               </thead>
               <tbody>
-                {#each sessions as session}
-                  <tr class:table-active={session.isCurrent}>
+                {#each sessions as s}
+                  <tr class:table-active={s.isCurrent}>
                     <td class="align-middle">
-                      <code>#{session.id}</code>
+                      <code>#{s.id}</code>
                     </td>
                     <td class="align-middle">
-                      {#if session.isCurrent}
+                      {#if s.isCurrent}
                         <span class="badge text-bg-primary"
                           >{$_(
                             "pages.settings.inputs.sessions.current-session",
@@ -227,37 +227,37 @@
                       {/if}
                     </td>
                     <td class="align-middle">
-                      <span title={session.userAgent}>
-                        {parseUserAgent(session.userAgent)}
+                      <span title={s.userAgent}>
+                        {parseUserAgent(s.userAgent)}
                       </span>
                     </td>
                     <td class="align-middle">
-                      <code>{session.ip}</code>
+                      <code>{s.ip}</code>
                     </td>
                     <td class="align-middle"
-                      ><DateComponent time={session.lastActivityTime} /></td>
+                      ><DateComponent time={s.lastActivityTime} /></td>
                     <td class="align-middle"
-                      ><DateComponent time={session.expireDate} /></td>
+                      ><DateComponent time={s.expireDate} /></td>
                     <td class="align-middle text-end">
                       <button
                         class="btn btn-link text-danger"
                         title={$_("buttons.logout")}
                         aria-label={$_("buttons.logout")}
                         onclick={() => {
-                          if (session.isCurrent) {
-                            setLogoutConfirmCallback(() => logout());
+                          if (s.isCurrent) {
+                            setLogoutConfirmCallback(() => logout(session));
                             showLogoutConfirmModal();
                           } else {
                             onLogoutSession(
-                              session.id,
+                              s.id,
                               loadingSessionId,
                               showToast,
                               invalidateAll,
                             );
                           }
                         }}
-                        disabled={$loadingSessionId === session.id}>
-                        {#if $loadingSessionId === session.id}
+                        disabled={$loadingSessionId === s.id}>
+                        {#if $loadingSessionId === s.id}
                           <span
                             class="spinner-border spinner-border-sm"
                             role="status"

@@ -111,7 +111,7 @@
                         <button
                           type="button"
                           class="dropdown-item focus-ring link-danger"
-                          on:click={logout}>{$_("buttons.logout")}</button>
+                          on:click={() => logout(session)}>{$_("buttons.logout")}</button>
                       </li>
                     {:else if item.props}
                       <!-- Custom plugin item -->

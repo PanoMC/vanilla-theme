@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 import { sendLogout } from "$lib/services/auth.js";
-import { invalidateAll } from "$app/navigation";
+import { goto } from "$app/navigation";
 import { redirect } from "@sveltejs/kit";
 import { show as showToast } from "$lib/components/ToastContainer.svelte";
 
@@ -10,13 +10,22 @@ export const quickNotifications = writable([]);
 
 export const initialized = writable(false);
 
-export async function logout() {
+export async function logout(session) {
   sendLogout().then(async () => {
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem('pano_demo_bubble_shown');
     }
+
+    if (session) {
+      session.update((data) => {
+        data.user = null;
+        data.csrfToken = null;
+        return data;
+      });
+    }
+
     await showToast("toasts.session-logged-out-successful");
-    await invalidateAll();
+    await goto("/");
   });
 }
 

@@ -74,7 +74,7 @@
   import { format } from "date-fns";
   import * as locales from "date-fns/locale";
 
-  import { invalidateAll } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   import { NETWORK_ERROR } from "$lib/api.util";
   import { currentLanguage } from "$lib/language.util";
@@ -160,7 +160,7 @@
             return data;
           });
 
-          await invalidateAll();
+          await goto("/");
 
           loading = false;
         });
