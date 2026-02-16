@@ -28,6 +28,9 @@
   import { getCredentials, sendLogin, sendRegister, verifyLinkCode } from "$lib/services/auth.js";
   import { show as showToast } from "$lib/components/ToastContainer.svelte";
 
+  import { panoApiClient } from "$lib/PluginAPI.js";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
+
   let viewState = "LOGIN"; // LOGIN, LINK_CODE, REGISTER, REGISTER_EMAIL
 
   let usernameOrEmail = "",
@@ -276,208 +279,233 @@
       agreement = true;
     }
   });
+
+  const contentItems = panoApiClient.ui.auth.login.content.get();
 </script>
 
-{#if viewState === "LOGIN"}
-  <form on:submit|preventDefault={onSubmit}>
-    <div class="vstack gap-3">
-      <PageTitle title={$_("components.modals.login.title")} />
-      {#if $session.siteInfo.isDemo}
-        <div class="alert alert-info py-2" role="alert">
-          {$_("pages.login.demo-mode-alert")}
-        </div>
-      {/if}
-      {#if emailRequired && !emailVerificationSent}
-        <div class="alert alert-info py-2" role="alert">
-          {$_("pages.login.register-email-required-info")}
-        </div>
-      {/if}
-      <ErrorAlert error={error} />
-      {#if !emailVerificationSent}
-        <div class="form-group">
-          <div class="form-floating">
-            <input
-              bind:value={usernameOrEmail}
-              class="form-control {passwordVisible ? 'rounded-bottom-0' : 'rounded'}"
-              id="usernameOrEmail"
-              on:input={() => {
-                if (!emailRequired) {
-                  passwordVisible = false;
-                }
+<script context="module">
+  import { executeLifecycle, executeViewLoad, panoApiServer } from "$lib/PluginAPI";
+
+  export async function load(event) {
+    const { parent } = event;
+    await parent();
+
+    // Initialize login content
+    panoApiServer.ui.auth.login.content.edit((items) => {
+      items.push({ id: "login-form", priority: 100, hidden: false });
+    });
+
+    await executeLifecycle("theme:login:load", {}, event);
+    await executeViewLoad("login-content", event);
+
+    return {};
+  }
+</script>
+
+{#each $contentItems as item (item.id)}
+  {#if item.id === "login-form"}
+    {#if viewState === "LOGIN"}
+      <form on:submit|preventDefault={onSubmit}>
+        <div class="vstack gap-3">
+          <PageTitle title={$_("components.modals.login.title")} />
+          {#if $session.siteInfo.isDemo}
+            <div class="alert alert-info py-2" role="alert">
+              {$_("pages.login.demo-mode-alert")}
+            </div>
+          {/if}
+          {#if emailRequired && !emailVerificationSent}
+            <div class="alert alert-info py-2" role="alert">
+              {$_("pages.login.register-email-required-info")}
+            </div>
+          {/if}
+          <ErrorAlert error={error} />
+          {#if !emailVerificationSent}
+            <div class="form-group">
+              <div class="form-floating">
+                <input
+                  bind:value={usernameOrEmail}
+                  class="form-control {passwordVisible ? 'rounded-bottom-0' : 'rounded'}"
+                  id="usernameOrEmail"
+                  on:input={() => {
+                    if (!emailRequired) {
+                      passwordVisible = false;
+                    }
+                    error = null;
+                  }}
+                  disabled={loading || emailRequired}
+                  type="text" />
+                <label for="usernameOrEmail">
+                  {emailRequired ? $_("components.modals.register.inputs.username") : $_("components.modals.login.inputs.username-email")}
+                </label>
+              </div>
+
+              {#if passwordVisible}
+                <div class="form-floating">
+                  <input
+                    bind:value={password}
+                    class="form-control rounded-0 {emailRequired ? '' : 'rounded-bottom'}"
+                    id="password"
+                    on:input={() => {
+                      error = null;
+                    }}
+                    disabled={loading || emailRequired}
+                    type="password" />
+                  <label for="password">
+                    {$_("components.modals.login.inputs.password")}
+                  </label>
+                </div>
+              {/if}
+
+              {#if emailRequired}
+                <div class="form-floating">
+                  <input
+                    bind:value={email}
+                    class="form-control rounded-top-0 rounded-bottom {error ? 'border-danger' : ''}"
+                    id="email"
+                    on:input={() => {
+                      error = null;
+                    }}
+                    disabled={loading}
+                    type="email" />
+                  <label for="email">
+                    {$_("components.modals.register.inputs.email")}
+                  </label>
+                </div>
+              {/if}
+            </div>
+            <div class="vstack gap-2">
+              <button
+                class="btn btn-lg btn-secondary"
+                class:disabled={loading || !usernameOrEmail || (emailRequired && !email.includes('@'))}
+                disabled={loading || !usernameOrEmail || (emailRequired && !email.includes('@'))}
+                type="submit">
+                {#if loading}
+                  <span
+                    class="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-label="Loading"></span>
+                  <span>{$_("buttons.login")}...</span>
+                {:else}
+                  {$_("buttons.login")}
+                {/if}
+              </button>
+              {#if passwordVisible && !emailRequired}
+                <a
+                  class="btn btn-link {loading ? 'disabled pe-none' : ''}"
+                  aria-disabled={loading}
+                  tabindex={loading ? -1 : undefined}
+                  href="/reset-password">
+                  {$_("buttons.forgot-password")}
+                </a>
+              {/if}
+            </div>
+          {:else}
+            <div class="alert alert-info py-2" role="alert">
+              {$_("pages.login.email-verification-sent-info")}
+            </div>
+            <button
+              class="btn btn-link"
+              type="button"
+              on:click={() => {
+                emailVerificationSent = false;
+                emailRequired = false;
+                passwordVisible = false;
+                email = "";
+                password = "";
                 error = null;
-              }}
-              disabled={loading || emailRequired}
-              type="text" />
-            <label for="usernameOrEmail">
-              {emailRequired ? $_("components.modals.register.inputs.username") : $_("components.modals.login.inputs.username-email")}
-            </label>
+              }}>
+              {$_("pages.settings.inputs.change-email.back")}
+            </button>
+          {/if}
+        </div>
+      </form>
+    {:else if viewState === "LINK_CODE"}
+      <form on:submit|preventDefault={onVerifyLink}>
+        <div class="vstack gap-3">
+          <PageTitle title={$_("components.modals.login.link-code.title")} />
+          <p class="text-center text-muted mb-0">
+            {@html $_("components.modals.login.link-code.description")}
+          </p>
+
+          <ErrorAlert error={error} />
+
+          <div class="form-group">
+            <div class="form-floating">
+              <input
+                bind:value={usernameOrEmail}
+                class="form-control"
+                id="usernameOrEmail"
+                disabled={true}
+                type="text" />
+              <label for="usernameOrEmail">
+                {$_("components.modals.login.inputs.username-email")}
+              </label>
+            </div>
           </div>
 
-          {#if passwordVisible}
-            <div class="form-floating">
-              <input
-                bind:value={password}
-                class="form-control rounded-0 {emailRequired ? '' : 'rounded-bottom'}"
-                id="password"
-                on:input={() => {
-                  error = null;
-                }}
-                disabled={loading || emailRequired}
-                type="password" />
-              <label for="password">
-                {$_("components.modals.login.inputs.password")}
-              </label>
-            </div>
-          {/if}
+          <div class="my-2">
+            <LinkCodeInput
+              isInvalid={!!error}
+              disabled={loading}
+              on:complete={(e) => {
+                linkCode = e.detail.code;
+                if (!autoVerifyDone) {
+                  onVerifyLink();
+                }
+              }}
+              on:change={(e) => linkCode = e.detail.code} />
+          </div>
 
-          {#if emailRequired}
-            <div class="form-floating">
-              <input
-                bind:value={email}
-                class="form-control rounded-top-0 rounded-bottom {error ? 'border-danger' : ''}"
-                id="email"
-                on:input={() => {
-                  error = null;
-                }}
-                disabled={loading}
-                type="email" />
-              <label for="email">
-                {$_("components.modals.register.inputs.email")}
-              </label>
-            </div>
-          {/if}
+          <div class="vstack gap-2">
+            <button
+              class="btn btn-lg btn-secondary"
+              class:disabled={loading || linkCode.length !== 6}
+              disabled={loading || linkCode.length !== 6}
+              type="submit">
+              {#if loading}
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-label="Loading"></span>
+                <span>{$_("components.modals.login.link-code.verify")}...</span>
+              {:else}
+                {$_("components.modals.login.link-code.verify")}
+              {/if}
+            </button>
+            <button
+              class="btn btn-link"
+              disabled={loading}
+              type="button"
+              on:click={() => {
+                viewState = "LOGIN";
+                error = null;
+                autoVerifyDone = false;
+                linkCode = "";
+                password = "";
+              }}>
+              {$_("pages.settings.inputs.change-email.back")}
+            </button>
+          </div>
         </div>
-        <div class="vstack gap-2">
-          <button
-            class="btn btn-lg btn-secondary"
-            class:disabled={loading || !usernameOrEmail || (emailRequired && !email.includes('@'))}
-            disabled={loading || !usernameOrEmail || (emailRequired && !email.includes('@'))}
-            type="submit">
-            {#if loading}
-              <span
-                class="spinner-border spinner-border-sm me-2"
-                role="status"
-                aria-label="Loading"></span>
-              <span>{$_("buttons.login")}...</span>
-            {:else}
-              {$_("buttons.login")}
-            {/if}
-          </button>
-          {#if passwordVisible && !emailRequired}
-            <a
-              class="btn btn-link {loading ? 'disabled pe-none' : ''}"
-              aria-disabled={loading}
-              tabindex={loading ? -1 : undefined}
-              href="/reset-password">
-              {$_("buttons.forgot-password")}
-            </a>
-          {/if}
+      </form>
+    {:else if viewState === "REGISTER"}
+      <form on:submit|preventDefault={onCompleteRegister}>
+        <div class="vstack gap-3">
+          <PageTitle title={$_("components.modals.login.register-with-link.title")} />
+          <ErrorAlert error={error} />
+
+          <RegisterForm
+            bind:username={usernameOrEmail}
+            bind:email={email}
+            bind:password={password}
+            bind:passwordRepeat={passwordRepeat}
+            bind:agreement={agreement}
+            loading={loading}
+            usernameDisabled={true} />
         </div>
-      {:else}
-        <div class="alert alert-info py-2" role="alert">
-          {$_("pages.login.email-verification-sent-info")}
-        </div>
-        <button
-          class="btn btn-link"
-          type="button"
-          on:click={() => {
-            emailVerificationSent = false;
-            emailRequired = false;
-            passwordVisible = false;
-            email = "";
-            password = "";
-            error = null;
-          }}>
-          {$_("pages.settings.inputs.change-email.back")}
-        </button>
-      {/if}
-    </div>
-  </form>
-{:else if viewState === "LINK_CODE"}
-  <form on:submit|preventDefault={onVerifyLink}>
-    <div class="vstack gap-3">
-      <PageTitle title={$_("components.modals.login.link-code.title")} />
-      <p class="text-center text-muted mb-0">
-        {@html $_("components.modals.login.link-code.description")}
-      </p>
-
-      <ErrorAlert error={error} />
-
-      <div class="form-group">
-        <div class="form-floating">
-          <input
-            bind:value={usernameOrEmail}
-            class="form-control"
-            id="usernameOrEmail"
-            disabled={true}
-            type="text" />
-          <label for="usernameOrEmail">
-            {$_("components.modals.login.inputs.username-email")}
-          </label>
-        </div>
-      </div>
-
-      <div class="my-2">
-        <LinkCodeInput
-          isInvalid={!!error}
-          disabled={loading}
-          on:complete={(e) => {
-            linkCode = e.detail.code;
-            if (!autoVerifyDone) {
-              onVerifyLink();
-            }
-          }}
-          on:change={(e) => linkCode = e.detail.code}
-        />
-      </div>
-
-      <div class="vstack gap-2">
-        <button
-          class="btn btn-lg btn-secondary"
-          class:disabled={loading || linkCode.length !== 6}
-          disabled={loading || linkCode.length !== 6}
-          type="submit">
-          {#if loading}
-            <span
-              class="spinner-border spinner-border-sm me-2"
-              role="status"
-              aria-label="Loading"></span>
-            <span>{$_("components.modals.login.link-code.verify")}...</span>
-          {:else}
-            {$_("components.modals.login.link-code.verify")}
-          {/if}
-        </button>
-        <button
-          class="btn btn-link"
-          disabled={loading}
-          type="button"
-          on:click={() => {
-            viewState = "LOGIN";
-            error = null;
-            autoVerifyDone = false;
-            linkCode = "";
-            password = "";
-          }}>
-          {$_("pages.settings.inputs.change-email.back")}
-        </button>
-      </div>
-    </div>
-  </form>
-{:else if viewState === "REGISTER"}
-  <form on:submit|preventDefault={onCompleteRegister}>
-    <div class="vstack gap-3">
-      <PageTitle title={$_("components.modals.login.register-with-link.title")} />
-      <ErrorAlert error={error} />
-
-      <RegisterForm
-        bind:username={usernameOrEmail}
-        bind:email={email}
-        bind:password={password}
-        bind:passwordRepeat={passwordRepeat}
-        bind:agreement={agreement}
-        loading={loading}
-        usernameDisabled={true}
-      />
-    </div>
-  </form>
-{/if}
+      </form>
+    {/if}
+  {:else if item.component}
+    <ViewComponent component={item.component} data={{ pageType: 'login' }} />
+  {/if}
+{/each}

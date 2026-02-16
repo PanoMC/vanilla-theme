@@ -205,6 +205,44 @@ export const panoApi = {
         panoApi.ui.lifecycle.on("theme:tickets:load", handler);
       },
     },
+    auth: {
+      login: {
+        content: {
+          edit(callback) {
+            uiItems.update((items) => {
+              if (!items["login-content"]) items["login-content"] = [];
+              callback(items["login-content"]);
+              deduplicateById(items["login-content"]);
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("login-content");
+          },
+        },
+        onLoad(handler) {
+          panoApi.ui.lifecycle.on("theme:login:load", handler);
+        },
+      },
+      register: {
+        content: {
+          edit(callback) {
+            uiItems.update((items) => {
+              if (!items["register-content"]) items["register-content"] = [];
+              callback(items["register-content"]);
+              deduplicateById(items["register-content"]);
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("register-content");
+          },
+        },
+        onLoad(handler) {
+          panoApi.ui.lifecycle.on("theme:register:load", handler);
+        },
+      },
+    },
     app: {
       onLoad(handler) {
         panoApi.ui.lifecycle.on("theme:app:load", handler);

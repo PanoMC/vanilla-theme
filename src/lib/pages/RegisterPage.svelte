@@ -1,31 +1,21 @@
-<div class="container mx-auto">
-  <form on:submit|preventDefault={onSubmit}>
-    <div class="vstack gap-3">
-      <PageTitle title={$_("components.modals.register.title")} />
-      <SuccessAlert message={successMessage} />
-      <ErrorAlert error={error} />
+<script context="module">
+  import { executeLifecycle, executeViewLoad, panoApiServer } from "$lib/PluginAPI";
 
-      <RegisterForm
-          bind:username={username}
-          bind:email={email}
-          bind:password={password}
-          bind:passwordRepeat={passwordRepeat}
-          bind:agreement={agreement}
-          loading={loading}
-      >
-        <div slot="footer">
-            <a
-              class="btn btn-link {loading ? 'disabled pe-none' : ''}"
-              aria-disabled={loading}
-              tabindex={loading ? -1 : undefined}
-              href="/login">
-              {$_("buttons.already-registered")}
-            </a>
-        </div>
-      </RegisterForm>
-    </div>
-  </form>
-</div>
+  export async function load(event) {
+    const { parent } = event;
+    await parent();
+
+    // Initialize register content
+    panoApiServer.ui.auth.register.content.edit((items) => {
+      items.push({ id: "register-form", priority: 100, hidden: false });
+    });
+
+    await executeLifecycle("theme:register:load", {}, event);
+    await executeViewLoad("register-content", event);
+
+    return {};
+  }
+</script>
 
 <script>
   import { getContext } from "svelte";
@@ -41,6 +31,8 @@
   import { show as showToast } from "$lib/components/ToastContainer.svelte";
 
   import { sendRegister, getCredentials } from "$lib/services/auth.js";
+  import { panoApiClient } from "$lib/PluginAPI.js";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   const session = getContext("session");
 
@@ -102,4 +94,42 @@
         error = NETWORK_ERROR;
       });
   }
+
+  const contentItems = panoApiClient.ui.auth.register.content.get();
 </script>
+
+<div class="container mx-auto">
+  <div class="vstack gap-3">
+    {#each $contentItems as item (item.id)}
+      {#if item.id === "register-form"}
+        <form on:submit|preventDefault={onSubmit}>
+          <div class="vstack gap-3">
+            <PageTitle title={$_("components.modals.register.title")} />
+            <SuccessAlert message={successMessage} />
+            <ErrorAlert error={error} />
+
+            <RegisterForm
+              bind:username={username}
+              bind:email={email}
+              bind:password={password}
+              bind:passwordRepeat={passwordRepeat}
+              bind:agreement={agreement}
+              loading={loading}>
+              <div slot="footer">
+                <a
+                  class="btn btn-link {loading ? 'disabled pe-none' : ''}"
+                  aria-disabled={loading}
+                  tabindex={loading ? -1 : undefined}
+                  href="/login">
+                  {$_("buttons.already-registered")}
+                </a>
+              </div>
+            </RegisterForm>
+          </div>
+        </form>
+      {:else if item.component}
+        <ViewComponent component={item.component} data={{ pageType: 'register' }} />
+      {/if}
+    {/each}
+  </div>
+</div>
