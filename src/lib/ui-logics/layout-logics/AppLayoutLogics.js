@@ -117,7 +117,7 @@ export async function processLoad(event) {
     error,
     redirect,
     components: {
-      DateComponent,
+      Date: DateComponent,
       Pagination,
       NoContent,
       PageActions,
