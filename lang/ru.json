@@ -147,7 +147,9 @@
   },
   "pages": {
     "login": {
-      "demo-mode-alert": "Вы находитесь в демо-режиме. Вы можете войти с именем пользователя «demo» и паролем «123456»."
+      "demo-mode-alert": "Вы находитесь в демо-режиме. Вы можете войти с именем пользователя «demo» и паролем «123456».",
+      "register-email-required-info": "Вам необходимо зарегистрировать свой адрес электронной почты, чтобы завершить процесс входа.",
+      "email-verification-sent-info": "Ваш адрес электронной почты успешно сохранен. Пожалуйста, подтвердите свою электронную почту, чтобы войти. Не забудьте проверить папку «Входящие» и папку со спамом."
     },
     "homepage": {
       "title": "Новости"
@@ -418,7 +420,7 @@
     "INVALID_EMAIL": "Неверный e-mail!",
     "INVALID_IP_ADDRESS": "Неверный IP-адрес!",
     "INVALID_LINK": "Недействительная ссылка!",
-    "LOGIN_EMAIL_NOT_VERIFIED": "E-mail не подтвержден!",
+    "LOGIN_EMAIL_NOT_VERIFIED": "Ваш e-mail ({email}) еще не подтвержден! Пожалуйста, проверьте папку «Входящие» и папку со спамом, чтобы подтвердить свой аккаунт.",
     "LOGIN_USER_IS_BANNED_PERMANENTLY": "Вы забанены навсегда!",
     "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON": "Вы забанены навсегда! Причина: {reason}",
     "LOGIN_USER_IS_BANNED_TEMPORARY": "Вы временно забанены! До: {untilTime}",
@@ -449,12 +451,14 @@
     "REGISTER_USERNAME_TOO_LONG": "Имя пользователя слишком длинное!",
     "REGISTER_USERNAME_TOO_SHORT": "Имя пользователя слишком короткое!",
     "TICKET_IS_CLOSED": "Тикет закрыт!",
+    "REGISTER_LINK_CODE_INVALID": "Введенный вами код ссылки недействителен или истек!",
     "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Нельзя сменить e-mail, подождите 15 минут."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Успешная регистрация! Письмо для подтверждения отправлено на вашу почту.",
     "VALIDATION_SUCCESSFUL": "E-mail успешно подтвержден! Теперь вы можете войти.",
     "RENEW_PASSWORD_SUCCESSFUL": "Пароль успешно изменен!",
-    "RESET_PASSWORD_SUCCESSFUL": "Письмо для сброса пароля отправлено."
+    "RESET_PASSWORD_SUCCESSFUL": "Письмо для сброса пароля отправлено.",
+    "LOGIN_SUCCESSFUL": "Вход выполнен успешно!"
   }
 }

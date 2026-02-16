@@ -1,9 +1,10 @@
 <div class="col-lg-4 col-md-6 m-auto">
   <div class="card">
     <div class="card-body">
-      <h3 class="card-title">{$_("pages.activate.title")}</h3>
+      <h3 class="card-title text-center">{$_("pages.activate.title")}</h3>
       <img
         alt="Allay"
+        class="d-block mx-auto mb-4"
         src="https://cdn3.emoji.gg/emojis/8182-allay-dancing.gif" />
       <ErrorAlert error="{$error}" />
       <SuccessAlert message="{$successMessage}" />

@@ -102,6 +102,14 @@
         "inputs": {
           "username-email": "Oyuncu Adı / E-Posta",
           "password": "Şifre"
+        },
+        "link-code": {
+          "title": "Link Kodu Gerekli",
+          "description": "Oyunda size verilen 6 haneli kodu giriniz. Kodunuz yoksa oyunda <mark>/link</mark> komutunu kullanarak alabilirsiniz.",
+          "verify": "Doğrula"
+        },
+        "register-with-link": {
+          "title": "Kaydı Tamamla"
         }
       },
       "register": {
@@ -147,7 +155,9 @@
   },
   "pages": {
     "login": {
-      "demo-mode-alert": "Şu an demo modundasınız. \"demo\" kullanıcı adı ve \"123456\" şifresi ile giriş yapabilirsiniz."
+      "demo-mode-alert": "Şu an demo modundasınız. \"demo\" kullanıcı adı ve \"123456\" şifresi ile giriş yapabilirsiniz.",
+      "register-email-required-info": "Giriş işlemini tamamlamak için e-posta adresinizi kaydetmeniz gerekmektedir.",
+      "email-verification-sent-info": "E-posta adresiniz başarıyla kaydedildi. Giriş yapabilmek için lütfen e-postanızı doğrulayın. Gelen kutunuzu ve spam klasörünüzü kontrol etmeyi unutmayın."
     },
     "homepage": {
       "title": "Haberler"
@@ -418,7 +428,7 @@
     "INVALID_EMAIL": "Geçersiz e-posta!",
     "INVALID_IP_ADDRESS": "Geçersiz IP adresi!",
     "INVALID_LINK": "Geçersiz bağlantı!",
-    "LOGIN_EMAIL_NOT_VERIFIED": "E-posta doğrulanmamış!",
+    "LOGIN_EMAIL_NOT_VERIFIED": "E-posta adresiniz ({email}) henüz doğrulanmamış! Lütfen gelen kutunuzu ve spam klasörünüzü kontrol ederek hesabınızı doğrulayın.",
     "LOGIN_USER_IS_BANNED_PERMANENTLY": "Hesabınız kalıcı olarak yasaklanmış!",
     "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON": "Hesabınız kalıcı olarak yasaklanmış! Sebep: {reason}",
     "LOGIN_USER_IS_BANNED_TEMPORARY": "Hesabınız geçici olarak yasaklanmış! Şu zamana kadar: {untilTime}",
@@ -451,12 +461,14 @@
     "TICKET_IS_CLOSED": "Destek talebi kapatılmış!",
     "TITLE_CANT_BE_EMPTY": "Başlık boş olamaz!",
     "USERNAME_OR_EMAIL_NOT_EXISTS": "Kullanıcı adı veya e-mail bulunamadı!",
+    "REGISTER_LINK_CODE_INVALID": "Girdiğiniz link kodu hatalı veya süresi dolmuş!",
     "CANT_CHANGE_EMAIL_WAIT15MINUTES": "E-mail değiştirmeden önce 15 dakika bekleyin."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Kayıt başarıyla tamamlandı! E-postanızı doğrulamak için bir e-posta gönderildi.",
     "VALIDATION_SUCCESSFUL": "E-posta başarıyla doğrulandı! Artık giriş yapabilirsiniz.",
     "RENEW_PASSWORD_SUCCESSFUL": "Şifre başarıyla değiştirildi!",
-    "RESET_PASSWORD_SUCCESSFUL": "Şifrenizi sıfırlamak için bir e-posta gönderildi."
+    "RESET_PASSWORD_SUCCESSFUL": "Şifrenizi sıfırlamak için bir e-posta gönderildi.",
+    "LOGIN_SUCCESSFUL": "Başarıyla giriş yapıldı!"
   }
 }

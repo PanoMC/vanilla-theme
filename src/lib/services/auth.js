@@ -64,6 +64,7 @@ export const sendResetPassword = async (usernameOrEmail) => {
   });
 };
 
+
 export const sendRenewPassword = async (
   newPassword,
   newPasswordRepeat,
@@ -74,3 +75,11 @@ export const sendRenewPassword = async (
     body: { newPassword, newPasswordRepeat, token },
   });
 };
+
+export const verifyLinkCode = async (username, code) => {
+  return ApiUtil.post({
+    path: "/api/auth/verifyLinkCode",
+    body: { username, code },
+  });
+};
+

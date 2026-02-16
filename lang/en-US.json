@@ -102,6 +102,14 @@
         "inputs": {
           "username-email": "Username / E-Mail",
           "password": "Password"
+        },
+        "link-code": {
+          "title": "Link Code Required",
+          "description": "Enter the 6-digit code given to you in-game. If you don't have a code, you can get one by using the <mark>/link</mark> command in-game.",
+          "verify": "Verify"
+        },
+        "register-with-link": {
+          "title": "Complete Registration"
         }
       },
       "register": {
@@ -147,7 +155,9 @@
   },
   "pages": {
     "login": {
-      "demo-mode-alert": "You are in demo mode. You can log in with the username \"demo\" and the password \"123456\"."
+      "demo-mode-alert": "You are in demo mode. You can log in with the username \"demo\" and the password \"123456\".",
+      "register-email-required-info": "You need to register your email address to complete the login process.",
+      "email-verification-sent-info": "Your email address has been successfully saved. Please verify your email to log in. Don't forget to check your inbox and spam folder."
     },
     "homepage": {
       "title": "News"
@@ -418,7 +428,7 @@
     "INVALID_EMAIL": "Invalid e-mail!",
     "INVALID_IP_ADDRESS": "Invalid IP address!",
     "INVALID_LINK": "Link is invalid!",
-    "LOGIN_EMAIL_NOT_VERIFIED": "E-mail is not verified!",
+    "LOGIN_EMAIL_NOT_VERIFIED": "Your email address ({email}) is not verified yet! Please check your inbox and spam folder to verify your account.",
     "LOGIN_USER_IS_BANNED_PERMANENTLY": "You are permanently banned!",
     "LOGIN_USER_IS_BANNED_PERMANENTLY_WITH_REASON": "You are permanently banned! Reason: {reason}",
     "LOGIN_USER_IS_BANNED_TEMPORARY": "You are temporarily banned! Until: {untilTime}",
@@ -449,12 +459,14 @@
     "REGISTER_USERNAME_TOO_LONG": "Username is too long!",
     "REGISTER_USERNAME_TOO_SHORT": "Username is too short!",
     "TICKET_IS_CLOSED": "Ticket is closed!",
+    "REGISTER_LINK_CODE_INVALID": "The link code you entered is invalid or expired!",
     "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Can't change e-mail, wait 15 minutes."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Successfully registered! An e-email sent to verify your e-mail.",
     "VALIDATION_SUCCESSFUL": "Successfully activated e-mail! Now you can login.",
     "RENEW_PASSWORD_SUCCESSFUL": "Password changed successfully!",
-    "RESET_PASSWORD_SUCCESSFUL": "Sent an e-mail to reset your password."
+    "RESET_PASSWORD_SUCCESSFUL": "Sent an e-mail to reset your password.",
+    "LOGIN_SUCCESSFUL": "Login successful!"
   }
 }
