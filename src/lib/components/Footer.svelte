@@ -6,11 +6,11 @@
     <div class="row justify-content-center align-items-center g-3">
       <div
         class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
-        <ul class="nav nav-pills">
+        <ul class="nav nav-pills justify-content-center">
           {#each displayLinks as link (link.id)}
             <li class="nav-item">
               <a
-                class="nav-link rounded-pill"
+                class="nav-link rounded-pill small"
                 href={link.href}
                 target={link.target}
                 title={link.text && link.text.includes(".")
@@ -25,7 +25,7 @@
         </ul>
       </div>
       <div class="col-lg-4 col-sm-8">
-        <div class="text-center vstack gap-3">
+        <div class="text-center vstack align-items-center gap-3">
           <a href="/" class="d-inline-block">
             <img
               class="d-block mx-auto"
@@ -41,12 +41,21 @@
         </div>
       </div>
       <div class="col-lg-4 d-flex justify-content-center align-items-center">
-        <span class="badge fs-6 text-bg-primary user-select-all"
+        <span class="badge fs-6 text-bg-secondary user-select-all"
           >{$session.siteInfo.ipAddress}</span>
       </div>
       <div class="w-100"></div>
       <div class="col order-last">
-        <div class="text-center mt-5">
+        <div class="text-center vstack align-items-center mt-5">
+          <a
+            href={PANO_WEBSITE_URL}
+            target="_blank"
+            rel="noreferrer"
+            class="d-inline-flex align-items-center justify-content-center bg-primary rounded-3 mb-2"
+            style="width: 32px; height: 32px;"
+            title="Pano">
+            <img src="/assets/img/logo.svg" width="20" height="20" alt="Pano" />
+          </a>
           <small>
             {@html $_("footer.been-created-with", {
               values: {
@@ -80,8 +89,8 @@
       id: "rules",
       text: "nav-links.rules",
       href: "/rules",
-      condition: !!$session.siteInfo?.registerAgreement
-    }
+      condition: !!$session.siteInfo?.registerAgreement,
+    },
   ];
 
   $: displayLinks = (() => {
@@ -93,7 +102,7 @@
       ...l,
       id: l.href,
       isPlugin: true,
-      target: l.target === "_self" ? null : l.target
+      target: l.target === "_self" ? null : l.target,
     }));
 
     const allLinks = [...nativeLinks, ...pluginLinks];
