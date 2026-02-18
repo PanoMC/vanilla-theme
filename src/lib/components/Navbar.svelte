@@ -338,13 +338,13 @@
     position: absolute;
     bottom: calc(100% + 15px);
     right: 0;
-    background: #212529;
-    color: #fff;
+    background: #ffc947;
+    color: #212529;
     padding: 10px 35px 10px 15px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 500;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     z-index: 1050;
     white-space: normal;
     width: max-content;
@@ -359,7 +359,7 @@
     right: 20px;
     border-width: 8px;
     border-style: solid;
-    border-color: #212529 transparent transparent transparent;
+    border-color: #ffc947 transparent transparent transparent;
   }
 
   .demo-bubble-close {
@@ -369,7 +369,7 @@
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    color: #adb5bd;
+    color: rgba(0, 0, 0, 0.4);
     cursor: pointer;
     font-size: 14px;
     padding: 5px;
@@ -378,7 +378,7 @@
   }
 
   .demo-bubble-close:hover {
-    color: #fff;
+    color: #000;
   }
 
   @keyframes bubbleFadeIn {
