@@ -59,13 +59,13 @@
               {#each $data.lastRegisteredUsers || [] as player, index (player)}
                 <div class="col-auto">
                   <a
-                    href="/player/{player}"
+                    href="/player/{player.username}"
                     class="d-inline-block rounded focus-ring">
                     <img
-                      alt={player}
+                      alt={player.username}
                       class="rounded"
-                      src="/api/profile/picture/{player}?{$avatarVersion}"
-                      use:tooltip={[player, { placement: "bottom" }]}
+                      src="/api/profile/picture/{player.username}?{$avatarVersion}"
+                      use:tooltip={[player.username, { placement: "bottom" }]}
                       width="48"
                       height="48" />
                   </a>
