@@ -103,6 +103,7 @@ function generateLicensesPlugin() {
 
 export default defineConfig(({ isSsrBuild, command }) => {
   return {
+    clearScreen: false,
     plugins: [
       sveltekit(),
       generateLicensesPlugin(),
@@ -141,6 +142,11 @@ export default defineConfig(({ isSsrBuild, command }) => {
       }
     },
     resolve: {
+      alias: {
+        "@theme-style": (command === "serve" && process.env.VITE_DEV_UI !== "true")
+          ? path.resolve(process.cwd(), "src/styles/_empty.scss")
+          : path.resolve(process.cwd(), "src/styles/style.scss"),
+      },
       dedupe: ["svelte", "@panomc/sdk", "svelte-i18n"]
     },
     build: {

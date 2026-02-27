@@ -1,6 +1,10 @@
-<style lang="scss" global>
-  @import "src/styles/style.scss";
-</style>
+
+
+<svelte:head>
+  {#if dev && !devUi}
+    <link rel="stylesheet" href="/style.css" />
+  {/if}
+</svelte:head>
 
 <!-- Main Container -->
 <main class="container">
@@ -24,7 +28,11 @@
 
 <!-- Main Container End -->
 <script>
+  import "@theme-style";
   import { getContext } from "svelte";
+  import { dev } from "$app/environment";
+
+  const devUi = import.meta.env.VITE_DEV_UI === "true";
 
   const sidebar = getContext("sidebar");
   const sidebarProps = getContext("sidebarProps");

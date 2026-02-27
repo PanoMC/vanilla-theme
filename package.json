@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite dev --host=0.0.0.0 --port 3000",
+    "dev:ui": "sass src/styles/style.scss static/style.css --watch --load-path=. --quiet-deps --no-source-map",
+    "build:ui": "sass src/styles/style.scss static/style.css --load-path=. --quiet-deps --no-source-map",
     "build": "vite build",
     "preview": "vite preview ",
     "lint": "npm-run-all -c lint:*",
