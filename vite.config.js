@@ -118,6 +118,7 @@ export default defineConfig(({ isSsrBuild, command }) => {
       preprocessorOptions: {
         scss: {
           api: "modern-compiler",
+          loadPaths: [process.cwd(), path.resolve(process.cwd(), 'node_modules')],
           quietDeps: true,
           silenceDeprecations: [
             "mixed-decls",
