@@ -76,16 +76,37 @@ async function executeComponentLoad(containerId, type, event) {
 
   const resolvedItems = await Promise.all(
     items.map(async (item) => {
+      let module = item.component;
       if (typeof item.component === "function" && !item.component.prototype) {
         try {
-          const module = await item.component();
-          return { ...item, component: module };
+          module = await item.component();
         } catch (e) {
           console.error(`[${type}:${containerId}] Failed to load component ${item.id}`, e);
           return item;
         }
       }
-      return item;
+
+      if (!module) return item;
+
+      const Component = module.default || module;
+      const loadFn = module.load || (Component && Component.load);
+
+      let props = {};
+      if (loadFn) {
+        try {
+          props = await loadFn(event);
+        } catch (e) {
+          console.warn(`[${type}:${containerId}:${item.id}] Load failed`, e);
+        }
+      }
+
+      const updatedItem = { ...item, component: module };
+      if (props && typeof props === "object") {
+        if (!updatedItem.props) updatedItem.props = {};
+        updatedItem.props.data = { ...updatedItem.props.data, ...props };
+      }
+
+      return updatedItem;
     }),
   );
 
@@ -181,6 +202,19 @@ export const panoApi = {
         },
         get() {
           return panoApi.ui.view.get("settings-content");
+        },
+      },
+      cardRows: {
+        edit(callback) {
+          uiItems.update((items) => {
+            if (!items["settings-card-rows"]) items["settings-card-rows"] = [];
+            callback(items["settings-card-rows"]);
+            deduplicateById(items["settings-card-rows"]);
+            return items;
+          });
+        },
+        get() {
+          return panoApi.ui.view.get("settings-card-rows");
         },
       },
       onLoad(handler) {

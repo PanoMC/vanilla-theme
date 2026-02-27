@@ -7,172 +7,204 @@
           {$_("pages.settings.title")}
         </div>
         <div class="card-body">
-          <div class="row">
-            <label class="col-md-4 col-form-label" for="resetPassword">
-              {$_("pages.settings.inputs.change-password.title")}
-            </label>
-            <div class="col col-form-label">
-              <button
-                class="btn btn-primary"
-                class:is-invalid={$resetPasswordError}
-                onclick={() =>
-                  sendResetPasswordLink(
-                    resetPasswordError,
-                    resetPasswordLoading,
-                    resetPasswordSuccess,
-                    session,
-                  )}
-                aria-describedby="resetPassword validationResetPassword"
-                disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}
-                type="button"
-                >{$_("pages.settings.inputs.change-password.description")}</button>
+          {#each $cardRowItems as row (row.id)}
+            {#if row.id === "change-password"}
+              <div class="row">
+                <label class="col-md-4 col-form-label" for="resetPassword">
+                  {$_("pages.settings.inputs.change-password.title")}
+                </label>
+                <div class="col col-form-label">
+                  <button
+                    class="btn btn-primary"
+                    class:is-invalid={$resetPasswordError}
+                    onclick={() =>
+                      sendResetPasswordLink(
+                        resetPasswordError,
+                        resetPasswordLoading,
+                        resetPasswordSuccess,
+                        session,
+                      )}
+                    aria-describedby="resetPassword validationResetPassword"
+                    disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}
+                    type="button"
+                    >{$_("pages.settings.inputs.change-password.description")}</button>
 
-              <div id="validationResetPassword" class="invalid-feedback">
-                {$_("errors." + $resetPasswordError)}
+                  <div id="validationResetPassword" class="invalid-feedback">
+                    {$_("errors." + $resetPasswordError)}
+                  </div>
+                  {#if $resetPasswordSuccess}
+                    <p class="mb-0">
+                      {$_("pages.settings.inputs.change-password.success-message")}
+                    </p>
+                  {/if}
+                </div>
               </div>
-              {#if $resetPasswordSuccess}
-                <p class="mb-0">
-                  {$_("pages.settings.inputs.change-password.success-message")}
-                </p>
-              {/if}
-            </div>
-          </div>
-
-          <div class="row">
-            <label class="col-md-4 col-form-label" for="userEmail">
-              {$_("pages.settings.inputs.change-email.title")}
-            </label>
-            <div class="col col-form-label">
-              <form
-                onsubmit={(e) => {
-                  e.preventDefault();
-                  $changingEmail2ndStep
-                    ? sendChangeEmailLink(
-                        changingEmailError,
-                        changingEmailLoading,
-                        changingEmailSuccess,
-                        currentPassword,
-                        newEmail,
-                        changingEmail,
-                        changingEmail2ndStep,
-                      )
-                    : startChangingEmail2ndStep(changingEmail2ndStep);
-                }}>
-                <div class="row">
-                  {#if !$changingEmail}
-                    <div class="col-12">
-                      {#if $changingEmailSuccess}
-                        <p class="text-dark mb-0">
-                          {$_(
-                            "pages.settings.inputs.change-email.success-message",
-                            {
-                              values: { newEmail: $newEmail },
-                            },
-                          )}
-                        </p>
-                      {:else}
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          aria-describedby="userEmail"
-                          onclick={() => startChangingEmail(changingEmail)}
-                          disabled={!$session.siteInfo.emailEnabled}
-                          >{$_(
-                            "pages.settings.inputs.change-email.description",
-                          )}</button>
-                      {/if}
-                    </div>
-                  {:else if $changingEmail2ndStep}
-                    <div class="col">
-                      <input
-                        type="email"
-                        id="newEmail"
-                        placeholder={$_(
-                          "pages.settings.inputs.change-password.new-email-placeholder",
-                        )}
-                        class="form-control"
-                        aria-describedby="validationChangingEmail"
-                        bind:value={$newEmail}
-                        class:is-invalid={$changingEmailError}
-                        autofocus />
-                      <div id="validationChangingEmail" class="invalid-feedback">
-                        {$_("errors." + $changingEmailError)}
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <button
-                        type="reset"
-                        class="btn btn-link link-primary"
-                        onclick={() =>
-                          stopChangingEmail2ndStep(changingEmail2ndStep)}>
-                        {$_("pages.settings.inputs.change-email.back")}
-                      </button>
-                      <button
-                        type="submit"
-                        class="btn btn-link link-secondary"
-                        class:disabled={$changingEmailLoading}>
-                        {$_("pages.settings.inputs.change-email.confirm")}
-                      </button>
-                    </div>
-                  {:else}
-                    <div class="col">
-                      <input
-                        type="password"
-                        id="currentPassword"
-                        placeholder={$_(
-                          "pages.settings.inputs.change-email.current-password-placeholder",
-                        )}
-                        class="form-control"
-                        bind:value={$currentPassword}
-                        autofocus />
-                    </div>
-                    <div class="col-auto">
-                      <button
-                        type="reset"
-                        class="btn btn-link link-danger"
-                        onclick={() =>
-                          stopChangingEmail(
+            {:else if row.id === "change-email"}
+              <div class="row">
+                <label class="col-md-4 col-form-label" for="userEmail">
+                  {$_("pages.settings.inputs.change-email.title")}
+                </label>
+                <div class="col col-form-label">
+                  <form
+                    onsubmit={(e) => {
+                      e.preventDefault();
+                      $changingEmail2ndStep
+                        ? sendChangeEmailLink(
+                            changingEmailError,
+                            changingEmailLoading,
+                            changingEmailSuccess,
                             currentPassword,
                             newEmail,
                             changingEmail,
-                          )}>
-                        {$_("pages.settings.inputs.change-email.cancel")}
-                      </button>
-                      <button type="submit" class="btn btn-link"
-                        >{$_(
-                          "pages.settings.inputs.change-email.continue",
-                        )}</button>
+                            changingEmail2ndStep,
+                          )
+                        : startChangingEmail2ndStep(changingEmail2ndStep);
+                    }}>
+                    <div class="row">
+                      {#if !$changingEmail}
+                        <div class="col-12">
+                          {#if $changingEmailSuccess}
+                            <p class="text-dark mb-0">
+                              {$_(
+                                "pages.settings.inputs.change-email.success-message",
+                                {
+                                  values: { newEmail: $newEmail },
+                                },
+                              )}
+                            </p>
+                          {:else}
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              aria-describedby="userEmail"
+                              onclick={() => startChangingEmail(changingEmail)}
+                              disabled={!$session.siteInfo.emailEnabled}
+                              >{$_(
+                                "pages.settings.inputs.change-email.description",
+                              )}</button>
+                          {/if}
+                        </div>
+                      {:else if $changingEmail2ndStep}
+                        <div class="col">
+                          <input
+                            type="email"
+                            id="newEmail"
+                            placeholder={$_(
+                              "pages.settings.inputs.change-password.new-email-placeholder",
+                            )}
+                            class="form-control"
+                            aria-describedby="validationChangingEmail"
+                            bind:value={$newEmail}
+                            class:is-invalid={$changingEmailError}
+                            autofocus />
+                          <div id="validationChangingEmail" class="invalid-feedback">
+                            {$_("errors." + $changingEmailError)}
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <button
+                            type="reset"
+                            class="btn btn-link link-primary"
+                            onclick={() =>
+                              stopChangingEmail2ndStep(changingEmail2ndStep)}>
+                            {$_("pages.settings.inputs.change-email.back")}
+                          </button>
+                          <button
+                            type="submit"
+                            class="btn btn-link link-secondary"
+                            class:disabled={$changingEmailLoading}>
+                            {$_("pages.settings.inputs.change-email.confirm")}
+                          </button>
+                        </div>
+                      {:else}
+                        <div class="col">
+                          <input
+                            type="password"
+                            id="currentPassword"
+                            placeholder={$_(
+                              "pages.settings.inputs.change-email.current-password-placeholder",
+                            )}
+                            class="form-control"
+                            bind:value={$currentPassword}
+                            autofocus />
+                        </div>
+                        <div class="col-auto">
+                          <button
+                            type="reset"
+                            class="btn btn-link link-danger"
+                            onclick={() =>
+                              stopChangingEmail(
+                                currentPassword,
+                                newEmail,
+                                changingEmail,
+                              )}>
+                            {$_("pages.settings.inputs.change-email.cancel")}
+                          </button>
+                          <button type="submit" class="btn btn-link"
+                            >{$_(
+                              "pages.settings.inputs.change-email.continue",
+                            )}</button>
+                        </div>
+                      {/if}
                     </div>
+                  </form>
+                </div>
+              </div>
+            {:else if row.id === "display-language"}
+              {#if $session.siteInfo.allowUserLocaleSelection}
+                <div class="row">
+                  <label class="col-md-4 col-form-label" for="userLocaleCode">
+                    {$_("pages.settings.inputs.display-language.title")}
+                  </label>
+                  <div class="col col-form-label">
+                    <select
+                      class="form-control"
+                      id="userLocaleCode"
+                      bind:value={$userLocale}>
+                      {#each Object.keys($Languages) as language, index (language)}
+                        <option value={$Languages[language].code}
+                          >{$Languages[language].name}</option>
+                      {/each}
+                    </select>
+                  </div>
+                </div>
+              {/if}
+            {:else if row.props && row.props.label}
+              <div class="row">
+                <label class="col-md-4 col-form-label" for={row.id}>
+                  {row.props.label && row.props.label.includes(".")
+                    ? $_(row.props.label)
+                    : row.props.label}
+                </label>
+                <div class="col col-form-label">
+                  {#if row.component}
+                    <ViewComponent
+                      component={row.component}
+                      data={row.props.data}
+                      onRegister={(state) => registerPlugin(row.id, state)} />
+                  {:else}
+                    {row.props.value || ""}
                   {/if}
                 </div>
-              </form>
-            </div>
-          </div>
-
-          {#if $session.siteInfo.allowUserLocaleSelection}
-            <div class="row">
-              <label class="col-md-4 col-form-label" for="userLocaleCode">
-                {$_("pages.settings.inputs.display-language.title")}
-              </label>
-              <div class="col col-form-label">
-                <select
-                  class="form-control"
-                  id="userLocaleCode"
-                  bind:value={$userLocale}>
-                  {#each Object.keys($Languages) as language, index (language)}
-                    <option value={$Languages[language].code}
-                      >{$Languages[language].name}</option>
-                  {/each}
-                </select>
               </div>
-            </div>
-          {/if}
+            {:else if row.component}
+              <div class="row">
+                <div class="col-12">
+                  <ViewComponent
+                    component={row.component}
+                    data={row.props?.data || data}
+                    onRegister={(state) => registerPlugin(row.id, state)} />
+                </div>
+              </div>
+            {/if}
+          {/each}
+
           {#if saveButtonVisible}
             <button
               class="btn btn-secondary"
               class:disabled={saveButtonDisabled}
               aria-disabled={saveButtonDisabled}
-              onclick={() => saveSettings(userLocale, saveButtonLoading)}
+              onclick={handleSave}
               >{$_("buttons.save")}
             </button>
           {/if}
@@ -331,6 +363,7 @@
   const session = getContext("session");
 
   const contentItems = panoApiClient.ui.settings.content.get();
+  const cardRowItems = panoApiClient.ui.settings.cardRows.get();
 
   const {
     resetPasswordError,
@@ -349,8 +382,54 @@
   } = init($session);
 
   $: sessions = data.sessions;
+  
+  let pluginStates = {};
+  let totalDirtyPlugins = 0;
+  let totalSaveablePlugins = 0;
 
-  $: saveButtonVisible = $session.siteInfo.allowUserLocaleSelection;
+  function registerPlugin(id, state) {
+    if (!state) {
+      delete pluginStates[id];
+    } else {
+      pluginStates[id] = state;
+    }
+    updateTotals();
+  }
+
+  function updateTotals() {
+    totalDirtyPlugins = Object.values(pluginStates).filter((s) => s.isDirty).length;
+    totalSaveablePlugins = Object.keys(pluginStates).length;
+  }
+
+  async function handleSave() {
+    if (saveButtonDisabled) return;
+
+    // 1. Save locale if changed
+    if ($userLocale !== $currentLanguage.code) {
+      await saveSettings(userLocale, saveButtonLoading);
+    }
+
+    // 2. Save plugins
+    const savePromises = Object.values(pluginStates)
+      .filter((state) => state.isDirty && state.save)
+      .map((state) => state.save());
+
+    if (savePromises.length > 0) {
+      saveButtonLoading.set(true);
+      try {
+        await Promise.all(savePromises);
+      } catch (e) {
+        console.error("Failed to save some plugins", e);
+      } finally {
+        saveButtonLoading.set(false);
+        updateTotals();
+      }
+    }
+  }
+
+  $: saveButtonVisible =
+    $session.siteInfo.allowUserLocaleSelection || totalSaveablePlugins > 0;
   $: saveButtonDisabled =
-    $userLocale === $currentLanguage.code || $saveButtonLoading;
+    ($userLocale === $currentLanguage.code && totalDirtyPlugins === 0) ||
+    $saveButtonLoading;
 </script>

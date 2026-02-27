@@ -21,8 +21,18 @@ export async function processLoad(event) {
     items.push({ id: "settings-cards", priority: 100, hidden: false });
   });
 
+  // Initialize settings card rows
+  panoApiServer.ui.settings.cardRows.edit((items) => {
+    items.push(
+      { id: "change-password", priority: 100, hidden: false },
+      { id: "change-email", priority: 90, hidden: false },
+      { id: "display-language", priority: 80, hidden: false },
+    );
+  });
+
   await executeLifecycle("theme:settings:load", {}, event);
   await executeViewLoad("settings-content", event);
+  await executeViewLoad("settings-card-rows", event);
 
   await loadSidebar(event);
 

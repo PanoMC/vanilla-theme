@@ -18,7 +18,7 @@
                   <td>{$_("pages.profile.last-login")}</td>
                   <td><Date time={data.lastLoginDate} relativeFormat="true" /></td>
                 </tr>
-              {:else if row.props}
+              {:else if row.props && row.props.label}
                 <!-- Custom plugin row -->
                 <tr>
                   <td>{row.props.label && row.props.label.includes(".") ? $_(row.props.label) : row.props.label}</td>
