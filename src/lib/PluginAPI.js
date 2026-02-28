@@ -91,7 +91,7 @@ async function executeComponentLoad(containerId, type, event) {
       const Component = module.default || module;
       const loadFn = module.load || (Component && Component.load);
 
-      let props = {};
+      let props = null;
       if (loadFn) {
         try {
           props = await loadFn(event);
@@ -101,7 +101,7 @@ async function executeComponentLoad(containerId, type, event) {
       }
 
       const updatedItem = { ...item, component: module };
-      if (props && typeof props === "object") {
+      if (props && typeof props === "object" && Object.keys(props).length > 0) {
         if (!updatedItem.props) updatedItem.props = {};
         updatedItem.props.data = { ...updatedItem.props.data, ...props };
       }
