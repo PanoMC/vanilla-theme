@@ -38,6 +38,11 @@
   let loading, error;
   let passwordVisible = false;
 
+  $: if ($session?.siteInfo?.isDemo && usernameOrEmail === "demo") {
+    password = "123456";
+    passwordVisible = true;
+  }
+
   // Register fields
   let linkCode = "";
   let email = "";
@@ -182,6 +187,9 @@
           if (body.error === "REGISTER_EMAIL_REQUIRED") {
             emailRequired = true;
             passwordVisible = true;
+            if ($session?.siteInfo?.isDemo && usernameOrEmail === "demo") {
+              password = "123456";
+            }
             error = null;
             setTimeout(() => document.getElementById("email")?.focus(), 50);
             return;
@@ -189,6 +197,9 @@
 
           if (body.error === "LOGIN_IS_INVALID" && !passwordVisible) {
             passwordVisible = true;
+            if ($session?.siteInfo?.isDemo && usernameOrEmail === "demo") {
+              password = "123456";
+            }
             error = null;
             setTimeout(() => document.getElementById("password")?.focus(), 50);
             return;
@@ -327,7 +338,7 @@
                   class="form-control {passwordVisible ? 'rounded-bottom-0' : 'rounded'}"
                   id="usernameOrEmail"
                   on:input={() => {
-                    if (!emailRequired) {
+                    if (!emailRequired && !($session?.siteInfo?.isDemo && usernameOrEmail === "demo")) {
                       passwordVisible = false;
                     }
                     error = null;
