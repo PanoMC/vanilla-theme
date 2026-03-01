@@ -112,13 +112,16 @@ export default defineConfig(({ isSsrBuild, command }) => {
       copyManifestPlugin(),
     ],
     ssr: {
-      noExternal: command === "build" ? true : ["@panomc/sdk", "svelte-i18n"]
+      noExternal: command === "build" ? true : ["@panomc/sdk", "svelte-i18n"],
     },
     css: {
       preprocessorOptions: {
         scss: {
           api: "modern-compiler",
-          loadPaths: [process.cwd(), path.resolve(process.cwd(), 'node_modules')],
+          loadPaths: [
+            process.cwd(),
+            path.resolve(process.cwd(), "node_modules"),
+          ],
           quietDeps: true,
           silenceDeprecations: [
             "mixed-decls",
@@ -131,7 +134,7 @@ export default defineConfig(({ isSsrBuild, command }) => {
     },
     optimizeDeps: {
       include: ["deepmerge", "svelte-i18n"],
-      exclude: ["@panomc/sdk"],
+      exclude: ["@panomc/sdk", "svelte"],
     },
     server: {
       proxy: {
@@ -139,26 +142,31 @@ export default defineConfig(({ isSsrBuild, command }) => {
       },
       allowedHosts: true,
       hmr: {
-        path: "/"
-      }
+        path: "/",
+      },
     },
     resolve: {
       alias: {
-        "@theme-style": (command === "serve" && process.env.VITE_DEV_UI !== "true")
-          ? path.resolve(process.cwd(), "src/styles/_empty.scss")
-          : path.resolve(process.cwd(), "src/styles/style.scss"),
+        "@theme-style":
+          command === "serve" && process.env.VITE_DEV_UI !== "true"
+            ? path.resolve(process.cwd(), "src/styles/_empty.scss")
+            : path.resolve(process.cwd(), "src/styles/style.scss"),
       },
-      dedupe: ["svelte", "@panomc/sdk", "svelte-i18n"]
+      preserveSymlinks: true,
+      dedupe: ["svelte", "@panomc/sdk", "svelte-i18n"],
     },
     build: {
       manifest: true,
       rollupOptions: {
         // Only externalize in the client-side build to support the importmap.
         // We let SSR build handle dependencies normally to avoid node_modules resolution issues.
-        ...(isSsrBuild ? {} : {
-          external: (id) => id.startsWith("svelte") || id.startsWith("@panomc/sdk")
-        })
-      }
+        ...(isSsrBuild
+          ? {}
+          : {
+              external: (id) =>
+                id.startsWith("svelte") || id.startsWith("@panomc/sdk"),
+            }),
+      },
     },
   };
 });
