@@ -1,338 +1,3 @@
-<!-- Navbar -->
-<div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
-  <nav
-    class="navbar navbar-expand-lg navbar-light bg-light bg-gradient border rounded rounded-{themeSettings.navRoundLevel
-      ? +themeSettings.navRoundLevel
-      : '5'}">
-    <div class="container">
-      <ul class="navbar-nav flex-row me-auto">
-        <li>
-          <button
-            aria-label={$_("buttons.toggle")}
-            class="navbar-toggler d-lg-none"
-            data-bs-target="#navbar"
-            data-bs-toggle="collapse"
-            type="button">
-            <i aria-hidden="true" class="fa fa-bars"></i>
-          </button>
-        </li>
-      </ul>
-
-      <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
-        {#each $navbarRightComponents as component (component.id)}
-          {#if component.id === "panel-button"}
-            {#if $session.user && $session.user.panelAccess}
-              <li class="nav-item position-relative">
-                <a
-                  class="btn btn-link"
-                  href={PANEL_URL}
-                  target="_blank"
-                  rel="noreferrer">
-                  <i class="fa-solid fa-arrow-right ms-2" style="transform: rotate(-45deg);"></i>
-                  <span class="d-none d-lg-inline ms-2">
-                    {$_("nav-links.panel")}</span>
-                </a>
-                {#if showPanelBubble}
-                  <div class="demo-bubble">
-                    <div class="demo-bubble-content">
-                      {$_("labels.demo-panel-hint")}
-                    </div>
-                    <button type="button" class="demo-bubble-close" on:click={() => (showPanelBubble = false)} aria-label="Close">
-                      <i class="fa fa-times"></i>
-                    </button>
-                  </div>
-                {/if}
-              </li>
-            {/if}
-          {:else if component.id === "profile-dropdown"}
-            {#if $session.user}
-              <!-- User Dropdown -->
-              <li class="nav-item dropdown position-relative">
-                <button
-                  type="button"
-                  class="nav-link position-relative"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  title={$session.user.username}>
-                  <img
-                    alt={$session.user.username}
-                    class="rounded d-block m-auto"
-                    src="/api/profile/picture/{$session.user.username}?{$avatarVersion}"
-                    width="24"
-                    height="24" />
-                  {#if $notificationsCount !== 0}
-                    <span
-                      class="position-absolute top-0 end-0 badge rounded-pill bg-danger px-2 py-1">
-                      {$notificationsCount}
-                    </span>
-                  {/if}
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end position-absolute">
-                  <h6 class="dropdown-header">{$session.user.username}</h6>
-                  {#each $profileDropdownItems as item (item.id)}
-                    {#if item.id === "profile"}
-                      <li>
-                        <a
-                          class:active={matching($page.url.pathname, "/profile")}
-                          class="dropdown-item focus-ring"
-                          href="/profile">{$_("buttons.profile")}</a>
-                      </li>
-                    {:else if item.id === "notifications"}
-                      <li>
-                        <a
-                          class:active={matching($page.url.pathname, "/notifications")}
-                          class="dropdown-item focus-ring position-relative"
-                          href="/notifications">{$_("buttons.notifications")}
-                          {#if $notificationsCount !== 0}
-                            <span
-                              class="position-absolute top-0 badge rounded-pill bg-danger p-1 d-inline">
-                            </span>
-                          {/if}</a>
-                      </li>
-                    {:else if item.id === "tickets"}
-                      <li>
-                        <a
-                          class:active={matching($page.url.pathname, "/tickets")}
-                          class="dropdown-item focus-ring"
-                          href="/tickets">{$_("buttons.tickets")}</a>
-                      </li>
-                    {:else if item.id === "settings"}
-                      <li>
-                        <a
-                          class:active={matching(
-                            $page.url.pathname,
-                            "/profile/settings",
-                          )}
-                          class="dropdown-item focus-ring"
-                          href="/profile/settings">{$_("buttons.settings")}</a>
-                      </li>
-                    {:else if item.id === "logout"}
-                      <li>
-                        <button
-                          type="button"
-                          class="dropdown-item focus-ring link-danger"
-                          on:click={() => logout(session)}>{$_("buttons.logout")}</button>
-                      </li>
-                    {:else if item.props}
-                      <!-- Custom plugin item -->
-                      <li>
-                        <a
-                          class="dropdown-item focus-ring"
-                          href={item.props.href}>
-                          {#if item.props.icon}
-                            <i class="{item.props.icon} me-2"></i>
-                          {/if}
-                          {item.props.text && item.props.text.includes(".") ? $_(item.props.text) : item.props.text}
-                        </a>
-                      </li>
-                    {/if}
-                  {/each}
-                </ul>
-              </li>
-            {/if}
-          {:else if component.id === "auth-buttons"}
-            {#if !$session.user}
-              <li class="nav-item position-relative me-xl-0 me-3">
-                <a href="/login" class="nav-link">
-                  {$_("buttons.login")}
-                </a>
-                {#if showLoginBubble}
-                  <div class="demo-bubble">
-                    <div class="demo-bubble-content">
-                      {$_("labels.demo-login-hint")}
-                    </div>
-                    <button type="button" class="demo-bubble-close" on:click={() => (showLoginBubble = false)} aria-label="Close">
-                      <i class="fa fa-times"></i>
-                    </button>
-                  </div>
-                {/if}
-              </li>
-              <li class="nav-item">
-                <a href="/register"
-                   class="btn btn-secondary rounded-pill">
-                  {$_("buttons.register")}
-                </a>
-              </li>
-            {/if}
-          {:else}
-            <!-- External plugin component -->
-            <li class="nav-item">
-              <ViewComponent component={component.component} />
-            </li>
-          {/if}
-        {/each}
-      </ul>
-
-      {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 text-lg-left text-center">
-            {#each displayLinks as link (link.id)}
-              <li class="nav-item">
-                <a
-                  href={link.href}
-                  target={link.target}
-                  class="nav-link"
-                  class:active={matching($page.url.pathname, link.href, link.startsWith)}
-                  title={link.text && link.text.includes(".") ? $_(link.text) : link.text}>
-                  {#if link.icon}
-                    <i class="{link.icon} me-1" aria-hidden="true"></i>
-                  {/if}
-                  {link.text && link.text.includes(".") ? $_(link.text) : link.text}
-                </a>
-              </li>
-            {/each}
-          </ul>
-        </div>
-      {/if}
-    </div>
-  </nav>
-</div>
-
-<!-- Navbar End -->
-<script>
-  import { getContext, onMount, tick } from "svelte";
-  import { _ } from "svelte-i18n";
-
-  import { page } from "$app/stores";
-  import { browser } from "$app/environment";
-  import { PANEL_URL } from "$lib/variables.js";
-
-  import { logout, notificationsCount, avatarVersion } from "$lib/Store";
-  import { panoApiClient } from "$lib/PluginAPI.js";
-  import { hasPermission } from "$lib/auth.util.js";
-  import ViewComponent from "$lib/components/ViewComponent.svelte";
-
-  const navLinks = panoApiClient.ui.nav.site.getNavLinks();
-
-  // Initialize navbar right components
-  panoApiClient.ui.nav.rightComponents.edit((items) => {
-    items.push(
-      { id: "panel-button", priority: 100, hidden: false },
-      { id: "profile-dropdown", priority: 90, hidden: false },
-      { id: "auth-buttons", priority: 80, hidden: false }
-    );
-  });
-
-  // Initialize profile dropdown items
-  panoApiClient.ui.nav.profileDropdown.edit((items) => {
-    items.push(
-      { id: "profile", priority: 100, hidden: false },
-      { id: "notifications", priority: 90, hidden: false },
-      { id: "tickets", priority: 80, hidden: false },
-      { id: "settings", priority: 70, hidden: false },
-      { id: "logout", priority: 10, hidden: false }
-    );
-  });
-
-  const navbarRightComponents = panoApiClient.ui.nav.rightComponents.get();
-  const profileDropdownItems = panoApiClient.ui.nav.profileDropdown.get();
-
-  let navbarCollapseInstance = null;
-  let showPanelBubble = false;
-  let showLoginBubble = false;
-
-  onMount(async () => {
-    const navbarElement = document.getElementById("navbar");
-    if (navbarElement) {
-      while (!window.bootstrap) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
-      await tick();
-      navbarCollapseInstance = window.bootstrap.Collapse.getOrCreateInstance(navbarElement, { toggle: false });
-    }
-  });
-
-  $: if (browser && $session?.siteInfo?.isDemo) {
-    if (!$session?.user) {
-      showPanelBubble = false;
-      showLoginBubble = true;
-    } else {
-      showLoginBubble = false;
-      showPanelBubble = !!$session?.user?.panelAccess;
-    }
-  }
-
-  // Close navbar when page changes on mobile
-  $: if ($page.url.pathname && navbarCollapseInstance) {
-    navbarCollapseInstance.hide();
-  }
-
-  const session = getContext("session");
-  const themeSettings = getContext("themeSettings");
-
-  $: navbarWidthOption = themeSettings.navbarWidthOption || "BY_CONTENT";
-
-  $: nativeLinks = [
-    { id: "home", text: "nav-links.homepage", href: "/" },
-    { id: "support", text: "nav-links.support", href: "/support" },
-    {
-      id: "rules",
-      text: "nav-links.rules",
-      href: "/rules",
-      condition: !!$session.siteInfo?.registerAgreement
-    }
-  ];
-
-  function matching(path, pathName, startsWith = false) {
-    return (
-      path.toUpperCase() === pathName?.toUpperCase() ||
-      path.toUpperCase() === (pathName + "/").toUpperCase() ||
-      (startsWith && path.startsWith(pathName))
-    );
-  }
-
-  $: displayLinks = (() => {
-    // 1. Merge
-    const pluginLinks = $navLinks.map((l) => ({
-      ...l,
-      id: l.href,
-      isPlugin: true,
-      target: l.target === "_self" ? null : l.target
-    }));
-
-    const allLinks = [...nativeLinks, ...pluginLinks];
-
-    // 2. Sort
-    let order = themeSettings.navLinksOrder || [];
-    const sourceMap = new Map(allLinks.map((l) => [l.id, l]));
-    const sorted = [];
-
-    // Add ordered items
-    for (const id of order) {
-      if (sourceMap.has(id)) {
-        sorted.push(sourceMap.get(id));
-      }
-    }
-
-    // Append remaining items (ordered set first to avoid duplicates)
-    const inOrderIds = new Set(order);
-    for (const l of allLinks) {
-      // Only add if not already added (check ID presence in map is strictly better if duplicates exist in source, but here IDs are unique-ish)
-      if (!inOrderIds.has(l.id)) {
-        sorted.push(l);
-      }
-    }
-
-    // 3. Filter visibility & conditions
-    return sorted.filter((link) => {
-      // Check explicit toggle first
-      // Note: Default for native links was traditionally TRUE if undefined.
-      // Default for plugin links should also be TRUE.
-      const status = themeSettings.navLinksEnableStatus?.[link.id];
-      if (status === false) return false; // Explicitly disabled
-
-      // Check custom condition (e.g. Rules agreement)
-      if (typeof link.condition !== "undefined" && !link.condition) return false;
-
-      // Check plugin conditions
-      if (link.loginRequired && !$session.user) return false;
-      if (link.permission && !hasPermission(link.permission)) return false;
-
-      return true;
-    });
-  })();
-</script>
-
 <style>
   .demo-bubble {
     position: absolute;
@@ -394,9 +59,378 @@
 
   @media (max-width: 991px) {
     .demo-bubble {
-        bottom: calc(100% + 5px);
-        max-width: 180px;
+      bottom: calc(100% + 5px);
+      max-width: 180px;
     }
   }
 </style>
 
+<!-- Navbar -->
+<div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
+  <nav
+    class="navbar navbar-expand-lg bg-body-tertiary border rounded rounded-{themeSettings.navRoundLevel
+      ? +themeSettings.navRoundLevel
+      : '5'} shadow-sm">
+    <div class="container">
+      <ul class="navbar-nav flex-row me-auto">
+        <li>
+          <button
+            aria-label={$_("buttons.toggle")}
+            class="navbar-toggler d-lg-none"
+            data-bs-target="#navbar"
+            data-bs-toggle="collapse"
+            type="button">
+            <i aria-hidden="true" class="fa fa-bars"></i>
+          </button>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav flex-row ml-auto order-lg-last gap-lg-0 gap-3">
+        {#each $navbarRightComponents as component (component.id)}
+          {#if component.id === "panel-button"}
+            {#if $session.user && $session.user.panelAccess}
+              <li class="nav-item position-relative">
+                <a
+                  class="btn btn-link"
+                  href={PANEL_URL}
+                  target="_blank"
+                  rel="noreferrer">
+                  <i
+                    class="fa-solid fa-arrow-right ms-2"
+                    style="transform: rotate(-45deg);"></i>
+                  <span class="d-none d-lg-inline ms-2">
+                    {$_("nav-links.panel")}</span>
+                </a>
+                {#if showPanelBubble}
+                  <div class="demo-bubble">
+                    <div class="demo-bubble-content">
+                      {$_("labels.demo-panel-hint")}
+                    </div>
+                    <button
+                      type="button"
+                      class="demo-bubble-close"
+                      on:click={() => (showPanelBubble = false)}
+                      aria-label="Close">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                {/if}
+              </li>
+            {/if}
+          {:else if component.id === "profile-dropdown"}
+            {#if $session.user}
+              <!-- User Dropdown -->
+              <li class="nav-item dropdown position-relative">
+                <button
+                  type="button"
+                  class="nav-link position-relative"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  title={$session.user.username}>
+                  <img
+                    alt={$session.user.username}
+                    class="rounded d-block m-auto"
+                    src="/api/profile/picture/{$session.user
+                      .username}?{$avatarVersion}"
+                    width="24"
+                    height="24" />
+                  {#if $notificationsCount !== 0}
+                    <span
+                      class="position-absolute top-0 end-0 badge rounded-pill bg-danger px-2 py-1">
+                      {$notificationsCount}
+                    </span>
+                  {/if}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end position-absolute">
+                  <h6 class="dropdown-header">{$session.user.username}</h6>
+                  {#each $profileDropdownItems as item (item.id)}
+                    {#if item.id === "profile"}
+                      <li>
+                        <a
+                          class:active={matching(
+                            $page.url.pathname,
+                            "/profile",
+                          )}
+                          class="dropdown-item focus-ring"
+                          href="/profile">{$_("buttons.profile")}</a>
+                      </li>
+                    {:else if item.id === "notifications"}
+                      <li>
+                        <a
+                          class:active={matching(
+                            $page.url.pathname,
+                            "/notifications",
+                          )}
+                          class="dropdown-item focus-ring position-relative"
+                          href="/notifications"
+                          >{$_("buttons.notifications")}
+                          {#if $notificationsCount !== 0}
+                            <span
+                              class="position-absolute top-0 badge rounded-pill bg-danger p-1 d-inline">
+                            </span>
+                          {/if}</a>
+                      </li>
+                    {:else if item.id === "tickets"}
+                      <li>
+                        <a
+                          class:active={matching(
+                            $page.url.pathname,
+                            "/tickets",
+                          )}
+                          class="dropdown-item focus-ring"
+                          href="/tickets">{$_("buttons.tickets")}</a>
+                      </li>
+                    {:else if item.id === "settings"}
+                      <li>
+                        <a
+                          class:active={matching(
+                            $page.url.pathname,
+                            "/profile/settings",
+                          )}
+                          class="dropdown-item focus-ring"
+                          href="/profile/settings">{$_("buttons.settings")}</a>
+                      </li>
+                    {:else if item.id === "logout"}
+                      <li>
+                        <button
+                          type="button"
+                          class="dropdown-item focus-ring link-danger"
+                          on:click={() => logout(session)}
+                          >{$_("buttons.logout")}</button>
+                      </li>
+                    {:else if item.props}
+                      <!-- Custom plugin item -->
+                      <li>
+                        <a
+                          class="dropdown-item focus-ring"
+                          href={item.props.href}>
+                          {#if item.props.icon}
+                            <i class="{item.props.icon} me-2"></i>
+                          {/if}
+                          {item.props.text && item.props.text.includes(".")
+                            ? $_(item.props.text)
+                            : item.props.text}
+                        </a>
+                      </li>
+                    {/if}
+                  {/each}
+                </ul>
+              </li>
+            {/if}
+          {:else if component.id === "auth-buttons"}
+            {#if !$session.user}
+              <li class="nav-item position-relative me-xl-0 me-3">
+                <a href="/login" class="nav-link">
+                  {$_("buttons.login")}
+                </a>
+                {#if showLoginBubble}
+                  <div class="demo-bubble">
+                    <div class="demo-bubble-content">
+                      {$_("labels.demo-login-hint")}
+                    </div>
+                    <button
+                      type="button"
+                      class="demo-bubble-close"
+                      on:click={() => (showLoginBubble = false)}
+                      aria-label="Close">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                {/if}
+              </li>
+              <li class="nav-item">
+                <a href="/register" class="btn btn-secondary rounded-pill">
+                  {$_("buttons.register")}
+                </a>
+              </li>
+            {/if}
+          {:else}
+            <!-- External plugin component -->
+            <li class="nav-item">
+              <ViewComponent component={component.component} />
+            </li>
+          {/if}
+        {/each}
+      </ul>
+
+      {#if typeof themeSettings.navLinksEnabled === "undefined" ? true : themeSettings.navLinksEnabled}
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 text-lg-left text-center">
+            {#each displayLinks as link (link.id)}
+              <li class="nav-item">
+                <a
+                  href={link.href}
+                  target={link.target}
+                  class="nav-link"
+                  class:active={matching(
+                    $page.url.pathname,
+                    link.href,
+                    link.startsWith,
+                  )}
+                  title={link.text && link.text.includes(".")
+                    ? $_(link.text)
+                    : link.text}>
+                  {#if link.icon}
+                    <i class="{link.icon} me-1" aria-hidden="true"></i>
+                  {/if}
+                  {link.text && link.text.includes(".")
+                    ? $_(link.text)
+                    : link.text}
+                </a>
+              </li>
+            {/each}
+          </ul>
+        </div>
+      {/if}
+    </div>
+  </nav>
+</div>
+
+<!-- Navbar End -->
+<script>
+  import { getContext, onMount, tick } from "svelte";
+  import { _ } from "svelte-i18n";
+
+  import { page } from "$app/stores";
+  import { browser } from "$app/environment";
+  import { PANEL_URL } from "$lib/variables.js";
+
+  import { logout, notificationsCount, avatarVersion } from "$lib/Store";
+  import { panoApiClient } from "$lib/PluginAPI.js";
+  import { hasPermission } from "$lib/auth.util.js";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
+
+  const navLinks = panoApiClient.ui.nav.site.getNavLinks();
+
+  // Initialize navbar right components
+  panoApiClient.ui.nav.rightComponents.edit((items) => {
+    items.push(
+      { id: "panel-button", priority: 100, hidden: false },
+      { id: "profile-dropdown", priority: 90, hidden: false },
+      { id: "auth-buttons", priority: 80, hidden: false },
+    );
+  });
+
+  // Initialize profile dropdown items
+  panoApiClient.ui.nav.profileDropdown.edit((items) => {
+    items.push(
+      { id: "profile", priority: 100, hidden: false },
+      { id: "notifications", priority: 90, hidden: false },
+      { id: "tickets", priority: 80, hidden: false },
+      { id: "settings", priority: 70, hidden: false },
+      { id: "logout", priority: 10, hidden: false },
+    );
+  });
+
+  const navbarRightComponents = panoApiClient.ui.nav.rightComponents.get();
+  const profileDropdownItems = panoApiClient.ui.nav.profileDropdown.get();
+
+  let navbarCollapseInstance = null;
+  let showPanelBubble = false;
+  let showLoginBubble = false;
+
+  onMount(async () => {
+    const navbarElement = document.getElementById("navbar");
+    if (navbarElement) {
+      while (!window.bootstrap) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      await tick();
+      navbarCollapseInstance = window.bootstrap.Collapse.getOrCreateInstance(
+        navbarElement,
+        { toggle: false },
+      );
+    }
+  });
+
+  $: if (browser && $session?.siteInfo?.isDemo) {
+    if (!$session?.user) {
+      showPanelBubble = false;
+      showLoginBubble = true;
+    } else {
+      showLoginBubble = false;
+      showPanelBubble = !!$session?.user?.panelAccess;
+    }
+  }
+
+  // Close navbar when page changes on mobile
+  $: if ($page.url.pathname && navbarCollapseInstance) {
+    navbarCollapseInstance.hide();
+  }
+
+  const session = getContext("session");
+  const themeSettings = getContext("themeSettings");
+
+  $: navbarWidthOption = themeSettings.navbarWidthOption || "BY_CONTENT";
+
+  $: nativeLinks = [
+    { id: "home", text: "nav-links.homepage", href: "/" },
+    { id: "support", text: "nav-links.support", href: "/support" },
+    {
+      id: "rules",
+      text: "nav-links.rules",
+      href: "/rules",
+      condition: !!$session.siteInfo?.registerAgreement,
+    },
+  ];
+
+  function matching(path, pathName, startsWith = false) {
+    return (
+      path.toUpperCase() === pathName?.toUpperCase() ||
+      path.toUpperCase() === (pathName + "/").toUpperCase() ||
+      (startsWith && path.startsWith(pathName))
+    );
+  }
+
+  $: displayLinks = (() => {
+    // 1. Merge
+    const pluginLinks = $navLinks.map((l) => ({
+      ...l,
+      id: l.href,
+      isPlugin: true,
+      target: l.target === "_self" ? null : l.target,
+    }));
+
+    const allLinks = [...nativeLinks, ...pluginLinks];
+
+    // 2. Sort
+    let order = themeSettings.navLinksOrder || [];
+    const sourceMap = new Map(allLinks.map((l) => [l.id, l]));
+    const sorted = [];
+
+    // Add ordered items
+    for (const id of order) {
+      if (sourceMap.has(id)) {
+        sorted.push(sourceMap.get(id));
+      }
+    }
+
+    // Append remaining items (ordered set first to avoid duplicates)
+    const inOrderIds = new Set(order);
+    for (const l of allLinks) {
+      // Only add if not already added (check ID presence in map is strictly better if duplicates exist in source, but here IDs are unique-ish)
+      if (!inOrderIds.has(l.id)) {
+        sorted.push(l);
+      }
+    }
+
+    // 3. Filter visibility & conditions
+    return sorted.filter((link) => {
+      // Check explicit toggle first
+      // Note: Default for native links was traditionally TRUE if undefined.
+      // Default for plugin links should also be TRUE.
+      const status = themeSettings.navLinksEnableStatus?.[link.id];
+      if (status === false) return false; // Explicitly disabled
+
+      // Check custom condition (e.g. Rules agreement)
+      if (typeof link.condition !== "undefined" && !link.condition)
+        return false;
+
+      // Check plugin conditions
+      if (link.loginRequired && !$session.user) return false;
+      if (link.permission && !hasPermission(link.permission)) return false;
+
+      return true;
+    });
+  })();
+</script>
