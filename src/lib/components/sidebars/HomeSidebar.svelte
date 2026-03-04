@@ -1,54 +1,58 @@
 <Sidebar side={side}>
   <div class="vstack gap-3">
     {#each $items as item (item.id)}
-      {#if item.id === 'play-button'}
-        <!-- Play Button Snippet -->
-        <button
-          class="btn btn-secondary btn-lg w-100"
-          type="button"
-          on:click={onCopyCommandTextClick}
-          use:tooltip={[
-            isCommandTextCopied
-              ? $_("sidebars.home.copied")
-              : $_("sidebars.home.copy"),
-            { placement: "bottom", hideOnClick: false },
-          ]}>
-          <b>{$data.ipAddress}</b>
-          <br />
-          <span class="fs-6 fw-normal opacity-75">
-            {$_("buttons.click-to-copy")}</span>
-        </button>
-      {:else if item.id === 'server-info'}
-        <!-- Server Info Snippet -->
-        <div class="d-flex flex-column align-items-center justify-content-stretch">
-          <ul class="list-group w-100 text-center">
-            <li class="list-group-item">
-              {#if serverOnline}
-                <span class="badge text-bg-success"
-                  >{$_("sidebars.home.online")}</span>
-              {:else}
-                <span class="badge text-bg-danger rounded-pill"
-                  >{$_("sidebars.home.offline")}</span>
-              {/if}
-            </li>
-            <li class="list-group-item">
-              {$_("sidebars.home.playing", {
-                values: {
-                  playerCount: $data.mainServer?.playerCount || 0,
-                  maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-                },
-              })}
-            </li>
-            <li class="list-group-item">
-              {$data.serverGameVersion}
-            </li>
-          </ul>
+      {#if item.id === "play-button"}
+        <!-- Combined Server Card -->
+        <div
+          class="card overflow-hidden border-secondary border-2">
+          <button
+            class="btn btn-secondary btn-lg w-100 rounded-0 border-0"
+            type="button"
+            on:click={onCopyCommandTextClick}
+            use:tooltip={[
+              isCommandTextCopied
+                ? $_("sidebars.home.copied")
+                : $_("sidebars.home.copy"),
+              { placement: "bottom", hideOnClick: false },
+            ]}>
+            <b>{$data.ipAddress}</b>
+            <br />
+            <span class="fs-6 fw-normal opacity-75">
+              {$_("buttons.click-to-copy")}</span>
+          </button>
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush text-center small">
+              <li class="list-group-item py-2">
+                {#if serverOnline}
+                  <span class="badge text-bg-success"
+                    >{$_("sidebars.home.online")}</span>
+                {:else}
+                  <span class="badge text-bg-danger rounded-pill"
+                    >{$_("sidebars.home.offline")}</span>
+                {/if}
+              </li>
+              <li class="list-group-item py-2">
+                {$_("sidebars.home.playing", {
+                  values: {
+                    playerCount: $data.mainServer?.playerCount || 0,
+                    maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+                  },
+                })}
+              </li>
+              <li class="list-group-item py-2">
+                {$data.serverGameVersion}
+              </li>
+            </ul>
+          </div>
         </div>
-      {:else if item.id === 'last-registrants'}
+      {:else if item.id === "server-info"}
+        <!-- Merged into play-button -->
+      {:else if item.id === "last-registrants"}
         <!-- Last Registrants Snippet -->
         <div
           class="card"
-          hidden={typeof themeSettings.sidebarCarts?.lastRegistrants === "undefined"
+          hidden={typeof themeSettings.sidebarCarts?.lastRegistrants ===
+          "undefined"
             ? false
             : !themeSettings.sidebarCarts.lastRegistrants}>
           <div class="card-header">
@@ -76,7 +80,10 @@
         </div>
       {:else}
         <!-- External Component -->
-        <ViewComponent component={item.component} data={$data} {...item.props} />
+        <ViewComponent
+          component={item.component}
+          data={$data}
+          {...item.props} />
       {/if}
     {/each}
   </div>
@@ -99,12 +106,7 @@
       priority: 100,
     });
 
-    panoApi.ui.sidebar.register({
-      sidebarId: "home",
-      id: "server-info",
-      component: "local:server-info",
-      priority: 90,
-    });
+    /* Server Info is merged into play-button */
 
     panoApi.ui.sidebar.register({
       sidebarId: "home",
@@ -114,7 +116,7 @@
     });
 
     // Execute sidebar load and resolve components for SSR
-    await executeSidebarLoad('home', event);
+    await executeSidebarLoad("home", event);
 
     data.set(
       await ApiUtil.get({

@@ -28,13 +28,14 @@
 </style>
 
 <div class="vstack gap-3">
-  
   <PageTitle title={data.post.title} />
 
   {#if data.post.category.title !== "-"}
     <div class="text-center">
       <a
-        class="badge {data.post.category.title !== '-' ? 'text-bg-secondary' : 'text-bg-primary'} text-decoration-none rounded-pill focus-ring"
+        class="badge {data.post.category.title !== '-'
+          ? 'text-bg-secondary'
+          : 'text-bg-primary'} text-decoration-none rounded-pill focus-ring"
         href="/?category={data.post.category.url}"
         use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
         {data.post.category.title}
@@ -44,7 +45,7 @@
 
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
-    <div class="post-detail-cover rounded-5">
+    <div class="post-detail-cover rounded shadow-sm">
       <div class="ratio ratio-16x9">
         <img
           id="thumbnail"
@@ -55,7 +56,7 @@
       </div>
 
       <!-- Başlık + footer -->
-      <div class="post-detail-cover__overlay rounded-5">
+      <div class="post-detail-cover__overlay rounded">
         <!-- Footer bilgileri -->
         <div class="d-flex flex-lg-row align-items-end justify-content-between">
           <div
@@ -80,7 +81,8 @@
                 ? false
                 : !themeSettings.postAuthorImageEnabled}>
               <img
-                src="/api/profile/picture/{data.post.writer.username}?{$avatarVersion}"
+                src="/api/profile/picture/{data.post.writer
+                  .username}?{$avatarVersion}"
                 alt={data.post.writer.username}
                 width="24"
                 height="24"
@@ -122,7 +124,8 @@
                 ? false
                 : !themeSettings.postAuthorImageEnabled}>
               <img
-                src="/api/profile/picture/{data.post.writer.username}?{$avatarVersion}"
+                src="/api/profile/picture/{data.post.writer
+                  .username}?{$avatarVersion}"
                 alt={data.post.writer.username}
                 width="28"
                 height="28"

@@ -1,14 +1,22 @@
+<style>
+  .no-caret::after {
+    display: none !important;
+  }
+</style>
+
 <!-- Footer -->
 {#if themeSettings.footerContent}
   {@html themeSettings.footerContent}
 {:else}
-  <div class="container-fluid mt-5 border-top py-5">
+  <div class="container mt-5 border-top py-5">
     <div class="row justify-content-center align-items-center g-3">
       <div
         class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
-        <ul class="nav nav-pills justify-content-center">
-          {#each displayLinks as link (link.id)}
-            <li class="nav-item">
+        <ul
+          bind:this={navElement}
+          class="nav nav-pills justify-content-lg-start justify-content-center small flex-nowrap overflow-visible">
+          {#each visibleLinks as link, i (link.id)}
+            <li class="nav-item" bind:this={itemElements[i]}>
               <a
                 class="nav-link rounded-pill small"
                 href={link.href}
@@ -22,6 +30,32 @@
               </a>
             </li>
           {/each}
+
+          {#if moreLinks.length > 0}
+            <li class="nav-item dropdown" bind:this={moreButtonElement}>
+              <button
+                class="nav-link rounded-pill small dropdown-toggle no-caret"
+                data-bs-toggle="dropdown"
+                type="button"
+                aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                {#each moreLinks as link (link.id)}
+                  <li>
+                    <a
+                      class="dropdown-item small"
+                      href={link.href}
+                      target={link.target}>
+                      {link.text && link.text.includes(".")
+                        ? $_(link.text)
+                        : link.text}
+                    </a>
+                  </li>
+                {/each}
+              </ul>
+            </li>
+          {/if}
         </ul>
       </div>
       <div class="col-lg-4 col-sm-8">
@@ -71,7 +105,8 @@
 
 <!-- Footer End -->
 <script>
-  import { getContext } from "svelte";
+  import { getContext, onMount, tick } from "svelte";
+  import { browser } from "$app/environment";
   import { _ } from "svelte-i18n";
   import { PANO_WEBSITE_URL } from "$lib/variables";
   import { panoApiClient } from "$lib/PluginAPI.js";
@@ -146,4 +181,76 @@
       return true;
     });
   })();
+
+  let navElement;
+  let itemElements = [];
+  let moreButtonElement;
+  let visibleLinksState = null;
+  let moreLinksState = [];
+  let isChecking = false;
+
+  $: visibleLinks = visibleLinksState || displayLinks;
+  $: moreLinks = moreLinksState;
+
+  async function updateOverflow() {
+    if (!browser || !navElement || isChecking) return;
+    isChecking = true;
+
+    // Measurement phase
+    visibleLinksState = displayLinks;
+    moreLinksState = [];
+    await tick();
+
+    if (itemElements.length === 0) {
+      isChecking = false;
+      return;
+    }
+
+    const containerWidth = navElement.clientWidth;
+    const moreButtonWidth = 50; // Conservative estimate for "..." button
+    const maxLinks = 3;
+
+    // Calculate item widths
+    const widths = itemElements.map((el) => (el ? el.offsetWidth : 0));
+
+    let cutIndex = -1;
+    let currentWidth = 0;
+
+    for (let i = 0; i < widths.length; i++) {
+      // Logic for cutting:
+      // 1. If we exceed the maximum allowed links (3)
+      // 2. OR if adding this link (plus the "..." button placeholder) exceeds the container width
+      const isWidthExceeded =
+        currentWidth + widths[i] + moreButtonWidth > containerWidth;
+      const isCountExceeded = i >= maxLinks;
+
+      if (isCountExceeded || isWidthExceeded) {
+        cutIndex = i;
+        break;
+      }
+      currentWidth += widths[i];
+    }
+
+    if (cutIndex !== -1 && cutIndex < displayLinks.length) {
+      visibleLinksState = displayLinks.slice(0, cutIndex);
+      moreLinksState = displayLinks.slice(cutIndex);
+    } else {
+      visibleLinksState = displayLinks;
+      moreLinksState = [];
+    }
+
+    isChecking = false;
+  }
+
+  onMount(() => {
+    updateOverflow();
+    const observer = new ResizeObserver(updateOverflow);
+    observer.observe(navElement);
+    return () => observer.disconnect();
+  });
+
+  $: if (displayLinks) {
+    itemElements = [];
+    updateOverflow();
+  }
 </script>

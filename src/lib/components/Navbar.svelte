@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
   <nav
-    class="navbar navbar-expand-lg navbar-dark bg-primary bg-gradient rounded rounded-{themeSettings.navRoundLevel
+    class="navbar navbar-expand-lg navbar-light bg-light bg-gradient border rounded rounded-{themeSettings.navRoundLevel
       ? +themeSettings.navRoundLevel
       : '5'}">
     <div class="container">
@@ -24,11 +24,11 @@
             {#if $session.user && $session.user.panelAccess}
               <li class="nav-item position-relative">
                 <a
-                  class="btn btn-secondary rounded-pill"
+                  class="btn btn-link"
                   href={PANEL_URL}
                   target="_blank"
                   rel="noreferrer">
-                  <i class="fa-solid fa-tachometer-alt"></i>
+                  <i class="fa-solid fa-arrow-right ms-2" style="transform: rotate(-45deg);"></i>
                   <span class="d-none d-lg-inline ms-2">
                     {$_("nav-links.panel")}</span>
                 </a>

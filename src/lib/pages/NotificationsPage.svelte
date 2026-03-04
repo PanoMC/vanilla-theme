@@ -4,15 +4,15 @@
 
     <PageActions>
       <div slot="right">
-      <!-- Action Menu -->
-      {#if $notifications.length !== 0}
-        <button
-          type="button"
-          class="btn btn-secondary"
-          on:click={() => onDeleteAllClick(notificationProcessID, interval)}
-          >{$_("buttons.delete-all")}
-        </button>
-      {/if} 
+        <!-- Action Menu -->
+        {#if $notifications.length !== 0}
+          <button
+            type="button"
+            class="btn btn-secondary"
+            on:click={() => onDeleteAllClick(notificationProcessID, interval)}
+            >{$_("buttons.delete-all")}
+          </button>
+        {/if} 
       </div>
     </PageActions>
   <!-- Notifications -->
