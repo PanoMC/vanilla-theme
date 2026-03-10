@@ -2,12 +2,18 @@ import { executeHookLoad } from "$lib/PluginAPI.js";
 
 export async function processLoad(event) {
   const { parent } = event;
-    await parent();
+  await parent();
+
+  // Both hook loads are independent (different hook names, separate cache entries).
+  const [themeTop, pageTop] = await Promise.all([
+    executeHookLoad("theme:top", event),
+    executeHookLoad("page:top", event)
+  ]);
 
   return {
     hookProps: {
-      "theme:top": await executeHookLoad("theme:top", event),
-      "page:top": await executeHookLoad("page:top", event)
-    }
-    };
+      "theme:top": themeTop,
+      "page:top": pageTop
+    },
+  };
 }

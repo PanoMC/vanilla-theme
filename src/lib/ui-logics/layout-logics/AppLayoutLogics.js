@@ -160,15 +160,19 @@ export async function processLoad(event) {
     pageTitle: writable(null)
   };
 
+  // theme:navbar:load must run first — plugins may register items into
+  // navbar-right / navbar-profile-dropdown views during this lifecycle.
   await executeLifecycle("theme:navbar:load", output, event);
 
-  // Resolve navbar dynamic components
-  await executeViewLoad("navbar-right", event);
-  await executeViewLoad("navbar-profile-dropdown", event);
-
-  await executeLifecycle("theme:app:load", output, event);
-
-  await initLanguage(siteInfo.locale, event);
+  // After navbar lifecycle, the two view loads operate on independent viewIds,
+  // theme:app:load writes to output but doesn't depend on view results,
+  // and initLanguage is fully independent. Run them all in parallel.
+  await Promise.all([
+    executeViewLoad("navbar-right", event),
+    executeViewLoad("navbar-profile-dropdown", event),
+    executeLifecycle("theme:app:load", output, event),
+    initLanguage(siteInfo.locale, event)
+  ]);
 
   if (browser && !get(initialized)) {
     initNotificationListeners();
