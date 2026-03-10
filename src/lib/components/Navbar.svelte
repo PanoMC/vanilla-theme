@@ -295,7 +295,7 @@
   import { browser } from "$app/environment";
   import { PANEL_URL } from "$lib/variables.js";
 
-  import { logout, notificationsCount, avatarVersion } from "$lib/Store";
+  import { avatarVersion, logout, notificationsCount } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { hasPermission } from "$lib/auth.util.js";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
@@ -332,9 +332,6 @@
   onMount(async () => {
     const navbarElement = document.getElementById("navbar");
     if (navbarElement) {
-      while (!window.bootstrap) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
       await tick();
       navbarCollapseInstance = window.bootstrap.Collapse.getOrCreateInstance(
         navbarElement,

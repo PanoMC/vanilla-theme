@@ -5,10 +5,10 @@
 </div>
 
 <script context="module">
-  import { tick } from 'svelte';
-  import { writable } from 'svelte/store';
+  import { tick } from "svelte";
+  import { writable } from "svelte/store";
 
-  import DefaultToast from '$lib/components/DefaultToast.svelte';
+  import DefaultToast from "$lib/components/DefaultToast.svelte";
 
   const toasts = writable([]);
   let id = 0;
@@ -30,10 +30,6 @@
   }
 
   export async function show(text, params = {}, toastComponent = DefaultToast) {
-    while (!window.bootstrap) {
-      await delay(50);
-    }
-
     if (text) {
       params.text = text;
     }

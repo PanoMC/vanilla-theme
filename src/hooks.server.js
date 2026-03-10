@@ -58,7 +58,8 @@ const importMap = `
       "@panomc/sdk/internal": "/lib/sdk/internal.js${v}"
     }
   }
-  </script>`;
+  </script>
+  <script src="/lib/bootstrap/bootstrap.bundle.min.js${v}"></script>`;
 const IMPORT_MAP_PLACEHOLDER = "%pano_lib_import%";
 const IMPORT_MAP_PLACEHOLDER_LEN = IMPORT_MAP_PLACEHOLDER.length;
 
