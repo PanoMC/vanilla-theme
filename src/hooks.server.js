@@ -59,7 +59,7 @@ const importMap = `
     }
   }
   </script>
-  <script src="/lib/bootstrap/bootstrap.bundle.min.js${v}"></script>`;
+  <script defer src="/lib/bootstrap/bootstrap.bundle.min.js${v}"></script>`;
 const IMPORT_MAP_PLACEHOLDER = "%pano_lib_import%";
 const IMPORT_MAP_PLACEHOLDER_LEN = IMPORT_MAP_PLACEHOLDER.length;
 
