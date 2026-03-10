@@ -183,7 +183,19 @@ export function init(data) {
   const sidebarProps = writable({});
 
   const pageUnsubscribe = page.subscribe((page) => {
-    session.update(() => page.data.session);
+    session.update((current) => {
+      const incoming = page.data.session;
+      if (!incoming) return current;
+
+      // Preserve client-side auth state changes (login/logout) that haven't
+      // been reflected in page.data yet due to client-side navigation
+      // without a server-side reload.
+      if (!!current?.user !== !!incoming.user) {
+        return { ...incoming, user: current.user, csrfToken: current.csrfToken };
+      }
+
+      return incoming;
+    });
     sidebar.update(() => page.data.sidebar);
     sidebarProps.update(() => page.data.sidebarProps || {});
   });
