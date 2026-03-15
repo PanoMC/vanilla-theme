@@ -546,6 +546,18 @@
           </div>
         </div>
         <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="navbarBgColor"
+            >{$_("pages.theme-settings.navbar.bg-color")}</label>
+          <div class="col-md-6">
+            <input
+              id="navbarBgColor"
+              class="form-control form-control-color"
+              type="color"
+              on:input={(e) => (themeSettings.navbarBgColor = e.target.value)}
+              value={themeSettings.navbarBgColor || "#044389"} />
+          </div>
+        </div>
+        <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="navRoundEnabled"
             >{$_("pages.theme-settings.navbar.border-radius")}</label>
           <div class="col-md-6">
@@ -859,6 +871,35 @@
           </div>
         </div>
         <div class="row mb-3">
+          <label class="col-md-6" for="footerLogoEnabled">
+            {$_("pages.theme-settings.footer.logo-visibility")}
+          </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.footerLogoEnabled ?? true}
+                class="form-check-input"
+                id="footerLogoEnabled"
+                on:change={(e) =>
+                  (themeSettings.footerLogoEnabled = e.target.checked)}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="footerTitle">
+            {$_("pages.theme-settings.footer.title")}
+          </label>
+          <div class="col-md-6">
+            <input
+              class="form-control"
+              id="footerTitle"
+              on:input={(e) => (themeSettings.footerTitle = e.target.value)}
+              type="text"
+              value={themeSettings.footerTitle ?? $session.siteInfo.websiteName} />
+          </div>
+        </div>
+        <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="footerContent">
             {$_("pages.theme-settings.footer.content")}
           </label>
@@ -868,7 +909,7 @@
               id="footerContent"
               on:input={(e) => (themeSettings.footerContent = e.target.value)}
               style="height: 200px;"
-              value={themeSettings.footerContent}></textarea>
+              value={themeSettings.footerContent ?? $session.siteInfo.websiteDescription}></textarea>
           </div>
         </div>
 
@@ -1028,12 +1069,14 @@
     showToast,
     showConfirm
   } from "$lib/ui-logics/layout-logics/ThemeSettingsLayoutLogics";
+  import { getContext } from "svelte";
   import { saveThemeSettings } from "$lib/services/theme-setting";
   import { panoApiClient } from "$lib/PluginAPI.js";
 
   export let data;
 
   let { themeSettings, originalThemeSettings } = data;
+  const session = getContext("session");
 
   let saving, resetting, resettingAll;
   let activeTab = "general";
@@ -1180,6 +1223,7 @@
     ],
     navbar: [
       "navbarWidthOption",
+      "navbarBgColor",
       "navRoundLevel",
       "navLinksEnabled",
       "navLinksEnableStatus",
@@ -1197,6 +1241,8 @@
     ],
     footer: [
       "footerEnabled",
+      "footerLogoEnabled",
+      "footerTitle",
       "footerContent",
       "footerLinksEnabled",
       "footerPluginLinksEnabled",

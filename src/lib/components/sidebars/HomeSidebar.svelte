@@ -3,23 +3,21 @@
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
-        <div
-          class="card overflow-hidden border-secondary border-2">
-          <button
-            class="btn btn-secondary btn-lg w-100 rounded-0 border-0"
-            type="button"
-            on:click={onCopyCommandTextClick}
-            use:tooltip={[
-              isCommandTextCopied
-                ? $_("sidebars.home.copied")
-                : $_("sidebars.home.copy"),
-              { placement: "bottom", hideOnClick: false },
-            ]}>
-            <b>{$data.ipAddress}</b>
-            <br />
-            <span class="fs-6 fw-normal opacity-75">
-              {$_("buttons.click-to-copy")}</span>
-          </button>
+        <div class="card">
+          <div class="card-header">
+            <button
+              class="btn btn-link link-light w-100 rounded-0 border-0 fs-3 text-decoration-none"
+              type="button"
+              on:click={onCopyCommandTextClick}
+              use:tooltip={[
+                isCommandTextCopied
+                  ? $_("sidebars.home.copied")
+                  : $_("sidebars.home.copy"),
+                { placement: "bottom", hideOnClick: false },
+              ]}>
+              <b class="d-block mb-2">{$data.ipAddress}</b>
+            </button>
+          </div>
           <div class="card-body p-0">
             <ul class="list-group list-group-flush text-center small">
               <li class="list-group-item py-2">

@@ -362,6 +362,7 @@
       },
       "navbar": {
         "width": "Width",
+        "bg-color": "Background Color",
         "border-radius": "Border Radius",
         "links-visibility": "Links Visibility",
         "links": "Links",
@@ -390,8 +391,10 @@
         "next-post": "Next Post Button"
       },
       "footer": {
-        "visibility": "Footer",
-        "content": "Content",
+        "visibility": "Visibility",
+        "logo-visibility": "Logo Visibility",
+        "title": "Site Title",
+        "content": "Site Description",
         "links": "Links",
         "links-visibility": "Links Visibility",
         "plugin-links-visibility": "Show Plugin Links"

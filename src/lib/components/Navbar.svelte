@@ -68,9 +68,11 @@
 <!-- Navbar -->
 <div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
   <nav
-    class="navbar navbar-expand-lg bg-body-tertiary border rounded rounded-{themeSettings.navRoundLevel
+    data-bs-theme={getContrast(themeSettings.navbarBgColor || "#044389")}
+    class="navbar navbar-expand-lg border rounded rounded-{themeSettings.navRoundLevel
       ? +themeSettings.navRoundLevel
-      : '5'} shadow-sm">
+      : '5'} shadow-sm"
+    style="background-color: {themeSettings.navbarBgColor || '#044389'}">
     <div class="container">
       <ul class="navbar-nav flex-row me-auto">
         <li>
@@ -94,12 +96,10 @@
                   class="btn btn-link"
                   href={PANEL_URL}
                   target="_blank"
-                  rel="noreferrer">
-                  <i
-                    class="fa-solid fa-arrow-right ms-2"
-                    style="transform: rotate(-45deg);"></i>
-                  <span class="d-none d-lg-inline ms-2">
-                    {$_("nav-links.panel")}</span>
+                  rel="noreferrer"
+                  aria-label={$_("nav-links.panel")}
+                  use:tooltip={[$_("nav-links.panel"), { placement: "bottom" }]}>
+                  <i class="fa-solid fa-columns"></i>
                 </a>
                 {#if showPanelBubble}
                   <div class="demo-bubble">
@@ -123,13 +123,14 @@
               <li class="nav-item dropdown position-relative">
                 <button
                   type="button"
-                  class="nav-link position-relative"
+                  class="nav-link position-relative d-flex align-items-center"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  title={$session.user.username}>
+                  use:tooltip={[$session.user.username, { placement: "bottom" }]}>
+                  <span class="me-2 d-none d-lg-inline">{$session.user.username}</span>
                   <img
                     alt={$session.user.username}
-                    class="rounded d-block m-auto"
+                    class="rounded"
                     src="/api/profile/picture/{$session.user
                       .username}?{$avatarVersion}"
                     width="24"
@@ -298,7 +299,18 @@
   import { avatarVersion, logout, notificationsCount } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { hasPermission } from "$lib/auth.util.js";
+  import tooltip from "$lib/tooltip.util";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
+
+  function getContrast(hexcolor) {
+    if (!hexcolor || hexcolor.startsWith("bg-")) return "dark"; // Default dark for old classes
+    hexcolor = hexcolor.replace("#", "");
+    const r = parseInt(hexcolor.substr(0, 2), 16);
+    const g = parseInt(hexcolor.substr(2, 2), 16);
+    const b = parseInt(hexcolor.substr(4, 2), 16);
+    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+    return yiq >= 128 ? "light" : "dark";
+  }
 
   const navLinks = panoApiClient.ui.nav.site.getNavLinks();
 

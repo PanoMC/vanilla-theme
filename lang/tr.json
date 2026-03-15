@@ -362,6 +362,7 @@
       },
       "navbar": {
         "width": "Genişlik",
+        "bg-color": "Arka Plan Rengi",
         "border-radius": "Kenar Yuvarlaması",
         "links-visibility": "Linklerin Görünürlüğü",
         "links": "Bağlantılar",
@@ -390,8 +391,10 @@
         "next-post": "Sonraki Yazı Butonu"
       },
       "footer": {
-        "visibility": "Alt Bilgi",
-        "content": "İçerik",
+        "visibility": "Görünürlük",
+        "logo-visibility": "Logo Görünürlüğü",
+        "title": "Site Başlığı",
+        "content": "Site Açıklaması",
         "links": "Bağlantılar",
         "links-visibility": "Linklerin Görünürlüğü",
         "plugin-links-visibility": "Eklenti Linklerini Göster"
