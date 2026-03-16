@@ -4,8 +4,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
   }
 
   .clamp-text {
@@ -128,8 +128,8 @@
   <div
     class:card-img-overlay={!detail && post.thumbnailUrl}
     class:card-body={detail || !post.thumbnailUrl}
-    class="d-flex flex-column">
-    <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
+    class="d-flex flex-column justify-content-end">
+    <div class="d-flex justify-content-between align-items-start mb-3 gap-2 mt-auto">
       <a
         class="text-decoration-none rounded text-reset flex-grow-1 z-1"
         class:stretched-link={!detail}
@@ -149,7 +149,7 @@
     </div>
 
     <div
-      class="card-text text-break word-break mb-4 flex-grow-1"
+      class="card-text text-break word-break mb-4"
       class:text-muted={detail || !post.thumbnailUrl}
       class:clamp-text={!detail}>
       {#if detail}
@@ -159,7 +159,7 @@
       {/if}
     </div>
 
-    <div class="d-flex align-items-center justify-content-between mt-auto">
+    <div class="d-flex align-items-center justify-content-between">
       {#if detail}
         {#if typeof themeSettings.postViewCountEnabled === "undefined" ? true : themeSettings.postViewCountEnabled}
           <div

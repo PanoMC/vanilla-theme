@@ -3,7 +3,7 @@
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
-        <div class="card bg-secondary-subtle text-secondary-emphasis border-secondary position-relative overflow-hidden">
+        <div class="card bg-secondary-subtle text-secondary-emphasis border position-relative overflow-hidden">
           <div class="card-header position-relative z-1">
             <button
               class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"

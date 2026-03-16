@@ -63,6 +63,15 @@
       max-width: 180px;
     }
   }
+  .navbar-nav .nav-link {
+    opacity: 0.95;
+    transition: opacity 0.2s;
+  }
+
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    opacity: 1;
+  }
 </style>
 
 <!-- Navbar -->
