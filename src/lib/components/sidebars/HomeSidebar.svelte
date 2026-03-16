@@ -3,8 +3,8 @@
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
-        <div class="card position-relative overflow-hidden">
-          <div class="card-header position-relative z-1 bg-transparent">
+        <div class="card bg-secondary-subtle text-secondary-emphasis border-secondary position-relative overflow-hidden">
+          <div class="card-header position-relative z-1">
             <button
               class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"
               type="button"
@@ -48,11 +48,15 @@
       {:else if item.id === "last-registrants"}
         <!-- Last Registrants Snippet -->
         <div
-          class="card"
+          class="card position-relative overflow-hidden"
           hidden={typeof themeSettings.sidebarCarts?.lastRegistrants ===
           "undefined"
             ? false
-            : !themeSettings.sidebarCarts.lastRegistrants}>
+            : !themeSettings.sidebarCarts.lastRegistrants}
+          style={$data.lastRegisteredUsers?.[0] ? `--blur-bg: url('/api/profile/picture/${$data.lastRegisteredUsers[0].username}?${$avatarVersion}')` : ""}>
+          {#if $data.lastRegisteredUsers?.[0]}
+            <div class="feature-blur-bg"></div>
+          {/if}
           <CardHeader headerClasses="bg-transparent">
             <div slot="left">
               {$_("sidebars.home.last-registrants")}
@@ -165,6 +169,20 @@
 
   const items = panoApi.ui.sidebar.get("home");
 </script>
-
 <style lang="scss">
+  .feature-blur-bg {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    right: -10%;
+    bottom: -10%;
+    background-image: var(--blur-bg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(40px) saturate(1.2);
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+  }
 </style>

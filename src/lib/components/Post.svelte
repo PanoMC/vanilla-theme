@@ -25,14 +25,37 @@
     overflow: hidden;
     background-color: var(--bs-body-bg);
 
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--bs-box-shadow-lg);
+    &.is-overlay {
+      background-color: #000;
 
-      .post-card-thumbnail-wrapper img {
-        transform: scale(1.05);
+      .card-img-overlay {
+        background: linear-gradient(
+          0deg,
+          var(--bs-body-bg) 0%,
+          color-mix(in srgb, var(--bs-body-bg), transparent 40%) 50%,
+          color-mix(in srgb, var(--bs-body-bg), transparent 90%) 100%
+        );
+        transition: background 0.4s ease;
+      }
+
+      .text-muted, .text-white-50 {
+        color: var(--bs-secondary-color) !important;
+      }
+
+      .btn-link, h3, .card-text {
+        color: var(--bs-body-color) !important;
+        text-shadow: none;
       }
     }
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--bs-box-shadow-lg) !important;
+    }
+  }
+
+  .card-img {
+    transition: transform 0.4s ease, filter 0.4s ease;
   }
 
   .feature-blur-bg {
@@ -73,17 +96,25 @@
 </style>
 
 <div
-  class="card vanilla-post-card h-100 rounded-4 focus-ring position-relative"
+  class="card vanilla-post-card h-100 rounded-4 focus-ring position-relative overflow-hidden"
   class:post-clickable={!detail}
+  class:is-overlay={!detail && post.thumbnailUrl}
   style={post.thumbnailUrl ? `--blur-bg: url('${post.thumbnailUrl}')` : ""}>
   {#if post.thumbnailUrl}
-    <div class="feature-blur-bg"></div>
+    {#if !detail}
+      <img
+        src={post.thumbnailUrl}
+        class="card-img h-100 object-fit-cover"
+        alt={post.title} />
+    {:else}
+      <div class="feature-blur-bg"></div>
+    {/if}
   {/if}
-  {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
+
+  {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl && detail}
     <a
       href="/post/{post.url}"
-      class="post-card-thumbnail-wrapper d-block"
-      class:stretched-link={!detail && (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}>
+      class="post-card-thumbnail-wrapper d-block">
       <div class="ratio ratio-16x9">
         <img
           src={post.thumbnailUrl}
@@ -93,11 +124,15 @@
       </div>
     </a>
   {/if}
-  <div class="card-body d-flex flex-column">
+
+  <div
+    class:card-img-overlay={!detail && post.thumbnailUrl}
+    class:card-body={detail || !post.thumbnailUrl}
+    class="d-flex flex-column">
     <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
       <a
         class="text-decoration-none rounded text-reset flex-grow-1 z-1"
-        class:stretched-link={!detail && !((typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl)}
+        class:stretched-link={!detail}
         href="/post/{post.url}">
         <h3 class="mb-0 text-break h4 fw-bold clamp-title" title={post.title}>
           {post.title}
@@ -105,7 +140,7 @@
       </a>
       {#if post.category.title !== "-"}
         <a
-          class="badge text-bg-primary text-decoration-none rounded-pill focus-ring flex-shrink-0 z-2"
+          class="badge text-bg-light text-decoration-none rounded-pill focus-ring flex-shrink-0 z-2"
           href="/?category={post.category.url}"
           use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
           {post.category.title}
@@ -114,7 +149,8 @@
     </div>
 
     <div
-      class="card-text text-break word-break text-muted mb-4 flex-grow-1"
+      class="card-text text-break word-break mb-4 flex-grow-1"
+      class:text-muted={detail || !post.thumbnailUrl}
       class:clamp-text={!detail}>
       {#if detail}
         {@html post.text}
@@ -155,7 +191,7 @@
         </div>
       {:else}
         {#if typeof themeSettings.postReadMoreButtonEnabled === "undefined" ? true : themeSettings.postReadMoreButtonEnabled}
-          <span class="mb-0 p-0 btn btn-link text-decoration-none fw-bold z-1">
+          <span class="mb-0 p-0 btn btn-link text-decoration-none fw-bold z-1 text-white">
             {$_("components.post.read-more")}
             <i class="fas fa-long-arrow-alt-right ms-1"></i>
           </span>
@@ -164,7 +200,7 @@
         {/if}
 
         <div class="d-flex align-items-center gap-2 z-2">
-          <Date time={post.date} class="text-muted small" />
+          <Date time={post.date} class="text-white-50 small" />
           <a
             class="d-inline-block rounded focus-ring rounded-circle"
             href="/player/{post.writer.username}"
@@ -177,7 +213,7 @@
               width="28"
               height="28"
               use:tooltip={[post.writer.username, { placement: "bottom" }]}
-              class="rounded-circle border border-2 border-white shadow-sm" />
+              class="rounded-circle border border-2 border-white" />
           </a>
         </div>
       {/if}
