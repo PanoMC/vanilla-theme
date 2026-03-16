@@ -2,11 +2,10 @@
   {#each $contentItems as item (item.id)}
     {#if item.id === "tickets-card"}
       <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center flex-column flex-md-row gap-2">
-          <div>
+        <CardHeader>
+          <div slot="left">
             {@html data.categoryUrl
-              ? $_(">tickets.title", {
+              ? $_("pages.category-tickets.title", {
                   values: {
                     categoryName: `<strong>"${
                       data.category.title === "-"
@@ -17,7 +16,7 @@
                 })
               : $_("pages.tickets.title")}
           </div>
-          <div class="btn-group">
+          <div slot="right" class="btn-group">
             <a
               class="btn btn-outline-primary btn-sm"
               class:active={data.pageType === PageTypes.ALL}
@@ -33,7 +32,7 @@
               {$_("pages.tickets.closed")}
             </a>
           </div>
-        </div>
+        </CardHeader>
         <Tickets
           on:closeTicket={(event) =>
             onCloseTicketClick(tickets, event.detail.ticket)}
@@ -80,6 +79,7 @@
   } from "$lib/ui-logics/page-logics/TicketsPageLogics";
 
   import Pagination from "$lib/components/Pagination.svelte";
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import Tickets from "$lib/components/Tickets.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import { panoApiClient } from "$lib/PluginAPI.js";

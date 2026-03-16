@@ -5,111 +5,113 @@
 </style>
 
 <!-- Footer -->
-<div class="container mt-5 border-top py-5">
-  <div class="row justify-content-center align-items-center g-3">
-    <div
-      class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
-      <ul
-        bind:this={navElement}
-        class="nav nav-pills justify-content-lg-start justify-content-center small flex-nowrap overflow-visible">
-        {#each visibleLinks as link, i (link.id)}
-          <li class="nav-item" bind:this={itemElements[i]}>
-            <a
-              class="nav-link rounded-pill small"
-              href={link.href}
-              target={link.target}
-              title={link.text && link.text.includes(".")
-                ? $_(link.text)
-                : link.text}>
-              {link.text && link.text.includes(".")
-                ? $_(link.text)
-                : link.text}
-            </a>
-          </li>
-        {/each}
+<footer class="mt-5 border-top bg-gray bg-opacity-10 py-5">
+  <div class="container py-lg-5 position-relative z-1">
+    <div class="row justify-content-center align-items-center g-3">
+      <div
+        class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
+        <ul
+          bind:this={navElement}
+          class="nav nav-pills justify-content-lg-start justify-content-center small flex-nowrap overflow-visible">
+          {#each visibleLinks as link, i (link.id)}
+            <li class="nav-item" bind:this={itemElements[i]}>
+              <a
+                class="nav-link rounded-pill small"
+                href={link.href}
+                target={link.target}
+                title={link.text && link.text.includes(".")
+                  ? $_(link.text)
+                  : link.text}>
+                {link.text && link.text.includes(".")
+                  ? $_(link.text)
+                  : link.text}
+              </a>
+            </li>
+          {/each}
 
-        {#if moreLinks.length > 0}
-          <li class="nav-item dropdown" bind:this={moreButtonElement}>
-            <button
-              class="nav-link rounded-pill small dropdown-toggle no-caret"
-              data-bs-toggle="dropdown"
-              type="button"
-              aria-label={$_("buttons.toggle")}
-              aria-expanded="false">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              {#each moreLinks as link (link.id)}
-                <li>
-                  <a
-                    class="dropdown-item small"
-                    href={link.href}
-                    target={link.target}>
-                    {link.text && link.text.includes(".")
-                      ? $_(link.text)
-                      : link.text}
-                  </a>
-                </li>
-              {/each}
-            </ul>
-          </li>
-        {/if}
-      </ul>
-    </div>
-    <div class="col-lg-4 col-sm-8">
-      <div class="text-center vstack align-items-center gap-3">
-        {#if themeSettings.footerLogoEnabled ?? true}
-          <a href="/" class="d-inline-block">
-            <img
-              class="d-block mx-auto"
-              width="128"
-              height="auto"
-              alt={$_("components.header.alt")}
-              src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}" />
-          </a>
-        {/if}
-        <h5>{themeSettings.footerTitle || $session.siteInfo.websiteName}</h5>
-        <small class="text-center">
-          {themeSettings.footerContent || $session.siteInfo.websiteDescription}
-        </small>
+          {#if moreLinks.length > 0}
+            <li class="nav-item dropdown" bind:this={moreButtonElement}>
+              <button
+                class="nav-link rounded-pill small dropdown-toggle no-caret"
+                data-bs-toggle="dropdown"
+                type="button"
+                aria-label={$_("buttons.toggle")}
+                aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                {#each moreLinks as link (link.id)}
+                  <li>
+                    <a
+                      class="dropdown-item small"
+                      href={link.href}
+                      target={link.target}>
+                      {link.text && link.text.includes(".")
+                        ? $_(link.text)
+                        : link.text}
+                    </a>
+                  </li>
+                {/each}
+              </ul>
+            </li>
+          {/if}
+        </ul>
       </div>
-    </div>
-    <div class="col-lg-4 d-flex justify-content-center align-items-center">
-      <button
-        type="button"
-        class="badge fs-6 text-bg-secondary border-0"
-        on:click={onCopyIpClick}
-        aria-label={$session.siteInfo.ipAddress}
-        use:tooltip={[
-          isIpCopied ? $_("sidebars.home.copied") : $_("sidebars.home.copy"),
-          { placement: "bottom", hideOnClick: false },
-        ]}>
-        {$session.siteInfo.ipAddress}
-      </button>
-    </div>
-    <div class="w-100"></div>
-    <div class="col order-last">
-      <div class="text-center vstack align-items-center mt-5">
-        <a
-          href={PANO_WEBSITE_URL}
-          target="_blank"
-          rel="noreferrer"
-          class="d-inline-flex align-items-center justify-content-center bg-primary rounded-3 mb-2"
-          style="width: 32px; height: 32px;"
-          title="Pano">
-          <img src="/assets/img/logo.svg" width="20" height="20" alt="Pano" />
-        </a>
-        <small>
-          {@html $_("footer.been-created-with", {
-            values: {
-              pano: `<a href="${PANO_WEBSITE_URL}" class="rounded focus-ring" target="_blank" rel="noreferrer">Pano</a>`,
-            },
-          })}
-        </small>
+      <div class="col-lg-4 col-sm-8">
+        <div class="text-center vstack align-items-center gap-3">
+          {#if themeSettings.footerLogoEnabled ?? true}
+            <a href="/" class="d-inline-block">
+              <img
+                class="d-block mx-auto"
+                width="128"
+                height="auto"
+                alt={$_("components.header.alt")}
+                src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}" />
+            </a>
+          {/if}
+          <h5>{themeSettings.footerTitle || $session.siteInfo.websiteName}</h5>
+          <small class="text-center">
+            {themeSettings.footerContent || $session.siteInfo.websiteDescription}
+          </small>
+        </div>
+      </div>
+      <div class="col-lg-4 d-flex justify-content-center align-items-center">
+        <button
+          type="button"
+          class="badge fs-6 text-bg-secondary border-0"
+          on:click={onCopyIpClick}
+          aria-label={$session.siteInfo.ipAddress}
+          use:tooltip={[
+            isIpCopied ? $_("sidebars.home.copied") : $_("sidebars.home.copy"),
+            { placement: "bottom", hideOnClick: false },
+          ]}>
+          {$session.siteInfo.ipAddress}
+        </button>
+      </div>
+      <div class="w-100"></div>
+      <div class="col order-last">
+        <div class="text-center vstack align-items-center mt-5">
+          <a
+            href={PANO_WEBSITE_URL}
+            target="_blank"
+            rel="noreferrer"
+            class="d-inline-flex align-items-center justify-content-center bg-primary rounded-3 mb-2"
+            style="width: 32px; height: 32px;"
+            title="Pano">
+            <img src="/assets/img/logo.svg" width="20" height="20" alt="Pano" />
+          </a>
+          <small>
+            {@html $_("footer.been-created-with", {
+              values: {
+                pano: `<a href="${PANO_WEBSITE_URL}" class="rounded focus-ring" target="_blank" rel="noreferrer">Pano</a>`,
+              },
+            })}
+          </small>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</footer>
 
 <!-- Footer End -->
 <script>

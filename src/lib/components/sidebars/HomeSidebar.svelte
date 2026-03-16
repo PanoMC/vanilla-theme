@@ -3,10 +3,10 @@
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
-        <div class="card">
-          <div class="card-header">
+        <div class="card position-relative overflow-hidden">
+          <div class="card-header position-relative z-1 bg-transparent">
             <button
-              class="btn btn-link link-light w-100 rounded-0 border-0 fs-3 text-decoration-none"
+              class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"
               type="button"
               on:click={onCopyCommandTextClick}
               use:tooltip={[
@@ -18,9 +18,9 @@
               <b class="d-block mb-2">{$data.ipAddress}</b>
             </button>
           </div>
-          <div class="card-body p-0">
-            <ul class="list-group list-group-flush text-center small">
-              <li class="list-group-item py-2">
+          <div class="card-body p-0 position-relative z-1">
+            <ul class="list-group list-group-flush text-center lead bg-transparent">
+              <li class="list-group-item border-0 py-2 bg-transparent">
                 {#if serverOnline}
                   <span class="badge text-bg-success"
                     >{$_("sidebars.home.online")}</span>
@@ -29,7 +29,7 @@
                     >{$_("sidebars.home.offline")}</span>
                 {/if}
               </li>
-              <li class="list-group-item py-2">
+              <li class="list-group-item border-0 py-2 bg-transparent">
                 {$_("sidebars.home.playing", {
                   values: {
                     playerCount: $data.mainServer?.playerCount || 0,
@@ -37,7 +37,7 @@
                   },
                 })}
               </li>
-              <li class="list-group-item py-2">
+              <li class="list-group-item border-0 py-2 bg-transparent">
                 {$data.serverGameVersion}
               </li>
             </ul>
@@ -53,9 +53,11 @@
           "undefined"
             ? false
             : !themeSettings.sidebarCarts.lastRegistrants}>
-          <div class="card-header">
-            {$_("sidebars.home.last-registrants")}
-          </div>
+          <CardHeader headerClasses="bg-transparent">
+            <div slot="left">
+              {$_("sidebars.home.last-registrants")}
+            </div>
+          </CardHeader>
           <div class="card-body">
             <div class="row g-3">
               {#each $data.lastRegisteredUsers || [] as player, index (player)}
@@ -131,6 +133,7 @@
   import copy from "copy-to-clipboard";
   import tooltip from "$lib/tooltip.util";
   import Sidebar from "$lib/components/Sidebar.svelte";
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import { avatarVersion } from "$lib/Store";
 
@@ -162,3 +165,6 @@
 
   const items = panoApi.ui.sidebar.get("home");
 </script>
+
+<style lang="scss">
+</style>

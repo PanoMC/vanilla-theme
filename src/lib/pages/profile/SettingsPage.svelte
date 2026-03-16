@@ -3,9 +3,9 @@
   {#each $contentItems as item (item.id)}
     {#if item.id === "settings-cards"}
       <div class="card">
-        <div class="card-header">
-          {$_("pages.settings.title")}
-        </div>
+        <CardHeader>
+          <div slot="left">{$_("pages.settings.title")}</div>
+        </CardHeader>
         <div class="card-body">
           {#each $cardRowItems as row (row.id)}
             {#if row.id === "change-password"}
@@ -212,11 +212,13 @@
       </div>
 
       <div class="card">
-        <div class="card-header">
-          {$_("pages.settings.inputs.sessions.title")}
-          <small class="d-block"
-            >{$_("pages.settings.inputs.sessions.max-sessions-warning")}</small>
-        </div>
+        <CardHeader>
+          <div slot="left">
+            {$_("pages.settings.inputs.sessions.title")}
+            <small class="d-block text-muted"
+              >{$_("pages.settings.inputs.sessions.max-sessions-warning")}</small>
+          </div>
+        </CardHeader>
         {#if !sessions}
           <div class="text-center p-3">
             <div class="spinner-border text-primary" role="status">
@@ -234,13 +236,25 @@
                 <tr>
                   <th class="align-middle">ID</th>
                   <th class="align-middle"></th>
-                  <th class="align-middle"
-                    >{$_("pages.settings.inputs.sessions.browser")}</th>
+                  <th class="align-middle">
+                    <i
+                      class="fas fa-window-maximize"
+                      use:tooltip={[$_("pages.settings.inputs.sessions.browser"), { placement: "bottom" }]}
+                    ></i>
+                  </th>
                   <th class="align-middle">IP</th>
-                  <th class="align-middle"
-                    >{$_("pages.settings.inputs.sessions.last-entrance")}</th>
-                  <th class="align-middle"
-                    >{$_("pages.settings.inputs.sessions.expire-date")}</th>
+                  <th class="align-middle">
+                    <i
+                      class="fas fa-history"
+                      use:tooltip={[$_("pages.settings.inputs.sessions.last-entrance"), { placement: "bottom" }]}
+                    ></i>
+                  </th>
+                  <th class="align-middle">
+                    <i
+                      class="fas fa-hourglass-end"
+                      use:tooltip={[$_("pages.settings.inputs.sessions.expire-date"), { placement: "bottom" }]}
+                    ></i>
+                  </th>
                   <th class="align-middle"></th>
                 </tr>
               </thead>
@@ -332,6 +346,7 @@
   import { _ } from "svelte-i18n";
   import { parseUserAgent } from "$lib/string.util";
   import NoContent from "$lib/components/NoContent.svelte";
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import DateComponent from "$lib/components/Date.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import tooltip from "$lib/tooltip.util";

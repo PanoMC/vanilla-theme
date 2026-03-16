@@ -1,17 +1,19 @@
 <Sidebar side={side}>
   <div class="vstack gap-3">
     {#each $items as item (item.id)}
-      {#if item.id === 'profile-info'}
+      {#if item.id === "profile-info"}
         <!-- Profile Info Snippet -->
-        <div class="card border-0">
+        <div class="card">
           <div class="card-body vstack gap-3">
-            <PlayerHead
-              width="64"
-              height="64"
-              username={user.username}
-              inGame={$data.inGame}
-              lastActivityTime={$data.lastActivityTime}
-              checkTime={checkTime} />
+            <div class="d-block">
+              <PlayerHead
+                width="64"
+                height="64"
+                username={user.username}
+                inGame={$data.inGame}
+                lastActivityTime={$data.lastActivityTime}
+                checkTime={checkTime} />
+            </div>
             <PageTitle title={user.username} />
             <div class="text-center">
               <PlayerStatusBadge
@@ -28,7 +30,12 @@
         </div>
       {:else}
         <!-- External Component -->
-        <ViewComponent component={item.component} data={$data} user={user} checkTime={checkTime} {...item.props} />
+        <ViewComponent
+          component={item.component}
+          data={$data}
+          user={user}
+          checkTime={checkTime}
+          {...item.props} />
       {/if}
     {/each}
   </div>
@@ -57,7 +64,7 @@
     });
 
     // Execute sidebar load and resolve components for SSR
-    await executeSidebarLoad('profile', event);
+    await executeSidebarLoad("profile", event);
 
     data.set(
       await ApiUtil.get({

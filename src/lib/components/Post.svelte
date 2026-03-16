@@ -1,10 +1,20 @@
 <style global lang="scss">
+  .clamp-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
   .clamp-text {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 3; /* Ensure it clamps to 3 lines */
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .vanilla-post-card {
@@ -13,6 +23,7 @@
       box-shadow 0.2s ease-in-out;
     border: var(--bs-border-width) solid var(--bs-border-color);
     overflow: hidden;
+    background-color: var(--bs-body-bg);
 
     &:hover {
       transform: translateY(-4px);
@@ -22,6 +33,28 @@
         transform: scale(1.05);
       }
     }
+  }
+
+  .feature-blur-bg {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    right: -10%;
+    bottom: -10%;
+    background-image: var(--blur-bg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(40px) saturate(1.2);
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+    transition: transform 0.4s ease;
+  }
+
+  :global([data-bs-theme="dark"]) .feature-blur-bg {
+    opacity: 0.08;
+    filter: blur(50px) saturate(1);
   }
 
   .post-card-thumbnail-wrapper {
@@ -39,11 +72,18 @@
   }
 </style>
 
-<div class="card vanilla-post-card h-100 rounded rounded-5">
+<div
+  class="card vanilla-post-card h-100 rounded-4 focus-ring position-relative"
+  class:post-clickable={!detail}
+  style={post.thumbnailUrl ? `--blur-bg: url('${post.thumbnailUrl}')` : ""}>
+  {#if post.thumbnailUrl}
+    <div class="feature-blur-bg"></div>
+  {/if}
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}
     <a
       href="/post/{post.url}"
-      class="post-card-thumbnail-wrapper focus-ring d-block">
+      class="post-card-thumbnail-wrapper d-block"
+      class:stretched-link={!detail && (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl}>
       <div class="ratio ratio-16x9">
         <img
           src={post.thumbnailUrl}
@@ -56,17 +96,16 @@
   <div class="card-body d-flex flex-column">
     <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
       <a
-        class="text-decoration-none focus-ring rounded text-reset flex-grow-1"
+        class="text-decoration-none rounded text-reset flex-grow-1 z-1"
+        class:stretched-link={!detail && !((typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl)}
         href="/post/{post.url}">
-        <h3 class="mb-0 text-break h4 fw-bold">
-          {truncate(post.title, 100)}{@html post.title.length > 100
-            ? "&hellip;"
-            : ""}
+        <h3 class="mb-0 text-break h4 fw-bold clamp-title" title={post.title}>
+          {post.title}
         </h3>
       </a>
       {#if post.category.title !== "-"}
         <a
-          class="badge text-bg-primary text-decoration-none rounded-pill focus-ring flex-shrink-0"
+          class="badge text-bg-primary text-decoration-none rounded-pill focus-ring flex-shrink-0 z-2"
           href="/?category={post.category.url}"
           use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
           {post.category.title}
@@ -77,7 +116,11 @@
     <div
       class="card-text text-break word-break text-muted mb-4 flex-grow-1"
       class:clamp-text={!detail}>
-      {@html post.text}
+      {#if detail}
+        {@html post.text}
+      {:else}
+        {truncate(post.text.replace(/<[^>]*>?/gm, ""), 80)}...
+      {/if}
     </div>
 
     <div class="d-flex align-items-center justify-content-between mt-auto">
@@ -112,17 +155,15 @@
         </div>
       {:else}
         {#if typeof themeSettings.postReadMoreButtonEnabled === "undefined" ? true : themeSettings.postReadMoreButtonEnabled}
-          <a
-            class="mb-0 p-0 btn btn-link text-decoration-none focus-ring fw-bold"
-            href="/post/{post.url}">
+          <span class="mb-0 p-0 btn btn-link text-decoration-none fw-bold z-1">
             {$_("components.post.read-more")}
             <i class="fas fa-long-arrow-alt-right ms-1"></i>
-          </a>
+          </span>
         {:else}
           <div></div>
         {/if}
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 z-2">
           <Date time={post.date} class="text-muted small" />
           <a
             class="d-inline-block rounded focus-ring rounded-circle"

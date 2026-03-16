@@ -4,7 +4,9 @@
   {#each $contentItems as item (item.id)}
     {#if item.id === "profile-card"}
       <div class="card">
-        <div class="card-header">{$_("pages.profile.title")}</div>
+        <CardHeader>
+          <div slot="left">{$_("pages.profile.title")}</div>
+        </CardHeader>
         <table class="table">
           <tbody>
             {#each $cardRowItems as row (row.id)}
@@ -58,6 +60,7 @@
 
   import Date from "$lib/components/Date.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import { panoApiClient } from "$lib/PluginAPI.js";
 

@@ -114,7 +114,7 @@
             <select
               class="form-select"
               id="theme-color"
-              on:change={(e) => (themeSettings.themeColor = e.target.value)}
+              on:change={onThemeColorChange}
               value={themeSettings.themeColor || "dark"}>
               <option value="dark"
                 >{$_("pages.theme-settings.general.colors.dark")}</option>
@@ -1082,6 +1082,15 @@
   let activeTab = "general";
   let backgroundImageFiles,
     headerBackgroundImageFiles = null;
+
+  function onThemeColorChange(e) {
+    const value = e.target.value;
+    themeSettings.themeColor = value;
+
+    if (value === "copper") {
+      themeSettings.navbarBgColor = "#9c622b";
+    }
+  }
 
   const navPluginLinks = panoApiClient.ui.nav.site.getNavLinks();
 
