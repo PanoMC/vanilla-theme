@@ -151,9 +151,7 @@ export async function processLoad(event) {
     },
   });
 
-  if (!browser || !get(initialized)) {
-    await initializePlugins(siteInfo);
-  }
+  await initializePlugins(siteInfo);
 
   const output = {
     session: { user, csrfToken, siteInfo },
