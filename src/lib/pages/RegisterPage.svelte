@@ -10,10 +10,15 @@
       items.push({ id: "register-form", priority: 100, hidden: false });
     });
 
-    await executeLifecycle("theme:register:load", {}, event);
+    const lifecycleData = { error: null, username: null, event };
+    await executeLifecycle("theme:register:load", lifecycleData, event);
     await executeViewLoad("register-content", event);
+    await executeViewLoad("register-alt-methods", event);
 
-    return {};
+    return {
+      initialError: lifecycleData.error || null,
+      initialUsername: lifecycleData.username || null
+    };
   }
 </script>
 
@@ -34,6 +39,8 @@
   import { panoApiClient } from "$lib/PluginAPI.js";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
 
+  export let data;
+
   const session = getContext("session");
 
   let loading, error, successMessage;
@@ -41,6 +48,15 @@
     email = "",
     password = "",
     passwordRepeat = "";
+
+  // Read initial values from lifecycle (plugin-injected)
+  if (data?.initialError) {
+    error = data.initialError;
+  }
+  if (data?.initialUsername) {
+    username = data.initialUsername;
+  }
+
   let agreement = !$session.siteInfo.registerAgreement ? true : false;
 
   async function onSubmit() {
@@ -96,7 +112,28 @@
   }
 
   const contentItems = panoApiClient.ui.auth.register.content.get();
+  const altMethods = panoApiClient.ui.auth.register.alternativeMethods.get();
 </script>
+
+<style>
+    .alt-methods-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--bs-secondary);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .alt-methods-divider::before,
+    .alt-methods-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--bs-border-color);
+    }
+</style>
 
 <div class="container mx-auto">
   <div class="vstack gap-3">
@@ -131,5 +168,31 @@
         <ViewComponent component={item.component} data={{ pageType: 'register' }} />
       {/if}
     {/each}
+
+    {#if $altMethods && $altMethods.length > 0}
+      <div class="alt-methods-divider">
+        <span>{$_("pages.login.or")}</span>
+      </div>
+      <div class="vstack gap-2">
+        {#each $altMethods as method (method.id)}
+          <ViewComponent component={method.component} data={{ pageType: 'register' }} />
+        {/each}
+      </div>
+    {/if}
+  </div>
+</div>
+{/if}
+{/each}
+
+{#if $altMethods && $altMethods.length > 0}
+  <div class="alt-methods-divider">
+    <span>{$_("pages.login.or")}</span>
+  </div>
+  <div class="vstack gap-2">
+    {#each $altMethods as method (method.id)}
+      <ViewComponent component={method.component} data={{ pageType: 'register' }} />
+    {/each}
+  </div>
+{/if}
   </div>
 </div>

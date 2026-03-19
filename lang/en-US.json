@@ -157,7 +157,8 @@
     "login": {
       "demo-mode-alert": "You are in demo mode. You can log in with the username \"demo\" and the password \"123456\".",
       "register-email-required-info": "You need to register your email address to complete the login process.",
-      "email-verification-sent-info": "Your email address has been successfully saved. Please verify your email to log in. Don't forget to check your inbox and spam folder."
+      "email-verification-sent-info": "Your email address has been successfully saved. Please verify your email to log in. Don't forget to check your inbox and spam folder.",
+      "or": "or"
     },
     "homepage": {
       "title": "News"
@@ -463,7 +464,10 @@
     "REGISTER_USERNAME_TOO_SHORT": "Username is too short!",
     "TICKET_IS_CLOSED": "Ticket is closed!",
     "REGISTER_LINK_CODE_INVALID": "The link code you entered is invalid or expired!",
-    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Can't change e-mail, wait 15 minutes."
+    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "Can't change e-mail, wait 15 minutes.",
+    "USERNAME_REQUIRED": "You need to set a new username to continue.",
+    "PLUGIN_DENIED_LOGIN": "Login was denied.",
+    "INVALID_TOKEN": "The link has expired or is invalid."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Successfully registered! An e-email sent to verify your e-mail.",

@@ -254,6 +254,23 @@ export const panoApi = {
             return panoApi.ui.view.get("login-content");
           },
         },
+        alternativeMethods: {
+          add(method) {
+            uiItems.update((items) => {
+              if (!items["login-alt-methods"]) items["login-alt-methods"] = [];
+              const existing = items["login-alt-methods"].findIndex((i) => i.id === method.id);
+              if (existing !== -1) {
+                items["login-alt-methods"][existing] = method;
+              } else {
+                items["login-alt-methods"].push(method);
+              }
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("login-alt-methods");
+          }
+        },
         onLoad(handler) {
           panoApi.ui.lifecycle.on("theme:login:load", handler);
         },
@@ -271,6 +288,23 @@ export const panoApi = {
           get() {
             return panoApi.ui.view.get("register-content");
           },
+        },
+        alternativeMethods: {
+          add(method) {
+            uiItems.update((items) => {
+              if (!items["register-alt-methods"]) items["register-alt-methods"] = [];
+              const existing = items["register-alt-methods"].findIndex((i) => i.id === method.id);
+              if (existing !== -1) {
+                items["register-alt-methods"][existing] = method;
+              } else {
+                items["register-alt-methods"].push(method);
+              }
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("register-alt-methods");
+          }
         },
         onLoad(handler) {
           panoApi.ui.lifecycle.on("theme:register:load", handler);

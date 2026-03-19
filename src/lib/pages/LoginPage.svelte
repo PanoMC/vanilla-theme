@@ -7,6 +7,24 @@
         position: relative;
         z-index: 2;
     }
+
+    .alt-methods-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--bs-secondary);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .alt-methods-divider::before,
+    .alt-methods-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--bs-border-color);
+    }
 </style>
 
 <script>
@@ -31,11 +49,21 @@
   import { panoApiClient } from "$lib/PluginAPI.js";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
 
-  let viewState = "LOGIN"; // LOGIN, LINK_CODE, REGISTER, REGISTER_EMAIL
+  export let data;
+
+  let viewState = "LOGIN"; // LOGIN, LINK_CODE, REGISTER, REGISTER_EMAIL, SET_USERNAME
 
   let usernameOrEmail = "",
     password = "";
   let loading, error;
+
+  // Read initial error from lifecycle (plugin-injected)
+  if (data?.initialError) {
+    error = data.initialError;
+  }
+
+  let _skipFirstNav = !!data?.initialError;
+
   let passwordVisible = false;
 
   $: if ($session?.siteInfo?.isDemo && usernameOrEmail === "demo") {
@@ -52,10 +80,16 @@
   let autoVerifyDone = false;
   let emailRequired = false;
   let emailVerificationSent = false;
+  let newUsername = "";
+  let usernameRequiredUserId = null;
 
   const session = getContext("session");
 
   afterNavigate(() => {
+    if (_skipFirstNav) {
+      _skipFirstNav = false;
+      return;
+    }
     viewState = "LOGIN";
     error = null;
     autoVerifyDone = false;
@@ -65,6 +99,8 @@
     email = "";
     emailVerificationSent = false;
     password = "";
+    newUsername = "";
+    usernameRequiredUserId = null;
   });
 
   async function onVerifyLink() {
@@ -163,7 +199,12 @@
     error = null;
     loading = true;
 
-    await sendLogin({ usernameOrEmail, password, registerEmail: emailRequired ? email : undefined })
+    await sendLogin({
+      usernameOrEmail,
+      password,
+      registerEmail: emailRequired ? email : undefined,
+      newUsername: viewState === "SET_USERNAME" ? newUsername : undefined
+    })
       .then(async (body) => {
         if (body.result !== "ok") {
           loading = false;
@@ -192,6 +233,14 @@
             }
             error = null;
             setTimeout(() => document.getElementById("email")?.focus(), 50);
+            return;
+          }
+
+          if (body.error === "USERNAME_REQUIRED") {
+            usernameRequiredUserId = body.userId;
+            viewState = "SET_USERNAME";
+            error = null;
+            setTimeout(() => document.getElementById("newUsername")?.focus(), 50);
             return;
           }
 
@@ -292,6 +341,7 @@
   });
 
   const contentItems = panoApiClient.ui.auth.login.content.get();
+  const altMethods = panoApiClient.ui.auth.login.alternativeMethods.get();
 </script>
 
 <script context="module">
@@ -306,10 +356,12 @@
       items.push({ id: "login-form", priority: 100, hidden: false });
     });
 
-    await executeLifecycle("theme:login:load", {}, event);
+    const lifecycleData = { error: null, event };
+    await executeLifecycle("theme:login:load", lifecycleData, event);
     await executeViewLoad("login-content", event);
+    await executeViewLoad("login-alt-methods", event);
 
-    return {};
+    return { initialError: lifecycleData.error || null };
   }
 </script>
 
@@ -515,8 +567,75 @@
             usernameDisabled={true} />
         </div>
       </form>
+    {:else if viewState === "SET_USERNAME"}
+      <form on:submit|preventDefault={onSubmit}>
+        <div class="vstack gap-3">
+          <PageTitle title={$_("pages.login.set-username-title")} />
+          <p class="text-center text-muted mb-0">
+            {$_("pages.login.set-username-description")}
+          </p>
+          <ErrorAlert error={error} />
+          <div class="form-group">
+            <div class="form-floating">
+              <input
+                bind:value={newUsername}
+                class="form-control"
+                id="newUsername"
+                on:input={() => { error = null; }}
+                disabled={loading}
+                type="text"
+                maxlength="16" />
+              <label for="newUsername">
+                {$_("components.modals.register.inputs.username")}
+              </label>
+            </div>
+          </div>
+          <div class="vstack gap-2">
+            <button
+              class="btn btn-lg btn-secondary"
+              class:disabled={loading || !newUsername || newUsername.length < 3}
+              disabled={loading || !newUsername || newUsername.length < 3}
+              type="submit">
+              {#if loading}
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-label="Loading"></span>
+                <span>{$_("buttons.save")}...</span>
+              {:else}
+                {$_("buttons.save")}
+              {/if}
+            </button>
+            <button
+              class="btn btn-link"
+              disabled={loading}
+              type="button"
+              on:click={() => {
+                viewState = "LOGIN";
+                error = null;
+                newUsername = "";
+                usernameRequiredUserId = null;
+                password = "";
+                passwordVisible = false;
+              }}>
+              {$_("pages.settings.inputs.change-email.back")}
+            </button>
+          </div>
+        </div>
+      </form>
     {/if}
-  {:else if item.component}
+  {:else if item.component && viewState !== "SET_USERNAME"}
     <ViewComponent component={item.component} data={{ pageType: 'login' }} />
   {/if}
 {/each}
+
+{#if viewState !== "SET_USERNAME" && $altMethods && $altMethods.length > 0}
+  <div class="alt-methods-divider">
+    <span>{$_("pages.login.or")}</span>
+  </div>
+  <div class="vstack gap-2">
+    {#each $altMethods as method (method.id)}
+      <ViewComponent component={method.component} data={{ pageType: 'login' }} />
+    {/each}
+  </div>
+{/if}

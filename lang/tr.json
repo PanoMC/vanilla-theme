@@ -157,7 +157,8 @@
     "login": {
       "demo-mode-alert": "Şu an demo modundasınız. \"demo\" kullanıcı adı ve \"123456\" şifresi ile giriş yapabilirsiniz.",
       "register-email-required-info": "Giriş işlemini tamamlamak için e-posta adresinizi kaydetmeniz gerekmektedir.",
-      "email-verification-sent-info": "E-posta adresiniz başarıyla kaydedildi. Giriş yapabilmek için lütfen e-postanızı doğrulayın. Gelen kutunuzu ve spam klasörünüzü kontrol etmeyi unutmayın."
+      "email-verification-sent-info": "E-posta adresiniz başarıyla kaydedildi. Giriş yapabilmek için lütfen e-postanızı doğrulayın. Gelen kutunuzu ve spam klasörünüzü kontrol etmeyi unutmayın.",
+      "or": "veya"
     },
     "homepage": {
       "title": "Haberler"
@@ -465,7 +466,10 @@
     "TITLE_CANT_BE_EMPTY": "Başlık boş olamaz!",
     "USERNAME_OR_EMAIL_NOT_EXISTS": "Kullanıcı adı veya e-mail bulunamadı!",
     "REGISTER_LINK_CODE_INVALID": "Girdiğiniz link kodu hatalı veya süresi dolmuş!",
-    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "E-mail değiştirmeden önce 15 dakika bekleyin."
+    "CANT_CHANGE_EMAIL_WAIT15MINUTES": "E-mail değiştirmeden önce 15 dakika bekleyin.",
+    "USERNAME_REQUIRED": "Devam etmek için yeni bir kullanıcı adı belirlemeniz gerekiyor.",
+    "PLUGIN_DENIED_LOGIN": "Giriş reddedildi.",
+    "INVALID_TOKEN": "Bağlantı süresi dolmuş veya geçersiz."
   },
   "successes": {
     "REGISTER_SUCCESSFUL": "Kayıt başarıyla tamamlandı! E-postanızı doğrulamak için bir e-posta gönderildi.",
