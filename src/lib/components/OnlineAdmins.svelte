@@ -8,24 +8,20 @@
     <div slot="left">{$_("components.online-admins.online-admins")}</div>
   </CardHeader>
   <div class="card-body">
-    <div class="row">
+    <div class="online-admins-grid">
       {#each onlineAdmins as onlineAdmin, index (onlineAdmin)}
-        <div class="col-3">
-          <a
-            href="/player/{onlineAdmin}"
-            class="d-inline-block focus-ring rounded position-relative">
-            <img
-              src="/api/profile/picture/{onlineAdmin}?{$avatarVersion}"
-              class="img-thumbnail rounded border border-3 border-success d-block m-auto"
-              alt={onlineAdmin}
-              use:tooltip={[
-                $_("components.player-head.in-website"),
-                { placement: "bottom" },
-              ]}
-              width="48"
-              height="48" />
-          </a>
-        </div>
+        <a
+          href="/player/{onlineAdmin}"
+          class="online-admin-link focus-ring rounded position-relative">
+          <img
+            src="/api/profile/picture/{onlineAdmin}?{$avatarVersion}"
+            class="online-admin-avatar rounded border border-3 border-success"
+            alt={onlineAdmin}
+            use:tooltip={[
+              $_("components.player-head.in-website"),
+              { placement: "bottom" },
+            ]} />
+        </a>
         {:else}
         <NoContent />
       {/each}
@@ -41,9 +37,29 @@
   import { getContext } from "svelte";
   import NoContent from "./NoContent.svelte";
   import CardHeader from "./CardHeader.svelte";
-  import PlayerHead from "./PlayerHead.svelte";
 
   export let onlineAdmins;
 
   const themeSettings = getContext("themeSettings");
 </script>
+
+<style>
+    .online-admins-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: flex-start;
+    }
+
+    .online-admin-link {
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .online-admin-avatar {
+        display: block;
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+    }
+</style>
