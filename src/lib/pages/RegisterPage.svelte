@@ -181,18 +181,3 @@
     {/if}
   </div>
 </div>
-{/if}
-{/each}
-
-{#if $altMethods && $altMethods.length > 0}
-  <div class="alt-methods-divider">
-    <span>{$_("pages.login.or")}</span>
-  </div>
-  <div class="vstack gap-2">
-    {#each $altMethods as method (method.id)}
-      <ViewComponent component={method.component} data={{ pageType: 'register' }} />
-    {/each}
-  </div>
-{/if}
-  </div>
-</div>
