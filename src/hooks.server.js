@@ -136,8 +136,16 @@ export function handleError({ error, event }) {
 
 /** @type {import("@sveltejs/kit").HandleFetch} */
 export async function handleFetch({ event, request, fetch }) {
-  if (request.url.startsWith(API_URL)) {
-    request.headers.set("cookie", event.request.headers.get("cookie"));
+  // Rewrite relative /api/ requests to the backend URL during SSR.
+  // Load functions now use relative paths for consistent SSR↔CSR fetch dedup.
+  if (request.url.startsWith(event.url.origin + "/api/")) {
+    const apiPath = new URL(request.url).pathname + new URL(request.url).search;
+    const backendUrl = API_URL.replace(/\/api\/?$/, "") + apiPath;
+    request = new Request(backendUrl, request);
+    request.headers.set("cookie", event.request.headers.get("cookie") || "");
+    request.headers.set("Origin", API_URL);
+  } else if (request.url.startsWith(API_URL)) {
+    request.headers.set("cookie", event.request.headers.get("cookie") || "");
     request.headers.set("Origin", API_URL);
   }
 
