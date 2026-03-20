@@ -36,13 +36,16 @@ export async function processLoad(event) {
   // Execute lifecycles
   await executeLifecycle("theme:support:load", data, event);
 
-  // Execute view loads to resolve order and visibility
-  await executeViewLoad("support-content", event);
-  await executeViewLoad("support-options", event);
+  // View loads and hook load are independent — run in parallel
+  const [, , supportHookProps] = await Promise.all([
+    executeViewLoad("support-content", event),
+    executeViewLoad("support-options", event),
+    executeHookLoad("theme:support:content", event)
+  ]);
 
   data.hookProps["theme:support:content"] = {
     ...data.hookProps["theme:support:content"],
-    ...(await executeHookLoad("theme:support:content", event)),
+    ...supportHookProps
   };
 
   return { ...data, sidebar: SupportSidebar };

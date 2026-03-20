@@ -31,20 +31,16 @@ export async function processLoad(event) {
   });
 
   await executeLifecycle("theme:settings:load", {}, event);
-  await executeViewLoad("settings-content", event);
-  await executeViewLoad("settings-card-rows", event);
 
-  await loadSidebar(event);
+  // View loads, sidebar, and sessions API call are all independent — run in parallel
+  const [, , , sessionsBody] = await Promise.all([
+    executeViewLoad("settings-content", event),
+    executeViewLoad("settings-card-rows", event),
+    loadSidebar(event),
+    ApiUtil.get({ path: "/api/profile/sessions", request: event })
+  ]);
 
-  let sessions = [];
-  const body = await ApiUtil.get({
-    path: '/api/profile/sessions',
-    request: event,
-  });
-
-  if (!body.error) {
-    sessions = body.sessions;
-  }
+  const sessions = !sessionsBody.error ? sessionsBody.sessions : [];
 
   return { sidebar: ProfileSidebar, sessions };
 }

@@ -29,14 +29,16 @@ export async function processLoad(event) {
   });
 
   await executeLifecycle("theme:profile:load", {}, event);
-  await executeViewLoad("profile-content", event);
-  await executeViewLoad("profile-card-rows", event);
 
-  await loadSidebar(event);
+  // View loads, sidebar, and API call are all independent — run in parallel
+  const [, , , profileBody] = await Promise.all([
+    executeViewLoad("profile-content", event),
+    executeViewLoad("profile-card-rows", event),
+    loadSidebar(event),
+    getProfile({ request: event })
+  ]);
 
-  await getProfile({ request: event }).then((body) => {
-    data = body;
-  });
+  data = profileBody;
 
   return { ...data, sidebar: ProfileSidebar };
 }

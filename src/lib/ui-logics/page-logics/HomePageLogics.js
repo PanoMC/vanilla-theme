@@ -18,7 +18,15 @@ export async function processLoad(event) {
   const page = parseInt(searchParams.get("page")) || 1;
   const categoryUrl = searchParams.get("category");
 
-  const data = await getPosts({ page, categoryUrl, request: event });
+  // Posts fetch, sidebar load, and hook load are independent — run in parallel
+  const parallelTasks = [getPosts({ page, categoryUrl, request: event })];
+
+  if (!categoryUrl) {
+    parallelTasks.push(loadSidebar(event));
+    parallelTasks.push(executeHookLoad("page:home:top", event));
+  }
+
+  const [data, , homeTopHookProps] = await Promise.all(parallelTasks);
 
   if (data.error) {
     if (data.error === "PAGE_NOT_FOUND" || data.error === "NOT_EXISTS" || data.error === "CATEGORY_NOT_EXISTS" || data.error === "BAD_REQUEST") {
@@ -31,16 +39,12 @@ export async function processLoad(event) {
   data.page = page;
   data.categoryUrl = categoryUrl;
 
-  if (!categoryUrl) {
-    await loadSidebar(event);
-  }
-
   return {
     ...data,
     sidebar: categoryUrl ? null : HomeSidebar,
     hookProps: categoryUrl ? undefined : {
       ...parentData.hookProps,
-      "page:home:top": await executeHookLoad("page:home:top", event)
+      "page:home:top": homeTopHookProps
     }
   };
 }

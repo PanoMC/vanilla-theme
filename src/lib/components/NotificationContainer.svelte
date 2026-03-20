@@ -154,6 +154,7 @@
 
   let checkTime = 0;
   let interval;
+  let mounted = false;
 
   const session = getContext("session");
 
@@ -253,7 +254,8 @@
     const sessionSubscription = session.subscribe((session) => {
       quickNotificationProcessID++;
 
-      if (session.user) {
+      // Only start polling after mount (hydration complete)
+      if (mounted && session.user) {
         startQuickNotificationsCountDown();
       }
     });
@@ -274,6 +276,13 @@
   }
 
   onMount(() => {
+    mounted = true;
+
+    // Start polling after hydration is complete
+    if ($session.user) {
+      startQuickNotificationsCountDown();
+    }
+
     interval = setInterval(() => {
       checkTime += 1;
     }, 1000);

@@ -15,22 +15,21 @@ export async function processLoad(event) {
     registerDate: 0
   };
 
-  await loadSidebar(event);
+  // Sidebar and player profile API are independent — run in parallel
+  const [, profileBody] = await Promise.all([
+    loadSidebar(event),
+    getPlayerProfile({ username: event.params.player, request: event })
+  ]);
 
-  await getPlayerProfile({
-    username: event.params.player,
-    request: event
-  }).then((body) => {
-    if (body.error) {
-      if (body.error === "NOT_EXISTS") {
-        throw error(404, body.error);
-      }
-
-      throw error(500, body.error);
+  if (profileBody.error) {
+    if (profileBody.error === "NOT_EXISTS") {
+      throw error(404, profileBody.error);
     }
 
-    data = body;
-  });
+    throw error(500, profileBody.error);
+  }
+
+  data = profileBody;
 
   return {
     ...data,

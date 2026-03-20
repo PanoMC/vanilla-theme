@@ -34,8 +34,18 @@ export async function init(initialLocale, event) {
   const language = getLanguageByLocale(initialLocale);
   const languageToLoad = language || get(Languages)["en-US"];
 
-  await loadLanguage(get(Languages)["en-US"], event);
-  await loadLanguage(languageToLoad, event);
+  const enUS = get(Languages)["en-US"];
+
+  // Load fallback and target language in parallel (they are independent)
+  if (languageToLoad.code === enUS.code) {
+    await loadLanguage(enUS, event);
+  } else {
+    await Promise.all([
+      loadLanguage(enUS, event),
+      loadLanguage(languageToLoad, event)
+    ]);
+  }
+
   currentLanguage.set(languageToLoad);
 
   await waitLocale();

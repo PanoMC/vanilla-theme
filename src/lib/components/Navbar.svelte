@@ -298,7 +298,7 @@
 
 <!-- Navbar End -->
 <script>
-  import { getContext, onMount, tick } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { _ } from "svelte-i18n";
 
   import { page } from "$app/stores";
@@ -350,10 +350,9 @@
   let showPanelBubble = false;
   let showLoginBubble = false;
 
-  onMount(async () => {
+  onMount(() => {
     const navbarElement = document.getElementById("navbar");
     if (navbarElement) {
-      await tick();
       navbarCollapseInstance = window.bootstrap.Collapse.getOrCreateInstance(
         navbarElement,
         { toggle: false },
