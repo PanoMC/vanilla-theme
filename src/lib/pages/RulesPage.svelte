@@ -1,5 +1,4 @@
 <div class="vstack gap-3">
-  <PageTitle title={$_("pages.rules.title")} />
   <div class="alert alert-secondary mb-0" role="alert">
     <i class="fas fa-gavel me-2"></i>
     {$_("pages.rules.warning")}
@@ -14,7 +13,6 @@
 
 <!-- Pagination End -->
 <script context="module">
-  import PageTitle from "$lib/components/PageTitle.svelte";
   import { error } from "@sveltejs/kit";
 
   /**
@@ -34,8 +32,12 @@
 </script>
 
 <script>
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { _ } from "svelte-i18n";
 
   const session = getContext("session");
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = $_("pages.rules.title");
+  });
 </script>

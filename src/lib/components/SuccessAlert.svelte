@@ -1,5 +1,5 @@
 {#if message || alwaysVisible}
-  <div class="alert alert-primary mb-0" in:fade out:fade>
+  <div class="alert alert-primary" in:fade out:fade>
     {$_('successes.' + (message.key || message), { values: message.props })}
   </div>
 {/if}

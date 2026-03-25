@@ -1,7 +1,4 @@
 <div class="vstack gap-3">
-  <PageTitle
-    title={$_("pages.reset-password.title")}
-    subtitle={$_("pages.reset-password.description")} />
 
   <ErrorAlert error={$error} />
   <SuccessAlert message={$message} />
@@ -55,6 +52,7 @@
 </script>
 
 <script>
+  import { getContext, onMount } from "svelte";
   import { writable } from "svelte/store";
   import { _ } from "svelte-i18n";
 
@@ -68,4 +66,12 @@
   const message = writable();
   const loading = writable();
   const usernameOrEmail = writable("");
+
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = {
+      title: $_("pages.reset-password.title"),
+      subtitle: $_("pages.reset-password.description"),
+    };
+  });
 </script>

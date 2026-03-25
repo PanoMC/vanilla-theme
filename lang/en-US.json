@@ -174,7 +174,7 @@
     },
     "support": {
       "title": "Support",
-      "description": "How would you like to get help?",
+      "description": "How can we help you?",
       "options": {
         "create-ticket": {
           "title": "Support Ticket",
@@ -194,11 +194,11 @@
       }
     },
     "player-profile": {
-      "title": "Statistics",
+      "title": "Profile",
       "register-date": "Register Date"
     },
     "profile": {
-      "title": "Statistics",
+      "title": "Profile",
       "register-date": "Register Date",
       "last-login": "Last Login"
     },
@@ -304,10 +304,14 @@
       },
       "general": {
         "theme-color": "Theme Color",
+        "breadcrumb": "Show Breadcrumb",
         "colors": {
           "dark": "Dark",
           "light": "Light",
-          "copper": "Copper"
+          "copper": "Copper",
+          "emerald": "Emerald",
+          "midnight": "Midnight",
+          "crimson": "Crimson"
         },
         "bg-color": "Background Color",
         "bg-image": "Background Image",

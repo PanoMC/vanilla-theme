@@ -71,15 +71,35 @@
 <script>
   import { _ } from "svelte-i18n";
 
+  import { getContext, onMount } from "svelte";
   import {
     init,
     onCloseTicketClick,
     onPageClick,
     PageTypes,
   } from "$lib/ui-logics/page-logics/TicketsPageLogics";
+  
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = {
+      title: data.categoryUrl
+        ? $_("pages.category-tickets.title", {
+            values: {
+              categoryName: `"${
+                data.category.title === "-"
+                  ? $_("pages.category-tickets.no-category")
+                  : data.category.title
+              }"`,
+            },
+          })
+        : $_("pages.tickets.title")
+    };
+  });
 
   import Pagination from "$lib/components/Pagination.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
   import CardHeader from "$lib/components/CardHeader.svelte";
+  import PageActions from "$lib/components/PageActions.svelte";
   import Tickets from "$lib/components/Tickets.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import { panoApiClient } from "$lib/PluginAPI.js";

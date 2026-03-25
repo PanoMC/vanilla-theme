@@ -328,6 +328,16 @@
       });
   }
 
+  const pageTitle = getContext("pageTitle");
+
+  $: if (viewState === "LOGIN") {
+    $pageTitle = $_("components.modals.login.title");
+  } else if (viewState === "LINK_CODE") {
+    $pageTitle = $_("components.modals.login.link-code.title");
+  } else if (viewState === "REGISTER") {
+    $pageTitle = $_("components.modals.login.register-with-link.title");
+  }
+
   onMount(() => {
     if ($session.siteInfo.isDemo) {
       usernameOrEmail = "demo";
@@ -370,7 +380,6 @@
     {#if viewState === "LOGIN"}
       <form on:submit|preventDefault={onSubmit}>
         <div class="vstack gap-3">
-          <PageTitle title={$_("components.modals.login.title")} />
           {#if $session.siteInfo.isDemo}
             <div class="alert alert-info py-2" role="alert">
               {$_("pages.login.demo-mode-alert")}
@@ -485,7 +494,6 @@
     {:else if viewState === "LINK_CODE"}
       <form on:submit|preventDefault={onVerifyLink}>
         <div class="vstack gap-3">
-          <PageTitle title={$_("components.modals.login.link-code.title")} />
           <p class="text-center text-muted mb-0">
             {@html $_("components.modals.login.link-code.description")}
           </p>
@@ -554,7 +562,6 @@
     {:else if viewState === "REGISTER"}
       <form on:submit|preventDefault={onCompleteRegister}>
         <div class="vstack gap-3">
-          <PageTitle title={$_("components.modals.login.register-with-link.title")} />
           <ErrorAlert error={error} />
 
           <RegisterForm

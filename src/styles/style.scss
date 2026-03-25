@@ -53,9 +53,13 @@
 @media (min-width: 992px) {
   .vanilla-post-card,
   aside .card {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1 !important;
+    min-height: 0 !important;
     display: flex;
     flex-direction: column;
+    border: 1.5px solid var(--bs-border-color) !important;
+    box-shadow: var(--bs-box-shadow-sm) !important;
+    overflow: hidden;
 
     .card-body {
       flex: 1;
@@ -64,6 +68,102 @@
       justify-content: center;
       // align-items: center; // Post cards might look better left-aligned, sidebar centered
       // text-align: center;
+    }
+  }
+
+  // Sync Slider (Carousel) height with 1x1 sidebar cards / post cards
+  // Only apply 2.05 ratio when in homepage content area (next to sidebar)
+  [hookName="page:home:top"] {
+    .carousel,
+    .pano-carousel,
+    .card {
+      aspect-ratio: 2.05 / 1 !important;
+      padding: 0 !important;
+      overflow: hidden;
+
+      .card-body {
+        padding: 0 !important;
+      }
+      
+      .carousel-inner,
+      .carousel-item {
+        height: 100% !important;
+        
+        a {
+          display: block !important;
+          height: 100% !important;
+        }
+      }
+
+      .card-img,
+      img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+      }
+
+      // Ensure "read more" links are visible on images
+      .btn-link, 
+      .link-secondary,
+      .text-secondary {
+        color: var(--bs-secondary) !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        opacity: 1 !important;
+        
+        &:hover {
+          color: var(--bs-secondary) !important;
+          opacity: 0.8 !important;
+        }
+      }
+    }
+
+    // Pull slider to column edges by canceling padding
+    margin-left: calc(var(--bs-gutter-x) * -0.5);
+    margin-right: calc(var(--bs-gutter-x) * -0.5);
+    width: calc(100% + var(--bs-gutter-x));
+  }
+
+  // Handle Slider in Global Top position (full width)
+  [hookName="page:top"] {
+    .carousel,
+    .pano-carousel,
+    .card {
+      aspect-ratio: 3.5 / 1 !important; // Panoramic ratio for full width
+      padding: 0 !important;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+
+      .card-body {
+        padding: 0 !important;
+      }
+
+      .carousel-inner,
+      .carousel-item {
+        height: 100% !important;
+        a { display: block !important; height: 100% !important; }
+      }
+
+      img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+      }
+
+      // Ensure "read more" links are visible on images
+      .btn-link, 
+      .link-secondary,
+      .text-secondary {
+        color: var(--bs-secondary) !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        opacity: 1 !important;
+        
+        &:hover {
+          color: var(--bs-secondary) !important;
+          opacity: 0.8 !important;
+        }
+      }
     }
   }
 

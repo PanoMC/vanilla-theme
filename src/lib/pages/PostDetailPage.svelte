@@ -28,8 +28,6 @@
 </style>
 
 <div class="vstack gap-3">
-  <PageTitle title={data.post.title} />
-
   {#if data.post.category.title !== "-"}
     <div class="text-center">
       <a
@@ -42,6 +40,7 @@
       </a>
     </div>
   {/if}
+
 
   <!-- Kapak görseli + gradient + başlık + footer -->
   {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && data.post.thumbnailUrl}
@@ -186,7 +185,11 @@
 </script>
 
 <script>
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = data.post.title;
+  });
   import { _ } from "svelte-i18n";
   import { avatarVersion } from "$lib/Store";
 

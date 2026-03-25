@@ -122,6 +122,12 @@
                 >{$_("pages.theme-settings.general.colors.light")}</option>
               <option value="copper"
                 >{$_("pages.theme-settings.general.colors.copper")}</option>
+              <option value="emerald"
+                >{$_("pages.theme-settings.general.colors.emerald")}</option>
+              <option value="midnight"
+                >{$_("pages.theme-settings.general.colors.midnight")}</option>
+              <option value="crimson"
+                >{$_("pages.theme-settings.general.colors.crimson")}</option>
             </select>
           </div>
         </div>
@@ -136,6 +142,22 @@
               type="color"
               on:input={(e) => (themeSettings.backgroundColor = e.target.value)}
               value={themeSettings.backgroundColor || "#f5f7fa"} />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="breadcrumb-enabled"
+            >{$_("pages.theme-settings.general.breadcrumb")}</label>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.breadcrumbEnabled}
+                class="form-check-input"
+                id="breadcrumb-enabled"
+                on:change={(e) =>
+                  (themeSettings.breadcrumbEnabled = e.target.checked)}
+                type="checkbox" />
+            </div>
           </div>
         </div>
 
@@ -466,7 +488,7 @@
               class="form-control form-control-color"
               type="color"
               on:input={(e) => (themeSettings.headerBgColor = e.target.value)}
-              value={themeSettings.headerBgColor || "#ffffff"} />
+              value={themeSettings.headerBgColor || currentThemeDefault.header} />
           </div>
         </div>
         <div class="row mb-3">
@@ -554,7 +576,7 @@
               class="form-control form-control-color"
               type="color"
               on:input={(e) => (themeSettings.navbarBgColor = e.target.value)}
-              value={themeSettings.navbarBgColor || "#044389"} />
+              value={themeSettings.navbarBgColor || currentThemeDefault.navbar} />
           </div>
         </div>
         <div class="row mb-3">
@@ -1083,12 +1105,40 @@
   let backgroundImageFiles,
     headerBackgroundImageFiles = null;
 
+  const themeDefaults = {
+    dark: { navbar: "#044389", header: "#ffffff" },
+    light: { navbar: "#ffffff", header: "#ffffff" },
+    copper: { navbar: "#9c622b", header: "#b87333" },
+    emerald: { navbar: "#0d8a61", header: "#10b981" },
+    midnight: { navbar: "#6d44c5", header: "#8b5cf6" },
+    crimson: { navbar: "#bf3636", header: "#ef4444" }
+  };
+
+  $: currentThemeDefault = themeDefaults[themeSettings.themeColor || "dark"] || themeDefaults.dark;
+
+
   function onThemeColorChange(e) {
     const value = e.target.value;
     themeSettings.themeColor = value;
 
     if (value === "copper") {
       themeSettings.navbarBgColor = "#9c622b";
+      themeSettings.headerBgColor = "#b87333";
+    } else if (value === "emerald") {
+      themeSettings.navbarBgColor = "#0d8a61";
+      themeSettings.headerBgColor = "#10b981";
+    } else if (value === "midnight") {
+      themeSettings.navbarBgColor = "#6d44c5";
+      themeSettings.headerBgColor = "#8b5cf6";
+    } else if (value === "crimson") {
+      themeSettings.navbarBgColor = "#bf3636";
+      themeSettings.headerBgColor = "#ef4444";
+    } else if (value === "dark") {
+      themeSettings.navbarBgColor = "#044389";
+      themeSettings.headerBgColor = "#ffffff";
+    } else if (value === "light") {
+      themeSettings.navbarBgColor = "#ffffff";
+      themeSettings.headerBgColor = "#ffffff";
     }
   }
 

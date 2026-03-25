@@ -8,7 +8,8 @@
 
 <!-- Main Container -->
 <main class="container">
-  <div class="row g-3">
+
+  <div class="row gx-3">
     {#if sidebarEnabled}
       <svelte:component
         this={$sidebar}
@@ -32,10 +33,12 @@
   import { getContext } from "svelte";
   import { dev } from "$app/environment";
 
+
   const devUi = import.meta.env.VITE_DEV_UI === "true";
 
   const sidebar = getContext("sidebar");
   const sidebarProps = getContext("sidebarProps");
+
   const themeSettings = getContext("themeSettings");
 
   $: sidebarEnabled =

@@ -3,9 +3,17 @@ import { executeHookLoad, executeLifecycle, executeViewLoad, panoApi } from "$li
 
 export async function processLoad(event) {
   const { parent } = event;
-  const { hookProps: parentHookProps } = await parent();
+  const { session, hookProps: parentHookProps } = await parent();
+  const themeSettings = session.siteInfo.themeSettings;
 
-  await loadSidebar(event);
+  const onlineAdminsEnabled =
+    typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
+      ? true
+      : themeSettings.sidebarCarts.onlineAdmins;
+
+  if (onlineAdminsEnabled) {
+    await loadSidebar(event);
+  }
 
   const data = {
     hookProps: { ...parentHookProps },
@@ -48,5 +56,5 @@ export async function processLoad(event) {
     ...supportHookProps
   };
 
-  return { ...data, sidebar: SupportSidebar };
+  return { ...data, sidebar: onlineAdminsEnabled ? SupportSidebar : null };
 }

@@ -10,7 +10,6 @@
 </style>
 
 <div class="vstack gap-3">
-  <PageTitle title={$_("pages.create-ticket.title")} />
   <ErrorAlert error={$error} />
   <div class="vstack gap-0">
     <input
@@ -55,6 +54,7 @@
 </script>
 
 <script>
+  import { getContext, onMount } from "svelte";
   import { writable } from "svelte/store";
   import { _ } from "svelte-i18n";
 
@@ -70,6 +70,11 @@
   let message = writable("");
   let categoryId = writable(-1);
   let loading = writable(false);
+
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = $_("pages.create-ticket.title");
+  });
 
   $: isButtonDisabled = $title === "" || $message === "";
 </script>

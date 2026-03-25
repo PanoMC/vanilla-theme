@@ -38,13 +38,23 @@
         transition: background 0.4s ease;
       }
 
-      .text-muted, .text-white-50 {
-        color: var(--bs-secondary-color) !important;
+      .text-muted,
+      .text-white-50,
+      .link-secondary {
+        color: var(--bs-secondary) !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        opacity: 1 !important;
       }
 
-      .btn-link, h3, .card-text {
+      h3, .card-text {
         color: var(--bs-body-color) !important;
         text-shadow: none;
+      }
+
+      .category-badge {
+        background-color: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        color: var(--bs-white) !important;
       }
     }
 
@@ -93,6 +103,29 @@
     display: block;
     transition: transform 0.4s ease-in-out;
   }
+  .category-badge {
+    background-color: transparent !important;
+    border: 1px solid var(--bs-emphasis-color) !important;
+    color: var(--bs-emphasis-color) !important;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: var(--bs-emphasis-color) !important;
+      color: var(--bs-body-bg) !important;
+      opacity: 1;
+    }
+  }
+
+  /* Make link-secondary work on span and use theme secondary color (emphasis for contrast) */
+  .link-secondary {
+    color: var(--bs-secondary-text-emphasis) !important;
+    transition: color 0.4s;
+  }
+
+  .vanilla-post-card:hover .link-secondary {
+    color: var(--bs-secondary) !important;
+    opacity: 1;
+  }
 </style>
 
 <div
@@ -100,6 +133,7 @@
   class:post-clickable={!detail}
   class:is-overlay={!detail && post.thumbnailUrl}
   style={post.thumbnailUrl ? `--blur-bg: url('${post.thumbnailUrl}')` : ""}>
+
   {#if post.thumbnailUrl}
     {#if !detail}
       <img
@@ -138,14 +172,6 @@
           {post.title}
         </h3>
       </a>
-      {#if post.category.title !== "-"}
-        <a
-          class="badge text-bg-light text-decoration-none rounded-pill focus-ring flex-shrink-0 z-2"
-          href="/?category={post.category.url}"
-          use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
-          {post.category.title}
-        </a>
-      {/if}
     </div>
 
     <div
@@ -190,11 +216,13 @@
           </a>
         </div>
       {:else}
-        {#if typeof themeSettings.postReadMoreButtonEnabled === "undefined" ? true : themeSettings.postReadMoreButtonEnabled}
-          <span class="mb-0 p-0 btn btn-link text-decoration-none fw-bold z-1 text-white">
-            {$_("components.post.read-more")}
-            <i class="fas fa-long-arrow-alt-right ms-1"></i>
-          </span>
+        {#if post.category.title !== "-"}
+          <a
+            class="badge category-badge text-decoration-none rounded-pill focus-ring z-2"
+            href="/?category={post.category.url}"
+            use:tooltip={[$_("buttons.filter"), { placement: "bottom" }]}>
+            {post.category.title}
+          </a>
         {:else}
           <div></div>
         {/if}

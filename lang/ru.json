@@ -166,7 +166,7 @@
     },
     "support": {
       "title": "Поддержка",
-      "description": "Как бы вы хотели получить помощь?",
+      "description": "Как мы можем вам помочь?",
       "options": {
         "create-ticket": {
           "title": "Тикет поддержки",
@@ -186,11 +186,11 @@
       }
     },
     "player-profile": {
-      "title": "Статистика",
+      "title": "Профиль",
       "register-date": "Дата регистрации"
     },
     "profile": {
-      "title": "Статистика",
+      "title": "Профиль",
       "register-date": "Дата регистрации",
       "last-login": "Последний вход"
     },
@@ -296,6 +296,7 @@
       },
       "general": {
         "theme-color": "Цвет темы",
+        "breadcrumb": "Показать хлебные крошки",
         "colors": {
           "dark": "Темная",
           "light": "Светлая",

@@ -14,7 +14,7 @@
                 lastActivityTime={$data.lastActivityTime}
                 checkTime={checkTime} />
             </div>
-            <PageTitle title={user.username} />
+            <PageTitle title={user.username} breadcrumb={false} />
             <div class="text-center">
               <PlayerStatusBadge
                 banned={$data.isBanned}

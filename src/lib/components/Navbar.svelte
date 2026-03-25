@@ -72,16 +72,24 @@
   .navbar-nav .nav-link.active {
     opacity: 1;
   }
+
+  .navbar {
+    border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .navbar[data-bs-theme="light"] {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+  }
 </style>
 
 <!-- Navbar -->
 <div class:container={themeSettings.navbarWidthOption !== "FULL_SIZE"}>
   <nav
-    data-bs-theme={getContrast(themeSettings.navbarBgColor || "#044389")}
-    class="navbar navbar-expand-lg border rounded rounded-{themeSettings.navRoundLevel
+    data-bs-theme={getContrast(effectiveNavbarBgColor)}
+    class="navbar navbar-expand-lg rounded rounded-{themeSettings.navRoundLevel
       ? +themeSettings.navRoundLevel
       : '5'} shadow-sm"
-    style="background-color: {themeSettings.navbarBgColor || '#044389'}">
+    style="background-color: {effectiveNavbarBgColor}">
     <div class="container">
       <ul class="navbar-nav flex-row me-auto">
         <li>
@@ -107,7 +115,10 @@
                   target="_blank"
                   rel="noreferrer"
                   aria-label={$_("nav-links.panel")}
-                  use:tooltip={[$_("nav-links.panel"), { placement: "bottom" }]}>
+                  use:tooltip={[
+                    $_("nav-links.panel"),
+                    { placement: "bottom" },
+                  ]}>
                   <i class="fa-solid fa-columns"></i>
                 </a>
                 {#if showPanelBubble}
@@ -135,8 +146,12 @@
                   class="nav-link position-relative d-flex align-items-center"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  use:tooltip={[$session.user.username, { placement: "bottom" }]}>
-                  <span class="me-2 d-none d-lg-inline">{$session.user.username}</span>
+                  use:tooltip={[
+                    $session.user.username,
+                    { placement: "bottom" },
+                  ]}>
+                  <span class="me-2 d-none d-lg-inline"
+                    >{$session.user.username}</span>
                   <img
                     alt={$session.user.username}
                     class="rounded"
@@ -307,6 +322,20 @@
 
   import { avatarVersion, logout, notificationsCount } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
+
+  const themeDefaults = {
+    dark: "#044389",
+    light: "#ffffff",
+    copper: "#9c622b",
+    emerald: "#0d8a61",
+    midnight: "#6d44c5",
+    crimson: "#bf3636"
+  };
+
+  $: effectiveNavbarBgColor =
+    themeSettings.navbarBgColor ||
+    themeDefaults[themeSettings.themeColor || "dark"] ||
+    themeDefaults.dark;
   import { hasPermission } from "$lib/auth.util.js";
   import tooltip from "$lib/tooltip.util";
   import ViewComponent from "$lib/components/ViewComponent.svelte";

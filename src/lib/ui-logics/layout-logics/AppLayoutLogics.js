@@ -205,6 +205,7 @@ export function init(data) {
   setContext("session", session);
   setContext("sidebar", sidebar);
   setContext("sidebarProps", sidebarProps);
+  setContext("pageTitle", data.pageTitle);
   setContext("themeSettings", data.session.siteInfo.themeSettings);
 
   onDestroy(pageUnsubscribe);

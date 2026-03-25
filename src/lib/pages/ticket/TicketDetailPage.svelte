@@ -23,7 +23,7 @@
 </a>`,
       },
     })}
-    subtitleHtml={true}
+    subtitleHtml={true} />
     <Date
     relativeFormat={true}
     time={$ticket.date} />

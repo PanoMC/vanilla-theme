@@ -16,14 +16,22 @@ import TicketCreateAndDetailSidebar, {
  */
 export async function processLoad(event) {
   const { parent } = event;
-  await parent();
+    const { session } = await parent();
+  const themeSettings = session.siteInfo.themeSettings;
+
+  const onlineAdminsEnabled =
+    typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
+      ? true
+      : themeSettings.sidebarCarts.onlineAdmins;
+
+  if (onlineAdminsEnabled) {
+    await loadSidebar(event);
+  }
 
   let data = {
     categories: [],
     categoryPage: 0
   };
-
-  await loadSidebar(event);
 
   await getTicketCategories({
     page: data.categoryPage,
@@ -40,7 +48,7 @@ export async function processLoad(event) {
     data = body;
   });
 
-  return { ...data, sidebar: TicketCreateAndDetailSidebar };
+  return { ...data, sidebar: onlineAdminsEnabled ? TicketCreateAndDetailSidebar : null };
 }
 
 export async function submit(error, loading, title, message, categoryId) {

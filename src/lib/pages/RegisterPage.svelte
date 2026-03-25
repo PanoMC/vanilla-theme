@@ -23,7 +23,7 @@
 </script>
 
 <script>
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { _ } from "svelte-i18n";
   import { goto } from "$app/navigation";
 
@@ -42,6 +42,11 @@
   export let data;
 
   const session = getContext("session");
+  const pageTitle = getContext("pageTitle");
+
+  onMount(() => {
+    $pageTitle = $_("components.modals.register.title");
+  });
 
   let loading, error, successMessage;
   let username = "",
@@ -141,7 +146,6 @@
       {#if item.id === "register-form"}
         <form on:submit|preventDefault={onSubmit}>
           <div class="vstack gap-3">
-            <PageTitle title={$_("components.modals.register.title")} />
             <SuccessAlert message={successMessage} />
             <ErrorAlert error={error} />
 

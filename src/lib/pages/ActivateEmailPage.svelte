@@ -1,6 +1,5 @@
 <div class="col-lg-4 col-md-6 mx-auto">
   <div class="vstack gap-3">
-    <PageTitle title={$_("pages.activate.title")} />
 
     <div class="card">
       <div class="card-body">
@@ -48,6 +47,7 @@
 </script>
 
 <script>
+  import { getContext, onMount } from "svelte";
   import { writable } from "svelte/store";
   import { _ } from "svelte-i18n";
 
@@ -61,4 +61,9 @@
   let loading = writable();
   let error = writable();
   let successMessage = writable(null);
+
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = $_("pages.activate.title");
+  });
 </script>

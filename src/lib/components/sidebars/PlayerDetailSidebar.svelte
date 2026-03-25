@@ -14,7 +14,7 @@
               width="64"
               height="64" />
 
-            <PageTitle title={$data.username} />
+            <PageTitle title={$data.username} breadcrumb={false} />
 
             <div class="text-center">
               <PlayerStatusBadge

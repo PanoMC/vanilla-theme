@@ -5,7 +5,7 @@
 </style>
 
 <!-- Footer -->
-<footer class="mt-5 border-top bg-gray bg-opacity-10 py-5">
+<footer class="border-top bg-gray bg-opacity-10 py-5">
   <div class="container py-lg-5 position-relative z-1">
     <div class="row justify-content-center align-items-center g-3">
       <div
@@ -78,7 +78,7 @@
       <div class="col-lg-4 d-flex justify-content-center align-items-center">
         <button
           type="button"
-          class="badge fs-6 text-bg-secondary border-0"
+          class="badge fs-6 {ipBadgeClass} border-0"
           on:click={onCopyIpClick}
           aria-label={$session.siteInfo.ipAddress}
           use:tooltip={[
@@ -139,6 +139,17 @@
       condition: !!$session.siteInfo?.registerAgreement,
     },
   ];
+
+  $: ipBadgeClass =
+    themeSettings.themeColor === "emerald"
+      ? "text-bg-success"
+      : themeSettings.themeColor === "midnight"
+        ? "text-bg-purple"
+        : themeSettings.themeColor === "crimson"
+          ? "text-bg-danger"
+          : themeSettings.themeColor === "copper"
+            ? "text-bg-warning"
+            : "text-bg-secondary";
 
   $: displayLinks = (() => {
     // Check if footer links are globally disabled

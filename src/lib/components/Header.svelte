@@ -6,7 +6,7 @@
 <div class="hero" class:container={headerWidthOption !== "FULL_SIZE"}>
   <div
     class="hero-content position-relative p-0"
-    class:bg-transparent={!themeSettings.headerBgColor}
+    class:bg-transparent={!effectiveHeaderBgColor}
     id="header"
     style="background-position: center; height: {themeSettings.headerHeight || '256'}px;">
     <a href="/">
@@ -35,6 +35,19 @@
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");
+
+  const headerDefaults = {
+    dark: "",
+    light: "",
+    copper: "#b87333",
+    emerald: "#10b981",
+    midnight: "#8b5cf6",
+    crimson: "#ef4444",
+  };
+
+  $: effectiveHeaderBgColor =
+    themeSettings.headerBgColor ||
+    headerDefaults[themeSettings.themeColor || "dark"];
 
   $: logoPosition = themeSettings.logoPosition
     ? themeSettings.logoPosition
@@ -71,7 +84,7 @@
 
   const styles = `
     .hero::before {
-      ${themeSettings.headerBgColor ? `background-color: ${themeSettings.headerBgColor};` : ""}
+      ${effectiveHeaderBgColor ? `background-color: ${effectiveHeaderBgColor};` : ""}
       background-image: url(${defaultHeaderBg ? "/assets/img/default-header-bg.png" : themeSettings.files?.headerBackgroundImage ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage : ""}) !important;
       ${themeSettings.headerBgImagePosition ? `background-position: ${themeSettings.headerBgImagePosition} !important;` : ""}
       ${themeSettings.headerBgImageRepeat ? `background-repeat: ${themeSettings.headerBgImageRepeat} !important;` : ""}

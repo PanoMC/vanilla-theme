@@ -1,9 +1,10 @@
 <!-- Statistics -->
-<div class="card">
-  <div class="card-header">
-    {$_("pages.player-profile.title")}
-  </div>
-  <table class="table">
+<div class="vstack gap-3">
+  <div class="card">
+    <div class="card-header">
+      {$_("pages.player-profile.title")}
+    </div>
+    <table class="table">
     <tbody>
       <tr>
         <td>{$_("pages.player-profile.register-date")}</td>
@@ -11,6 +12,7 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </div>
 
 <script context="module">
@@ -25,8 +27,12 @@
 </script>
 
 <script>
+  import { getContext, onMount } from "svelte";
   import { _ } from "svelte-i18n";
-
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = $_("pages.player-profile.title");
+  });
   import Date from "$lib/components/Date.svelte";
 
   export let data;

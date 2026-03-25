@@ -174,7 +174,7 @@
     },
     "support": {
       "title": "Destek",
-      "description": "Nasıl yardım almak istersin?",
+      "description": "Nasıl yardımcı olabiliriz?",
       "options": {
         "create-ticket": {
           "title": "Destek Talebi",
@@ -194,11 +194,11 @@
       }
     },
     "player-profile": {
-      "title": "İstatistikler",
+      "title": "Profil",
       "register-date": "Kayıt"
     },
     "profile": {
-      "title": "İstatistikler",
+      "title": "Profil",
       "register-date": "Kayıt",
       "last-login": "Son Giriş"
     },
@@ -304,10 +304,14 @@
       },
       "general": {
         "theme-color": "Tema Rengi",
+        "breadcrumb": "Yol İzini (Breadcrumb) Göster",
         "colors": {
           "dark": "Koyu",
           "light": "Açık",
-          "copper": "Bakır"
+          "copper": "Bakır",
+          "emerald": "Zümrüt",
+          "midnight": "Gece Yarısı",
+          "crimson": "Kızıl"
         },
         "bg-color": "Arka Plan Rengi",
         "bg-image": "Arka Plan Resmi",

@@ -1,6 +1,5 @@
 <!-- All Notifications -->
 <div class="vstack gap-3">
-  <PageTitle title={$_("pages.notifications.page-title")} />
 
     <PageActions>
       <div slot="right">
@@ -111,6 +110,11 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import { getContext, onMount } from "svelte";
+  const pageTitle = getContext("pageTitle");
+  onMount(() => {
+    $pageTitle = "pages.notifications.page-title";
+  });
   import { avatarVersion } from "$lib/Store";
   import * as locales from "date-fns/locale";
 
