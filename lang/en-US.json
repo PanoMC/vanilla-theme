@@ -59,7 +59,8 @@
       "offline": "Offline",
       "last-registrants": "Last Registrants",
       "game-client-version": "Game Client Version",
-      "playing": "{playerCount}/{maxPlayerCount} playing"
+      "playing": "{playerCount}/{maxPlayerCount} playing",
+      "click-to-copy": "Click to copy"
     }
   },
   "toasts": {
@@ -399,7 +400,9 @@
         "visibility": "Visibility",
         "logo-visibility": "Logo Visibility",
         "title": "Site Title",
+        "title-visibility": "Site Title Visibility",
         "content": "Site Description",
+        "content-visibility": "Site Description Visibility",
         "links": "Links",
         "links-visibility": "Links Visibility",
         "plugin-links-visibility": "Show Plugin Links"

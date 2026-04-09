@@ -59,7 +59,8 @@
       "offline": "Çevrimdışı",
       "last-registrants": "Son Kayıt Olanlar",
       "game-client-version": "Oyun Versiyonu",
-      "playing": "{playerCount}/{maxPlayerCount} oynuyor"
+      "playing": "{playerCount}/{maxPlayerCount} oynuyor",
+      "click-to-copy": "Kopyalamak için tıkla"
     }
   },
   "toasts": {
@@ -369,7 +370,7 @@
         "width": "Genişlik",
         "bg-color": "Arka Plan Rengi",
         "border-radius": "Kenar Yuvarlaması",
-        "links-visibility": "Linklerin Görünürlüğü",
+        "links-visibility": "Bağlantılar Görünürlüğü",
         "links": "Bağlantılar",
         "home": "Ana Sayfa",
         "rules": "Kurallar",
@@ -399,9 +400,11 @@
         "visibility": "Görünürlük",
         "logo-visibility": "Logo Görünürlüğü",
         "title": "Site Başlığı",
+        "title-visibility": "Site Başlığı Görünürlüğü",
         "content": "Site Açıklaması",
+        "content-visibility": "Site Açıklaması Görünürlüğü",
         "links": "Bağlantılar",
-        "links-visibility": "Linklerin Görünürlüğü",
+        "links-visibility": "Bağlantılar Görünürlüğü",
         "plugin-links-visibility": "Eklenti Linklerini Göster"
       },
       "advanced": {

@@ -39,10 +39,10 @@
 </script>
 
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb justify-content-center px-3 mb-0">
+  <ol class="breadcrumb justify-content-center mb-0">
     {#each breadcrumbs as crumb, i}
       <li
-        class="breadcrumb-item small"
+        class="breadcrumb-item"
         class:active={i === breadcrumbs.length - 1}
         aria-current={i === breadcrumbs.length - 1 ? "page" : undefined}>
         {#if i === breadcrumbs.length - 1}
@@ -52,7 +52,7 @@
             {crumb.label}
           {/if}
         {:else}
-          <a href={crumb.href} class="text-decoration-none badge text-bg-primary rounded-pill">
+          <a href={crumb.href} class="text-decoration-none badge text-bg-primary rounded-pill px-1">
             {#if crumb.isHome}
               <i class="fas fa-home"></i>
             {:else}

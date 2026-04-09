@@ -69,10 +69,14 @@
                 src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}" />
             </a>
           {/if}
-          <h5>{themeSettings.footerTitle || $session.siteInfo.websiteName}</h5>
-          <small class="text-center">
-            {themeSettings.footerContent || $session.siteInfo.websiteDescription}
-          </small>
+          {#if themeSettings.footerTitleEnabled ?? true}
+            <h5>{themeSettings.footerTitle || $session.siteInfo.websiteName}</h5>
+          {/if}
+          {#if themeSettings.footerContentEnabled ?? true}
+            <small class="text-center">
+              {themeSettings.footerContent || $session.siteInfo.websiteDescription}
+            </small>
+          {/if}
         </div>
       </div>
       <div class="col-lg-4 d-flex justify-content-center align-items-center">

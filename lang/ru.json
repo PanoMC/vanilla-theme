@@ -59,7 +59,8 @@
       "offline": "Не в сети",
       "last-registrants": "Последние регистрации",
       "game-client-version": "Версия клиента",
-      "playing": "{playerCount}/{maxPlayerCount} играют"
+      "playing": "{playerCount}/{maxPlayerCount} играют",
+      "click-to-copy": "Нажмите, чтобы скопировать"
     }
   },
   "toasts": {
@@ -385,7 +386,11 @@
       },
       "footer": {
         "visibility": "Подвал",
+        "logo-visibility": "Видимость логотипа",
+        "title": "Заголовок сайта",
+        "title-visibility": "Видимость заголовка сайта",
         "content": "Контент",
+        "content-visibility": "Видимость описания сайта",
         "links": "Ссылки",
         "links-visibility": "Видимость ссылок",
         "plugin-links-visibility": "Показывать ссылки плагинов"

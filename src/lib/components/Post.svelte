@@ -25,6 +25,10 @@
     overflow: hidden;
     background-color: var(--bs-body-bg);
 
+    &:not(.post-detail) {
+      min-height: 240px;
+    }
+
     &.is-overlay {
       background-color: #000;
 
@@ -126,42 +130,62 @@
     color: var(--bs-secondary) !important;
     opacity: 1;
   }
+
+  .post-card-gradient-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--random-gradient);
+    z-index: 0;
+    opacity: 0.8;
+  }
+
+  :global([data-bs-theme="dark"]) .post-card-gradient-bg {
+    opacity: 0.6;
+  }
 </style>
 
 <div
   class="card vanilla-post-card h-100 rounded-4 focus-ring position-relative overflow-hidden"
   class:post-clickable={!detail}
-  class:is-overlay={!detail && post.thumbnailUrl}
-  style={post.thumbnailUrl ? `--blur-bg: url('${post.thumbnailUrl}')` : ""}>
+  class:post-detail={detail}
+  class:is-overlay={!detail}
+  style={post.thumbnailUrl ? `--blur-bg: url('${post.thumbnailUrl}');` : `--random-gradient: ${getGradient(post.title)};`}>
 
-  {#if post.thumbnailUrl}
-    {#if !detail}
+  {#if !detail}
+    {#if post.thumbnailUrl}
       <img
         src={post.thumbnailUrl}
         class="card-img h-100 object-fit-cover"
         alt={post.title} />
     {:else}
-      <div class="feature-blur-bg"></div>
+      <div class="post-card-gradient-bg"></div>
     {/if}
+  {:else if post.thumbnailUrl}
+    <div class="feature-blur-bg"></div>
   {/if}
 
-  {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && post.thumbnailUrl && detail}
-    <a
-      href="/post/{post.url}"
-      class="post-card-thumbnail-wrapper d-block">
+  {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && detail}
+    <div class="post-card-thumbnail-wrapper d-block">
       <div class="ratio ratio-16x9">
-        <img
-          src={post.thumbnailUrl}
-          class="card-img-top"
-          alt={post.title}
-          title={post.title} />
+        {#if post.thumbnailUrl}
+          <img
+            src={post.thumbnailUrl}
+            class="card-img-top"
+            alt={post.title}
+            title={post.title} />
+        {:else}
+          <div class="post-card-gradient-bg"></div>
+        {/if}
       </div>
-    </a>
+    </div>
   {/if}
 
   <div
-    class:card-img-overlay={!detail && post.thumbnailUrl}
-    class:card-body={detail || !post.thumbnailUrl}
+    class:card-img-overlay={!detail}
+    class:card-body={detail}
     class="d-flex flex-column justify-content-end">
     <div class="d-flex justify-content-between align-items-start mb-3 gap-2 mt-auto">
       <a
@@ -263,4 +287,27 @@
 
   import { avatarVersion } from "$lib/Store";
   const themeSettings = getContext("themeSettings");
+
+  const getGradient = (seed = "") => {
+    const variants = [
+      "circle at 0% 0%, #4158D0 0%, #C850C0 46%, #FFCC70 100%",
+      "circle at 100% 0%, #00DBDE 0%, #FC00FF 100%",
+      "circle at 100% 100%, #FBAB7E 0%, #F7CE68 100%",
+      "circle at 0% 100%, #85FFBD 0%, #FFFB7D 100%",
+      "circle at 50% 50%, #21D4FD 0%, #B721FF 100%",
+      "circle at 30% 20%, #08AEEA 0%, #2AF598 100%",
+      "circle at 80% 40%, #FEE140 0%, #FA709A 100%",
+      "circle at 10% 90%, #74EBD5 0%, #9FACE6 100%",
+      "circle at 90% 10%, #647dee 0%, #7f53ac 100%",
+      "circle at 40% 60%, #ff9a9e 0%, #fecfef 100%",
+      "circle at 70% 30%, #a18cd1 0%, #fbc2eb 100%",
+      "circle at 20% 80%, #ffecd2 0%, #fcb69f 100%"
+    ];
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % variants.length;
+    return `radial-gradient(${variants[index]})`;
+  };
 </script>

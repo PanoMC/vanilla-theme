@@ -110,7 +110,7 @@
             {#if $session.user && $session.user.panelAccess}
               <li class="nav-item position-relative">
                 <a
-                  class="btn btn-link"
+                  class="btn btn-link text-reset"
                   href={PANEL_URL}
                   target="_blank"
                   rel="noreferrer"
@@ -119,7 +119,7 @@
                     $_("nav-links.panel"),
                     { placement: "bottom" },
                   ]}>
-                  <i class="fa-solid fa-columns"></i>
+                  <i class="fa-solid fa-dashboard"></i>
                 </a>
                 {#if showPanelBubble}
                   <div class="demo-bubble">

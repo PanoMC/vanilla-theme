@@ -331,7 +331,7 @@
               class="form-control"
               type="number"
               on:input={(e) => (themeSettings.logoHeight = e.target.value)}
-              placeholder="auto"
+              placeholder="512"
               value={themeSettings.logoHeight} />
           </div>
         </div>
@@ -344,7 +344,7 @@
               class="form-control"
               type="number"
               on:input={(e) => (themeSettings.logoWidth = e.target.value)}
-              placeholder="auto"
+              placeholder="512"
               value={themeSettings.logoWidth} />
           </div>
         </div>
@@ -728,7 +728,7 @@
               <input
                 checked={typeof themeSettings.sidebarCarts?.onlineAdmins ===
                 "undefined"
-                  ? true
+                  ? false
                   : themeSettings.sidebarCarts?.onlineAdmins}
                 class="form-check-input"
                 id="onlineAdminsCartVisibility"
@@ -909,6 +909,22 @@
           </div>
         </div>
         <div class="row mb-3">
+          <label class="col-md-6" for="footerTitleEnabled">
+            {$_("pages.theme-settings.footer.title-visibility")}
+          </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.footerTitleEnabled ?? true}
+                class="form-check-input"
+                id="footerTitleEnabled"
+                on:change={(e) =>
+                  (themeSettings.footerTitleEnabled = e.target.checked)}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="footerTitle">
             {$_("pages.theme-settings.footer.title")}
           </label>
@@ -919,6 +935,22 @@
               on:input={(e) => (themeSettings.footerTitle = e.target.value)}
               type="text"
               value={themeSettings.footerTitle ?? $session.siteInfo.websiteName} />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6" for="footerContentEnabled">
+            {$_("pages.theme-settings.footer.content-visibility")}
+          </label>
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.footerContentEnabled ?? true}
+                class="form-check-input"
+                id="footerContentEnabled"
+                on:change={(e) =>
+                  (themeSettings.footerContentEnabled = e.target.checked)}
+                type="checkbox" />
+            </div>
           </div>
         </div>
         <div class="row mb-3">
@@ -1301,7 +1333,9 @@
     footer: [
       "footerEnabled",
       "footerLogoEnabled",
+      "footerTitleEnabled",
       "footerTitle",
+      "footerContentEnabled",
       "footerContent",
       "footerLinksEnabled",
       "footerPluginLinksEnabled",

@@ -8,7 +8,7 @@ export async function processLoad(event) {
 
   const onlineAdminsEnabled =
     typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
-      ? true
+      ? false
       : themeSettings.sidebarCarts.onlineAdmins;
 
   if (onlineAdminsEnabled) {

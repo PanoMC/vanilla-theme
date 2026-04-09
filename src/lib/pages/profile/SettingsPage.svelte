@@ -15,7 +15,7 @@
                 </label>
                 <div class="col col-form-label">
                   <button
-                    class="btn btn-primary"
+                    class="btn btn-link"
                     class:is-invalid={$resetPasswordError}
                     onclick={() =>
                       sendResetPasswordLink(
@@ -75,7 +75,7 @@
                           {:else}
                             <button
                               type="button"
-                              class="btn btn-primary"
+                              class="btn btn-link"
                               aria-describedby="userEmail"
                               onclick={() => startChangingEmail(changingEmail)}
                               disabled={!$session.siteInfo.emailEnabled}

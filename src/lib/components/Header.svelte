@@ -12,17 +12,11 @@
     <a href="/">
       <img
         alt={$_("components.header.alt")}
-        class="{themeSettings.logoHeight || themeSettings.logoWidth
-          ? ''
-          : 'img-fluid'} p-3 position-absolute {logoPositionClasses}"
+        class="position-absolute {logoPositionClasses} px-3"
         class:d-none={themeSettings.logoVisibility === false}
-        height={themeSettings.logoHeight || "auto"}
         src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
-        style="{!themeSettings.logoHeight && !themeSettings.logoWidth
-          ? 'height: 100%; width: 100%; object-fit: contain;'
-          : ''} "
-        title={$session.siteInfo.websiteName}
-        width={themeSettings.logoWidth || "auto"} />
+        style="object-fit: contain; width: {themeSettings.logoWidth || '512'}px; height: {themeSettings.logoHeight || '512'}px; max-width: 100%; max-height: 100%;"
+        title={$session.siteInfo.websiteName} />
     </a>
   </div>
 </div>

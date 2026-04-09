@@ -3,8 +3,9 @@
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
-        <div class="card bg-secondary-subtle text-secondary-emphasis border position-relative overflow-hidden">
-          <div class="card-header position-relative z-1 bg-transparent">
+        <div class="card border-0 position-relative overflow-hidden">
+          <div 
+            class="card-header position-relative text-bg-secondary border-bottom border-secondary border-4">
             <button
               class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"
               type="button"
@@ -13,13 +14,21 @@
                 isCommandTextCopied
                   ? $_("sidebars.home.copied")
                   : $_("sidebars.home.copy"),
-                { placement: "bottom", hideOnClick: false },
+                { placement: "top", hideOnClick: false },
               ]}>
-              <b class="d-block mb-2">{$data.ipAddress}</b>
+              <b class="d-block">{$data.ipAddress}</b>
             </button>
           </div>
-          <div class="card-body p-0 position-relative z-1">
-            <ul class="list-group list-group-flush text-center lead bg-transparent">
+          <div
+            class="card-body p-0 position-relative z-1 border border-secondary border-top-0 rounded-bottom overflow-hidden"
+            style="background-color: var(--bs-body-bg);">
+            <!-- Faded Background Image -->
+            <div
+              class="position-absolute top-0 start-0 w-100 h-100"
+              style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
+                'center'}; opacity: 0.07; z-index: -1;">
+            </div>
+            <ul class="list-group list-group-flush text-center lead bg-transparent position-relative z-1">
               <li class="list-group-item border-0 py-2 bg-transparent">
                 {#if serverOnline}
                   <span class="badge text-bg-success"
@@ -48,7 +57,7 @@
       {:else if item.id === "last-registrants"}
         <!-- Last Registrants Snippet -->
         <div
-          class="card position-relative overflow-hidden"
+          class="card position-relative overflow-hidden mb-lg-0 mb-3"
           hidden={typeof themeSettings.sidebarCarts?.lastRegistrants ===
           "undefined"
             ? false
@@ -164,5 +173,16 @@
   // Moved to load function
 
   const items = panoApi.ui.sidebar.get("home");
+
+  /* Background Image Logic (Synced with Header.svelte) */
+  const defaultHeaderBg =
+    typeof themeSettings.defaultHeaderBg === "undefined"
+      ? true
+      : themeSettings.defaultHeaderBg;
+  $: headerBgImage = defaultHeaderBg
+    ? "/assets/img/default-header-bg.png"
+    : themeSettings.files?.headerBackgroundImage
+      ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage
+      : "";
 </script>
 
