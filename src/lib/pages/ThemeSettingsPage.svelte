@@ -728,7 +728,7 @@
               <input
                 checked={typeof themeSettings.sidebarCarts?.onlineAdmins ===
                 "undefined"
-                  ? false
+                  ? true
                   : themeSettings.sidebarCarts?.onlineAdmins}
                 class="form-check-input"
                 id="onlineAdminsCartVisibility"

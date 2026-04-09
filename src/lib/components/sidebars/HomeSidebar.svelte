@@ -4,31 +4,30 @@
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
         <div class="card border-0 position-relative overflow-hidden">
-          <div 
-            class="card-header position-relative text-bg-secondary border-bottom border-secondary border-4">
-            <button
-              class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"
-              type="button"
-              on:click={onCopyCommandTextClick}
-              use:tooltip={[
-                isCommandTextCopied
-                  ? $_("sidebars.home.copied")
-                  : $_("sidebars.home.copy"),
-                { placement: "top", hideOnClick: false },
-              ]}>
-              <b class="d-block">{$data.ipAddress}</b>
-            </button>
-          </div>
           <div
-            class="card-body p-0 position-relative z-1 border border-secondary border-top-0 rounded-bottom overflow-hidden"
-            style="background-color: var(--bs-body-bg);">
+            class="card-body p-0 position-relative z-1 border border-3 border-secondary rounded overflow-hidden"
+            style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
             <!-- Faded Background Image -->
             <div
               class="position-absolute top-0 start-0 w-100 h-100"
               style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
-                'center'}; opacity: 0.07; z-index: -1;">
+                'center'}; opacity: 0.15; z-index: -1;">
             </div>
-            <ul class="list-group list-group-flush text-center lead bg-transparent position-relative z-1">
+            <ul class="list-group list-group-flush text-center bg-transparent position-relative z-1">
+              <li class="list-group-item border-0 py-2 bg-transparent">
+                <button
+                  class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"
+                  type="button"
+                  on:click={onCopyCommandTextClick}
+                  use:tooltip={[
+                    isCommandTextCopied
+                      ? $_("sidebars.home.copied")
+                      : $_("sidebars.home.copy"),
+                    { placement: "top", hideOnClick: false },
+                  ]}>
+                  <b class="d-block">{$data.ipAddress}</b>
+                </button>
+              </li>
               <li class="list-group-item border-0 py-2 bg-transparent">
                 {#if serverOnline}
                   <span class="badge text-bg-success"

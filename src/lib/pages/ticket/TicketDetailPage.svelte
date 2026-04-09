@@ -2,6 +2,10 @@
   .answer {
     margin-bottom: 0;
   }
+
+  .answer :global(p:last-child) {
+    margin-bottom: 0;
+  }
 </style>
 
 <div class="vstack gap-3">
@@ -24,14 +28,16 @@
       },
     })}
     subtitleHtml={true} />
-    <Date
-    relativeFormat={true}
-    time={$ticket.date} />
 
   <div class="card">
-    <div class="card-header text-end">
-      <TicketStatus status={$ticket.status} />
-    </div>
+    <CardHeader>
+      <small slot="left" class="text-body-secondary">
+        <Date time={$ticket.date} relativeFormat={true} />
+      </small>
+      <div slot="right">
+        <TicketStatus status={$ticket.status} />
+      </div>
+    </CardHeader>
     <div class="card-body" id="messageSection" bind:this={$messagesSectionDiv}>
       {#if $messages.length < $ticket.messageCount && $ticket.messageCount > 5}
         <div class="d-flex justify-content-center mb-3">
@@ -67,7 +73,7 @@
               </div>
               <div class="col vstack align-items-start">
                 <div class="card rounded-5 text-bg-primary border-0 shadow-sm">
-                  <div class="card-body answer px-3">
+                  <div class="card-body answer px-3 py-2">
                     {@html message.message}
                   </div>
                 </div>
@@ -80,7 +86,7 @@
             <div class="row g-2 flex-nowrap">
               <div class="col vstack align-items-end">
                 <div class="card rounded-5 bg-transparent border shadow-sm">
-                  <div class="card-body px-3">
+                  <div class="card-body px-3 py-2">
                     {message.message}
                   </div>
                 </div>
@@ -162,6 +168,7 @@
     TicketStatuses,
   } from "$lib/components/TicketStatus.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
+  import CardHeader from "$lib/components/CardHeader.svelte";
 
   export let data;
 

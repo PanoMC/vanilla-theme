@@ -47,7 +47,7 @@
       sidebarId: "ticket",
       id: "close-ticket-button",
       component: "local:close-ticket-button",
-      priority: 90,
+      priority: 110,
     });
 
     // Execute sidebar load and resolve components for SSR

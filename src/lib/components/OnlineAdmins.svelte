@@ -2,7 +2,7 @@
 <div
   class="card h-100"
   hidden={typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
-    ? true
+    ? false
     : !themeSettings.sidebarCarts.onlineAdmins}>
   <CardHeader headerClasses="bg-transparent">
     <div slot="left">{$_("components.online-admins.online-admins")}</div>
