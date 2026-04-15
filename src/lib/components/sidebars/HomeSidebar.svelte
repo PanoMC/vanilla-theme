@@ -5,7 +5,7 @@
         <!-- Combined Server Card -->
         <div class="card border-0 position-relative overflow-hidden">
           <div
-            class="card-body p-0 position-relative z-1 border border-3 border-secondary rounded overflow-hidden"
+            class="card-body position-relative z-1 rounded overflow-hidden"
             style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
             <!-- Faded Background Image -->
             <div
@@ -16,7 +16,7 @@
             <ul class="list-group list-group-flush text-center bg-transparent position-relative z-1">
               <li class="list-group-item border-0 py-2 bg-transparent">
                 <button
-                  class="btn btn-link text-reset w-100 rounded focus-ring border-0 fs-3 text-decoration-none"
+                  class="btn btn-link text-reset text-decoration-none w-100 focus-ring fs-3"
                   type="button"
                   on:click={onCopyCommandTextClick}
                   use:tooltip={[
@@ -66,8 +66,8 @@
               {$_("sidebars.home.last-registrants")}
             </div>
           </CardHeader>
-          <div class="card-body">
-            <div class="row g-3">
+          <div class="card-body pt-3 d-flex flex-column justify-content-start">
+            <div class="row g-3 justify-content-evenly align-items-start align-content-start">
               {#each $data.lastRegisteredUsers || [] as player, index (player)}
                 <div class="col-auto">
                   <a
@@ -76,6 +76,9 @@
                     <img
                       alt={player.username}
                       class="rounded"
+                      class:border={player.lastActivityTime > Date.now() - 300000 || player.inGame}
+                      class:border-3={player.lastActivityTime > Date.now() - 300000 || player.inGame}
+                      class:border-success={player.lastActivityTime > Date.now() - 300000 || player.inGame}
                       src="/api/profile/picture/{player.username}?{$avatarVersion}"
                       use:tooltip={[player.username, { placement: "bottom" }]}
                       width="48"

@@ -7,25 +7,29 @@
   <CardHeader headerClasses="bg-transparent">
     <div slot="left">{$_("components.online-admins.online-admins")}</div>
   </CardHeader>
-  <div class="card-body">
-    <div class="online-admins-grid">
-      {#each onlineAdmins as onlineAdmin, index (onlineAdmin)}
-        <a
-          href="/player/{onlineAdmin}"
-          class="online-admin-link focus-ring rounded position-relative">
-          <img
-            src="/api/profile/picture/{onlineAdmin}?{$avatarVersion}"
-            class="online-admin-avatar rounded border border-3 border-success"
-            alt={onlineAdmin}
-            use:tooltip={[
-              $_("components.player-head.in-website"),
-              { placement: "bottom" },
-            ]} />
-        </a>
-        {:else}
-        <NoContent />
-      {/each}
-    </div>
+  <div class="card-body pt-3 d-flex flex-column justify-content-start">
+    {#if onlineAdmins && onlineAdmins.length > 0}
+      <div class="row g-3 justify-content-evenly align-items-start align-content-start">
+        {#each onlineAdmins as onlineAdmin, index (onlineAdmin)}
+          <div class="col-auto">
+            <a
+              href="/player/{onlineAdmin}"
+              class="online-admin-link focus-ring rounded position-relative d-inline-block">
+              <img
+                src="/api/profile/picture/{onlineAdmin}?{$avatarVersion}"
+                class="online-admin-avatar rounded border border-3 border-success"
+                alt={onlineAdmin}
+                use:tooltip={[
+                  $_("components.player-head.in-website"),
+                  { placement: "bottom" },
+                ]} />
+            </a>
+          </div>
+        {/each}
+      </div>
+    {:else}
+      <NoContent />
+    {/if}
   </div>
 </div>
 
@@ -44,12 +48,7 @@
 </script>
 
 <style>
-    .online-admins-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        justify-content: flex-start;
-    }
+
 
     .online-admin-link {
         display: block;
