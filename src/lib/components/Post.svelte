@@ -19,40 +19,37 @@
 
   .vanilla-post-card {
     transition:
-      transform 0.2s ease-in-out,
-      box-shadow 0.2s ease-in-out;
-    border: var(--bs-border-width) solid var(--bs-border-color);
+      transform 0.2s ease-in-out;
     overflow: hidden;
-    background-color: var(--bs-body-bg);
-
     &:not(.post-detail) {
       min-height: 240px;
     }
 
     &.is-overlay {
-      background-color: #000;
-
       .card-img-overlay {
-        background: linear-gradient(
-          0deg,
-          var(--bs-body-bg) 0%,
-          color-mix(in srgb, var(--bs-body-bg), transparent 40%) 50%,
-          color-mix(in srgb, var(--bs-body-bg), transparent 90%) 100%
-        );
         transition: background 0.4s ease;
       }
 
-      .text-muted,
-      .text-white-50,
-      .link-secondary {
-        color: var(--bs-secondary) !important;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-        opacity: 1 !important;
+      &:not(.has-thumbnail) {
+        h3, .card-text {
+          color: var(--bs-body-color) !important;
+          text-shadow: none;
+        }
       }
 
-      h3, .card-text {
-        color: var(--bs-body-color) !important;
-        text-shadow: none;
+      &.has-thumbnail {
+        .card-img-overlay {
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.2) 0%, transparent 40%);
+        }
+
+        h3, .card-text {
+          color: var(--bs-white) !important;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        :global(.small) {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
       }
 
       .category-badge {
@@ -70,28 +67,6 @@
 
   .card-img {
     transition: transform 0.4s ease, filter 0.4s ease;
-  }
-
-  .feature-blur-bg {
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    right: -10%;
-    bottom: -10%;
-    background-image: var(--blur-bg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    filter: blur(40px) saturate(1.2);
-    opacity: 0.05;
-    z-index: 0;
-    pointer-events: none;
-    transition: transform 0.4s ease;
-  }
-
-  :global([data-bs-theme="dark"]) .feature-blur-bg {
-    opacity: 0.08;
-    filter: blur(50px) saturate(1);
   }
 
   .post-card-thumbnail-wrapper {
@@ -130,21 +105,6 @@
     color: var(--bs-secondary) !important;
     opacity: 1;
   }
-
-  .post-card-gradient-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--random-gradient);
-    z-index: 0;
-    opacity: 0.8;
-  }
-
-  :global([data-bs-theme="dark"]) .post-card-gradient-bg {
-    opacity: 0.6;
-  }
 </style>
 
 <div
@@ -152,33 +112,23 @@
   class:post-clickable={!detail}
   class:post-detail={detail}
   class:is-overlay={!detail}
-  style={post.thumbnailUrl ? `--blur-bg: url('${post.thumbnailUrl}');` : `--random-gradient: ${getGradient(post.title)};`}>
+  class:has-thumbnail={!detail && post.thumbnailUrl}>
 
-  {#if !detail}
-    {#if post.thumbnailUrl}
-      <img
-        src={post.thumbnailUrl}
-        class="card-img h-100 object-fit-cover"
-        alt={post.title} />
-    {:else}
-      <div class="post-card-gradient-bg"></div>
-    {/if}
-  {:else if post.thumbnailUrl}
-    <div class="feature-blur-bg"></div>
+  {#if !detail && post.thumbnailUrl}
+    <img
+      src={post.thumbnailUrl}
+      class="card-img h-100 object-fit-cover"
+      alt={post.title} />
   {/if}
 
-  {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && detail}
+  {#if (typeof themeSettings.postCoverImageEnabled === "undefined" ? true : themeSettings.postCoverImageEnabled) && detail && post.thumbnailUrl}
     <div class="post-card-thumbnail-wrapper d-block">
       <div class="ratio ratio-16x9">
-        {#if post.thumbnailUrl}
-          <img
-            src={post.thumbnailUrl}
-            class="card-img-top"
-            alt={post.title}
-            title={post.title} />
-        {:else}
-          <div class="post-card-gradient-bg"></div>
-        {/if}
+        <img
+          src={post.thumbnailUrl}
+          class="card-img-top"
+          alt={post.title}
+          title={post.title} />
       </div>
     </div>
   {/if}
@@ -252,7 +202,7 @@
         {/if}
 
         <div class="d-flex align-items-center gap-2 z-2">
-          <Date time={post.date} class="text-white-50 small" />
+          <Date time={post.date} class="small" />
           <a
             class="d-inline-block rounded focus-ring rounded-circle"
             href="/player/{post.writer.username}"
@@ -287,27 +237,4 @@
 
   import { avatarVersion } from "$lib/Store";
   const themeSettings = getContext("themeSettings");
-
-  const getGradient = (seed = "") => {
-    const variants = [
-      "circle at 0% 0%, #4158D0 0%, #C850C0 46%, #FFCC70 100%",
-      "circle at 100% 0%, #00DBDE 0%, #FC00FF 100%",
-      "circle at 100% 100%, #FBAB7E 0%, #F7CE68 100%",
-      "circle at 0% 100%, #85FFBD 0%, #FFFB7D 100%",
-      "circle at 50% 50%, #21D4FD 0%, #B721FF 100%",
-      "circle at 30% 20%, #08AEEA 0%, #2AF598 100%",
-      "circle at 80% 40%, #FEE140 0%, #FA709A 100%",
-      "circle at 10% 90%, #74EBD5 0%, #9FACE6 100%",
-      "circle at 90% 10%, #647dee 0%, #7f53ac 100%",
-      "circle at 40% 60%, #ff9a9e 0%, #fecfef 100%",
-      "circle at 70% 30%, #a18cd1 0%, #fbc2eb 100%",
-      "circle at 20% 80%, #ffecd2 0%, #fcb69f 100%"
-    ];
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) {
-      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const index = Math.abs(hash) % variants.length;
-    return `radial-gradient(${variants[index]})`;
-  };
 </script>
