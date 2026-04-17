@@ -29,7 +29,7 @@
     })}
     subtitleHtml={true} />
 
-  <div class="card">
+  <div class="card mt-lg-0">
     <CardHeader>
       <small slot="left" class="text-body-secondary">
         <Date time={$ticket.date} relativeFormat={true} />

@@ -39,7 +39,7 @@
 
       &.has-thumbnail {
         .card-img-overlay {
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.2) 0%, transparent 40%);
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.2) 0%, transparent 90%);
         }
 
         h3, .card-text {

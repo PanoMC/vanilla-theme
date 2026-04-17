@@ -28,6 +28,14 @@
             </div>
           </div>
         </div>
+      {:else if item.id === "delete-notifications-button"}
+        <button
+          class="btn btn-danger w-100"
+          type="button"
+          on:click={() => showDeleteAllNotificationsModal()}>
+          <i class="fas fa-trash-alt me-2"></i>
+          {$_("buttons.delete-all")}
+        </button>
       {:else}
         <!-- External Component -->
         <ViewComponent
@@ -91,6 +99,7 @@
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import PlayerHead from "$lib/components/PlayerHead.svelte";
   import PageTitle from "../PageTitle.svelte";
+  import { show as showDeleteAllNotificationsModal } from "$lib/components/modals/ConfirmRemoveAllNotificationsModal.svelte";
 
   export let side;
 

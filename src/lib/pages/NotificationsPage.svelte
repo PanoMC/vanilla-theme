@@ -1,21 +1,10 @@
-<!-- All Notifications -->
 <div class="vstack gap-3">
 
-    <PageActions>
-      <div slot="right">
-        <!-- Action Menu -->
-        {#if $notifications.length !== 0}
-          <button
-            type="button"
-            class="btn btn-secondary"
-            on:click={() => onDeleteAllClick(notificationProcessID, interval)}
-            >{$_("buttons.delete-all")}
-          </button>
-        {/if} 
-      </div>
-    </PageActions>
   <!-- Notifications -->
-  <div class="card">
+  <div class="card mt-3 mt-lg-0">
+    <CardHeader>
+      <div slot="left">{$_("pages.notifications.page-title")}</div>
+    </CardHeader>
     <div class="card-body">
       <div class="list-group" class:d-none={$notifications.length === 0}>
         {#each $notifications as notification, index (notification)}
@@ -135,7 +124,7 @@
   import ConfirmRemoveAllNotificationsModal from "$lib/components/modals/ConfirmRemoveAllNotificationsModal.svelte";
   import NoContent from "$lib/components/NoContent.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-    import PageActions from "$lib/components/PageActions.svelte";
+  import CardHeader from "$lib/components/CardHeader.svelte";
 
   export let data;
 

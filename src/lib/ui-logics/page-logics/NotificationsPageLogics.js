@@ -8,6 +8,9 @@ import { browser } from "$app/environment";
 
 import ApiUtil from "$lib/api.util.js";
 import { requireLogin } from "$lib/Store.js";
+import { panoApiServer } from "$lib/PluginAPI";
+
+import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
 
 import {
   setCallback as setDeleteAllNotificationsModalCallback,
@@ -82,9 +85,19 @@ export async function processLoad(event) {
   //   return output;
   // }
 
-  const { notifications, notificationCount } = await loadData({ request: event });
+  // Register sidebar items
+  panoApiServer.ui.sidebar.register({
+    sidebarId: "profile",
+    id: "delete-notifications-button",
+    priority: 110,
+  });
 
-  return { notifications, notificationCount: parseInt(notificationCount) };
+  const [{ notifications, notificationCount }] = await Promise.all([
+    loadData({ request: event }),
+    loadSidebar(event)
+  ]);
+
+  return { notifications, notificationCount: parseInt(notificationCount), sidebar: ProfileSidebar };
 }
 
 async function getNotifications(notifications, notificationProcessID, count, id) {

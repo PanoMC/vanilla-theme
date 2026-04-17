@@ -3,9 +3,9 @@
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
         <!-- Combined Server Card -->
-        <div class="card border-0 position-relative overflow-hidden">
+        <div class="card position-relative overflow-hidden">
           <div
-            class="card-body position-relative z-1 rounded overflow-hidden"
+            class="card-body position-relative z-1 rounded overflow-hidden border border-3 border-secondary"
             style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
             <!-- Faded Background Image -->
             <div

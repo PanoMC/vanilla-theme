@@ -8,7 +8,7 @@
         <!-- Close Ticket Button Snippet -->
         {#if $ticketData && $ticketData.status !== TicketStatuses.CLOSED}
           <button
-            class="btn btn-lg btn-danger w-100"
+            class="btn btn-danger w-100"
             type="button"
             on:click={() => showCloseTicketConfirmModal($ticketData)}>
             <i class="fas fa-times me-2"></i>

@@ -1,7 +1,7 @@
 <div class="vstack gap-3">
   {#each $contentItems as item (item.id)}
     {#if item.id === "tickets-card"}
-      <div class="card">
+      <div class="card mt-3 mt-lg-0">
         <CardHeader>
           <div slot="left">
             {@html data.categoryUrl

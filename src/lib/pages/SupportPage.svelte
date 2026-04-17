@@ -2,13 +2,13 @@
 
   {#each $items as item (item.id)}
     {#if item.id === "support-options"}
-      <ul class="list-group list-group-horizontal text-center support-list justify-content-center">
+      <ul class="list-group text-center support-list justify-content-center">
         {#each $optionItems as opt (opt.id)}
           {#if opt.id === "create-ticket"}
             <a
               href="/ticket/create"
               class="list-group-item list-group-item-action focus-ring">
-              <div class="vstack gap-2 justify-content-center h-100">
+              <div class="vstack gap-2 justify-content-center">
                 <i class="fas fa-ticket fa-2x"></i>
                 <h5>{$_("pages.support.options.create-ticket.title")}</h5>
                 <small class="opacity-75">
@@ -20,7 +20,7 @@
             <a
               href="mailto:{$session.siteInfo.supportEmail}"
               class="list-group-item list-group-item-action focus-ring">
-              <div class="vstack gap-2 justify-content-center h-100">
+              <div class="vstack gap-2 justify-content-center">
                 <i class="fas fa-envelope fa-2x"></i>
                 <h5>
                   {$_("pages.support.options.send-email.title")}<i
@@ -50,8 +50,8 @@
 
 <style>
   .support-list .list-group-item {
-    width: 256px;
-    height: 256px;
+    width: 100%;
+    padding: 1.5rem;
   }
 </style>
 

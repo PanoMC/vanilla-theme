@@ -1,6 +1,6 @@
 <!-- Online Admins Card -->
 <div
-  class="card h-100"
+  class="card h-100 mb-3 mb-lg-0"
   hidden={typeof themeSettings.sidebarCarts?.onlineAdmins === "undefined"
     ? false
     : !themeSettings.sidebarCarts.onlineAdmins}>
