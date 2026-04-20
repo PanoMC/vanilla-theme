@@ -67,10 +67,9 @@
 </script>
 
 <script>
-  import { getContext, onMount } from "svelte";
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
-  import PageTitle from "$lib/components/PageTitle.svelte";
   import Hook from "$lib/components/Hook.svelte";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
   import { panoApi } from "$lib/PluginAPI";
@@ -78,14 +77,6 @@
   export let data;
 
   const session = getContext("session");
-  const pageTitle = getContext("pageTitle");
-
-  onMount(() => {
-    $pageTitle = {
-      title: $_("pages.support.title"),
-      subtitle: $_("pages.support.description"),
-    };
-  });
 
   const items = panoApi.ui.view.get("support-content");
   const optionItems = panoApi.ui.view.get("support-options");

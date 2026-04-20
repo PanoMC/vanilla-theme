@@ -97,7 +97,12 @@ export async function processLoad(event) {
     loadSidebar(event)
   ]);
 
-  return { notifications, notificationCount: parseInt(notificationCount), sidebar: ProfileSidebar };
+  return {
+    notifications,
+    notificationCount: parseInt(notificationCount),
+    sidebar: ProfileSidebar,
+    pageTitle: "pages.notifications.page-title"
+  };
 }
 
 async function getNotifications(notifications, notificationProcessID, count, id) {

@@ -22,11 +22,16 @@
   {/if}
 
   {#if $pageTitle}
+    {@const isString = typeof $pageTitle === "string"}
+    {@const
+      titleText = isString ? $_($pageTitle) : ($pageTitle?.title ? $_($pageTitle.title, { values: $pageTitle.titleValues || {} }) : "")}
+    {@const
+      subtitleText = isString ? "" : ($pageTitle?.subtitle ? $_($pageTitle.subtitle, { values: $pageTitle.subtitleValues || {} }) : "")}
     <PageTitle
-      title={typeof $pageTitle === "string" ? $_($pageTitle) : $pageTitle.title}
-      subtitle={$pageTitle.subtitle}
-      html={$pageTitle.html}
-      subtitleHtml={$pageTitle.subtitleHtml} />
+      title={titleText}
+      subtitle={subtitleText}
+      html={isString ? undefined : $pageTitle.html}
+      subtitleHtml={isString ? undefined : $pageTitle.subtitleHtml} />
   {/if}
 
   <div class="flex-grow-1">
@@ -57,7 +62,6 @@
 
 <script>
   import { getContext } from "svelte";
-  import { page } from "$app/stores";
 
   import Header from "$lib/components/Header.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
@@ -73,10 +77,13 @@
   const session = getContext("session");
   const pageTitle = getContext("pageTitle");
 
+  // Global kill-switch from theme settings. Individual pages opt in to
+  // the breadcrumb by returning a `breadcrumbs` array from their load();
+  // the Breadcrumb component renders nothing when no items are provided.
   $: breadcrumbEnabled =
-    (typeof themeSettings.breadcrumbEnabled === "undefined"
+    typeof themeSettings.breadcrumbEnabled === "undefined"
       ? true
-      : themeSettings.breadcrumbEnabled) && $page.url.pathname !== "/";
+      : themeSettings.breadcrumbEnabled;
 
   const styles = `
     body {

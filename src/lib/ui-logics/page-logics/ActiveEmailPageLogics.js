@@ -10,7 +10,7 @@ export async function processLoad({ parent, url: { searchParams } }) {
 
   const token = searchParams.get("token") || "";
 
-  return { token };
+  return { token, pageTitle: "pages.activate.title" };
 }
 
 export async function verifyEmail(error, successMessage, loading, data) {

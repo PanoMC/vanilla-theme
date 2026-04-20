@@ -42,7 +42,7 @@ export async function processLoad(event) {
 
   const sessions = !sessionsBody.error ? sessionsBody.sessions : [];
 
-  return { sidebar: ProfileSidebar, sessions };
+  return { sidebar: ProfileSidebar, sessions, pageTitle: "pages.settings.title" };
 }
 
 export async function sendResetPasswordLink(

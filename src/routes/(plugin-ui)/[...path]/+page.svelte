@@ -29,7 +29,20 @@
       componentOutput = await component.load(event);
     }
 
-    return { registeredPage, component, props: componentOutput };
+    const output = { registeredPage, component, props: componentOutput };
+
+    // Expose layout-consumed fields from the component's load output
+    // at the top level so they end up on page.data (e.g. pageTitle is
+    // read by AppLayout/MainLayout to set <title> and the PageTitle component).
+    if (componentOutput && typeof componentOutput === "object") {
+      for (const key of ["pageTitle", "breadcrumbs", "sidebar", "sidebarProps"]) {
+        if (componentOutput[key] !== undefined) {
+          output[key] = componentOutput[key];
+        }
+      }
+    }
+
+    return output;
   }
 </script>
 

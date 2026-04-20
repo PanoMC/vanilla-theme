@@ -34,6 +34,7 @@ export async function processLoad(event) {
   return {
     ...data,
     sidebar: PlayerDetailSidebar,
-    sidebarProps: { side: "left" }
+    sidebarProps: { side: "left" },
+    pageTitle: "pages.player-profile.title"
   };
 }

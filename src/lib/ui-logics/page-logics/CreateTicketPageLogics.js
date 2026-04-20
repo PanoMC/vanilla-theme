@@ -48,7 +48,11 @@ export async function processLoad(event) {
     data = body;
   });
 
-  return { ...data, sidebar: onlineAdminsEnabled ? TicketCreateAndDetailSidebar : null };
+  return {
+    ...data,
+    sidebar: onlineAdminsEnabled ? TicketCreateAndDetailSidebar : null,
+    pageTitle: "pages.create-ticket.title"
+  };
 }
 
 export async function submit(error, loading, title, message, categoryId) {

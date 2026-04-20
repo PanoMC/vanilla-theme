@@ -53,7 +53,6 @@
 
   import { verifyEmail } from "$lib/ui-logics/page-logics/ConfirmNewEmailPageLogics";
 
-  import PageTitle from "$lib/components/PageTitle.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import SuccessAlert from "$lib/components/SuccessAlert.svelte";
 
@@ -63,8 +62,4 @@
   let error = writable();
   let successMessage = writable(null);
 
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = $_("pages.activate-new-email.title");
-  });
 </script>

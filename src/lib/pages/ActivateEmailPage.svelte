@@ -62,8 +62,4 @@
   let error = writable();
   let successMessage = writable(null);
 
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = $_("pages.activate.title");
-  });
 </script>

@@ -71,10 +71,5 @@
   let categoryId = writable(-1);
   let loading = writable(false);
 
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = $_("pages.create-ticket.title");
-  });
-
   $: isButtonDisabled = $title === "" || $message === "";
 </script>

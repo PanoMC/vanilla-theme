@@ -10,6 +10,8 @@ export async function processLoad({ parent }) {
   const { session } = parentData;
 
   requireNotLogin(session);
+
+  return { pageTitle: "pages.reset-password.title" };
 }
 
 export async function onSubmit(error, message, loading, usernameOrEmail) {

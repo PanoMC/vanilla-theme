@@ -56,5 +56,5 @@ export async function processLoad(event) {
     ...supportHookProps
   };
 
-  return { ...data, sidebar: onlineAdminsEnabled ? SupportSidebar : null };
+  return { ...data, sidebar: onlineAdminsEnabled ? SupportSidebar : null, pageTitle: "pages.support.title" };
 }

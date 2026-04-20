@@ -1,69 +1,85 @@
 <script>
-  import { page } from "$app/stores";
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
-  import { base } from "$app/paths";
 
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  /**
+   * Breadcrumb items are supplied manually by pages via the `breadcrumbs`
+   * key returned from their load() function. When a page doesn't provide
+   * `breadcrumbs`, the component renders nothing.
+   *
+   * Each item can be either:
+   *   - A string: treated as an i18n translation key.
+   *   - An object with shape:
+   *       {
+   *         label: string,              // i18n key, or raw text if raw=true
+   *         labelValues?: object,       // i18n interpolation values
+   *         href?: string,              // makes the item a link
+   *         icon?: string,              // e.g. "fas fa-home"
+   *         raw?: boolean,              // bypass i18n, use label as-is
+   *         html?: boolean              // render label as HTML (raw implied)
+   *       }
+   *
+   * The last item is always treated as the active/current page.
+   */
 
-  const segmentMap = {
-    support: "nav-links.support",
-    profile: "pages.profile.title",
-    settings: "pages.settings.title",
-    tickets: "pages.tickets.title",
-    ticket: "pages.support.title",
-    rules: "nav-links.rules",
-    login: "buttons.login",
-    register: "buttons.register",
-    notifications: "pages.notifications.page-title",
-  };
+  const breadcrumbsStore = getContext("breadcrumbs");
 
-  $: pathSegments = $page.url.pathname.split("/").filter(Boolean);
+  function resolveLabel(item) {
+    if (item == null) return "";
+    if (typeof item === "string") return $_(item);
+    if (item.raw || item.html) return item.label ?? "";
+    if (!item.label) return "";
+    return $_(item.label, { values: item.labelValues || {} });
+  }
 
-  $: breadcrumbs = [
-    { label: $_("nav-links.homepage"), href: base || "/", isHome: true },
-    ...pathSegments.map((segment, index) => {
-      const href = `${base || ""}/${pathSegments.slice(0, index + 1).join("/")}`;
-      let label = segment;
+  function normalize(item) {
+    if (typeof item === "string") {
+      return { label: resolveLabel(item) };
+    }
+    return {
+      label: resolveLabel(item),
+      href: item?.href,
+      icon: item?.icon,
+      html: !!item?.html
+    };
+  }
 
-      if (segmentMap[segment]) {
-        label = $_(segmentMap[segment]);
-      } else if (!isNaN(segment)) {
-        label = `#${segment}`;
-      } else {
-        label = capitalize(segment);
-      }
-
-      return { label, href };
-    }),
-  ];
+  $: items = Array.isArray($breadcrumbsStore) ? $breadcrumbsStore.map(normalize) : [];
 </script>
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb justify-content-center mb-0">
-    {#each breadcrumbs as crumb, i}
-      <li
-        class="breadcrumb-item"
-        class:active={i === breadcrumbs.length - 1}
-        aria-current={i === breadcrumbs.length - 1 ? "page" : undefined}>
-        {#if i === breadcrumbs.length - 1}
-          {#if crumb.isHome}
-            <i class="fas fa-home"></i>
-          {:else}
-            {crumb.label}
-          {/if}
-        {:else}
-          <a href={crumb.href} class="text-decoration-none badge text-bg-primary rounded-pill px-1">
-            {#if crumb.isHome}
-              <i class="fas fa-home"></i>
+{#if items.length > 0}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb justify-content-center mb-0">
+      {#each items as crumb, i}
+        {@const isLast = i === items.length - 1}
+        <li
+          class="breadcrumb-item"
+          class:active={isLast}
+          aria-current={isLast ? "page" : undefined}>
+          {#if isLast || !crumb.href}
+            {#if crumb.icon}
+              <i class={crumb.icon}></i>
+            {:else if crumb.html}
+              {@html crumb.label}
             {:else}
               {crumb.label}
             {/if}
-          </a>
-        {/if}
-      </li>
-    {/each}
-  </ol>
-</nav>
+          {:else}
+            <a href={crumb.href} class="text-decoration-none badge text-bg-primary rounded-pill px-1">
+              {#if crumb.icon}
+                <i class={crumb.icon}></i>
+              {:else if crumb.html}
+                {@html crumb.label}
+              {:else}
+                {crumb.label}
+              {/if}
+            </a>
+          {/if}
+        </li>
+      {/each}
+    </ol>
+  </nav>
+{/if}
 
 <style>
   .breadcrumb {

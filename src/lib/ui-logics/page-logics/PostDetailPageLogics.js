@@ -52,5 +52,7 @@ export async function processLoad(event) {
     ...(await executeHookLoad("theme:post-detail:bottom", event)),
   };
 
+  data.pageTitle = data.post.title;
+
   return { ...data };
 }

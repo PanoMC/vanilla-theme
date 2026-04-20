@@ -185,11 +185,7 @@
 </script>
 
 <script>
-  import { getContext, onMount } from "svelte";
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = data.post.title;
-  });
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
   import { avatarVersion } from "$lib/Store";
 

@@ -27,17 +27,13 @@
       throw error(404);
     }
 
-    return parentData;
+    return { ...parentData, pageTitle: "pages.rules.title" };
   }
 </script>
 
 <script>
-  import { getContext, onMount } from "svelte";
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
   const session = getContext("session");
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = $_("pages.rules.title");
-  });
 </script>

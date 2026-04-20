@@ -60,18 +60,10 @@
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import SuccessAlert from "$lib/components/SuccessAlert.svelte";
-  import PageTitle from "$lib/components/PageTitle.svelte";
 
   const error = writable();
   const message = writable();
   const loading = writable();
   const usernameOrEmail = writable("");
 
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = {
-      title: $_("pages.reset-password.title"),
-      subtitle: $_("pages.reset-password.description"),
-    };
-  });
 </script>

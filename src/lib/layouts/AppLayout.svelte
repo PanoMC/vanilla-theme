@@ -1,9 +1,3 @@
-<svelte:head>
-  <link href="/api/favicon?hash={$session.siteInfo.faviconHash}" rel="icon" />
-
-  <title>{title}</title>
-</svelte:head>
-
 <App>
   <slot></slot>
 </App>
@@ -30,9 +24,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
-
   import { init } from "$lib/ui-logics/layout-logics/AppLayoutLogics";
-
   import App from "$lib/components/App.svelte";
   import ToastContainer from "$lib/components/ToastContainer.svelte";
   import { onMount } from "svelte";
@@ -43,7 +35,16 @@
 
   const { session, pageTitle } = init(data);
 
-  $: title = $pageTitle
-    ? `${$_($pageTitle)} \u2014 ${$session.siteInfo.websiteName}`
-    : $session.siteInfo.websiteName;
+  function getTitle(pt, siteName) {
+    if (!pt) return siteName;
+    const titleStr = typeof pt === "string"
+      ? $_(pt)
+      : (pt.title ? $_(pt.title, { values: pt.titleValues || {} }) : "");
+    return `${titleStr} \u2014 ${siteName}`;
+  }
 </script>
+
+<svelte:head>
+  <link href="/api/favicon?hash={$session.siteInfo.faviconHash}" rel="icon" />
+  <title>{getTitle($pageTitle, $session.siteInfo.websiteName)}</title>
+</svelte:head>

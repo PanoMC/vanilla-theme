@@ -63,6 +63,13 @@ export async function processLoad(event) {
 
   await loadSidebar(event);
 
+  data.pageTitle = {
+    title: categoryUrl ? "pages.category-tickets.title" : "pages.tickets.title",
+    titleValues: categoryUrl ? {
+      categoryName: `"${data.category.title}"`
+    } : null
+  };
+
   return { ...data, sidebar: ProfileSidebar };
 }
 

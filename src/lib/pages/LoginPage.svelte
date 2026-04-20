@@ -331,11 +331,11 @@
   const pageTitle = getContext("pageTitle");
 
   $: if (viewState === "LOGIN") {
-    $pageTitle = $_("components.modals.login.title");
+    $pageTitle = "components.modals.login.title";
   } else if (viewState === "LINK_CODE") {
-    $pageTitle = $_("components.modals.login.link-code.title");
+    $pageTitle = "components.modals.login.link-code.title";
   } else if (viewState === "REGISTER") {
-    $pageTitle = $_("components.modals.login.register-with-link.title");
+    $pageTitle = "components.modals.login.register-with-link.title";
   }
 
   onMount(() => {
@@ -371,7 +371,7 @@
     await executeViewLoad("login-content", event);
     await executeViewLoad("login-alt-methods", event);
 
-    return { initialError: lifecycleData.error || null };
+    return { initialError: lifecycleData.error || null, pageTitle: "components.modals.login.title" };
   }
 </script>
 

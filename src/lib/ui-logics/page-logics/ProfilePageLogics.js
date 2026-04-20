@@ -40,5 +40,5 @@ export async function processLoad(event) {
 
   data = profileBody;
 
-  return { ...data, sidebar: ProfileSidebar };
+  return { ...data, sidebar: ProfileSidebar, pageTitle: "pages.profile.title" };
 }

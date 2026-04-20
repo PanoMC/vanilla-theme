@@ -155,7 +155,8 @@ export async function processLoad(event) {
 
   const output = {
     session: { user, csrfToken, siteInfo },
-    pageTitle: writable(null)
+    _pageTitleStore: writable(null),
+    _breadcrumbsStore: writable(null)
   };
 
   // theme:navbar:load must run first — plugins may register items into
@@ -189,9 +190,6 @@ export function init(data) {
       const incoming = page.data.session;
       if (!incoming) return current;
 
-      // Preserve client-side auth state changes (login/logout) that haven't
-      // been reflected in page.data yet due to client-side navigation
-      // without a server-side reload.
       if (!!current?.user !== !!incoming.user) {
         return { ...incoming, user: current.user, csrfToken: current.csrfToken };
       }
@@ -200,12 +198,21 @@ export function init(data) {
     });
     sidebar.update(() => page.data.sidebar);
     sidebarProps.update(() => page.data.sidebarProps || {});
+    // Sync pageTitle store from page load data.
+    // Pages that return pageTitle in their load function will have it here.
+    // Pages without a pageTitle will have undefined, clearing the old value.
+    data._pageTitleStore.set(page.data.pageTitle || null);
+    // Breadcrumbs are opt-in per page: pages that want a breadcrumb must
+    // return a `breadcrumbs` array from their load function. Pages that
+    // don't provide one will clear any previous value.
+    data._breadcrumbsStore.set(page.data.breadcrumbs || null);
   });
 
   setContext("session", session);
   setContext("sidebar", sidebar);
   setContext("sidebarProps", sidebarProps);
-  setContext("pageTitle", data.pageTitle);
+  setContext("pageTitle", data._pageTitleStore);
+  setContext("breadcrumbs", data._breadcrumbsStore);
   setContext("themeSettings", data.session.siteInfo.themeSettings);
 
   onDestroy(pageUnsubscribe);
@@ -216,6 +223,7 @@ export function init(data) {
     sendVisitorVisitRequest({ isDemo: data.session.siteInfo.isDemo });
   });
 
-  const { pageTitle } = data;
-  return { session, sidebar, sidebarProps, pageTitle };
+  const pageTitle = data._pageTitleStore;
+  const breadcrumbs = data._breadcrumbsStore;
+  return { session, sidebar, sidebarProps, pageTitle, breadcrumbs };
 }

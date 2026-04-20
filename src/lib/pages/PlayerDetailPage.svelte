@@ -27,12 +27,8 @@
 </script>
 
 <script>
-  import { getContext, onMount } from "svelte";
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = $_("pages.player-profile.title");
-  });
   import Date from "$lib/components/Date.svelte";
 
   export let data;

@@ -17,7 +17,8 @@
 
     return {
       initialError: lifecycleData.error || null,
-      initialUsername: lifecycleData.username || null
+      initialUsername: lifecycleData.username || null,
+      pageTitle: "components.modals.register.title"
     };
   }
 </script>
@@ -42,11 +43,6 @@
   export let data;
 
   const session = getContext("session");
-  const pageTitle = getContext("pageTitle");
-
-  onMount(() => {
-    $pageTitle = $_("components.modals.register.title");
-  });
 
   let loading, error, successMessage;
   let username = "",

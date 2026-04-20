@@ -78,23 +78,6 @@
     onPageClick,
     PageTypes,
   } from "$lib/ui-logics/page-logics/TicketsPageLogics";
-  
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = {
-      title: data.categoryUrl
-        ? $_("pages.category-tickets.title", {
-            values: {
-              categoryName: `"${
-                data.category.title === "-"
-                  ? $_("pages.category-tickets.no-category")
-                  : data.category.title
-              }"`,
-            },
-          })
-        : $_("pages.tickets.title")
-    };
-  });
 
   import Pagination from "$lib/components/Pagination.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";

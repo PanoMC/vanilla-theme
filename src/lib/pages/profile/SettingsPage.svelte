@@ -345,11 +345,7 @@
   import { invalidateAll } from "$app/navigation";
   import { _ } from "svelte-i18n";
   import { parseUserAgent } from "$lib/string.util";
-  
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = "pages.settings.title";
-  });
+
   import PageTitle from "$lib/components/PageTitle.svelte";
   import PageActions from "$lib/components/PageActions.svelte";
   import NoContent from "$lib/components/NoContent.svelte";

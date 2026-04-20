@@ -58,11 +58,6 @@
 <script>
   import { getContext, onMount } from "svelte";
   import { _ } from "svelte-i18n";
-  
-  const pageTitle = getContext("pageTitle");
-  onMount(() => {
-    $pageTitle = "pages.profile.title";
-  });
 
   import Date from "$lib/components/Date.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
