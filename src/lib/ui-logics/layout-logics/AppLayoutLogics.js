@@ -23,6 +23,7 @@ import { addListener } from "$lib/NotificationManager";
 import { initializePlugins, preparePlugins } from "$lib/PluginManager";
 import { executeLifecycle, executeViewLoad } from "$lib/PluginAPI";
 import { hasPermission } from "$lib/auth.util";
+import { trackPostView } from "$lib/services/posts";
 
 import DateComponent from "$lib/components/Date.svelte";
 import Pagination from "$lib/components/Pagination.svelte";
@@ -32,10 +33,32 @@ import PageTitle from "$lib/components/PageTitle.svelte";
 import PlayerHead from "$lib/components/PlayerHead.svelte";
 
 const initLanguage = languageStuff.init;
+const POST_VIEW_ENGAGEMENT_DELAY_MS = 8000;
 
 async function sendVisitorVisitRequest({ event, csrfToken, isDemo }) {
   if (isDemo) return;
   ApiUtil.post({ path: "/api/visitorVisit", request: event, csrfToken });
+}
+
+function extractPostUrlFromPath(pathname) {
+  if (!pathname || typeof pathname !== "string") {
+    return null;
+  }
+
+  const normalizedPath = pathname.endsWith("/") && pathname.length > 1
+    ? pathname.slice(0, -1)
+    : pathname;
+
+  const postPathMatch = normalizedPath.match(/^\/post\/([^/]+)$/);
+  if (!postPathMatch || !postPathMatch[1]) {
+    return null;
+  }
+
+  try {
+    return decodeURIComponent(postPathMatch[1]);
+  } catch (_error) {
+    return postPathMatch[1];
+  }
 }
 
 function initNotificationListeners() {
@@ -184,10 +207,40 @@ export function init(data) {
   const session = writable(data.session);
   const sidebar = writable(null);
   const sidebarProps = writable({});
+  let activePostUrl = null;
+  let postViewTimeoutId = null;
 
-  const pageUnsubscribe = page.subscribe((page) => {
+  const clearPendingPostViewTracking = () => {
+    if (!browser || postViewTimeoutId === null) {
+      return;
+    }
+
+    window.clearTimeout(postViewTimeoutId);
+    postViewTimeoutId = null;
+  };
+
+  const schedulePostViewTracking = (postUrl) => {
+    clearPendingPostViewTracking();
+
+    if (!browser || !postUrl || document.visibilityState !== "visible") {
+      return;
+    }
+
+    postViewTimeoutId = window.setTimeout(() => {
+      if (document.visibilityState !== "visible" || activePostUrl !== postUrl) {
+        return;
+      }
+
+      trackPostView({
+        url: postUrl,
+        csrfToken: get(session)?.csrfToken
+      });
+    }, POST_VIEW_ENGAGEMENT_DELAY_MS);
+  };
+
+  const pageUnsubscribe = page.subscribe((currentPage) => {
     session.update((current) => {
-      const incoming = page.data.session;
+      const incoming = currentPage.data.session;
       if (!incoming) return current;
 
       if (!!current?.user !== !!incoming.user) {
@@ -196,16 +249,23 @@ export function init(data) {
 
       return incoming;
     });
-    sidebar.update(() => page.data.sidebar);
-    sidebarProps.update(() => page.data.sidebarProps || {});
+    sidebar.update(() => currentPage.data.sidebar);
+    sidebarProps.update(() => currentPage.data.sidebarProps || {});
     // Sync pageTitle store from page load data.
     // Pages that return pageTitle in their load function will have it here.
     // Pages without a pageTitle will have undefined, clearing the old value.
-    data._pageTitleStore.set(page.data.pageTitle || null);
+    data._pageTitleStore.set(currentPage.data.pageTitle || null);
     // Breadcrumbs are opt-in per page: pages that want a breadcrumb must
     // return a `breadcrumbs` array from their load function. Pages that
     // don't provide one will clear any previous value.
-    data._breadcrumbsStore.set(page.data.breadcrumbs || null);
+    data._breadcrumbsStore.set(currentPage.data.breadcrumbs || null);
+
+    if (!browser) {
+      return;
+    }
+
+    activePostUrl = extractPostUrlFromPath(currentPage.url?.pathname);
+    schedulePostViewTracking(activePostUrl);
   });
 
   setContext("session", session);
@@ -215,7 +275,22 @@ export function init(data) {
   setContext("breadcrumbs", data._breadcrumbsStore);
   setContext("themeSettings", data.session.siteInfo.themeSettings);
 
-  onDestroy(pageUnsubscribe);
+  const onVisibilityChange = () => {
+    schedulePostViewTracking(activePostUrl);
+  };
+
+  if (browser) {
+    document.addEventListener("visibilitychange", onVisibilityChange);
+  }
+
+  onDestroy(() => {
+    pageUnsubscribe();
+    clearPendingPostViewTracking();
+
+    if (browser) {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    }
+  });
 
   onMount(() => {
     initialized.set(true);
