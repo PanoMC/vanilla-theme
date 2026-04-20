@@ -30,13 +30,15 @@
           {/each}
 
           {#if moreLinks.length > 0}
-            <li class="nav-item dropdown" bind:this={moreButtonElement}>
+            <li class="nav-item dropup" bind:this={moreButtonElement}>
               <button
                 class="nav-link rounded-pill small dropdown-toggle no-caret"
                 data-bs-toggle="dropdown"
                 type="button"
                 aria-label={$_("buttons.toggle")}
-                aria-expanded="false">
+                aria-expanded="false"
+                on:pointerdown|preventDefault
+                on:mousedown|preventDefault>
                 <i class="fa-solid fa-ellipsis"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
@@ -213,11 +215,18 @@
   let itemElements = [];
   let moreButtonElement;
   let visibleLinksState = null;
-  let moreLinksState = [];
+  let moreLinksState = null;
   let isChecking = false;
 
-  $: visibleLinks = visibleLinksState || displayLinks;
-  $: moreLinks = moreLinksState;
+  const MAX_VISIBLE_LINKS = 3;
+
+  $: visibleLinks =
+    visibleLinksState ?? displayLinks.slice(0, MAX_VISIBLE_LINKS);
+  $: moreLinks =
+    moreLinksState ??
+    (displayLinks.length > MAX_VISIBLE_LINKS
+      ? displayLinks.slice(MAX_VISIBLE_LINKS)
+      : []);
 
   async function updateOverflow() {
     if (!browser || !navElement || isChecking) return;
@@ -235,7 +244,7 @@
 
     const containerWidth = navElement.clientWidth;
     const moreButtonWidth = 50; // Conservative estimate for "..." button
-    const maxLinks = 3;
+    const maxLinks = MAX_VISIBLE_LINKS;
 
     // Calculate item widths
     const widths = itemElements.map((el) => (el ? el.offsetWidth : 0));
