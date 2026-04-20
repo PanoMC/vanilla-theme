@@ -1,9 +1,9 @@
 <style>
-    #usernameOrEmail {
-        margin-bottom: -2px;
+    #usernameOrEmail, #password {
+        margin-bottom: -1px;
     }
 
-    #usernameOrEmail:focus {
+    #usernameOrEmail:focus, #password:focus, #email:focus {
         position: relative;
         z-index: 2;
     }

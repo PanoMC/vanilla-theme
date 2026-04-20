@@ -1,18 +1,12 @@
 <style>
-  #registerUserName {
-    margin-bottom: -2px;
+  #registerUserName, #registerPassword {
+    margin-bottom: -1px;
   }
 
-  #registerUserName:focus {
-    position: relative;
-    z-index: 2;
-  }
-
-  #registerEmail {
-    margin-bottom: -2px;
-  }
-
-  #registerEmail:focus {
+  #registerUserName:focus,
+  #registerEmail:focus,
+  #registerPassword:focus,
+  #registerPasswordRepeat:focus {
     position: relative;
     z-index: 2;
   }
@@ -37,7 +31,7 @@
   <div class="form-floating">
     <input
       bind:value={username}
-      class="form-control rounded-bottom-0 border-bottom-0"
+      class="form-control rounded-bottom-0"
       disabled={loading || usernameDisabled}
       id="registerUserName"
       type="text" />
@@ -57,7 +51,7 @@
   <div class="form-floating">
     <input
       bind:value={password}
-      class="form-control rounded-bottom-0 border-bottom-0"
+      class="form-control rounded-bottom-0"
       disabled={loading}
       id="registerPassword"
       type="password" />

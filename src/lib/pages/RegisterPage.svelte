@@ -152,7 +152,7 @@
               bind:passwordRepeat={passwordRepeat}
               bind:agreement={agreement}
               loading={loading}>
-              <div slot="footer">
+              <div slot="footer" class="text-center">
                 <a
                   class="btn btn-link {loading ? 'disabled pe-none' : ''}"
                   aria-disabled={loading}

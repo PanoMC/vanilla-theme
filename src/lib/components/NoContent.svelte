@@ -1,4 +1,4 @@
-<div class="card border-0 opacity-50 bg-transparent">
+<div class="card opacity-50 bg-transparent border-none">
   <div class="card-body vstack gap-3 text-center">
     <span class={icon}></span>
     <p class="mb-0">{text}</p>

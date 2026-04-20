@@ -244,7 +244,7 @@
             {/if}
           {:else if component.id === "auth-buttons"}
             {#if !$session.user}
-              <li class="nav-item position-relative me-xl-0 me-3">
+              <li class="nav-item position-relative me-lg-2">
                 <a href="/login" class="nav-link">
                   {$_("buttons.login")}
                 </a>
