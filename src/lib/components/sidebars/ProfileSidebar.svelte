@@ -1,5 +1,14 @@
 <Sidebar side={side}>
   <div class="vstack gap-3">
+    {#if showDeleteAll}
+      <button
+        class="btn btn-danger w-100"
+        type="button"
+        on:click={() => showDeleteAllNotificationsModal()}>
+        <i class="fas fa-trash-alt me-2"></i>
+        {$_("buttons.delete-all")}
+      </button>
+    {/if}
     {#each $items as item (item.id)}
       {#if item.id === "profile-info"}
         <!-- Profile Info Snippet -->
@@ -28,14 +37,6 @@
             </div>
           </div>
         </div>
-      {:else if item.id === "delete-notifications-button"}
-        <button
-          class="btn btn-danger w-100"
-          type="button"
-          on:click={() => showDeleteAllNotificationsModal()}>
-          <i class="fas fa-trash-alt me-2"></i>
-          {$_("buttons.delete-all")}
-        </button>
       {:else}
         <!-- External Component -->
         <ViewComponent
@@ -52,8 +53,7 @@
 <script context="module">
   import ApiUtil from "$lib/api.util.js";
   import { writable } from "svelte/store";
-  import { panoApi } from "$lib/PluginAPI";
-  import { executeSidebarLoad } from "$lib/PluginAPI";
+  import { executeSidebarLoad, panoApi } from "$lib/PluginAPI";
 
   const data = writable({
     lastActivityTime: 0,
@@ -102,6 +102,7 @@
   import { show as showDeleteAllNotificationsModal } from "$lib/components/modals/ConfirmRemoveAllNotificationsModal.svelte";
 
   export let side;
+  export let showDeleteAll = false;
 
   const session = getContext("session");
 

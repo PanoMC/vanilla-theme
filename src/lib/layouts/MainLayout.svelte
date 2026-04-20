@@ -10,7 +10,7 @@
 <Hook name="theme:top" />
 
 <div class="vstack gap-3 min-vh-100">
-  <div class="vstack gap-{themeSettings.headerNavBarGap || '3'}">
+  <div class="vstack gap-{themeSettings.headerNavBarGap || '3'} flex-grow-0">
     <Header />
 
     <Navbar />
@@ -19,19 +19,6 @@
   <Hook name="page:top" />
   {#if breadcrumbEnabled}
     <Breadcrumb />
-  {/if}
-
-  {#if $pageTitle}
-    {@const isString = typeof $pageTitle === "string"}
-    {@const
-      titleText = isString ? $_($pageTitle) : ($pageTitle?.title ? $_($pageTitle.title, { values: $pageTitle.titleValues || {} }) : "")}
-    {@const
-      subtitleText = isString ? "" : ($pageTitle?.subtitle ? $_($pageTitle.subtitle, { values: $pageTitle.subtitleValues || {} }) : "")}
-    <PageTitle
-      title={titleText}
-      subtitle={subtitleText}
-      html={isString ? undefined : $pageTitle.html}
-      subtitleHtml={isString ? undefined : $pageTitle.subtitleHtml} />
   {/if}
 
   <div class="flex-grow-1">
@@ -70,12 +57,9 @@
   import NotificationContainer from "$lib/components/NotificationContainer.svelte";
   import Hook from "$lib/components/Hook.svelte";
   import Breadcrumb from "$lib/components/Breadcrumb.svelte";
-  import PageTitle from "$lib/components/PageTitle.svelte";
-  import { _ } from "svelte-i18n";
 
   const themeSettings = getContext("themeSettings");
   const session = getContext("session");
-  const pageTitle = getContext("pageTitle");
 
   // Global kill-switch from theme settings. Individual pages opt in to
   // the breadcrumb by returning a `breadcrumbs` array from their load();

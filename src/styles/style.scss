@@ -49,10 +49,9 @@
   z-index: 1;
 }
 
-// Square Cards for Desktop (Posts and Sidebar)
+// Square Cards for Desktop (Posts only — sidebar cards size to content)
 @media (min-width: 992px) {
-  .vanilla-post-card,
-  aside .card {
+  .vanilla-post-card {
     aspect-ratio: 1 / 1 !important;
     min-height: 0 !important;
     display: flex;
@@ -66,9 +65,14 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      // align-items: center; // Post cards might look better left-aligned, sidebar centered
-      // text-align: center;
     }
+  }
+
+  // Sidebar cards share the same visual treatment but size to content
+  aside .card {
+    border: 1.5px solid var(--bs-border-color) !important;
+    box-shadow: var(--bs-box-shadow-sm) !important;
+    overflow: hidden;
   }
 
   // Sync Slider (Carousel) height with 1x1 sidebar cards / post cards

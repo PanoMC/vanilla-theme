@@ -8,7 +8,6 @@ import { browser } from "$app/environment";
 
 import ApiUtil from "$lib/api.util.js";
 import { requireLogin } from "$lib/Store.js";
-import { panoApiServer } from "$lib/PluginAPI";
 
 import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
 
@@ -85,13 +84,6 @@ export async function processLoad(event) {
   //   return output;
   // }
 
-  // Register sidebar items
-  panoApiServer.ui.sidebar.register({
-    sidebarId: "profile",
-    id: "delete-notifications-button",
-    priority: 110,
-  });
-
   const [{ notifications, notificationCount }] = await Promise.all([
     loadData({ request: event }),
     loadSidebar(event)
@@ -101,6 +93,7 @@ export async function processLoad(event) {
     notifications,
     notificationCount: parseInt(notificationCount),
     sidebar: ProfileSidebar,
+    sidebarProps: { showDeleteAll: true },
     pageTitle: "pages.notifications.page-title"
   };
 }
