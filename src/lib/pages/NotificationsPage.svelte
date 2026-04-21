@@ -2,9 +2,6 @@
 
   <!-- Notifications -->
   <div class="card mt-3 mt-lg-0">
-    <CardHeader>
-      <div slot="left">{$_("pages.notifications.page-title")}</div>
-    </CardHeader>
     <div class="card-body">
       <div class="list-group" class:d-none={$notifications.length === 0}>
         {#each $notifications as notification, index (notification)}
@@ -120,7 +117,6 @@
   import ConfirmRemoveAllNotificationsModal from "$lib/components/modals/ConfirmRemoveAllNotificationsModal.svelte";
   import NoContent from "$lib/components/NoContent.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
-  import CardHeader from "$lib/components/CardHeader.svelte";
 
   export let data;
 

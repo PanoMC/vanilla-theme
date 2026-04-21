@@ -9,6 +9,23 @@
 <!-- Main Container -->
 <main class="container">
 
+  {#if $pageTitle}
+    {@const isString = typeof $pageTitle === "string"}
+    {@const
+      titleText = isString ? $_($pageTitle) : ($pageTitle?.title ? $_($pageTitle.title, { values: $pageTitle.titleValues || {} }) : "")}
+    {@const
+      subtitleText = isString ? "" : ($pageTitle?.subtitle ? $_($pageTitle.subtitle, { values: $pageTitle.subtitleValues || {} }) : "")}
+    <div class="row">
+      <div class="col-12 mb-3">
+        <PageTitle
+          title={titleText}
+          subtitle={subtitleText}
+          html={isString ? undefined : $pageTitle.html}
+          subtitleHtml={isString ? undefined : $pageTitle.subtitleHtml} />
+      </div>
+    </div>
+  {/if}
+
   <div class="row gx-3 align-items-start">
     {#if sidebarEnabled}
       <svelte:component
@@ -21,20 +38,6 @@
 
     <!-- Content -->
     <div class:col={!sidebarEnabled} class:col-lg-8={sidebarEnabled && $sidebar}>
-      {#if $pageTitle}
-        {@const isString = typeof $pageTitle === "string"}
-        {@const
-          titleText = isString ? $_($pageTitle) : ($pageTitle?.title ? $_($pageTitle.title, { values: $pageTitle.titleValues || {} }) : "")}
-        {@const
-          subtitleText = isString ? "" : ($pageTitle?.subtitle ? $_($pageTitle.subtitle, { values: $pageTitle.subtitleValues || {} }) : "")}
-        <div class="mb-3">
-          <PageTitle
-            title={titleText}
-            subtitle={subtitleText}
-            html={isString ? undefined : $pageTitle.html}
-            subtitleHtml={isString ? undefined : $pageTitle.subtitleHtml} />
-        </div>
-      {/if}
       <slot />
     </div>
     <!-- Content End -->

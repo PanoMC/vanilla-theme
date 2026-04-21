@@ -1,14 +1,20 @@
 <Sidebar side={side}>
-  <div class="vstack gap-3">
+  <div class="d-flex flex-column gap-3">
     {#if showDeleteAll}
-      <button
-        class="btn btn-danger w-100"
-        type="button"
-        on:click={() => showDeleteAllNotificationsModal()}>
-        <i class="fas fa-trash-alt me-2"></i>
-        {$_("buttons.delete-all")}
-      </button>
+      <div class="order-last order-lg-first w-100">
+        <button
+          class="btn btn-danger w-100"
+          type="button"
+          on:click={() => showDeleteAllNotificationsModal()}>
+          <i class="fas fa-trash-alt me-2"></i>
+          {$_("buttons.delete-all")}
+        </button>
+      </div>
     {/if}
+    <div
+      class="vstack gap-3"
+      class:order-first={showDeleteAll}
+      class:order-lg-last={showDeleteAll}>
     {#each $items as item (item.id)}
       {#if item.id === "profile-info"}
         <!-- Profile Info Snippet -->
@@ -47,6 +53,7 @@
           {...item.props} />
       {/if}
     {/each}
+    </div>
   </div>
 </Sidebar>
 
