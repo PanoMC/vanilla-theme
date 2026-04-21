@@ -213,7 +213,7 @@
       </div>
 
       <div class="card">
-        <CardHeader>
+        <CardHeader truncateLeft={false}>
           <div slot="left">
             {$_("pages.settings.inputs.sessions.title")}
             <small class="d-block text-muted"

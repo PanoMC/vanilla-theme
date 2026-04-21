@@ -9,7 +9,9 @@
           ? 'col-lg-6'
           : 'col-12'} d-flex {$$slots.right && showRight && !$$slots.middle
         ? 'justify-content-lg-between'
-        : 'justify-content-lg-start'} justify-content-center text-center text-lg-start text-truncate text-nowrap {leftClasses}">
+        : 'justify-content-lg-start'} justify-content-center text-center text-lg-start {truncateLeft
+        ? 'text-truncate text-nowrap'
+        : 'min-w-0 text-wrap text-break'} {leftClasses}">
       <slot name="left" />
     </div>
     {#if $$slots.middle}
@@ -35,4 +37,6 @@
   export let rightClasses = '';
   export let middleClasses = '';
   export let showRight = true;
+  /** When false, left slot text wraps (e.g. long subtitles); default truncates for compact headers */
+  export let truncateLeft = true;
 </script>
