@@ -243,8 +243,8 @@
       "closed": "Закрытые"
     },
     "ticket-detail": {
+      "tab-title": "Тикет {ticketId}: {title}",
       "detail": {
-        "ticket": "Тикет: {ticketId}",
         "opened-in-category": "открыт в категории {category}."
       },
       "no-category": "Без категории",

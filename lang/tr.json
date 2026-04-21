@@ -243,8 +243,8 @@
       "closed": "Kapalı"
     },
     "ticket-detail": {
+      "tab-title": "Talep {ticketId}: {title}",
       "detail": {
-        "ticket": "Talep: {ticketId}",
         "opened-in-category": "{category} kategorisinde açıldı."
       },
       "no-category": "Kategorisiz",

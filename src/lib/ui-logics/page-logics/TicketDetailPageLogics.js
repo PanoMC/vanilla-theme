@@ -50,6 +50,14 @@ export async function processLoad(event) {
 
   await loadSidebar(event, data.ticket);
 
+  data.pageTitle = {
+    title: "pages.ticket-detail.tab-title",
+    titleValues: {
+      ticketId: `#${data.ticket.id}`,
+      title: data.ticket.title,
+    },
+  };
+
   return { ...data, sidebar: TicketCreateAndDetailSidebar };
 }
 

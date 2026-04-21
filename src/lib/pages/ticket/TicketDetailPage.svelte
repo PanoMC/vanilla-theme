@@ -10,10 +10,7 @@
 
 <div class="vstack gap-3">
   <PageTitle
-    title={$ticket.title}
-    html="{$_('pages.ticket-detail.detail.ticket', {
-      values: { ticketId: $ticket.id },
-    })},"
+    title={`#${$ticket.id} ${$ticket.title}`}
     subtitle={$_("pages.ticket-detail.detail.opened-in-category", {
       values: {
         category: `<a

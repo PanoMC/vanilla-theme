@@ -243,8 +243,8 @@
       "closed": "Closed"
     },
     "ticket-detail": {
+      "tab-title": "Ticket {ticketId}: {title}",
       "detail": {
-        "ticket": "Ticket: {ticketId}",
         "opened-in-category": "opened in {category} category."
       },
       "no-category": "No Category",
