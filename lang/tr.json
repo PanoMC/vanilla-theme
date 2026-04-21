@@ -470,8 +470,6 @@
     "REGISTER_USERNAME_TOO_LONG": "Kullanıcı adı çok uzun!",
     "REGISTER_USERNAME_TOO_SHORT": "Kullanıcı adı çok kısa!",
     "TICKET_IS_CLOSED": "Destek talebi kapatılmış!",
-    "TITLE_CANT_BE_EMPTY": "Başlık boş olamaz!",
-    "USERNAME_OR_EMAIL_NOT_EXISTS": "Kullanıcı adı veya e-mail bulunamadı!",
     "REGISTER_LINK_CODE_INVALID": "Girdiğiniz link kodu hatalı veya süresi dolmuş!",
     "CANT_CHANGE_EMAIL_WAIT15MINUTES": "E-mail değiştirmeden önce 15 dakika bekleyin.",
     "USERNAME_REQUIRED": "Devam etmek için yeni bir kullanıcı adı belirlemeniz gerekiyor.",
