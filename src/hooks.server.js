@@ -20,6 +20,15 @@ function stripModulePreload(linkHeader) {
 }
 
 const isDev = process.env.NODE_ENV === "development";
+
+/** In production, skip logging common client/bot noise (wrong method, stray POST to non-action routes). */
+function shouldSuppressServerErrorLog(error) {
+  if (process.env.NODE_ENV !== "production") return false;
+  if (error?.status === 405) return true;
+  const msg = String(error?.message ?? "");
+  if (msg.includes("No form actions exist")) return true;
+  return false;
+}
 // Cache buster to prevent stale browser cache when switching themes.
 // Each process start (theme switch) generates a new value, forcing fresh file downloads.
 const v = isDev ? '' : `?v=${Date.now()}`;
@@ -126,8 +135,10 @@ export async function handle({
 
 /** @type {import('@sveltejs/kit').HandleServerError} */
 export function handleError({ error, event }) {
-  console.log("!!! [GLOBAL ERROR EVENT]:", event.url.href);
-  console.error("!!! [GLOBAL ERROR CONTENT]:", error);
+  if (!shouldSuppressServerErrorLog(error)) {
+    console.log("!!! [GLOBAL ERROR EVENT]:", event.url.href);
+    console.error("!!! [GLOBAL ERROR CONTENT]:", error);
+  }
   return {
     message: 'Internal Error',
     code: error?.code
