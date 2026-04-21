@@ -11,10 +11,9 @@
       <div
         class="col-lg-4 d-flex justify-content-center align-items-center order-lg-first order-md-2 order-last">
         <ul
-          bind:this={navElement}
-          class="nav nav-pills justify-content-lg-start justify-content-center small flex-nowrap overflow-visible">
-          {#each visibleLinks as link, i (link.id)}
-            <li class="nav-item" bind:this={itemElements[i]}>
+          class="nav nav-pills justify-content-lg-start justify-content-center small flex-wrap">
+          {#each visibleLinks as link (link.id)}
+            <li class="nav-item">
               <a
                 class="nav-link rounded-pill small"
                 href={link.href}
@@ -30,7 +29,7 @@
           {/each}
 
           {#if moreLinks.length > 0}
-            <li class="nav-item dropup" bind:this={moreButtonElement}>
+            <li class="nav-item dropup">
               <button
                 class="nav-link rounded-pill small dropdown-toggle no-caret"
                 data-bs-toggle="dropdown"
@@ -42,7 +41,7 @@
                 <i class="fa-solid fa-ellipsis"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                {#each moreLinks as link (link.id)}
+                {#each moreLinksInMenuOrder as link (link.id)}
                   <li>
                     <a
                       class="dropdown-item small"
@@ -121,14 +120,14 @@
 
 <!-- Footer End -->
 <script>
-  import { getContext, onMount, tick } from "svelte";
-  import { browser } from "$app/environment";
+  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
   import copy from "copy-to-clipboard";
   import tooltip from "$lib/tooltip.util";
   import { PANO_WEBSITE_URL } from "$lib/variables";
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { hasPermission } from "$lib/auth.util.js";
+  import { orderLinksBySavedOrder } from "$lib/orderNavLinks.util.js";
 
   const session = getContext("session");
   const themeSettings = getContext("themeSettings");
@@ -170,26 +169,10 @@
     }));
 
     const allLinks = [...nativeLinks, ...pluginLinks];
-
-    // 2. Sort
-    let order = themeSettings.footerLinksOrder || [];
-    const sourceMap = new Map(allLinks.map((l) => [l.id, l]));
-    const sorted = [];
-
-    // Add ordered items
-    for (const id of order) {
-      if (sourceMap.has(id)) {
-        sorted.push(sourceMap.get(id));
-      }
-    }
-
-    // Append remaining items (ordered set first to avoid duplicates)
-    const inOrderIds = new Set(order);
-    for (const l of allLinks) {
-      if (!inOrderIds.has(l.id)) {
-        sorted.push(l);
-      }
-    }
+    const sorted = orderLinksBySavedOrder(
+      allLinks,
+      themeSettings.footerLinksOrder
+    );
 
     // 3. Filter visibility & conditions
     return sorted.filter((link) => {
@@ -211,84 +194,16 @@
     });
   })();
 
-  let navElement;
-  let itemElements = [];
-  let moreButtonElement;
-  let visibleLinksState = null;
-  let moreLinksState = null;
-  let isChecking = false;
+  const MAX_INLINE_FOOTER_LINKS = 3;
 
-  const MAX_VISIBLE_LINKS = 3;
-
-  $: visibleLinks =
-    visibleLinksState ?? displayLinks.slice(0, MAX_VISIBLE_LINKS);
+  $: visibleLinks = displayLinks.slice(0, MAX_INLINE_FOOTER_LINKS);
   $: moreLinks =
-    moreLinksState ??
-    (displayLinks.length > MAX_VISIBLE_LINKS
-      ? displayLinks.slice(MAX_VISIBLE_LINKS)
-      : []);
-
-  async function updateOverflow() {
-    if (!browser || !navElement || isChecking) return;
-    isChecking = true;
-
-    // Measurement phase
-    visibleLinksState = displayLinks;
-    moreLinksState = [];
-    await tick();
-
-    if (itemElements.length === 0) {
-      isChecking = false;
-      return;
-    }
-
-    const containerWidth = navElement.clientWidth;
-    const moreButtonWidth = 50; // Conservative estimate for "..." button
-    const maxLinks = MAX_VISIBLE_LINKS;
-
-    // Calculate item widths
-    const widths = itemElements.map((el) => (el ? el.offsetWidth : 0));
-
-    let cutIndex = -1;
-    let currentWidth = 0;
-
-    for (let i = 0; i < widths.length; i++) {
-      // Logic for cutting:
-      // 1. If we exceed the maximum allowed links (3)
-      // 2. OR if adding this link (plus the "..." button placeholder) exceeds the container width
-      const isWidthExceeded =
-        currentWidth + widths[i] + moreButtonWidth > containerWidth;
-      const isCountExceeded = i >= maxLinks;
-
-      if (isCountExceeded || isWidthExceeded) {
-        cutIndex = i;
-        break;
-      }
-      currentWidth += widths[i];
-    }
-
-    if (cutIndex !== -1 && cutIndex < displayLinks.length) {
-      visibleLinksState = displayLinks.slice(0, cutIndex);
-      moreLinksState = displayLinks.slice(cutIndex);
-    } else {
-      visibleLinksState = displayLinks;
-      moreLinksState = [];
-    }
-
-    isChecking = false;
-  }
-
-  onMount(() => {
-    updateOverflow();
-    const observer = new ResizeObserver(updateOverflow);
-    observer.observe(navElement);
-    return () => observer.disconnect();
-  });
-
-  $: if (displayLinks) {
-    itemElements = [];
-    updateOverflow();
-  }
+    displayLinks.length > MAX_INLINE_FOOTER_LINKS
+      ? displayLinks.slice(MAX_INLINE_FOOTER_LINKS)
+      : [];
+  // With dropup, the first DOM child is furthest from the "⋯" toggle; the last is right above it.
+  // Reverse so the 4th link (first overflow) is adjacent to the toggle, matching left-to-right order.
+  $: moreLinksInMenuOrder = [...moreLinks].reverse();
 
   /* IP Copy Logic */
   let copyClickID = 0;

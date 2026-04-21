@@ -1126,6 +1126,7 @@
   import { getContext } from "svelte";
   import { saveThemeSettings } from "$lib/services/theme-setting";
   import { panoApiClient } from "$lib/PluginAPI.js";
+  import { orderLinksBySavedOrder } from "$lib/orderNavLinks.util.js";
 
   export let data;
 
@@ -1195,39 +1196,14 @@
 
     const allLinksSource = [...nativeLinks, ...pluginLinks];
 
-    // Build Nav Ordered Links
-    let navOrder = themeSettings.navLinksOrder || [];
-    navOrder = [...new Set(navOrder)];
-    const navSorted = [];
-    const navSourceMap = new Map(allLinksSource.map((l) => [l.id, l]));
-
-    for (const id of navOrder) {
-      if (navSourceMap.has(id)) {
-        navSorted.push(navSourceMap.get(id));
-        navSourceMap.delete(id);
-      }
-    }
-    for (const link of navSourceMap.values()) {
-      navSorted.push(link);
-    }
-    orderedNavLinks = navSorted;
-
-    // Build Footer Ordered Links
-    let footerOrder = themeSettings.footerLinksOrder || [];
-    footerOrder = [...new Set(footerOrder)];
-    const footerSorted = [];
-    const footerSourceMap = new Map(allLinksSource.map((l) => [l.id, l]));
-
-    for (const id of footerOrder) {
-      if (footerSourceMap.has(id)) {
-        footerSorted.push(footerSourceMap.get(id));
-        footerSourceMap.delete(id);
-      }
-    }
-    for (const link of footerSourceMap.values()) {
-      footerSorted.push(link);
-    }
-    orderedFooterLinks = footerSorted;
+    orderedNavLinks = orderLinksBySavedOrder(
+      allLinksSource,
+      themeSettings.navLinksOrder
+    );
+    orderedFooterLinks = orderLinksBySavedOrder(
+      allLinksSource,
+      themeSettings.footerLinksOrder
+    );
   }
 
   let draggingItemIndex = null;

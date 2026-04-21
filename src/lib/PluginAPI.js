@@ -1,6 +1,7 @@
 import { baseAPI, pageAPI } from "../pano-sdk/core/js/PluginAPI";
 import { derived, get, writable } from "svelte/store";
 import { plugins } from "../pano-sdk/core/js/PluginManager.js";
+import { sortSiteNavLinks } from "./orderNavLinks.util.js";
 import { avatarVersion } from "./Store.js";
 
 const hooks = writable({});
@@ -125,7 +126,10 @@ export const panoApi = {
     nav: {
       site: {
         editNavLinks(callback) {
-          siteNavLinks.update((links) => callback(links) || links);
+          siteNavLinks.update((links) => {
+            const next = callback(links) || links;
+            return sortSiteNavLinks(next);
+          });
         },
         getNavLinks() {
           return siteNavLinks;

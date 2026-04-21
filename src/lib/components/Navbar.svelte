@@ -324,6 +324,7 @@
   import { panoApiClient } from "$lib/PluginAPI.js";
   import { hasPermission } from "$lib/auth.util.js";
   import tooltip from "$lib/tooltip.util";
+  import { orderLinksBySavedOrder } from "$lib/orderNavLinks.util.js";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   const themeDefaults = {
@@ -438,27 +439,10 @@
     }));
 
     const allLinks = [...nativeLinks, ...pluginLinks];
-
-    // 2. Sort
-    let order = themeSettings.navLinksOrder || [];
-    const sourceMap = new Map(allLinks.map((l) => [l.id, l]));
-    const sorted = [];
-
-    // Add ordered items
-    for (const id of order) {
-      if (sourceMap.has(id)) {
-        sorted.push(sourceMap.get(id));
-      }
-    }
-
-    // Append remaining items (ordered set first to avoid duplicates)
-    const inOrderIds = new Set(order);
-    for (const l of allLinks) {
-      // Only add if not already added (check ID presence in map is strictly better if duplicates exist in source, but here IDs are unique-ish)
-      if (!inOrderIds.has(l.id)) {
-        sorted.push(l);
-      }
-    }
+    const sorted = orderLinksBySavedOrder(
+      allLinks,
+      themeSettings.navLinksOrder
+    );
 
     // 3. Filter visibility & conditions
     return sorted.filter((link) => {
