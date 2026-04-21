@@ -1,7 +1,6 @@
 import { get, writable } from "svelte/store";
 
-import { sendResetPassword } from "$lib/services/auth";
-import { sendChangeEmail, sendUpdateProfile } from "$lib/services/profile";
+import { sendChangeEmail, sendResetPassword, sendUpdateProfile } from "$lib/services/profile";
 
 import ApiUtil, { NETWORK_ERROR } from "$lib/api.util";
 import { executeLifecycle, executeViewLoad, panoApiServer } from "$lib/PluginAPI";
@@ -49,13 +48,12 @@ export async function sendResetPasswordLink(
   resetPasswordError,
   resetPasswordLoading,
   resetPasswordSuccess,
-  session
 ) {
   resetPasswordError.set(null);
   resetPasswordLoading.set(true);
   resetPasswordSuccess.set(false);
 
-  await sendResetPassword(get(session).user.email)
+  await sendResetPassword()
     .then((body) => {
       resetPasswordLoading.set(false);
 

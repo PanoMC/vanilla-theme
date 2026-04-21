@@ -22,7 +22,6 @@
                         resetPasswordError,
                         resetPasswordLoading,
                         resetPasswordSuccess,
-                        session,
                       )}
                     aria-describedby="resetPassword validationResetPassword"
                     disabled={$resetPasswordLoading || !$session.siteInfo.emailEnabled}

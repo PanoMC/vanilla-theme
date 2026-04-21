@@ -432,7 +432,7 @@
     "DISABLED_FOR_DEMO": "Bu özellik demo modunda devre dışı bırakılmıştır.",
     "LOGIN_IS_INVALID": "Giriş yapılamadı, bilgilerinizi kontrol edin!",
     "CANT_CHANGE_EMAIL_WAIT_15_MINUTES": "E-posta değiştirilemez, 15 dakika bekleyin.",
-    "CANT_RESET_PASSWORD_WAIT_15_MINUTES": "Şifre sıfırlanamaz, 15 dakika bekleyin.",
+    "CANT_RESET_PASSWORD_WAIT5MINUTES": "Şifre sıfırlanamaz, 5 dakika bekleyin.",
     "CATEGORY_NOT_EXISTS": "Bu kategori bulunamadı!",
     "CURRENT_PASSWORD_NOT_CORRECT": "Mevcut şifre doğru değil!",
     "INVALID_DATA": "Geçersiz veri!",
