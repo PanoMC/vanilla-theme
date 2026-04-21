@@ -322,6 +322,9 @@
 
   import { avatarVersion, logout, notificationsCount } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
+  import { hasPermission } from "$lib/auth.util.js";
+  import tooltip from "$lib/tooltip.util";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   const themeDefaults = {
     dark: "#044389",
@@ -336,9 +339,6 @@
     themeSettings.navbarBgColor ||
     themeDefaults[themeSettings.themeColor || "dark"] ||
     themeDefaults.dark;
-  import { hasPermission } from "$lib/auth.util.js";
-  import tooltip from "$lib/tooltip.util";
-  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   function getContrast(hexcolor) {
     if (!hexcolor || hexcolor.startsWith("bg-")) return "dark"; // Default dark for old classes
@@ -416,7 +416,7 @@
       id: "rules",
       text: "nav-links.rules",
       href: "/rules",
-      condition: !!$session.siteInfo?.registerAgreement,
+      condition: !!$session.siteInfo?.hasRegisterAgreement
     },
   ];
 

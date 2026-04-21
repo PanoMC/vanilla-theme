@@ -142,7 +142,7 @@
       id: "rules",
       text: "nav-links.rules",
       href: "/rules",
-      condition: !!$session.siteInfo?.registerAgreement,
+      condition: !!$session.siteInfo?.hasRegisterAgreement
     },
   ];
 

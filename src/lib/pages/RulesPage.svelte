@@ -6,7 +6,7 @@
 
   <div class="card">
     <div class="card-body">
-      {@html $session.siteInfo.registerAgreement}
+      {@html data.registerAgreement}
     </div>
   </div>
 </div>
@@ -15,25 +15,38 @@
 <script context="module">
   import { error } from "@sveltejs/kit";
 
+  import ApiUtil from "$lib/api.util";
+
   /**
    * @type {import("@sveltejs/kit").PageLoad}
    */
   export async function load(event) {
     const parentData = await event.parent();
     const session = parentData.session;
-    const registerAgreement = session.siteInfo.registerAgreement;
 
-    if (!registerAgreement) {
+    if (!session.siteInfo.hasRegisterAgreement) {
       throw error(404);
     }
 
-    return { ...parentData, pageTitle: "pages.rules.title" };
+    const csrfToken = session.csrfToken;
+    let registerAgreement;
+    try {
+      const body = await ApiUtil.get({
+        path: "/api/registerAgreement",
+        request: event,
+        csrfToken
+      });
+      registerAgreement = body.registerAgreement;
+    } catch (_e) {
+      throw error(404);
+    }
+
+    return { ...parentData, pageTitle: "pages.rules.title", registerAgreement };
   }
 </script>
 
 <script>
-  import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
-  const session = getContext("session");
+  export let data;
 </script>

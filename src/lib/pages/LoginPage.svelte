@@ -345,7 +345,7 @@
       passwordVisible = true;
     }
 
-    if (!$session.siteInfo.registerAgreement) {
+    if (!$session.siteInfo.hasRegisterAgreement) {
       agreement = true;
     }
   });

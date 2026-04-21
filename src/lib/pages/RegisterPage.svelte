@@ -58,7 +58,7 @@
     username = data.initialUsername;
   }
 
-  let agreement = !$session.siteInfo.registerAgreement ? true : false;
+  let agreement = !$session.siteInfo.hasRegisterAgreement ? true : false;
 
   async function onSubmit() {
     error = null;

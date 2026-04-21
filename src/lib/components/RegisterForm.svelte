@@ -69,7 +69,7 @@
     </label>
   </div>
 </div>
-{#if $session.siteInfo.registerAgreement}
+{#if $session.siteInfo.hasRegisterAgreement}
   <div class="form-check">
     <input
       bind:checked={agreement}
