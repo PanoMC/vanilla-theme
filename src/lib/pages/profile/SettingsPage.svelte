@@ -60,7 +60,7 @@
                           )
                         : startChangingEmail2ndStep(changingEmail2ndStep);
                     }}>
-                    <div class="row">
+                    <div class="row g-2 align-items-start">
                       {#if !$changingEmail}
                         <div class="col-12">
                           {#if $changingEmailSuccess}
@@ -85,7 +85,7 @@
                           {/if}
                         </div>
                       {:else if $changingEmail2ndStep}
-                        <div class="col">
+                        <div class="col-12 col-md min-w-0">
                           <input
                             type="email"
                             id="newEmail"
@@ -101,7 +101,8 @@
                             {$_("errors." + $changingEmailError)}
                           </div>
                         </div>
-                        <div class="col-auto">
+                        <div
+                          class="col-12 col-md-auto d-flex flex-wrap gap-2 align-items-center justify-content-md-end">
                           <button
                             type="reset"
                             class="btn btn-link link-primary"
@@ -117,7 +118,7 @@
                           </button>
                         </div>
                       {:else}
-                        <div class="col">
+                        <div class="col-12 col-md min-w-0">
                           <input
                             type="password"
                             id="currentPassword"
@@ -128,7 +129,8 @@
                             bind:value={$currentPassword}
                             autofocus />
                         </div>
-                        <div class="col-auto">
+                        <div
+                          class="col-12 col-md-auto d-flex flex-wrap gap-2 align-items-center justify-content-md-end">
                           <button
                             type="reset"
                             class="btn btn-link link-danger"
