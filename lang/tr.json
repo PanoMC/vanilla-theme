@@ -301,6 +301,7 @@
         "sidebar": "Yan Bar",
         "post-card": "Yazı Kartı",
         "footer": "Alt Bilgi",
+        "play-card": "Oyna Kartı",
         "advanced": "Gelişmiş"
       },
       "general": {
@@ -386,11 +387,27 @@
         },
         "last-registrants": "Son Kayıt Olanlar Kartı",
         "online-admins": "Çevrimiçi Yöneticiler Kartı (Destek)",
-        "play-card-style": "Oyna Kartı Stili",
+        "play-card-style": "Kart Stili",
         "play-card-styles": {
           "style-1": "Legacy",
           "style-2": "Modern"
-        }
+        },
+        "play-card-bg-image": "Arka Plan Resmi",
+        "play-card-default-bg": "Varsayılan Arka Plan Resmi",
+        "play-card-bg-opacity": "Arka Plan Opaklığı",
+        "play-card-bg-effect": "Efekt Stili",
+        "play-card-bg-effects": {
+          "solid": "Düz Renk",
+          "gradient": "Renk Gradyanı"
+        },
+        "play-card-ip-color": "IP Bağlantı Rengi",
+        "play-card-border-color": "Çerçeve Rengi",
+        "play-card-ip-text": "IP Yazısı",
+        "play-card-ip-text-hint": "Varsayılan IP için boş bırakın.",
+        "play-card-status-badge": "Durum Rozeti",
+        "play-card-player-count": "Oyuncu Sayısı",
+        "play-card-version-info": "Sürüm Bilgisi",
+        "default": "Varsayılan"
       },
       "post-card": {
         "visibility": "Görünürlük",

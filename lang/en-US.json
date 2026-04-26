@@ -301,6 +301,7 @@
         "sidebar": "Sidebar",
         "post-card": "Post Card",
         "footer": "Footer",
+        "play-card": "Play Card",
         "advanced": "Advanced"
       },
       "general": {
@@ -386,11 +387,27 @@
         },
         "last-registrants": "Last Registrants Card",
         "online-admins": "Online Admins Card (Support)",
-        "play-card-style": "Play Card Style",
+        "play-card-style": "Card Style",
         "play-card-styles": {
           "style-1": "Legacy",
           "style-2": "Modern"
-        }
+        },
+        "play-card-bg-image": "Background Image",
+        "play-card-default-bg": "Default Background Image",
+        "play-card-bg-opacity": "Background Opacity",
+        "play-card-bg-effect": "Effect Style",
+        "play-card-bg-effects": {
+          "solid": "Solid Color",
+          "gradient": "Color Gradient"
+        },
+        "play-card-ip-color": "IP Link Color",
+        "play-card-border-color": "Border Color",
+        "play-card-ip-text": "IP Text",
+        "play-card-ip-text-hint": "Leave blank for default IP.",
+        "play-card-status-badge": "Status Badge",
+        "play-card-player-count": "Player Count",
+        "play-card-version-info": "Version Info",
+        "default": "Default"
       },
       "post-card": {
         "visibility": "Visibility",

@@ -301,6 +301,7 @@
         "sidebar": "Боковая панель",
         "post-card": "Карточка поста",
         "footer": "Подвал",
+        "play-card": "Карточка игры",
         "advanced": "Дополнительно"
       },
       "general": {
@@ -386,11 +387,27 @@
         },
         "last-registrants": "Карточка последних регистраций",
         "online-admins": "Карточка админов в сети (Поддержка)",
-        "play-card-style": "Стиль карточки игры",
+        "play-card-style": "Стиль карточки",
         "play-card-styles": {
           "style-1": "Legacy",
           "style-2": "Modern"
-        }
+        },
+        "play-card-bg-image": "Фоновое изображение",
+        "play-card-default-bg": "Фоновое изображение по умолчанию",
+        "play-card-bg-opacity": "Прозрачность фона",
+        "play-card-bg-effect": "Стиль эффекта",
+        "play-card-bg-effects": {
+          "solid": "Сплошной цвет",
+          "gradient": "Цветовой градиент"
+        },
+        "play-card-ip-color": "Цвет IP-адреса",
+        "play-card-border-color": "Цвет рамки",
+        "play-card-ip-text": "Текст IP",
+        "play-card-ip-text-hint": "Оставьте пустым для IP по умолчанию.",
+        "play-card-status-badge": "Значок статуса",
+        "play-card-player-count": "Количество игроков",
+        "play-card-version-info": "Версия игры",
+        "default": "По умолчанию"
       },
       "post-card": {
         "visibility": "Видимость",

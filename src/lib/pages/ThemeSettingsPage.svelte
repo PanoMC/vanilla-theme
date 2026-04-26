@@ -7,7 +7,8 @@
       role="tablist">
       <li class="nav-item" role="presentation">
         <button
-          class="nav-link active"
+          class="nav-link"
+          class:active={activeTab === "general"}
           data-bs-target="#general"
           data-bs-toggle="tab"
           id="general-tab"
@@ -20,6 +21,7 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "logo"}
           data-bs-target="#logo"
           data-bs-toggle="tab"
           id="logo-tab"
@@ -32,6 +34,7 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "header"}
           data-bs-target="#header"
           data-bs-toggle="tab"
           id="header-tab"
@@ -44,6 +47,7 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "navbar"}
           data-bs-target="#navbar"
           data-bs-toggle="tab"
           id="navbar-tab"
@@ -56,6 +60,7 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "sidebar"}
           data-bs-target="#sidebar"
           data-bs-toggle="tab"
           id="sidebar-tab"
@@ -68,6 +73,7 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "post-card"}
           data-bs-target="#post-card"
           data-bs-toggle="tab"
           id="post-card-tab"
@@ -80,6 +86,20 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "play-card"}
+          data-bs-target="#play-card"
+          data-bs-toggle="tab"
+          id="play-card-tab"
+          on:click={() => (activeTab = "play-card")}
+          role="tab"
+          type="button">
+          {$_("pages.theme-settings.tabs.play-card")}
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          class:active={activeTab === "footer"}
           data-bs-target="#footer"
           data-bs-toggle="tab"
           id="footer-tab"
@@ -92,6 +112,7 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
+          class:active={activeTab === "advanced"}
           data-bs-target="#advanced"
           data-bs-toggle="tab"
           id="advanced-tab"
@@ -106,7 +127,12 @@
   <div class="card-body">
     <div class="tab-content">
       <!-- General -->
-      <div class="tab-pane fade show active" id="general" role="tabpanel">
+      <div
+        class="tab-pane fade"
+        class:show={activeTab === "general"}
+        class:active={activeTab === "general"}
+        id="general"
+        role="tabpanel">
         <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="theme-color"
             >{$_("pages.theme-settings.general.theme-color")}</label>
@@ -741,7 +767,14 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <div
+        class="tab-pane fade"
+        class:active={activeTab === "play-card"}
+        class:show={activeTab === "play-card"}
+        id="play-card"
+        role="tabpanel">
         <div class="row mb-3">
           <label class="col-md-6 col-form-label" for="playCardStyle"
             >{$_("pages.theme-settings.sidebar.play-card-style")}</label>
@@ -758,6 +791,243 @@
                 >{$_("pages.theme-settings.sidebar.play-card-styles.style-2")}</option>
               <option value="style-1"
                 >{$_("pages.theme-settings.sidebar.play-card-styles.style-1")}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="defaultPlayCardBg"
+            >{$_("pages.theme-settings.sidebar.play-card-default-bg")}</label>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check form-switch">
+              <input
+                checked={typeof themeSettings.defaultPlayCardBg === "undefined"
+                  ? true
+                  : themeSettings.defaultPlayCardBg}
+                class="form-check-input"
+                id="defaultPlayCardBg"
+                on:change={(e) => {
+                  themeSettings.defaultPlayCardBg = e.target.checked;
+                  themeSettings = themeSettings;
+                }}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardBgImage"
+            >{$_("pages.theme-settings.sidebar.play-card-bg-image")}</label>
+          <div class="col-md-6">
+            {#if themeSettings.files?.playCardBackgroundImage || (typeof themeSettings.defaultPlayCardBg === "undefined" ? true : themeSettings.defaultPlayCardBg)}
+              <div class="input-group">
+                <div style="height: 40px; width: 150px;">
+                  <img
+                    alt={$_("pages.theme-settings.sidebar.play-card-bg-image")}
+                    class="border rounded-start"
+                    style="height: 100%; width: 100%; object-fit: cover;"
+                    src={themeSettings.files?.playCardBackgroundImage
+                      ? "/api/theme/file/" +
+                        themeSettings.files.playCardBackgroundImage
+                      : (typeof themeSettings.defaultHeaderBg === "undefined"
+                        ? true
+                        : themeSettings.defaultHeaderBg) ||
+                        !themeSettings.files?.headerBackgroundImage
+                        ? "/assets/img/default-header-bg.png"
+                        : "/api/theme/file/" +
+                          themeSettings.files.headerBackgroundImage} />
+                </div>
+
+                <input
+                  id="playCardBgImage"
+                  class="form-control"
+                  on:change={onPlayCardBackgroundImageChange}
+                  bind:files={playCardBackgroundImageFiles}
+                  disabled={typeof themeSettings.defaultPlayCardBg === "undefined" ? true : themeSettings.defaultPlayCardBg}
+                  type="file" />
+                <button
+                  class="btn btn-outline-danger"
+                  class:disabled={typeof themeSettings.defaultPlayCardBg === "undefined" ? true : themeSettings.defaultPlayCardBg}
+                  on:click={onRemovePlayCardBackgroundImageClick}
+                  type="button">
+                  {$_("buttons.remove")}
+                </button>
+              </div>
+            {:else}
+              <input
+                bind:files={playCardBackgroundImageFiles}
+                class="form-control"
+                id="playCardBgImage"
+                on:change={onPlayCardBackgroundImageChange}
+                type="file" />
+            {/if}
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardBgOpacity"
+            >{$_("pages.theme-settings.sidebar.play-card-bg-opacity")}</label>
+          <div class="col-md-6">
+            <input
+              class="form-range"
+              id="playCardBgOpacity"
+              max="1"
+              min="0"
+              step="0.05"
+              on:input={(e) => {
+                themeSettings.playCardBgOpacity = parseFloat(e.target.value);
+                themeSettings = themeSettings;
+              }}
+              type="range"
+              value={themeSettings.playCardBgOpacity ?? 0.5} />
+            <div class="text-end small">
+              {Math.round((themeSettings.playCardBgOpacity ?? 0.5) * 100)}%
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardBgEffect"
+            >{$_("pages.theme-settings.sidebar.play-card-bg-effect")}</label>
+          <div class="col-md-6">
+            <select
+              class="form-select"
+              id="playCardBgEffect"
+              on:change={(e) => {
+                themeSettings.playCardBgEffect = e.target.value;
+                themeSettings = themeSettings;
+              }}
+              value={themeSettings.playCardBgEffect || "solid"}>
+              <option value="solid"
+                >{$_("pages.theme-settings.sidebar.play-card-bg-effects.solid")}</option>
+              <option value="gradient"
+                >{$_("pages.theme-settings.sidebar.play-card-bg-effects.gradient")}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardIpText"
+            >{$_("pages.theme-settings.sidebar.play-card-ip-text")}</label>
+          <div class="col-md-6">
+            <input
+              class="form-control"
+              id="playCardIpText"
+              on:input={(e) => {
+                themeSettings.playCardIpText = e.target.value;
+                themeSettings = themeSettings;
+              }}
+              placeholder={$session.siteInfo.serverIp}
+              type="text"
+              value={themeSettings.playCardIpText || $session.siteInfo.serverIp} />
+            <div class="small opacity-75 mt-1">
+              {$_("pages.theme-settings.sidebar.play-card-ip-text-hint")}
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardStatusBadge"
+            >{$_("pages.theme-settings.sidebar.play-card-status-badge")}</label>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.playCardStatusBadge ?? true}
+                class="form-check-input"
+                id="playCardStatusBadge"
+                on:change={(e) => {
+                  themeSettings.playCardStatusBadge = e.target.checked;
+                  themeSettings = themeSettings;
+                }}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardPlayerCount"
+            >{$_("pages.theme-settings.sidebar.play-card-player-count")}</label>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.playCardPlayerCount ?? true}
+                class="form-check-input"
+                id="playCardPlayerCount"
+                on:change={(e) => {
+                  themeSettings.playCardPlayerCount = e.target.checked;
+                  themeSettings = themeSettings;
+                }}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardVersionInfo"
+            >{$_("pages.theme-settings.sidebar.play-card-version-info")}</label>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check form-switch">
+              <input
+                checked={themeSettings.playCardVersionInfo ?? true}
+                class="form-check-input"
+                id="playCardVersionInfo"
+                on:change={(e) => {
+                  themeSettings.playCardVersionInfo = e.target.checked;
+                  themeSettings = themeSettings;
+                }}
+                type="checkbox" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardIpColor"
+            >{$_("pages.theme-settings.sidebar.play-card-ip-color")}</label>
+          <div class="col-md-6">
+            <select
+              class="form-select"
+              id="playCardIpColor"
+              on:change={(e) => {
+                themeSettings.playCardIpColor = e.target.value;
+                themeSettings = themeSettings;
+              }}
+              value={themeSettings.playCardIpColor || "default"}>
+              <option value="default"
+                >{$_("pages.theme-settings.sidebar.default")}</option>
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+              <option value="success">Success</option>
+              <option value="danger">Danger</option>
+              <option value="warning">Warning</option>
+              <option value="info">Info</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardBorderColor"
+            >{$_("pages.theme-settings.sidebar.play-card-border-color")}</label>
+          <div class="col-md-6">
+            <select
+              class="form-select"
+              id="playCardBorderColor"
+              on:change={(e) => {
+                themeSettings.playCardBorderColor = e.target.value;
+                themeSettings = themeSettings;
+              }}
+              value={themeSettings.playCardBorderColor || "default"}>
+              <option value="default"
+                >{$_("pages.theme-settings.sidebar.default")}</option>
+              <option value="border-primary">Primary</option>
+              <option value="border-secondary">Secondary</option>
+              <option value="border-success">Success</option>
+              <option value="border-danger">Danger</option>
+              <option value="border-warning">Warning</option>
+              <option value="border-info">Info</option>
+              <option value="border-light">Light</option>
+              <option value="border-dark">Dark</option>
             </select>
           </div>
         </div>
@@ -1131,9 +1401,7 @@
     const { parent } = event;
 
     const { themeSettings } = await parent();
-    const originalThemeSettings = writable(structuredClone(themeSettings));
-
-    return { themeSettings, originalThemeSettings };
+    return { themeSettings };
   }
 </script>
 
@@ -1150,13 +1418,15 @@
 
   export let data;
 
-  let { themeSettings, originalThemeSettings } = data;
+  let { themeSettings } = data;
+  const originalThemeSettings = writable(JSON.parse(JSON.stringify(themeSettings)));
   const session = getContext("session");
 
   let saving, resetting, resettingAll;
   let activeTab = "general";
   let backgroundImageFiles,
-    headerBackgroundImageFiles = null;
+    headerBackgroundImageFiles,
+    playCardBackgroundImageFiles = null;
 
   const themeDefaults = {
     dark: { navbar: "#044389", header: "#ffffff" },
@@ -1316,7 +1586,20 @@
       "navLinksEnableStatus",
       "navLinksOrder"
     ],
-    sidebar: ["sidebarEnabled", "sidebarPosition", "sidebarCarts", "playCardStyle"],
+    sidebar: ["sidebarEnabled", "sidebarPosition", "sidebarCarts"],
+    "play-card": [
+      "playCardStyle",
+      "defaultPlayCardBg",
+      "playCardBgOpacity",
+      "playCardBgEffect",
+      "playCardBackgroundImage",
+      "playCardIpText",
+      "playCardStatusBadge",
+      "playCardPlayerCount",
+      "playCardVersionInfo",
+      "playCardIpColor",
+      "playCardBorderColor"
+    ],
     "post-card": [
       "postsEnabled",
       "postCoverImageEnabled",
@@ -1343,7 +1626,11 @@
 
   const checkTabChanged = (tab, current, original) => {
     return tabKeys[tab]?.some((key) => {
-      if (key === "backgroundImage" || key === "headerBackgroundImage") {
+      if (
+        key === "backgroundImage" ||
+        key === "headerBackgroundImage" ||
+        key === "playCardBackgroundImage"
+      ) {
         const uploadExists = !!current.uploads?.[key];
         const fileDeleted = original.files?.[key] && !current.files?.[key];
         return uploadExists || fileDeleted;
@@ -1354,7 +1641,11 @@
 
   const checkTabHasData = (tab, original) => {
     return tabKeys[tab]?.some((key) => {
-      if (key === "backgroundImage" || key === "headerBackgroundImage") {
+      if (
+        key === "backgroundImage" ||
+        key === "headerBackgroundImage" ||
+        key === "playCardBackgroundImage"
+      ) {
         return !!original.files?.[key];
       }
       return typeof original[key] !== "undefined" && original[key] !== null;
@@ -1431,6 +1722,22 @@
     // selectedFaviconFiles = faviconFiles;
   }
 
+  function onPlayCardBackgroundImageChange(event) {
+    const image = event.target.files[0];
+
+    themeSettings.uploads = {
+      ...(themeSettings.uploads || {}),
+      playCardBackgroundImage: image,
+    };
+  }
+
+  function onRemovePlayCardBackgroundImageClick() {
+    if (!themeSettings.files) themeSettings.files = {};
+    delete themeSettings.files.playCardBackgroundImage;
+
+    themeSettings = themeSettings;
+  }
+
   async function save() {
     saving = true;
 
@@ -1442,7 +1749,11 @@
     settingsToSave.uploads = { ...(themeSettings.uploads || {}) };
 
     tabKeys[activeTab].forEach((key) => {
-      if (key === "backgroundImage" || key === "headerBackgroundImage") {
+      if (
+        key === "backgroundImage" ||
+        key === "headerBackgroundImage" ||
+        key === "playCardBackgroundImage"
+      ) {
         if (!themeSettings.files?.[key]) {
           delete settingsToSave.files[key];
         }
@@ -1485,7 +1796,11 @@
       settingsToSave.files = { ...($originalThemeSettings.files || {}) };
 
       tabKeys[activeTab].forEach((key) => {
-        if (key === "backgroundImage" || key === "headerBackgroundImage") {
+        if (
+          key === "backgroundImage" ||
+          key === "headerBackgroundImage" ||
+          key === "playCardBackgroundImage"
+        ) {
           delete settingsToSave.files[key];
           if (themeSettings.uploads) delete themeSettings.uploads[key];
         } else {
@@ -1499,6 +1814,7 @@
 
       backgroundImageFiles = null;
       headerBackgroundImageFiles = null;
+      playCardBackgroundImageFiles = null;
 
       themeSettings = newSettings;
       originalThemeSettings.set(structuredClone(themeSettings));

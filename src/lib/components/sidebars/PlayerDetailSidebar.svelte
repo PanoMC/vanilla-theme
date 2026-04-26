@@ -3,7 +3,7 @@
     {#each $items as item (item.id)}
       {#if item.id === 'player-info'}
         <!-- Player Info Snippet -->
-        <div class="card border-0">
+        <div class="card border-0 square-card-desktop">
           <div class="card-body vstack gap-3">
             <PlayerHead
               username={$data.username}
@@ -105,3 +105,20 @@
 
   const items = panoApi.ui.sidebar.get("player-detail");
 </script>
+
+<style>
+  @media (min-width: 992px) {
+    .square-card-desktop {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .square-card-desktop :global(.card-body) {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+</style>

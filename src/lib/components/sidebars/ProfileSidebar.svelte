@@ -18,7 +18,7 @@
     {#each $items as item (item.id)}
       {#if item.id === "profile-info"}
         <!-- Profile Info Snippet -->
-        <div class="card">
+        <div class="card square-card-desktop">
           <div class="card-body vstack gap-3">
             <div class="d-block">
               <PlayerHead
@@ -130,3 +130,20 @@
 
   const items = panoApi.ui.sidebar.get("profile");
 </script>
+
+<style>
+  @media (min-width: 992px) {
+    .square-card-desktop {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .square-card-desktop :global(.card-body) {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+</style>

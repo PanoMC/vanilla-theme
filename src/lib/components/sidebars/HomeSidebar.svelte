@@ -4,21 +4,25 @@
       {#if item.id === "play-button"}
         {#if (themeSettings.playCardStyle || "style-2") === "style-2"}
           <!-- Style 2: Modern (Faded) -->
-          <div class="card position-relative overflow-hidden">
+          <div class="card position-relative overflow-hidden square-card-desktop">
             <div
-              class="card-body position-relative z-1 rounded overflow-hidden border border-2 border-secondary"
-              style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
-              <!-- Faded Background Image -->
+              class="card-body position-relative z-1 rounded overflow-hidden border border-2 {playCardBorderColor}">
+              <!-- Background Image -->
               <div
                 class="position-absolute top-0 start-0 w-100 h-100"
-                style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
-                  'center'}; opacity: 0.15; z-index: -1;">
+                style="background-image: url({playCardBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
+                  'center'}; opacity: {playCardOpacity}; z-index: -2;">
+              </div>
+              <!-- Overlay (Solid or Gradient) -->
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100"
+                style="{playCardBgStyle} z-index: -1;">
               </div>
               <ul
                 class="list-group list-group-flush text-center bg-transparent position-relative z-1">
                 <li class="list-group-item border-0 py-2 bg-transparent">
                   <button
-                    class="btn btn-link text-reset text-decoration-none w-100 focus-ring fs-3"
+                    class="btn btn-link {playCardIpColor} border-0 shadow-none text-decoration-none w-100 focus-ring fs-3"
                     type="button"
                     on:click={onCopyCommandTextClick}
                     use:tooltip={[
@@ -27,39 +31,45 @@
                         : $_("sidebars.home.copy"),
                       { placement: "top", hideOnClick: false },
                     ]}>
-                    <b class="d-block">{$data.ipAddress}</b>
+                    <b class="d-block text-truncate">{playCardIpText}</b>
                   </button>
                 </li>
-                <li class="list-group-item border-0 py-2 bg-transparent">
-                  {#if serverOnline}
-                    <span class="badge text-bg-success"
-                      >{$_("sidebars.home.online")}</span>
-                  {:else}
-                    <span class="badge text-bg-danger rounded-pill"
-                      >{$_("sidebars.home.offline")}</span>
-                  {/if}
-                </li>
-                <li class="list-group-item border-0 py-2 bg-transparent">
-                  {$_("sidebars.home.playing", {
-                    values: {
-                      playerCount: $data.mainServer?.playerCount || 0,
-                      maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-                    },
-                  })}
-                </li>
-                <li class="list-group-item border-0 py-2 bg-transparent">
-                  {$data.serverGameVersion}
-                </li>
+                {#if showPlayCardStatusBadge}
+                  <li class="list-group-item border-0 py-2 bg-transparent">
+                    {#if serverOnline}
+                      <span class="badge text-bg-success"
+                        >{$_("sidebars.home.online")}</span>
+                    {:else}
+                      <span class="badge text-bg-danger rounded-pill"
+                        >{$_("sidebars.home.offline")}</span>
+                    {/if}
+                  </li>
+                {/if}
+                {#if showPlayCardPlayerCount}
+                  <li class="list-group-item border-0 py-2 bg-transparent">
+                    {$_("sidebars.home.playing", {
+                      values: {
+                        playerCount: $data.mainServer?.playerCount || 0,
+                        maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+                      },
+                    })}
+                  </li>
+                {/if}
+                {#if showPlayCardVersionInfo}
+                  <li class="list-group-item border-0 py-2 bg-transparent">
+                    {$data.serverGameVersion}
+                  </li>
+                {/if}
               </ul>
             </div>
           </div>
         {:else}
           <!-- Style 1: Default -->
-          <div class="card border-0">
+          <div class="card border-0 square-card-desktop">
             <div
-              class="card-header text-bg-secondary p-0 rounded-top border-bottom border-5 border-secondary">
+              class="card-header {playCardHeaderClass} p-0 rounded-top border-bottom border-5 {playCardBorderColor}">
               <button
-                class="btn btn-link text-reset text-decoration-none w-100 focus-ring fs-4 py-2"
+                class="btn btn-{playCardBtnColor} border-0 shadow-none text-decoration-none w-100 focus-ring fs-4 py-2"
                 type="button"
                 on:click={onCopyCommandTextClick}
                 use:tooltip={[
@@ -68,40 +78,50 @@
                     : $_("sidebars.home.copy"),
                   { placement: "top", hideOnClick: false },
                 ]}>
-                <b class="d-block">{$data.ipAddress}</b>
+                <b class="d-block text-truncate">{playCardIpText}</b>
               </button>
             </div>
             <div
-              class="card-body position-relative z-1 overflow-hidden border border-2 border-secondary border-top-0 rounded-bottom"
-              style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
-              <!-- Faded Background Image -->
+              class="card-body position-relative z-1 overflow-hidden border border-2 {playCardBorderColor} border-top-0 rounded-bottom">
+              <!-- Background Image -->
               <div
                 class="position-absolute top-0 start-0 w-100 h-100"
-                style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
-                  'center'}; opacity: 0.15; z-index: -1;">
+                style="background-image: url({playCardBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
+                  'center'}; opacity: {playCardOpacity}; z-index: -2;">
+              </div>
+              <!-- Overlay (Solid or Gradient) -->
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100"
+                style="{playCardBgStyle} z-index: -1;">
               </div>
               <ul
                 class="list-group list-group-flush text-center bg-transparent position-relative z-1">
-                <li class="list-group-item border-0 py-2 bg-transparent">
-                  {#if serverOnline}
-                    <span class="badge text-bg-success"
-                      >{$_("sidebars.home.online")}</span>
-                  {:else}
-                    <span class="badge text-bg-danger rounded-pill"
-                      >{$_("sidebars.home.offline")}</span>
-                  {/if}
-                </li>
-                <li class="list-group-item border-0 py-2 bg-transparent">
-                  {$_("sidebars.home.playing", {
-                    values: {
-                      playerCount: $data.mainServer?.playerCount || 0,
-                      maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-                    },
-                  })}
-                </li>
-                <li class="list-group-item border-0 py-2 bg-transparent">
-                  {$data.serverGameVersion}
-                </li>
+                {#if showPlayCardStatusBadge}
+                  <li class="list-group-item border-0 py-2 bg-transparent">
+                    {#if serverOnline}
+                      <span class="badge text-bg-success"
+                        >{$_("sidebars.home.online")}</span>
+                    {:else}
+                      <span class="badge text-bg-danger rounded-pill"
+                        >{$_("sidebars.home.offline")}</span>
+                    {/if}
+                  </li>
+                {/if}
+                {#if showPlayCardPlayerCount}
+                  <li class="list-group-item border-0 py-2 bg-transparent">
+                    {$_("sidebars.home.playing", {
+                      values: {
+                        playerCount: $data.mainServer?.playerCount || 0,
+                        maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+                      },
+                    })}
+                  </li>
+                {/if}
+                {#if showPlayCardVersionInfo}
+                  <li class="list-group-item border-0 py-2 bg-transparent">
+                    {$data.serverGameVersion}
+                  </li>
+                {/if}
               </ul>
             </div>
           </div>
@@ -111,7 +131,7 @@
       {:else if item.id === "last-registrants"}
         <!-- Last Registrants Snippet -->
         <div
-          class="card position-relative overflow-hidden mb-lg-0 mb-3"
+          class="card position-relative overflow-hidden mb-lg-0 mb-3 square-card-desktop"
           hidden={typeof themeSettings.sidebarCarts?.lastRegistrants ===
           "undefined"
             ? false
@@ -214,7 +234,7 @@
   function onCopyCommandTextClick() {
     copyClickIDForCommandText++;
     const id = copyClickIDForCommandText;
-    copy($data.ipAddress);
+    copy(playCardIpText);
     isCommandTextCopied = true;
     setTimeout(function () {
       if (copyClickIDForCommandText === id) {
@@ -236,10 +256,78 @@
     typeof themeSettings.defaultHeaderBg === "undefined"
       ? true
       : themeSettings.defaultHeaderBg;
+
   $: headerBgImage = defaultHeaderBg
     ? "/assets/img/default-header-bg.png"
     : themeSettings.files?.headerBackgroundImage
       ? "/api/theme/file/" + themeSettings.files?.headerBackgroundImage
       : "";
+
+  $: defaultPlayCardBg =
+    typeof themeSettings.defaultPlayCardBg === "undefined"
+      ? true
+      : themeSettings.defaultPlayCardBg;
+
+  $: playCardBgImage = themeSettings.files?.playCardBackgroundImage
+    ? "/api/theme/file/" + themeSettings.files?.playCardBackgroundImage
+    : defaultPlayCardBg
+      ? headerBgImage
+      : "";
+
+  $: playCardOpacity = themeSettings.playCardBgOpacity ?? 0.5;
+  $: playCardBgEffect = themeSettings.playCardBgEffect || "solid";
+
+  $: playCardBgStyle =
+    playCardBgEffect === "gradient"
+      ? `background: linear-gradient(180deg, transparent 0%, var(--bs-body-bg) 100%);`
+      : `background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);`;
+
+  $: playCardHeaderClass =
+    !themeSettings.playCardBorderColor ||
+    themeSettings.playCardBorderColor === "default"
+      ? "text-bg-secondary"
+      : themeSettings.playCardBorderColor.replace("border-", "text-bg-");
+
+  $: playCardIpColor =
+    !themeSettings.playCardIpColor ||
+    themeSettings.playCardIpColor === "default"
+      ? "link-secondary"
+      : "link-" + themeSettings.playCardIpColor;
+
+  $: playCardBtnColor =
+    !themeSettings.playCardIpColor ||
+    themeSettings.playCardIpColor === "default"
+      ? !themeSettings.playCardBorderColor ||
+        themeSettings.playCardBorderColor === "default"
+        ? "secondary"
+        : themeSettings.playCardBorderColor.replace("border-", "")
+      : themeSettings.playCardIpColor;
+
+  $: playCardBorderColor =
+    !themeSettings.playCardBorderColor ||
+    themeSettings.playCardBorderColor === "default"
+      ? "border-secondary"
+      : themeSettings.playCardBorderColor;
+
+  $: playCardIpText = themeSettings.playCardIpText || $data.ipAddress;
+  $: showPlayCardStatusBadge = themeSettings.playCardStatusBadge ?? true;
+  $: showPlayCardPlayerCount = themeSettings.playCardPlayerCount ?? true;
+  $: showPlayCardVersionInfo = themeSettings.playCardVersionInfo ?? true;
 </script>
 
+<style>
+  @media (min-width: 992px) {
+    .square-card-desktop {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .square-card-desktop :global(.card-body) {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+</style>
