@@ -385,7 +385,12 @@
           "right": "Right"
         },
         "last-registrants": "Last Registrants Card",
-        "online-admins": "Online Admins Card (Support)"
+        "online-admins": "Online Admins Card (Support)",
+        "play-card-style": "Play Card Style",
+        "play-card-styles": {
+          "style-1": "Legacy",
+          "style-2": "Modern"
+        }
       },
       "post-card": {
         "visibility": "Visibility",

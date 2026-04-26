@@ -385,7 +385,12 @@
           "right": "Sağ"
         },
         "last-registrants": "Son Kayıt Olanlar Kartı",
-        "online-admins": "Çevrimiçi Yöneticiler Kartı (Destek)"
+        "online-admins": "Çevrimiçi Yöneticiler Kartı (Destek)",
+        "play-card-style": "Oyna Kartı Stili",
+        "play-card-styles": {
+          "style-1": "Legacy",
+          "style-2": "Modern"
+        }
       },
       "post-card": {
         "visibility": "Görünürlük",

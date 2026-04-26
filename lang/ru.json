@@ -385,7 +385,12 @@
           "right": "Справа"
         },
         "last-registrants": "Карточка последних регистраций",
-        "online-admins": "Карточка админов в сети (Поддержка)"
+        "online-admins": "Карточка админов в сети (Поддержка)",
+        "play-card-style": "Стиль карточки игры",
+        "play-card-styles": {
+          "style-1": "Legacy",
+          "style-2": "Modern"
+        }
       },
       "post-card": {
         "visibility": "Видимость",

@@ -741,6 +741,26 @@
             </div>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="playCardStyle"
+            >{$_("pages.theme-settings.sidebar.play-card-style")}</label>
+          <div class="col-md-6">
+            <select
+              class="form-select"
+              id="playCardStyle"
+              on:change={(e) => {
+                themeSettings.playCardStyle = e.target.value;
+                themeSettings = themeSettings;
+              }}
+              value={themeSettings.playCardStyle || "style-2"}>
+              <option value="style-2"
+                >{$_("pages.theme-settings.sidebar.play-card-styles.style-2")}</option>
+              <option value="style-1"
+                >{$_("pages.theme-settings.sidebar.play-card-styles.style-1")}</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <!-- Post Card -->
@@ -1296,7 +1316,7 @@
       "navLinksEnableStatus",
       "navLinksOrder"
     ],
-    sidebar: ["sidebarEnabled", "sidebarPosition", "sidebarCarts"],
+    sidebar: ["sidebarEnabled", "sidebarPosition", "sidebarCarts", "playCardStyle"],
     "post-card": [
       "postsEnabled",
       "postCoverImageEnabled",

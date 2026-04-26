@@ -2,55 +2,110 @@
   <div class="vstack gap-3">
     {#each $items as item (item.id)}
       {#if item.id === "play-button"}
-        <!-- Combined Server Card -->
-        <div class="card position-relative overflow-hidden">
-          <div
-            class="card-body position-relative z-1 rounded overflow-hidden border border-3 border-secondary"
-            style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
-            <!-- Faded Background Image -->
+        {#if (themeSettings.playCardStyle || "style-2") === "style-2"}
+          <!-- Style 2: Modern (Faded) -->
+          <div class="card position-relative overflow-hidden">
             <div
-              class="position-absolute top-0 start-0 w-100 h-100"
-              style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
-                'center'}; opacity: 0.15; z-index: -1;">
+              class="card-body position-relative z-1 rounded overflow-hidden border border-2 border-secondary"
+              style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
+              <!-- Faded Background Image -->
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100"
+                style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
+                  'center'}; opacity: 0.15; z-index: -1;">
+              </div>
+              <ul
+                class="list-group list-group-flush text-center bg-transparent position-relative z-1">
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  <button
+                    class="btn btn-link text-reset text-decoration-none w-100 focus-ring fs-3"
+                    type="button"
+                    on:click={onCopyCommandTextClick}
+                    use:tooltip={[
+                      isCommandTextCopied
+                        ? $_("sidebars.home.copied")
+                        : $_("sidebars.home.copy"),
+                      { placement: "top", hideOnClick: false },
+                    ]}>
+                    <b class="d-block">{$data.ipAddress}</b>
+                  </button>
+                </li>
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  {#if serverOnline}
+                    <span class="badge text-bg-success"
+                      >{$_("sidebars.home.online")}</span>
+                  {:else}
+                    <span class="badge text-bg-danger rounded-pill"
+                      >{$_("sidebars.home.offline")}</span>
+                  {/if}
+                </li>
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  {$_("sidebars.home.playing", {
+                    values: {
+                      playerCount: $data.mainServer?.playerCount || 0,
+                      maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+                    },
+                  })}
+                </li>
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  {$data.serverGameVersion}
+                </li>
+              </ul>
             </div>
-            <ul class="list-group list-group-flush text-center bg-transparent position-relative z-1">
-              <li class="list-group-item border-0 py-2 bg-transparent">
-                <button
-                  class="btn btn-link text-reset text-decoration-none w-100 focus-ring fs-3"
-                  type="button"
-                  on:click={onCopyCommandTextClick}
-                  use:tooltip={[
-                    isCommandTextCopied
-                      ? $_("sidebars.home.copied")
-                      : $_("sidebars.home.copy"),
-                    { placement: "top", hideOnClick: false },
-                  ]}>
-                  <b class="d-block">{$data.ipAddress}</b>
-                </button>
-              </li>
-              <li class="list-group-item border-0 py-2 bg-transparent">
-                {#if serverOnline}
-                  <span class="badge text-bg-success"
-                    >{$_("sidebars.home.online")}</span>
-                {:else}
-                  <span class="badge text-bg-danger rounded-pill"
-                    >{$_("sidebars.home.offline")}</span>
-                {/if}
-              </li>
-              <li class="list-group-item border-0 py-2 bg-transparent">
-                {$_("sidebars.home.playing", {
-                  values: {
-                    playerCount: $data.mainServer?.playerCount || 0,
-                    maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
-                  },
-                })}
-              </li>
-              <li class="list-group-item border-0 py-2 bg-transparent">
-                {$data.serverGameVersion}
-              </li>
-            </ul>
           </div>
-        </div>
+        {:else}
+          <!-- Style 1: Default -->
+          <div class="card border-0">
+            <div
+              class="card-header text-bg-secondary p-0 rounded-top border-bottom border-5 border-secondary">
+              <button
+                class="btn btn-link text-reset text-decoration-none w-100 focus-ring fs-4 py-2"
+                type="button"
+                on:click={onCopyCommandTextClick}
+                use:tooltip={[
+                  isCommandTextCopied
+                    ? $_("sidebars.home.copied")
+                    : $_("sidebars.home.copy"),
+                  { placement: "top", hideOnClick: false },
+                ]}>
+                <b class="d-block">{$data.ipAddress}</b>
+              </button>
+            </div>
+            <div
+              class="card-body position-relative z-1 overflow-hidden border border-2 border-secondary border-top-0 rounded-bottom"
+              style="background-color: color-mix(in srgb, var(--bs-body-bg) 70%, transparent);">
+              <!-- Faded Background Image -->
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100"
+                style="background-image: url({headerBgImage}); background-size: cover; background-position: {themeSettings.headerBgImagePosition ||
+                  'center'}; opacity: 0.15; z-index: -1;">
+              </div>
+              <ul
+                class="list-group list-group-flush text-center bg-transparent position-relative z-1">
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  {#if serverOnline}
+                    <span class="badge text-bg-success"
+                      >{$_("sidebars.home.online")}</span>
+                  {:else}
+                    <span class="badge text-bg-danger rounded-pill"
+                      >{$_("sidebars.home.offline")}</span>
+                  {/if}
+                </li>
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  {$_("sidebars.home.playing", {
+                    values: {
+                      playerCount: $data.mainServer?.playerCount || 0,
+                      maxPlayerCount: $data.mainServer?.maxPlayerCount || 0,
+                    },
+                  })}
+                </li>
+                <li class="list-group-item border-0 py-2 bg-transparent">
+                  {$data.serverGameVersion}
+                </li>
+              </ul>
+            </div>
+          </div>
+        {/if}
       {:else if item.id === "server-info"}
         <!-- Merged into play-button -->
       {:else if item.id === "last-registrants"}
@@ -77,7 +132,7 @@
                       alt={player.username}
                       class="rounded"
                       class:border={player.lastActivityTime > Date.now() - 300000 || player.inGame}
-                      class:border-3={player.lastActivityTime > Date.now() - 300000 || player.inGame}
+                      class:border-2={player.lastActivityTime > Date.now() - 300000 || player.inGame}
                       class:border-success={player.lastActivityTime > Date.now() - 300000 || player.inGame}
                       src="/api/profile/picture/{player.username}?{$avatarVersion}"
                       use:tooltip={[player.username, { placement: "bottom" }]}
