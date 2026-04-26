@@ -1,15 +1,20 @@
 import { get } from "svelte/store";
 
 import { NETWORK_ERROR } from "$lib/api.util";
+import { executeLifecycle, executeViewLoad } from "$lib/PluginAPI";
 import { sendResetPassword } from "$lib/services/auth";
 import { requireNotLogin } from "$lib/Store";
 
-export async function processLoad({ parent }) {
+export async function processLoad(event) {
+  const { parent } = event;
   const parentData = await parent();
 
   const { session } = parentData;
 
   requireNotLogin(session);
+
+  await executeLifecycle("theme:reset-password:load", {}, event);
+  await executeViewLoad("reset-password-content", event);
 
   return { pageTitle: "pages.reset-password.title" };
 }
@@ -35,7 +40,11 @@ export async function onSubmit(error, message, loading, usernameOrEmail) {
         return;
       }
 
-      error.set(body.error);
+      if (body.error === "PLUGIN_DENIED_LOGIN" && body.reason) {
+        error.set(body.reason);
+      } else {
+        error.set(body.error);
+      }
     })
     .catch(() => {
       error.set(NETWORK_ERROR);

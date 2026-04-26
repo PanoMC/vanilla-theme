@@ -316,6 +316,78 @@ export const panoApi = {
           panoApi.ui.lifecycle.on("theme:register:load", handler);
         },
       },
+      resetPassword: {
+        content: {
+          edit(callback) {
+            uiItems.update((items) => {
+              if (!items["reset-password-content"]) items["reset-password-content"] = [];
+              callback(items["reset-password-content"]);
+              deduplicateById(items["reset-password-content"]);
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("reset-password-content");
+          },
+        },
+        onLoad(handler) {
+          panoApi.ui.lifecycle.on("theme:reset-password:load", handler);
+        },
+      },
+      activate: {
+        content: {
+          edit(callback) {
+            uiItems.update((items) => {
+              if (!items["activate-content"]) items["activate-content"] = [];
+              callback(items["activate-content"]);
+              deduplicateById(items["activate-content"]);
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("activate-content");
+          },
+        },
+        onLoad(handler) {
+          panoApi.ui.lifecycle.on("theme:activate:load", handler);
+        },
+      },
+      activateNewEmail: {
+        content: {
+          edit(callback) {
+            uiItems.update((items) => {
+              if (!items["activate-new-email-content"]) items["activate-new-email-content"] = [];
+              callback(items["activate-new-email-content"]);
+              deduplicateById(items["activate-new-email-content"]);
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("activate-new-email-content");
+          },
+        },
+        onLoad(handler) {
+          panoApi.ui.lifecycle.on("theme:activate-new-email:load", handler);
+        },
+      },
+      renewPassword: {
+        content: {
+          edit(callback) {
+            uiItems.update((items) => {
+              if (!items["renew-password-content"]) items["renew-password-content"] = [];
+              callback(items["renew-password-content"]);
+              deduplicateById(items["renew-password-content"]);
+              return items;
+            });
+          },
+          get() {
+            return panoApi.ui.view.get("renew-password-content");
+          },
+        },
+        onLoad(handler) {
+          panoApi.ui.lifecycle.on("theme:renew-password:load", handler);
+        },
+      },
     },
     app: {
       onLoad(handler) {

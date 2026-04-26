@@ -10,6 +10,13 @@
             src="https://cdn3.emoji.gg/emojis/8182-allay-dancing.gif" />
           <ErrorAlert error={$error} />
           <SuccessAlert message={$successMessage} />
+          {#each $activateContentItems as item (item.id)}
+            {#if item.component}
+              <ViewComponent
+                component={item.component}
+                data={{ pageType: 'activate' }} />
+            {/if}
+          {/each}
           <button
             class="btn btn-secondary w-100"
             class:disabled={$loading ||
@@ -55,8 +62,12 @@
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import SuccessAlert from "$lib/components/SuccessAlert.svelte";
   import { verifyEmail } from "$lib/ui-logics/page-logics/ActiveEmailPageLogics.js";
+  import { panoApiClient } from "$lib/PluginAPI";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   export let data;
+
+  const activateContentItems = panoApiClient.ui.auth.activate.content.get();
 
   let loading = writable();
   let error = writable();

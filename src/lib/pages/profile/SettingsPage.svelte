@@ -211,7 +211,7 @@
           {/if}
         </div>
       </div>
-
+    {:else if item.id === "sessions-card"}
       <div class="card">
         <CardHeader truncateLeft={false}>
           <div slot="left">
@@ -323,7 +323,7 @@
       </div>
     {:else if item.component}
       <!-- External plugin component -->
-      <ViewComponent component={item.component} {data} />
+      <ViewComponent component={item.component} {data} {...item.props} />
     {/if}
   {/each}
 </div>

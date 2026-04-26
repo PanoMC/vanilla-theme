@@ -86,6 +86,7 @@
     </label>
   </div>
 {/if}
+<slot name="beforeSubmit" />
 <div class="vstack gap-2">
   <button
     class="btn btn-lg btn-secondary"

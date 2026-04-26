@@ -1,6 +1,7 @@
 {#if error || alwaysVisible}
+  {@const errorKey = error.key || error}
   <div class="alert alert-danger" in:fade out:fade>
-    {$_('errors.' + (error.key || error), { values: error.props })}
+    {$_(errorKey.includes('.') ? errorKey : 'errors.' + errorKey, { values: error.props })}
   </div>
 {/if}
 

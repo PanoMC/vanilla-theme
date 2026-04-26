@@ -119,7 +119,11 @@
         }
         viewState = "REGISTER";
       } else {
-        error = body.result === "error" ? body.error : NETWORK_ERROR;
+        if (body.error === "PLUGIN_DENIED_LOGIN" && body.reason) {
+          error = body.reason;
+        } else {
+          error = body.result === "error" ? body.error : NETWORK_ERROR;
+        }
       }
     } catch (err) {
       console.error(err);
@@ -159,9 +163,40 @@
         return;
       }
 
+      if (body.login) {
+        const csrfToken = body.csrfToken;
+        const credsBody = await getCredentials(csrfToken);
+
+        session.update((data) => {
+          data.user = {
+            ...Object.keys(credsBody)
+              .filter((key) => !["result"].includes(key))
+              .reduce((object, key) => {
+                object[key] = credsBody[key];
+                return object;
+              }, {})
+          };
+          data.csrfToken = csrfToken;
+          return data;
+        });
+
+        await showToast("successes.LOGIN_SUCCESSFUL");
+        await goto("/");
+        return;
+      }
+
+      if (body.emailVerificationRequired) {
+        viewState = "LOGIN";
+        registerToken = "";
+        linkCode = "";
+        password = "";
+        passwordRepeat = "";
+        error = { key: "LOGIN_EMAIL_NOT_VERIFIED", props: { email: body.email ?? email } };
+        return;
+      }
+
       await showToast("successes.REGISTER_SUCCESSFUL");
 
-      // After register success, login
       const loginBody = await sendLogin({ usernameOrEmail, password });
       if (loginBody.result !== "ok") {
         error = loginBody.error;
@@ -211,6 +246,7 @@
           if (body.error === "LINK_CODE_REQUIRED") {
             viewState = "LINK_CODE";
             passwordVisible = false;
+            password = "";
             error = null;
             return;
           }
@@ -251,6 +287,11 @@
             }
             error = null;
             setTimeout(() => document.getElementById("password")?.focus(), 50);
+            return;
+          }
+
+          if (body.error === "PLUGIN_DENIED_LOGIN" && body.reason) {
+            error = body.reason;
             return;
           }
 
@@ -401,6 +442,7 @@
                   on:input={() => {
                     if (!emailRequired && !($session?.siteInfo?.isDemo && usernameOrEmail === "demo")) {
                       passwordVisible = false;
+                      password = "";
                     }
                     error = null;
                   }}
@@ -445,6 +487,11 @@
                 </div>
               {/if}
             </div>
+            {#each $contentItems as inlineItem (inlineItem.id)}
+              {#if inlineItem.id !== 'login-form' && inlineItem.component && (inlineItem.priority || 0) < 100}
+                <ViewComponent component={inlineItem.component} data={{ pageType: 'login' }} />
+              {/if}
+            {/each}
             <div class="vstack gap-2">
               <button
                 class="btn btn-lg btn-secondary"
@@ -516,7 +563,7 @@
 
           <div class="my-2">
             <LinkCodeInput
-              isInvalid={!!error}
+              isInvalid={error === "REGISTER_LINK_CODE_INVALID"}
               disabled={loading}
               on:complete={(e) => {
                 linkCode = e.detail.code;
@@ -526,6 +573,12 @@
               }}
               on:change={(e) => linkCode = e.detail.code} />
           </div>
+
+          {#each $contentItems as inlineItem (inlineItem.id)}
+            {#if inlineItem.id !== 'login-form' && inlineItem.component && (inlineItem.priority || 0) < 100}
+              <ViewComponent component={inlineItem.component} data={{ pageType: 'login' }} />
+            {/if}
+          {/each}
 
           <div class="vstack gap-2">
             <button
@@ -631,7 +684,7 @@
         </div>
       </form>
     {/if}
-  {:else if item.component && viewState !== "SET_USERNAME"}
+  {:else if item.component && viewState !== "SET_USERNAME" && (item.priority || 0) >= 100}
     <ViewComponent component={item.component} data={{ pageType: 'login' }} />
   {/if}
 {/each}

@@ -37,6 +37,13 @@
                 >{$_("pages.renew-password.inputs.new-password-repeat")}</label>
             </div>
           </div>
+          {#each $renewPasswordContentItems as item (item.id)}
+            {#if item.component}
+              <ViewComponent
+                component={item.component}
+                data={{ pageType: 'renew-password' }} />
+            {/if}
+          {/each}
           <button
             type="submit"
             class="btn btn-lg btn-secondary w-100"
@@ -74,11 +81,15 @@
   import { writable } from "svelte/store";
 
   import { onSubmit } from "$lib/ui-logics/page-logics/RenewPasswordPageLogics";
+  import { panoApiClient } from "$lib/PluginAPI";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import SuccessAlert from "$lib/components/SuccessAlert.svelte";
 
   export let data;
+
+  const renewPasswordContentItems = panoApiClient.ui.auth.renewPassword.content.get();
 
   let error = writable();
   let message = writable();

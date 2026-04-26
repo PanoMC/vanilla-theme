@@ -101,7 +101,11 @@
           successMessage = "REGISTER_SUCCESSFUL";
           loading = false;
         } else {
-          error = body.result === "error" ? body.error : NETWORK_ERROR;
+          if (body.error === "PLUGIN_DENIED_LOGIN" && body.reason) {
+            error = body.reason;
+          } else {
+            error = body.result === "error" ? body.error : NETWORK_ERROR;
+          }
           loading = false;
         }
       })
@@ -152,6 +156,13 @@
               bind:passwordRepeat={passwordRepeat}
               bind:agreement={agreement}
               loading={loading}>
+              <div slot="beforeSubmit">
+                {#each $contentItems as inlineItem (inlineItem.id)}
+                  {#if inlineItem.id !== 'register-form' && inlineItem.component && (inlineItem.priority || 0) < 100}
+                    <ViewComponent component={inlineItem.component} data={{ pageType: 'register' }} />
+                  {/if}
+                {/each}
+              </div>
               <div slot="footer" class="text-center">
                 <a
                   class="btn btn-link {loading ? 'disabled pe-none' : ''}"
@@ -164,7 +175,7 @@
             </RegisterForm>
           </div>
         </form>
-      {:else if item.component}
+      {:else if item.component && (item.priority || 0) >= 100}
         <ViewComponent component={item.component} data={{ pageType: 'register' }} />
       {/if}
     {/each}

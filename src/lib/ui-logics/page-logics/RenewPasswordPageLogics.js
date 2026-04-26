@@ -2,13 +2,18 @@ import { get } from "svelte/store";
 
 import { sendRenewPassword } from "$lib/services/auth";
 import { NETWORK_ERROR } from "$lib/api.util";
+import { executeLifecycle, executeViewLoad } from "$lib/PluginAPI";
 
-export async function processLoad({ parent, url: { searchParams } }) {
+export async function processLoad(event) {
+  const { parent, url: { searchParams } } = event;
   await parent();
 
   const token = searchParams.get("token") || "";
 
-  return { token };
+  await executeLifecycle("theme:renew-password:load", { token }, event);
+  await executeViewLoad("renew-password-content", event);
+
+  return { token, pageTitle: "pages.renew-password.title" };
 }
 
 export async function onSubmit(error, message, loading, newPassword, newPasswordRepeat, data) {
@@ -26,7 +31,11 @@ export async function onSubmit(error, message, loading, newPassword, newPassword
         return;
       }
 
-      error.set(body.error);
+      if (body.error === "PLUGIN_DENIED_LOGIN" && body.reason) {
+        error.set(body.reason);
+      } else {
+        error.set(body.error);
+      }
     })
     .catch(() => {
       error.set(NETWORK_ERROR);

@@ -17,7 +17,10 @@ export async function processLoad(event) {
 
   // Initialize settings content
   panoApiServer.ui.settings.content.edit((items) => {
-    items.push({ id: "settings-cards", priority: 100, hidden: false });
+    items.push(
+      { id: "settings-cards", priority: 300, hidden: false },
+      { id: "sessions-card", priority: 100, hidden: false }
+    );
   });
 
   // Initialize settings card rows

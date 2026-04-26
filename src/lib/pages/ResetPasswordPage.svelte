@@ -21,6 +21,13 @@
             "pages.reset-password.inputs.email-username.placeholder",
           )}</label>
       </div>
+      {#each $resetPasswordContentItems as item (item.id)}
+        {#if item.component}
+          <ViewComponent
+            component={item.component}
+            data={{ pageType: 'reset-password' }} />
+        {/if}
+      {/each}
       <button
         type="submit"
         class="btn btn-lg btn-secondary w-100"
@@ -57,9 +64,13 @@
   import { _ } from "svelte-i18n";
 
   import { onSubmit } from "$lib/ui-logics/page-logics/ResetPasswordPageLogics";
+  import { panoApiClient } from "$lib/PluginAPI";
+  import ViewComponent from "$lib/components/ViewComponent.svelte";
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import SuccessAlert from "$lib/components/SuccessAlert.svelte";
+
+  const resetPasswordContentItems = panoApiClient.ui.auth.resetPassword.content.get();
 
   const error = writable();
   const message = writable();
