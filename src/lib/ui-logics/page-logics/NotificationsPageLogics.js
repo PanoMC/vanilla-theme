@@ -7,6 +7,7 @@ import { sanitize } from "@jill64/universal-sanitizer";
 import { browser } from "$app/environment";
 
 import ApiUtil from "$lib/api.util.js";
+import { onNotificationRefresh } from "$lib/siteRealtime.js";
 import { requireLogin } from "$lib/Store.js";
 
 import ProfileSidebar, { load as loadSidebar } from "$lib/components/sidebars/ProfileSidebar.svelte";
@@ -28,8 +29,30 @@ Array.prototype.remove = function(index) {
   return this;
 };
 
-function delay(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
+/**
+ * Panel ile aynı: satırda kısa süre "okunmamış" vurgusu, 3 sn sonra yerelde READ (API ayrı).
+ * @param {import('svelte/store').Writable} notificationsStore
+ * @param {unknown[] | null | undefined} sourceList
+ * @param {number | null} limit - ilk N (panel load: 5); `null` = tüm liste (WS yenilemesi)
+ */
+export function scheduleMarkReadVisualEffects(notificationsStore, sourceList, limit) {
+  if (!browser || !sourceList?.length) {
+    return;
+  }
+  const slice = limit != null ? sourceList.slice(0, limit) : sourceList;
+  slice.forEach((notification) => {
+    if (notification.status !== "NOT_READ") {
+      return;
+    }
+    const notificationId = notification.id;
+    setTimeout(() => {
+      notificationsStore.update((list) =>
+        list.map((sub) =>
+          sub.id === notificationId ? { ...sub, status: "READ" } : sub
+        )
+      );
+    }, 3000);
+  });
 }
 
 function setNotifications(notifications, newNotifications) {
@@ -98,38 +121,16 @@ export async function processLoad(event) {
   };
 }
 
-async function getNotifications(notifications, notificationProcessID, count, id) {
-  await delay(1000);
-
+function getNotifications(notifications, notificationProcessID, count, id) {
   loadData({}).then((data) => {
-    if (get(notificationProcessID) === id) {
-      if (data.result === "ok") {
-        setNotifications(notifications, data.notifications);
+    if (get(notificationProcessID) !== id) {
+      return;
+    }
+    if (data.result === "ok") {
+      setNotifications(notifications, data.notifications);
 
-        count.set(parseInt(data.notificationCount));
-      }
-
-      setTimeout(() => {
-        if (get(notificationProcessID) === id) {
-          startNotificationsCountdown(notifications, notificationProcessID, count);
-        }
-      }, 1000);
-
-      get(notifications).forEach(notification => {
-        if (notification.status === "NOT_READ") {
-          setTimeout(() => {
-            notifications.update(notifications => {
-              notifications.forEach(subNotification => {
-                if (subNotification.id === notification.id) {
-                  notification.status = "READ";
-                }
-              });
-
-              return notifications;
-            });
-          }, 3000);
-        }
-      });
+      count.set(parseInt(data.notificationCount));
+      scheduleMarkReadVisualEffects(notifications, data.notifications, null);
     }
   });
 }
@@ -218,9 +219,15 @@ export function init(data) {
   const page = writable(0);
   const loadMoreLoading = writable(false);
 
-  if (browser) startNotificationsCountdown(notifications, notificationProcessID, count);
+  let unsubNotificationRefresh = () => {};
+  if (browser) {
+    unsubNotificationRefresh = onNotificationRefresh(() => {
+      startNotificationsCountdown(notifications, notificationProcessID, count);
+    });
+  }
 
   onMount(() => {
+    scheduleMarkReadVisualEffects(notifications, get(notifications), 5);
     interval.set(setInterval(() => {
       checkTime.update(checkTime => {
         checkTime += 1;
@@ -230,7 +237,8 @@ export function init(data) {
   });
 
   onDestroy(() => {
-    stopNotificationsCountdown(interval);
+    unsubNotificationRefresh();
+    stopNotificationsCountdown(notificationProcessID, interval);
   });
 
   setDeleteAllNotificationsModalCallback(() => {

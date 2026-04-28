@@ -4,9 +4,9 @@
   <div class="card mt-3 mt-lg-0">
     <div class="card-body">
       <div class="list-group" class:d-none={$notifications.length === 0}>
-        {#each $notifications as notification, index (notification)}
+        {#each $notifications as notification, index (notification.id)}
           <div
-            class="fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
+            class="site-notification-row fw-normal list-group-item list-group-item-action d-flex align-items-center gap-3 text-wrap"
             class:notification-unread={notification.status === "NOT_READ"}>
             <button
               type="button"
