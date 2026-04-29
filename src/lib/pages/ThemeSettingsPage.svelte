@@ -1741,11 +1741,10 @@
   async function save() {
     saving = true;
 
-    // Create a copy of original and only apply current tab's settings
-    const settingsToSave = { ...$originalThemeSettings };
-
-    // Handle files and uploads separately
-    settingsToSave.files = { ...($originalThemeSettings.files || {}) };
+    // Deep copy so "files" arrays and nested objects are never shared with the store, and
+    // backend + merge get a full snapshot. Tab-scoped changes are applied on top of this.
+    const settingsToSave = structuredClone($originalThemeSettings);
+    if (!settingsToSave.files) settingsToSave.files = {};
     settingsToSave.uploads = { ...(themeSettings.uploads || {}) };
 
     tabKeys[activeTab].forEach((key) => {
@@ -1755,7 +1754,8 @@
         key === "playCardBackgroundImage"
       ) {
         if (!themeSettings.files?.[key]) {
-          delete settingsToSave.files[key];
+          // Empty list: backend treats as explicit clear (and does not re-merge that key)
+          settingsToSave.files[key] = [];
         }
         // Uploads already handled above
       } else {
@@ -1792,8 +1792,8 @@
     showConfirm("components.modals.confirm-reset-tab.title", async () => {
       resetting = true;
 
-      const settingsToSave = { ...$originalThemeSettings };
-      settingsToSave.files = { ...($originalThemeSettings.files || {}) };
+      const settingsToSave = structuredClone($originalThemeSettings);
+      if (!settingsToSave.files) settingsToSave.files = {};
 
       tabKeys[activeTab].forEach((key) => {
         if (
@@ -1801,7 +1801,7 @@
           key === "headerBackgroundImage" ||
           key === "playCardBackgroundImage"
         ) {
-          delete settingsToSave.files[key];
+          settingsToSave.files[key] = [];
           if (themeSettings.uploads) delete themeSettings.uploads[key];
         } else {
           delete settingsToSave[key];
