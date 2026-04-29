@@ -3,8 +3,10 @@
   <ErrorAlert error={$error} />
   <SuccessAlert message={$message} />
   <form
-    on:submit|preventDefault={() =>
-      onSubmit(error, message, loading, usernameOrEmail)}>
+    onsubmit={(e) => {
+      e.preventDefault();
+      onSubmit(error, message, loading, usernameOrEmail);
+    }}>
     <div class="vstack gap-3">
       <div class="form-floating">
         <input
