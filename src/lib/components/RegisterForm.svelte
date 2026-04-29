@@ -16,6 +16,8 @@
   import { getContext } from "svelte";
   import { _ } from "svelte-i18n";
 
+  import { stripIdentifierWhitespace } from "$lib/loginInput.util.js";
+
   export let username = "";
   export let email = "";
   export let password = "";
@@ -25,6 +27,20 @@
   export let usernameDisabled = false;
 
   const session = getContext("session");
+
+  function onUsernameInput() {
+    const c = stripIdentifierWhitespace(username);
+    if (c !== username) {
+      username = c;
+    }
+  }
+
+  function onEmailInput() {
+    const c = stripIdentifierWhitespace(email);
+    if (c !== email) {
+      email = c;
+    }
+  }
 </script>
 
 <div class="form-group">
@@ -34,6 +50,7 @@
       class="form-control rounded-bottom-0"
       disabled={loading || usernameDisabled}
       id="registerUserName"
+      on:input={onUsernameInput}
       type="text" />
     <label for="registerUserName">{$_("components.modals.register.inputs.username")}</label>
   </div>
@@ -43,6 +60,7 @@
       class="form-control rounded-top-0"
       disabled={loading}
       id="registerEmail"
+      on:input={onEmailInput}
       type="email" />
     <label for="registerEmail">{$_("components.modals.register.inputs.email")}</label>
   </div>

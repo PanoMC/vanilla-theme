@@ -46,6 +46,7 @@
   import { getCredentials, sendLogin, sendRegister, verifyLinkCode } from "$lib/services/auth.js";
   import { show as showToast } from "$lib/components/ToastContainer.svelte";
 
+  import { stripIdentifierWhitespace } from "$lib/loginInput.util.js";
   import { panoApiClient } from "$lib/PluginAPI.js";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
 
@@ -84,6 +85,34 @@
   let usernameRequiredUserId = null;
 
   const session = getContext("session");
+
+  function onUsernameOrEmailFieldInput() {
+    const c = stripIdentifierWhitespace(usernameOrEmail);
+    if (c !== usernameOrEmail) {
+      usernameOrEmail = c;
+    }
+    if (!emailRequired && !($session?.siteInfo?.isDemo && usernameOrEmail === "demo")) {
+      passwordVisible = false;
+      password = "";
+    }
+    error = null;
+  }
+
+  function onRegisterEmailFieldInput() {
+    const c = stripIdentifierWhitespace(email);
+    if (c !== email) {
+      email = c;
+    }
+    error = null;
+  }
+
+  function onNewUsernameFieldInput() {
+    const c = stripIdentifierWhitespace(newUsername);
+    if (c !== newUsername) {
+      newUsername = c;
+    }
+    error = null;
+  }
 
   afterNavigate(() => {
     if (_skipFirstNav) {
@@ -439,13 +468,7 @@
                   bind:value={usernameOrEmail}
                   class="form-control {passwordVisible ? 'rounded-bottom-0' : 'rounded'}"
                   id="usernameOrEmail"
-                  on:input={() => {
-                    if (!emailRequired && !($session?.siteInfo?.isDemo && usernameOrEmail === "demo")) {
-                      passwordVisible = false;
-                      password = "";
-                    }
-                    error = null;
-                  }}
+                  on:input={onUsernameOrEmailFieldInput}
                   disabled={loading || emailRequired}
                   type="text" />
                 <label for="usernameOrEmail">
@@ -476,9 +499,7 @@
                     bind:value={email}
                     class="form-control rounded-top-0 rounded-bottom {error ? 'border-danger' : ''}"
                     id="email"
-                    on:input={() => {
-                      error = null;
-                    }}
+                    on:input={onRegisterEmailFieldInput}
                     disabled={loading}
                     type="email" />
                   <label for="email">
@@ -641,7 +662,7 @@
                 bind:value={newUsername}
                 class="form-control"
                 id="newUsername"
-                on:input={() => { error = null; }}
+                on:input={onNewUsernameFieldInput}
                 disabled={loading}
                 type="text"
                 maxlength="16" />

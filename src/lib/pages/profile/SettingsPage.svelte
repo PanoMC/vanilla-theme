@@ -47,17 +47,26 @@
                   <form
                     onsubmit={(e) => {
                       e.preventDefault();
-                      $changingEmail2ndStep
-                        ? sendChangeEmailLink(
-                            changingEmailError,
-                            changingEmailLoading,
-                            changingEmailSuccess,
-                            currentPassword,
-                            newEmail,
-                            changingEmail,
-                            changingEmail2ndStep,
-                          )
-                        : startChangingEmail2ndStep(changingEmail2ndStep);
+                      if ($changingEmail2ndStep) {
+                        if (!String($newEmail ?? "").trim()) {
+                          return;
+                        }
+                        void sendChangeEmailLink(
+                          changingEmailError,
+                          changingEmailLoading,
+                          changingEmailSuccess,
+                          currentPassword,
+                          newEmail,
+                          changingEmail,
+                          changingEmail2ndStep,
+                        );
+                      } else {
+                        startChangingEmail2ndStep(
+                          changingEmail2ndStep,
+                          currentPassword,
+                          changingEmailError,
+                        );
+                      }
                     }}>
                     <div class="row g-2 align-items-start">
                       {#if !$changingEmail}
@@ -76,7 +85,11 @@
                               type="button"
                               class="btn btn-link"
                               aria-describedby="userEmail"
-                              onclick={() => startChangingEmail(changingEmail)}
+                              onclick={() =>
+                                startChangingEmail(
+                                  changingEmail,
+                                  changingEmailError,
+                                )}
                               disabled={!$session.siteInfo.emailEnabled}
                               >{$_(
                                 "pages.settings.inputs.change-email.description",
@@ -94,10 +107,21 @@
                             class="form-control"
                             aria-describedby="validationChangingEmail"
                             bind:value={$newEmail}
-                            class:is-invalid={$changingEmailError}
+                            oninput={() => {
+                              const c = stripIdentifierWhitespace($newEmail);
+                              if (c !== $newEmail) {
+                                newEmail.set(c);
+                              }
+                            }}
+                            class:is-invalid={$changingEmail2ndStep &&
+                              $changingEmailError &&
+                              $changingEmailError !==
+                                "CURRENT_PASSWORD_NOT_CORRECT"}
                             autofocus />
                           <div id="validationChangingEmail" class="invalid-feedback">
-                            {$_("errors." + $changingEmailError)}
+                            {#if $changingEmail2ndStep && $changingEmailError && $changingEmailError !== "CURRENT_PASSWORD_NOT_CORRECT"}
+                              {$_("errors." + $changingEmailError)}
+                            {/if}
                           </div>
                         </div>
                         <div
@@ -106,13 +130,19 @@
                             type="reset"
                             class="btn btn-link link-primary"
                             onclick={() =>
-                              stopChangingEmail2ndStep(changingEmail2ndStep)}>
+                              stopChangingEmail2ndStep(
+                                changingEmail2ndStep,
+                                changingEmailError,
+                              )}>
                             {$_("pages.settings.inputs.change-email.back")}
                           </button>
                           <button
                             type="submit"
                             class="btn btn-link link-secondary"
-                            class:disabled={$changingEmailLoading}>
+                            class:disabled={$changingEmailLoading ||
+                              !String($newEmail ?? "").trim()}
+                            disabled={$changingEmailLoading ||
+                              !String($newEmail ?? "").trim()}>
                             {$_("pages.settings.inputs.change-email.confirm")}
                           </button>
                         </div>
@@ -125,8 +155,21 @@
                               "pages.settings.inputs.change-email.current-password-placeholder",
                             )}
                             class="form-control"
+                            class:is-invalid={$changingEmailError ===
+                              "CURRENT_PASSWORD_NOT_CORRECT"}
+                            aria-describedby={$changingEmailError ===
+                            "CURRENT_PASSWORD_NOT_CORRECT"
+                              ? "validationCurrentPassword"
+                              : undefined}
                             bind:value={$currentPassword}
                             autofocus />
+                          {#if $changingEmailError === "CURRENT_PASSWORD_NOT_CORRECT"}
+                            <div
+                              id="validationCurrentPassword"
+                              class="invalid-feedback d-block">
+                              {$_("errors." + $changingEmailError)}
+                            </div>
+                          {/if}
                         </div>
                         <div
                           class="col-12 col-md-auto d-flex flex-wrap gap-2 align-items-center justify-content-md-end">
@@ -138,10 +181,16 @@
                                 currentPassword,
                                 newEmail,
                                 changingEmail,
+                                changingEmail2ndStep,
+                                changingEmailError,
                               )}>
                             {$_("pages.settings.inputs.change-email.cancel")}
                           </button>
-                          <button type="submit" class="btn btn-link"
+                          <button
+                            type="submit"
+                            class="btn btn-link"
+                            class:disabled={!String($currentPassword ?? "").trim()}
+                            disabled={!String($currentPassword ?? "").trim()}
                             >{$_(
                               "pages.settings.inputs.change-email.continue",
                             )}</button>
@@ -373,6 +422,7 @@
   } from "$lib/ui-logics/page-logics/SettingsPageLogics";
 
   import { Languages, currentLanguage } from "$lib/language.util";
+  import { stripIdentifierWhitespace } from "$lib/loginInput.util.js";
   import { logout } from "$lib/Store";
   import { panoApiClient } from "$lib/PluginAPI.js";
 

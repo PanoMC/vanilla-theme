@@ -15,7 +15,13 @@
           )}
           id="email"
           class="form-control"
-          bind:value={$usernameOrEmail} />
+          bind:value={$usernameOrEmail}
+          oninput={() => {
+            const c = stripIdentifierWhitespace($usernameOrEmail);
+            if (c !== $usernameOrEmail) {
+              usernameOrEmail.set(c);
+            }
+          }} />
         <label for="email"
           >{$_(
             "pages.reset-password.inputs.email-username.placeholder",
@@ -67,6 +73,7 @@
   import { panoApiClient } from "$lib/PluginAPI";
   import ViewComponent from "$lib/components/ViewComponent.svelte";
 
+  import { stripIdentifierWhitespace } from "$lib/loginInput.util.js";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import SuccessAlert from "$lib/components/SuccessAlert.svelte";
 
