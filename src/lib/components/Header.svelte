@@ -10,13 +10,17 @@
     id="header"
     style="background-position: center; height: {themeSettings.headerHeight || '256'}px;">
     <a href="/">
-      <img
-        alt={$_("components.header.alt")}
+      <div
         class="position-absolute {logoPositionClasses} px-3"
-        class:d-none={themeSettings.logoVisibility === false}
-        src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
-        style="object-fit: contain; width: {themeSettings.logoWidth || '512'}px; height: {themeSettings.logoHeight || '512'}px; max-width: 100%; max-height: 100%;"
-        title={$session.siteInfo.websiteName} />
+        style="padding-top: 80px; padding-bottom: 40px;"
+        class:d-none={themeSettings.logoVisibility === false}>
+        <img
+          alt={$_("components.header.alt")}
+          class={logoAnimationClass}
+          src="/api/websiteLogo?hash={$session.siteInfo.websiteLogoHash}"
+          style="object-fit: contain; width: {themeSettings.logoWidth || '256'}px; height: {themeSettings.logoHeight ? themeSettings.logoHeight + 'px' : 'auto'}; max-width: 100%;"
+          title={$session.siteInfo.websiteName} />
+      </div>
     </a>
   </div>
 </div>
@@ -48,7 +52,16 @@
     : "CENTER";
   $: logoPositionClasses = getLogoPositionClasses(logoPosition);
 
+  $: logoAnimation = themeSettings.logoAnimation || "off";
+  $: logoAnimationClass = getLogoAnimationClass(logoAnimation);
+
   $: headerWidthOption = themeSettings.headerWidthOption || "FULL_SIZE";
+
+  function getLogoAnimationClass(animation) {
+    if (animation === "zoom") return "logo-animation-zoom";
+    if (animation === "floating") return "logo-animation-floating";
+    return "";
+  }
 
   function getLogoPositionClasses(logoPosition) {
     if (logoPosition === "TOP_START") {
@@ -74,7 +87,10 @@
     return "top-50 start-50 translate-middle";
   }
 
-  const defaultHeaderBg = typeof themeSettings.defaultHeaderBg === "undefined" ? true : themeSettings.defaultHeaderBg;
+  const defaultHeaderBg =
+    typeof themeSettings.defaultHeaderBg === "undefined"
+      ? true
+      : themeSettings.defaultHeaderBg;
 
   const styles = `
     .hero::before {
@@ -83,6 +99,24 @@
       ${themeSettings.headerBgImagePosition ? `background-position: ${themeSettings.headerBgImagePosition} !important;` : ""}
       ${themeSettings.headerBgImageRepeat ? `background-repeat: ${themeSettings.headerBgImageRepeat} !important;` : ""}
       background-size: ${themeSettings.headerBgImageSize || "cover"} !important;
+    }
+
+    .logo-animation-zoom {
+      animation: logo-zoom 5s ease-in-out infinite;
+    }
+    
+    .logo-animation-floating {
+      animation: logo-floating 3s ease-in-out infinite;
+    }
+
+    @keyframes logo-zoom {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes logo-floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
     }
   `;
 </script>

@@ -353,7 +353,13 @@
           "bottom-end": "Bottom End"
         },
         "height": "Height (px)",
-        "width": "Width (px)"
+        "width": "Width (px)",
+        "animation": "Animation",
+        "animations": {
+          "off": "Off",
+          "zoom": "Zoom",
+          "floating": "Floating"
+        }
       },
       "cover": {
         "default-bg": "Default Background Image",

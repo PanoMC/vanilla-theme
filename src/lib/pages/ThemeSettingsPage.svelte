@@ -201,7 +201,6 @@
                   height="40"
                   src={"/api/theme/file/" +
                     themeSettings.files.backgroundImage} />
-
                 <input
                   id="background-image-upload"
                   class="form-control"
@@ -357,7 +356,7 @@
               class="form-control"
               type="number"
               on:input={(e) => (themeSettings.logoHeight = e.target.value)}
-              placeholder="512"
+              placeholder="auto"
               value={themeSettings.logoHeight} />
           </div>
         </div>
@@ -370,8 +369,26 @@
               class="form-control"
               type="number"
               on:input={(e) => (themeSettings.logoWidth = e.target.value)}
-              placeholder="512"
+              placeholder="256"
               value={themeSettings.logoWidth} />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-md-6 col-form-label" for="logoAnimation"
+            >{$_("pages.theme-settings.logo.animation")}</label>
+          <div class="col-md-6">
+            <select
+              class="form-select"
+              id="logoAnimation"
+              on:change={(e) => (themeSettings.logoAnimation = e.target.value)}
+              value={themeSettings.logoAnimation || "off"}>
+              <option value="off"
+                >{$_("pages.theme-settings.logo.animations.off")}</option>
+              <option value="zoom"
+                >{$_("pages.theme-settings.logo.animations.zoom")}</option>
+              <option value="floating"
+                >{$_("pages.theme-settings.logo.animations.floating")}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -1566,7 +1583,13 @@
       "bgImageSize",
       "backgroundImage"
     ],
-    logo: ["logoVisibility", "logoPosition", "logoHeight", "logoWidth"],
+    logo: [
+      "logoVisibility",
+      "logoPosition",
+      "logoHeight",
+      "logoWidth",
+      "logoAnimation"
+    ],
     header: [
       "defaultHeaderBg",
       "headerBgColor",

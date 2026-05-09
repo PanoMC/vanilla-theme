@@ -353,7 +353,13 @@
           "bottom-end": "Alt Sağ"
         },
         "height": "Yükseklik (px)",
-        "width": "Genişlik (px)"
+        "width": "Genişlik (px)",
+        "animation": "Animasyon",
+        "animations": {
+          "off": "Kapalı",
+          "zoom": "Zoom",
+          "floating": "Aşağı Yukarı"
+        }
       },
       "cover": {
         "default-bg": "Varsayılan Arkaplan Resmi",
