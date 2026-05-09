@@ -145,6 +145,7 @@
   import { browser } from "$app/environment";
 
   import { notificationsCount, quickNotifications, avatarVersion } from "$lib/Store";
+  import { onNotificationRefresh, setSiteNotificationsSubscription } from "$lib/siteRealtime.js";
   import ApiUtil from "$lib/api.util";
   import { onNotificationClick } from "$lib/NotificationManager.js";
   import * as locales from "date-fns/locale";
@@ -155,6 +156,7 @@
   let checkTime = 0;
   let interval;
   let mounted = false;
+  let unsubRefresh = () => {};
 
   const session = getContext("session");
 
@@ -232,12 +234,6 @@
 
           notificationsCount.set(body.notificationCount);
         }
-
-        setTimeout(() => {
-          if (quickNotificationProcessID === id) {
-            startQuickNotificationsCountDown();
-          }
-        }, 1000);
       }
     });
   }
@@ -253,10 +249,11 @@
   if (browser) {
     const sessionSubscription = session.subscribe((session) => {
       quickNotificationProcessID++;
-
-      // Only start polling after mount (hydration complete)
       if (mounted && session.user) {
+        setSiteNotificationsSubscription(true);
         startQuickNotificationsCountDown();
+      } else {
+        setSiteNotificationsSubscription(false);
       }
     });
 
@@ -277,12 +274,15 @@
 
   onMount(() => {
     mounted = true;
-
-    // Start polling after hydration is complete
+    unsubRefresh = onNotificationRefresh(() => {
+      if (get(session).user) {
+        startQuickNotificationsCountDown();
+      }
+    });
     if ($session.user) {
+      setSiteNotificationsSubscription(true);
       startQuickNotificationsCountDown();
     }
-
     interval = setInterval(() => {
       checkTime += 1;
     }, 1000);
@@ -290,6 +290,8 @@
 
   onDestroy(() => {
     quickNotificationProcessID++;
+    setSiteNotificationsSubscription(false);
+    unsubRefresh();
     clearInterval(interval);
   });
 

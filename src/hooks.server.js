@@ -19,6 +19,10 @@ function stripModulePreload(linkHeader) {
   return kept.length ? kept.join(", ") : null;
 }
 
+function getCookieWithHttpFallback(cookies, baseName) {
+  return cookies.get(baseName) ?? cookies.get(`${baseName}_http`);
+}
+
 const isDev = process.env.NODE_ENV === "development";
 
 /** In production, skip logging common client/bot noise (wrong method, stray POST to non-action routes). */
@@ -99,8 +103,8 @@ export async function handle({
     locals.panoWebsiteUrlEnv = panoWebsiteUrlEnv;
   }
 
-  const jwt = cookies.get(COOKIE_PREFIX + JWT_COOKIE_NAME);
-  const csrfToken = cookies.get(COOKIE_PREFIX + CSRF_TOKEN_COOKIE_NAME);
+  const jwt = getCookieWithHttpFallback(cookies, COOKIE_PREFIX + JWT_COOKIE_NAME);
+  const csrfToken = getCookieWithHttpFallback(cookies, COOKIE_PREFIX + CSRF_TOKEN_COOKIE_NAME);
 
   locals.user =
     jwt && csrfToken &&

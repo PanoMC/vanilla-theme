@@ -83,6 +83,11 @@ export async function sendChangeEmailLink(
   changingEmail,
   changingEmail2ndStep
 ) {
+  const next = get(newEmail);
+  if (next == null || String(next).trim() === "") {
+    return;
+  }
+
   changingEmailError.set(null);
   changingEmailLoading.set(true);
   changingEmailSuccess.set(false);
@@ -100,7 +105,11 @@ export async function sendChangeEmailLink(
         return;
       }
 
-      changingEmailError.set(body.error || NETWORK_ERROR);
+      const err = body.error || NETWORK_ERROR;
+      if (err === "CURRENT_PASSWORD_NOT_CORRECT") {
+        changingEmail2ndStep.set(false);
+      }
+      changingEmailError.set(err);
     })
     .catch(() => {
       changingEmailLoading.set(false);
@@ -109,23 +118,44 @@ export async function sendChangeEmailLink(
     });
 }
 
-export function startChangingEmail(changingEmail) {
+export function startChangingEmail(changingEmail, changingEmailError) {
+  changingEmailError.set(null);
   changingEmail.set(true);
 }
 
-export function startChangingEmail2ndStep(changingEmail2ndStep) {
+export function startChangingEmail2ndStep(
+  changingEmail2ndStep,
+  currentPassword,
+  changingEmailError
+) {
+  const pwd = get(currentPassword);
+  if (pwd == null || String(pwd).trim() === "") {
+    return;
+  }
+  changingEmailError.set(null);
   changingEmail2ndStep.set(true);
 }
 
-export function stopChangingEmail(currentPassword, newEmail, changingEmail) {
+export function stopChangingEmail(
+  currentPassword,
+  newEmail,
+  changingEmail,
+  changingEmail2ndStep,
+  changingEmailError
+) {
   currentPassword.set("");
   newEmail.set("");
-
+  changingEmailError.set(null);
+  changingEmail2ndStep.set(false);
   changingEmail.set(false);
 }
 
-export function stopChangingEmail2ndStep(changingEmail2ndStep) {
+export function stopChangingEmail2ndStep(
+  changingEmail2ndStep,
+  changingEmailError
+) {
   changingEmail2ndStep.set(false);
+  changingEmailError.set(null);
 }
 
 export async function saveSettings(userLocale, saveButtonLoading) {
