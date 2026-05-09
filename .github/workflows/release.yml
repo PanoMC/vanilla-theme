@@ -94,4 +94,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-        run: npx semantic-release --force
+        run: npx semantic-release@24.2.6 --force
