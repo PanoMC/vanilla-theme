@@ -145,11 +145,7 @@
                   type="button"
                   class="nav-link position-relative d-flex align-items-center"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  use:tooltip={[
-                    $session.user.username,
-                    { placement: "bottom" },
-                  ]}>
+                  aria-expanded="false">
                   <span class="me-2 d-none d-lg-inline"
                     >{$session.user.username}</span>
                   <img
