@@ -7,7 +7,7 @@
     "watch:ui": "sass src/styles/style.scss static/style.css --watch --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
     "build:ui": "sass src/styles/style.scss static/style.css --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
     "prebuild": "node scripts/license/generate-license-constants.js",
-    "build": "vite build",
+    "build": "vite build && node scripts/license/finalize-fingerprint.js",
     "preview": "vite preview ",
     "lint": "npm-run-all -c lint:*",
     "lint:prettier": "prettier -c . --config .prettierrc",

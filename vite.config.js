@@ -3,7 +3,6 @@ import { defineConfig, loadEnv } from "vite";
 import fs from "fs";
 import path from "path";
 import { collectLicenses } from "./scripts/generate-licenses.js";
-import { themeFingerprintPlugin } from "./scripts/license/vite-theme-fingerprint.js";
 
 const env = loadEnv("", process.cwd());
 
@@ -111,13 +110,12 @@ export default defineConfig(({ isSsrBuild, command }) => {
       copyFolderPlugin("lang"),
       copyFolderPlugin("screenshots"),
       copyManifestPlugin(),
-      // MUST be last in the array so `closeBundle` runs AFTER copyManifestPlugin has
-      // copied manifest.json into build/. Plugin computes the cumulative SHA-256 of every
-      // file in build/ (except manifest.json) and stamps it into manifest.fileFingerprint
-      // so the Pano host + the theme's own runtime helper can later refuse to serve a
-      // tampered build.
-      themeFingerprintPlugin(),
     ],
+    // NOTE: The theme file-fingerprint is stamped into build/manifest.json by
+    // scripts/license/finalize-fingerprint.js, which package.json's `build` script runs
+    // AFTER `vite build`. Doing it inside a vite plugin would race with SvelteKit's
+    // adapter-node two-pass bundling (SSR + client), producing a digest that doesn't
+    // cover all files.
     ssr: {
       noExternal: command === "build" ? true : ["@panomc/sdk", "svelte-i18n"],
     },
