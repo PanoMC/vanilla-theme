@@ -55,13 +55,43 @@ function resolveServerBaseUrl(server) {
   return server.trim().replace(/\/$/, "");
 }
 
+/**
+ * Hostname of a URL with the leading "api." or "api-<label>." stripped, so a custom
+ * license server URL maps to the JWT `iss` Pano host would compute via
+ * com.panomc.platform.config.PanoConfig.resolvedLicenseJwtIssuer:
+ *   https://api.example.com           → example.com
+ *   https://api-dev.example.com       → dev.example.com
+ *   http://localhost:8087             → localhost
+ *   anything malformed/empty          → ""
+ */
+function hostnameForIssuer(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname;
+    if (!host) return "";
+    const apiPrefix = host.match(/^api\.(.+)$/);
+    if (apiPrefix) return apiPrefix[1];
+    const apiLabel = host.match(/^api-([^.]+)\.(.+)$/);
+    if (apiLabel) return `${apiLabel[1]}.${apiLabel[2]}`;
+    return host;
+  } catch {
+    return "";
+  }
+}
+
 function issuerHintFor(server, baseUrl) {
   const norm = (server || "").trim().toLowerCase();
   if (norm === "dev" || norm === "development" || norm === "staging") return "dev.panomc.com";
   if (norm === "prod" || norm === "production") return "panomc.com";
-  // For custom URL, leave empty so the runtime falls back to derived hostname.
   if (baseUrl === DEV_URL) return "dev.panomc.com";
   if (baseUrl === PROD_URL) return "panomc.com";
+  // Custom URL: derive the hostname the same way the Pano host would, so a local
+  // backend at http://localhost:8087 ends up with iss="localhost", matching what the
+  // host stamps into the JWT.
+  if (baseUrl) {
+    const fromUrl = hostnameForIssuer(baseUrl);
+    if (fromUrl) return fromUrl;
+  }
   return "";
 }
 
@@ -247,13 +277,18 @@ async function main() {
     resolvedServer = choice.baseUrl || choice.serverKeyword || "(explicit key)";
   }
 
-  // Derive expected issuer: explicit env > server keyword/url > none (runtime falls back).
+  // Derive expected issuer: explicit env > PANO_LICENSE_SERVER (set even when KEY is too)
+  //   > branch detection > "". Build-time issuer hint is just a default; the Pano host
+  // always sets PANO_LICENSE_ISSUER on the bun process from its own config, so this only
+  // matters for theme runtimes that boot without the host env (e.g. local debugging).
   const explicitIssuer = (process.env.PANO_LICENSE_ISSUER || "").trim();
+  const explicitServerForIssuer = (process.env.PANO_LICENSE_SERVER || "").trim();
   const issuerHint = explicitIssuer || (required
-    ? issuerHintFor(
-        resolvedSource === "explicit-server" ? process.env.PANO_LICENSE_SERVER : (resolvedServer === "(explicit key)" ? "" : resolvedServer ?? ""),
-        resolvedServer === "(explicit key)" ? null : (resolvedServer ?? null)
-      )
+    ? (explicitServerForIssuer
+        ? issuerHintFor(explicitServerForIssuer, resolveServerBaseUrl(explicitServerForIssuer))
+        : (detectedBranch
+            ? issuerHintFor("", resolvedSource === "branch" ? resolvedServer : null)
+            : ""))
     : "");
 
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });

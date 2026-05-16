@@ -82,6 +82,12 @@ jobs:
           fi
 
       - name: Build
+        # PANO_LICENSE_SERVER tells the theme's prebuild script which panomc.com
+        # license server to fetch the verification public key from. Free themes
+        # (manifest.premium=false) ignore this; premium themes require it (or a
+        # PANO_LICENSE_PUBLIC_KEY secret). main branch → prod, anything else → dev.
+        env:
+          PANO_LICENSE_SERVER: ${{ steps.extract_branch.outputs.branch == 'main' && 'prod' || 'dev' }}
         run: bun run build
 
       - name: Update manifest.json version
