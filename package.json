@@ -6,6 +6,7 @@
     "dev:ui": "concurrently \"bun run watch:ui\" \"bun run dev\"",
     "watch:ui": "sass src/styles/style.scss static/style.css --watch --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
     "build:ui": "sass src/styles/style.scss static/style.css --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
+    "prebuild": "node scripts/license/generate-license-constants.js",
     "build": "vite build",
     "preview": "vite preview ",
     "lint": "npm-run-all -c lint:*",

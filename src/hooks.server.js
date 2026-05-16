@@ -8,6 +8,29 @@ import {
 } from "$lib/variables.js";
 import { getCredentialsServerSide } from "$lib/services/auth.js";
 import { internalLibsHash } from "$lib/internalLibs.js";
+import {
+  isPremiumBuild,
+  verifyLicenseFromEnv,
+  assertStillLicensed,
+  LicenseError,
+} from "$lib/server/license-runtime.js";
+
+// One-shot license verification at boot. For premium builds the Pano host sets
+// PANO_LICENSE_JWT before spawning bun; the runtime helper verifies the RS256 signature
+// + claim checks against the panomc.com public key embedded at build time. Free builds
+// (this is one — manifest.premium === false) no-op everything. Vanilla ships with the
+// hook in place so a developer cloning vanilla as a template to make a premium theme
+// only needs to flip `"premium": true` in manifest.json and the rest is automatic.
+let bootLicenseError = null;
+if (isPremiumBuild()) {
+  try {
+    verifyLicenseFromEnv();
+    console.log("[pano-license] startup verification passed");
+  } catch (e) {
+    bootLicenseError = e instanceof LicenseError ? e : new LicenseError("unknown", String(e?.message ?? e));
+    console.error("[pano-license] startup verification FAILED:", bootLicenseError.message);
+  }
+}
 
 function stripModulePreload(linkHeader) {
   const parts = linkHeader
@@ -79,6 +102,39 @@ const importMap = `
 const IMPORT_MAP_PLACEHOLDER = "%pano_lib_import%";
 const IMPORT_MAP_PLACEHOLDER_LEN = IMPORT_MAP_PLACEHOLDER.length;
 
+function renderLicenseBlocked(reason, message) {
+  // Minimal HTML page; deliberately self-contained so the broken theme can't accidentally
+  // serve its own (now-unlicensed) UI. The Pano host's renewal sweep will fall back to the
+  // bundled vanilla theme on next sweep, but until then we surface the cause.
+  const body =
+    "<!doctype html><html lang=\"en\"><head>" +
+    "<meta charset=\"utf-8\"><title>License required</title>" +
+    "<meta name=\"robots\" content=\"noindex\">" +
+    "<style>html,body{height:100%;margin:0;font-family:system-ui,sans-serif;color:#222;background:#f7f7f9}" +
+    "main{display:flex;align-items:center;justify-content:center;height:100%;padding:2rem;text-align:center}" +
+    "section{max-width:540px}h1{margin:.2em 0 .6em}code{background:#eee;padding:.1em .3em;border-radius:.2em}" +
+    ".reason{color:#a00;font-weight:600}</style></head><body><main><section>" +
+    "<h1>This premium theme is not licensed on this server.</h1>" +
+    "<p>The Pano host did not provide a valid license token.</p>" +
+    `<p>Reason: <span class="reason">${escapeHtml(reason)}</span>${message ? ` — ${escapeHtml(message)}` : ""}</p>` +
+    "<p>Open the Pano panel and reconnect your panomc.com account, then re-activate this theme.</p>" +
+    "</section></main></body></html>";
+  return new Response(body, {
+    status: 503,
+    headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" },
+  });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;",
+  }[c]));
+}
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({
   event,
@@ -88,6 +144,20 @@ export async function handle({
   },
   resolve,
 }) {
+  // License gate: every request to a premium theme has to pass the cached check. Free
+  // builds short-circuit because isPremiumBuild() is false.
+  if (isPremiumBuild()) {
+    if (bootLicenseError) {
+      return renderLicenseBlocked(bootLicenseError.reason ?? "unknown", bootLicenseError.message);
+    }
+    try {
+      assertStillLicensed();
+    } catch (e) {
+      const reason = e instanceof LicenseError ? e.reason : "unknown";
+      return renderLicenseBlocked(reason, e?.message);
+    }
+  }
+
   const locals = {};
 
   // noinspection JSUnresolvedReference
