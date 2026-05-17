@@ -233,10 +233,17 @@ async function main() {
   const manifest = readJson(MANIFEST_FILE);
   const pkg = readJson(PACKAGE_FILE);
 
-  // Manifest's "v{version}" placeholder is replaced at release time. For local builds we
-  // resolve to the package.json version so the embedded constant matches what the host
-  // sees after install. Strip a leading "v" so the constant matches the JWT `ver` claim.
-  const versionRaw = String(manifest.version || "").replace("{version}", pkg.version);
+  // Version resolution priority (the embedded constant MUST match the `ver` claim in the
+  // JWT panomc.com mints for this build — otherwise the theme runtime refuses to serve):
+  //   1. PANO_THEME_VERSION_OVERRIDE  — release workflow passes semantic-release's
+  //      next-tag here (e.g. "1.0.0-dev.44"). Wins over everything because the manifest
+  //      source still has the "v{version}" placeholder at this point in the pipeline.
+  //   2. manifest.version with "{version}" substituted from package.json (local dev).
+  // The leading "v" is always stripped so the constant matches ResourceVersion.tag on
+  // the backend, which is stored without it.
+  const overrideVersion = (process.env.PANO_THEME_VERSION_OVERRIDE || "").trim();
+  const versionRaw = overrideVersion ||
+    String(manifest.version || "").replace("{version}", pkg.version);
   const themeVersion = versionRaw.startsWith("v") ? versionRaw.slice(1) : versionRaw;
 
   const themeId = manifest.id;

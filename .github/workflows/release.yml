@@ -88,6 +88,12 @@ jobs:
         # PANO_LICENSE_PUBLIC_KEY secret). main branch → prod, anything else → dev.
         env:
           PANO_LICENSE_SERVER: ${{ steps.extract_branch.outputs.branch == 'main' && 'prod' || 'dev' }}
+          # Embeds semantic-release's next-tag into license-constants.generated.js
+          # so the theme runtime's expected `ver` matches the `ver` claim panomc.com
+          # signs into the JWT. Without this the constant defaults to package.json
+          # version (e.g. "1.0.0") while the backend has registered "1.0.0-dev.44",
+          # and the theme refuses to serve with a version-mismatch error.
+          PANO_THEME_VERSION_OVERRIDE: ${{ needs.get-next-version.outputs.new_tag_version }}
         run: bun run build
 
       - name: Update manifest.json version
