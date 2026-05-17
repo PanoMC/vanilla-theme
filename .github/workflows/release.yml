@@ -9,7 +9,7 @@ name: Pano Vanilla Theme Release
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "dev", "master" ]
 
 permissions:
   contents: read
@@ -85,9 +85,9 @@ jobs:
         # PANO_LICENSE_SERVER tells the theme's prebuild script which panomc.com
         # license server to fetch the verification public key from. Free themes
         # (manifest.premium=false) ignore this; premium themes require it (or a
-        # PANO_LICENSE_PUBLIC_KEY secret). main branch → prod, anything else → dev.
+        # PANO_LICENSE_PUBLIC_KEY secret). mamasterin branch → prod, anything else → dev.
         env:
-          PANO_LICENSE_SERVER: ${{ steps.extract_branch.outputs.branch == 'main' && 'prod' || 'dev' }}
+          PANO_LICENSE_SERVER: ${{ steps.extract_branch.outputs.branch == 'master' && 'prod' || 'dev' }}
           # Embeds semantic-release's next-tag into license-constants.generated.js
           # so the theme runtime's expected `ver` matches the `ver` claim panomc.com
           # signs into the JWT. Without this the constant defaults to package.json
