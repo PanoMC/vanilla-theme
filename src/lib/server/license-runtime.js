@@ -122,7 +122,12 @@ export function verifyLicenseFromEnv() {
     );
   }
 
-  const jwt = (process.env.PANO_LICENSE_JWT || "").trim();
+  // JWT priority: <themeRoot>/.pano-license.jwt (refreshed by the Pano host every renewal
+  // sweep) > PANO_LICENSE_JWT env (initial value at process start). The env var alone
+  // would freeze at the launch-time JWT and expire after one TTL window even though the
+  // host already has a fresh token in cache — see UIManager.writeThemeLicenseFile.
+  const themeRootForJwt = locateThemeRoot();
+  const jwt = readCurrentJwt(themeRootForJwt);
   if (!jwt) {
     throw new LicenseError(
       LICENSE_REASONS.NOT_CONNECTED,
@@ -207,7 +212,30 @@ export function verifyLicenseFromEnv() {
   return snapshot;
 }
 
-const DEFAULT_FINGERPRINT_EXCLUDE = new Set(["manifest.json"]);
+const DEFAULT_FINGERPRINT_EXCLUDE = new Set(["manifest.json", ".pano-license.jwt"]);
+const LICENSE_JWT_FILENAME = ".pano-license.jwt";
+
+/**
+ * Reads the freshest JWT for this theme. Priority:
+ *   1. <themeRoot>/.pano-license.jwt — host writes this on every renewal sweep so the bun
+ *      process can pick up new tokens without restarting.
+ *   2. process.env.PANO_LICENSE_JWT — the launch-time value, used as a fallback when the
+ *      disk file is missing (e.g. first start of a theme installed by an older host).
+ */
+function readCurrentJwt(themeRoot) {
+  if (themeRoot) {
+    try {
+      const p = path.join(themeRoot, LICENSE_JWT_FILENAME);
+      if (existsSync(p)) {
+        const fromDisk = readFileSync(p, "utf8").trim();
+        if (fromDisk) return fromDisk;
+      }
+    } catch {
+      // fall through to env
+    }
+  }
+  return (process.env.PANO_LICENSE_JWT || "").trim();
+}
 
 function sha256Hex(buffer) {
   return createHash("sha256").update(buffer).digest("hex");
@@ -309,15 +337,19 @@ function verifyFileFingerprint() {
   }
 }
 
+/** Re-verify proactively when the cached snapshot has less than this much time left. */
+const PRE_EXPIRY_REFRESH_MARGIN_MS = 5 * 60 * 1000;
+
 /**
- * Cheap runtime check intended for sprinkling across request handlers. Re-verifies from
- * env when the cached snapshot has expired (renewal cycle reissues a fresh token in the
- * host; the host doesn't currently restart the theme process on every rotation so this
- * acts as the theme-side fallback when the JWT lingers past its expiry).
+ * Cheap runtime check intended for sprinkling across request handlers. Re-verifies a
+ * few minutes BEFORE the cached snapshot expires so we pick up the JWT that the host
+ * just wrote to <themeRoot>/.pano-license.jwt (the host's half-life renewal lands
+ * roughly at expiresAt - 30 minutes for a 1h TTL, so 5 min before expiry the disk
+ * file is always already refreshed).
  */
 export function assertStillLicensed() {
   if (!isPremiumBuild()) return;
-  if (!snapshot || snapshot.expiresAtMs <= Date.now()) {
+  if (!snapshot || snapshot.expiresAtMs <= Date.now() + PRE_EXPIRY_REFRESH_MARGIN_MS) {
     verifyLicenseFromEnv();
   }
 }

@@ -26,7 +26,13 @@ import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
-export const DEFAULT_EXCLUDED_FILES = Object.freeze(["manifest.json"]);
+export const DEFAULT_EXCLUDED_FILES = Object.freeze([
+  "manifest.json",
+  // Written at runtime by the Pano host (UIManager.writeThemeLicenseFile) so the theme
+  // runtime can pick up freshly-renewed JWTs without restarting the bun process. Must
+  // be excluded or every renewal would invalidate the integrity check.
+  ".pano-license.jwt",
+]);
 
 export function sha256Hex(buffer) {
   return createHash("sha256").update(buffer).digest("hex");
