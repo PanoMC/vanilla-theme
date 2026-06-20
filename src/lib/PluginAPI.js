@@ -9,6 +9,11 @@ const hooks = writable({});
 const uiItems = writable({});
 const siteNavLinks = writable([]);
 
+// Monotonic registration counter. Captured on each view-slot item at register time so equal-priority
+// items can be sorted deterministically (instead of relying on array insertion order, which can
+// differ between the SSR and client bundles) -> stable widget order across SSR and hydration.
+let viewItemSeq = 0;
+
 // Deduplicate items by id, keeping the last occurrence
 function deduplicateById(arr) {
   const seen = new Map();
@@ -432,9 +437,11 @@ export const panoApi = {
               ...items[viewId][existingIdx],
               component,
               priority,
+              // Keep the original registration sequence on re-registration so order stays stable.
+              _seq: items[viewId][existingIdx]._seq ?? viewItemSeq++,
             };
           } else {
-            items[viewId].push({ id, component, priority, hidden: false });
+            items[viewId].push({ id, component, priority, hidden: false, _seq: viewItemSeq++ });
           }
           return items;
         });
@@ -467,7 +474,17 @@ export const panoApi = {
         return derived(uiItems, ($items) => {
           return ($items[viewId] || [])
             .filter((item) => !item.hidden)
-            .sort((a, b) => b.priority - a.priority);
+            .sort((a, b) => {
+              // Primary: higher priority first.
+              if (b.priority !== a.priority) return b.priority - a.priority;
+              // Secondary (deterministic): registration sequence, so equal-priority items keep a
+              // stable order across SSR and client instead of depending on array insertion order.
+              const seqA = a._seq ?? 0;
+              const seqB = b._seq ?? 0;
+              if (seqA !== seqB) return seqA - seqB;
+              // Final tiebreak: id, so the total order is fully deterministic.
+              return String(a.id ?? "").localeCompare(String(b.id ?? ""));
+            });
         });
       },
       onLoad(viewId, handler) {
