@@ -14,6 +14,23 @@ const siteNavLinks = writable([]);
 // differ between the SSR and client bundles) -> stable widget order across SSR and hydration.
 let viewItemSeq = 0;
 
+// Monotonic registration counter for hooks. Plugins call hook.register() in a deterministic order on
+// both the server and the client, so this index is identical across bundles -> a stable hook order.
+let hookItemSeq = 0;
+
+// Sort hooks by their stable registration index. The previous implementation sorted by the hook's
+// importer `.toString()`, but that source contains build-specific chunk hashes that differ between
+// the server and client bundles, so the two sides produced different orders -> hydration mismatch.
+function sortHooks(rawHooks) {
+  return [...rawHooks].sort((a, b) => {
+    const seqA = a._seq ?? 0;
+    const seqB = b._seq ?? 0;
+    if (seqA !== seqB) return seqA - seqB;
+    // Deterministic tiebreak on a stable id so the total order never depends on bundle internals.
+    return String(a.id ?? a.name ?? "").localeCompare(String(b.id ?? b.name ?? ""));
+  });
+}
+
 // Deduplicate items by id, keeping the last occurrence
 function deduplicateById(arr) {
   const seen = new Map();
@@ -534,27 +551,19 @@ export const panoApi = {
     hook: {
       register(options) {
         const { name } = options;
+        // Stamp a stable registration index so server and client sort hooks identically.
+        const entry = options._seq === undefined ? { ...options, _seq: hookItemSeq++ } : options;
         hooks.update(h => {
           if (!h[name]) h[name] = [];
-          h[name].push(options);
+          h[name].push(entry);
           return h;
         });
       },
       get(name) {
         return derived(hooks, $h => {
-          const rawHooks = $h[name] || [];
-          // Sort by component.toString() to ensure stable order regardless of registration/import order
-          // Deterministic order is crucial for server-client prop synchronization
-          return [...rawHooks].sort((a, b) => {
-            const getSource = (item) => {
-              const comp = item.component || "";
-              const source = comp._original || comp;
-              return source._importer ? source._importer.toString() : source.toString();
-            };
-            const keyA = getSource(a);
-            const keyB = getSource(b);
-            return keyA.localeCompare(keyB);
-          });
+          // Sort by stable registration order. Deterministic order is crucial for server-client
+          // prop synchronization (see sortHooks).
+          return sortHooks($h[name] || []);
         });
       },
       setVisible(name, component, visible) {
@@ -599,19 +608,8 @@ export async function executeHookLoad(name, originalEvent) {
   }
 
   const $h = get(hooks);
-  let list = $h[name] || [];
-
-  // MUST match the sort order used in 'get' accessor
-  list = [...list].sort((a, b) => {
-    const getSource = (item) => {
-      const comp = item.component || "";
-      const source = comp._original || comp;
-      return source._importer ? source._importer.toString() : source.toString();
-    };
-    const keyA = getSource(a);
-    const keyB = getSource(b);
-    return keyA.localeCompare(keyB);
-  });
+  // MUST match the sort order used in the 'get' accessor (see sortHooks).
+  let list = sortHooks($h[name] || []);
 
   // Resolve all modules and execute load functions in parallel
   const results = await Promise.all(
@@ -632,7 +630,8 @@ export async function executeHookLoad(name, originalEvent) {
               if (h[name][actualIdx].component) {
                 h[name][actualIdx].component = resolved;
               } else {
-                h[name][actualIdx] = resolved;
+                // Preserve the stable registration index so re-sorting stays deterministic.
+                h[name][actualIdx] = { ...resolved, _seq: h[name][actualIdx]._seq };
               }
             }
           }
