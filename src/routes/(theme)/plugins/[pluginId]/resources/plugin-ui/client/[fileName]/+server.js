@@ -15,11 +15,16 @@ export async function GET({ params }) {
   const safePluginId = path.basename(pluginId); // Prevent directory traversal by using only the base name
   const safeFileName = path.basename(fileName); // Same for fileName
 
-  // Construct the absolute file path
-  const filePath = path.resolve(`plugins/${safePluginId}/client/${safeFileName}`);
+  // Resolve the plugin's client directory and append a trailing separator so the boundary check
+  // below cannot be bypassed by a sibling directory whose name shares this prefix
+  // (e.g. ".../client" must not match ".../client-evil/...").
+  const baseDir = path.resolve(`plugins/${safePluginId}/client`) + path.sep;
 
-  // Ensure that the file exists and belongs to the intended plugin
-  if (!filePath.startsWith(path.resolve(`plugins/${safePluginId}/client/`))) {
+  // Construct the absolute file path
+  const filePath = path.resolve(baseDir, safeFileName);
+
+  // Ensure that the resolved file stays inside the intended plugin's client directory.
+  if (!filePath.startsWith(baseDir)) {
     return new Response("Access to this file is forbidden.", { status: 403 });
   }
 
