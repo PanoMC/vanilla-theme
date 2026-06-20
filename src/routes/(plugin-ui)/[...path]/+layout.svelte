@@ -1,27 +1,42 @@
+<style>
+  .plugin-layout-container {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
 {#if data.systemLayout}
   <svelte:component this={data.systemLayout} {data}>
-    {#if !data.layout}
-      <slot />
-    {:else}
+    <div
+      bind:this={layoutContainer}
+      class="plugin-layout-container"
+      style={data.layout ? '' : 'display: none;'}>
+    </div>
+
+    <div
+      bind:this={slotContentContainer}
+      class="plugin-content-wrapper"
+      style={data.layout ? 'display: none;' : ''}>
       {#key data}
-        <div use:mountLayout class="plugin-layout-container"></div>
-      {/key}
-      <div bind:this={slotContentContainer} class="plugin-content-wrapper" style="display: none;">
         <slot />
-      </div>
-    {/if}
+      {/key}
+    </div>
   </svelte:component>
 {:else}
-  {#if !data.layout}
-    <slot />
-  {:else}
+  <div
+    bind:this={layoutContainer}
+    class="plugin-layout-container"
+    style={data.layout ? '' : 'display: none;'}>
+  </div>
+
+  <div
+    bind:this={slotContentContainer}
+    class="plugin-content-wrapper"
+    style={data.layout ? 'display: none;' : ''}>
     {#key data}
-      <div use:mountLayout class="plugin-layout-container"></div>
-    {/key}
-    <div bind:this={slotContentContainer} class="plugin-content-wrapper" style="display: none;">
       <slot />
-    </div>
-  {/if}
+    {/key}
+  </div>
 {/if}
 
 <script context="module">
@@ -122,64 +137,124 @@
   import { browser } from '$app/environment';
 
 
-  export let data;
+  let { data } = $props();
 
-  const { resetLayout } = data;
   const contexts = getAllContexts();
 
-  let slotContentContainer;
+  let layoutContainer = $state();
+  let slotContentContainer = $state();
+  let layoutInstance = null;
+  let activeLayoutComp = null;
 
-  function mountLayout(layoutContainer) {
-    if (!browser || !layoutContainer || !data.layout) return;
+  // A stable parent the slot content lives in by default. Before destroying a layout we move the
+  // slot content back here so the live <slot> subtree is never torn out together with the layout.
+  function stableSlotParent() {
+    return browser ? document.body : null;
+  }
 
-    const layoutComp = data.layout.default || data.layout;
-    let layoutInstance;
-
-    try {
-      // Check for bridge
-      if (data.layout.mount) {
-        layoutInstance = data.layout.mount({
-          target: layoutContainer,
-          props: { ...(data.props || {}), panoContexts: contexts },
-          context: contexts
-        });
-      } else {
-        layoutInstance = mount(layoutComp, {
-          target: layoutContainer,
-          props: { ...(data.props || {}), panoContexts: contexts },
-          context: contexts
-        });
+  function cleanupLayout() {
+    // Move the slot content out of the layout (back to a stable parent) BEFORE unmounting the
+    // layout, otherwise unmounting rips the live <slot> subtree out of the DOM -> blank/torn
+    // content and a detached-DOM leak.
+    if (browser && slotContentContainer) {
+      const parent = stableSlotParent();
+      if (parent && slotContentContainer.parentNode !== parent) {
+        slotContentContainer.style.display = 'none';
+        parent.appendChild(slotContentContainer);
       }
-
-      // SLOT BRIDGE: Smart Injection
-      setTimeout(() => {
-        const anchor = layoutContainer.querySelector(
-          '[data-pano-content], main, .content, .page-content, article',
-        );
-
-        if (anchor && slotContentContainer) {
-          anchor.appendChild(slotContentContainer);
-          slotContentContainer.style.display = '';
-        } else if (slotContentContainer) {
-          if (layoutContainer.firstElementChild) {
-            layoutContainer.firstElementChild.appendChild(slotContentContainer);
-          }
-          slotContentContainer.style.display = '';
-        }
-      }, 0);
-    } catch (e) {
-      console.error('Failed to mount layout', e);
     }
 
-    return {
-      destroy() {
-        if (layoutInstance) {
-          try {
-            if (data.layout?.unmount) data.layout.unmount(layoutInstance);
-            else unmount(layoutInstance);
-          } catch (e) {}
+    if (layoutInstance) {
+      try {
+        // Use the snapshot of what was mounted
+        if (typeof activeLayoutComp?.unmount === 'function')
+          activeLayoutComp.unmount(layoutInstance);
+        else unmount(layoutInstance);
+      } catch (e) {}
+      layoutInstance = null;
+      activeLayoutComp = null;
+    }
+  }
+
+  // Layout lifecycle: mount / re-mount the dynamic plugin layout into the persistent
+  // layoutContainer. The container itself is NOT keyed, so navigation between plugin pages never
+  // destroys it and never tears out the bridged slot content.
+  $effect(() => {
+    if (!browser || !layoutContainer) return;
+
+    if (!data.layout) {
+      cleanupLayout();
+      return;
+    }
+
+    const layoutComp = data.layout.default || data.layout;
+    if (activeLayoutComp !== data.layout) {
+      cleanupLayout();
+      try {
+        if (data.layout.mount) {
+          layoutInstance = data.layout.mount({
+            target: layoutContainer,
+            props: { ...(data.props || {}), panoContexts: contexts },
+            context: contexts,
+          });
+        } else {
+          layoutInstance = mount(layoutComp, {
+            target: layoutContainer,
+            props: { ...(data.props || {}), panoContexts: contexts },
+            context: contexts,
+          });
         }
+        activeLayoutComp = data.layout;
+      } catch (e) {
+        console.error('[Layout] Mount failed', e);
+      }
+    }
+  });
+
+  $effect(() => () => cleanupLayout());
+
+  // Slot bridge: move the slot content into the layout's content anchor. Only append when the
+  // slot is not already the anchor's last child, so we never detach a live, correctly-placed
+  // subtree (which would blank the content during re-renders).
+  $effect(() => {
+    const _pageData = data; // dependency
+    if (!browser) return;
+
+    let rafId;
+    const poll = () => {
+      if (!slotContentContainer) {
+        rafId = requestAnimationFrame(poll);
+        return;
+      }
+
+      // No dynamic layout: reset style and stop polling.
+      if (!data.layout) {
+        slotContentContainer.style.display = '';
+        return;
+      }
+
+      const anchor = layoutContainer?.querySelector(
+        '[data-pano-content], main, .content, .page-content, article',
+      );
+
+      if (anchor) {
+        if (anchor.lastElementChild !== slotContentContainer) {
+          anchor.appendChild(slotContentContainer);
+        }
+        slotContentContainer.style.display = '';
+      } else if (layoutContainer?.firstElementChild) {
+        if (layoutContainer.firstElementChild.lastElementChild !== slotContentContainer) {
+          layoutContainer.firstElementChild.appendChild(slotContentContainer);
+        }
+        slotContentContainer.style.display = '';
+      } else {
+        rafId = requestAnimationFrame(poll);
       }
     };
-  }
+
+    poll();
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  });
 </script>
