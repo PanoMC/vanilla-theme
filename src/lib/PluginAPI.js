@@ -3,6 +3,7 @@ import { derived, get, writable } from "svelte/store";
 import { plugins } from "../pano-sdk/core/js/PluginManager.js";
 import { sortSiteNavLinks } from "./orderNavLinks.util.js";
 import { avatarVersion } from "./Store.js";
+import { browser } from "$app/environment";
 
 const hooks = writable({});
 const uiItems = writable({});
@@ -17,6 +18,26 @@ function deduplicateById(arr) {
   }
   arr.length = 0;
   arr.push(...seen.values());
+}
+
+// Deep-clone a slot item's serializable parts without touching its `component`
+// (a function / component module that is not structured-cloneable). Used on the server so
+// resolved load() props are merged into a per-request copy instead of the shared global entry.
+function structuredCloneSafe(item) {
+  const { component, ...rest } = item;
+  let cloned;
+  try {
+    cloned = structuredClone(rest);
+  } catch {
+    // Fallback for values structuredClone can't handle: JSON round-trip the plain data.
+    try {
+      cloned = JSON.parse(JSON.stringify(rest));
+    } catch {
+      cloned = { ...rest, props: rest.props ? { ...rest.props } : undefined };
+    }
+  }
+  cloned.component = component;
+  return cloned;
 }
 
 // Version-based UI caching using plugin IDs and versions
@@ -103,7 +124,13 @@ async function executeComponentLoad(containerId, type, event) {
         }
       }
 
-      const updatedItem = { ...item, component: module };
+      // The uiItems store is a process-global singleton, so on the server it is shared across all
+      // concurrent requests. A shallow spread of `item` keeps `item.props` (and `item.props.data`)
+      // aliased to the global registration entry, so merging resolved load() props would mutate that
+      // shared entry -> cross-request data leak and SSR/client divergence. Deep-clone the item's
+      // serializable parts on the server so we only ever mutate a per-request copy.
+      const baseItem = browser ? item : structuredCloneSafe(item);
+      const updatedItem = { ...baseItem, component: module };
       if (props && typeof props === "object" && Object.keys(props).length > 0) {
         if (!updatedItem.props) updatedItem.props = {};
         updatedItem.props.data = { ...updatedItem.props.data, ...props };
