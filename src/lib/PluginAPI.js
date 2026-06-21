@@ -329,6 +329,23 @@ export const panoApi = {
         onLoad(handler) {
           panoApi.ui.lifecycle.on("theme:login:load", handler);
         },
+        // A plugin page that presents a login (e.g. social login) runs the same load as the
+        // theme's login page, so login-content plugins (captcha, 2FA, …) populate and render.
+        async load(event) {
+          const data = { error: null, username: null, event };
+          await executeLifecycle("theme:login:load", data, event);
+          await executeViewLoad("login-content", event);
+          await executeViewLoad("login-alt-methods", event);
+          return data;
+        },
+        // Theme-provided login form body. Entry-adapter plugins (social-login, magic-link, …)
+        // mount this Svelte component so their pages look identical to the theme's /login form.
+        form: {
+          async get() {
+            const m = await import("$lib/components/LoginFormBody.svelte");
+            return m.default;
+          },
+        },
       },
       register: {
         content: {
@@ -363,6 +380,22 @@ export const panoApi = {
         },
         onLoad(handler) {
           panoApi.ui.lifecycle.on("theme:register:load", handler);
+        },
+        // A plugin page that presents a registration (e.g. social register) runs the same load as
+        // the theme's register page, so register-content plugins (captcha, …) populate and render.
+        async load(event) {
+          const data = { error: null, username: null, event };
+          await executeLifecycle("theme:register:load", data, event);
+          await executeViewLoad("register-content", event);
+          await executeViewLoad("register-alt-methods", event);
+          return data;
+        },
+        // Theme-provided register form body. See login.form for rationale.
+        form: {
+          async get() {
+            const m = await import("$lib/components/RegisterForm.svelte");
+            return m.default;
+          },
         },
       },
       resetPassword: {
@@ -507,6 +540,11 @@ export const panoApi = {
       onLoad(viewId, handler) {
         panoApi.ui.lifecycle.on(`theme:view:${viewId}:load`, handler);
       },
+      // General: a plugin page hosting a theme view slot can run its load lifecycle and get the
+      // resolved (plugin-contributed) items, so injected components render exactly as in the theme.
+      async load(viewId, event) {
+        return await executeViewLoad(viewId, event);
+      },
     },
     sidebar: {
       register(options) {
@@ -546,6 +584,12 @@ export const panoApi = {
           h[name].push(handler);
           return h;
         });
+      },
+      // General primitive: run any theme lifecycle so plugin pages can take part in theme flows
+      // (e.g. a plugin login/register page running the same lifecycle the theme's own pages do).
+      async execute(name, data = {}, event) {
+        await executeLifecycle(name, data, event);
+        return data;
       },
     },
     hook: {
