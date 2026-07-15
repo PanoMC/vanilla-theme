@@ -6,7 +6,7 @@
     "dev:ui": "concurrently \"bun run watch:ui\" \"bun run dev\"",
     "watch:ui": "sass src/styles/style.scss static/style.css --watch --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
     "build:ui": "sass src/styles/style.scss static/style.css --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
-    "prebuild": "node scripts/license/generate-license-constants.js",
+    "prebuild": "bun scripts/generate-runtime-shims.js && node scripts/license/generate-license-constants.js",
     "build": "vite build && node scripts/license/finalize-fingerprint.js",
     "preview": "vite preview ",
     "lint": "npm-run-all -c lint:*",
@@ -14,7 +14,7 @@
     "format": "npm-run-all -c format:*",
     "format:prettier": "prettier --write . --config .prettierrc",
     "generate-licenses": "node scripts/generate-licenses.js",
-    "postinstall": "bun scripts/bundle-internal-libs.js"
+    "postinstall": "bun scripts/bundle-internal-libs.js && bun scripts/generate-runtime-shims.js"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",

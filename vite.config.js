@@ -101,7 +101,7 @@ function generateLicensesPlugin() {
   };
 }
 
-export default defineConfig(({ isSsrBuild, command }) => {
+export default defineConfig(({ command }) => {
   return {
     clearScreen: false,
     plugins: [
@@ -162,16 +162,10 @@ export default defineConfig(({ isSsrBuild, command }) => {
     },
     build: {
       manifest: true,
-      rollupOptions: {
-        // Only externalize in the client-side build to support the importmap.
-        // We let SSR build handle dependencies normally to avoid node_modules resolution issues.
-        ...(isSsrBuild
-          ? {}
-          : {
-              external: (id) =>
-                id.startsWith("svelte") || id.startsWith("@panomc/sdk"),
-            }),
-      },
+      // svelte/@panomc/sdk are deliberately NOT externalized: the host bundles its
+      // own runtime (immutable-cached under /_app/immutable), and plugins reach the
+      // very same module instances through the /runtime shims + the registry in
+      // hooks.client.js. See scripts/generate-runtime-shims.js.
     },
   };
 });
