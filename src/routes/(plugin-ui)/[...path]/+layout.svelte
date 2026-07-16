@@ -146,17 +146,45 @@
   let layoutInstance = null;
   let activeLayoutComp = null;
 
-  // A stable parent the slot content lives in by default. Before destroying a layout we move the
-  // slot content back here so the live <slot> subtree is never torn out together with the layout.
+  // The slot wrapper's NATURAL DOM position (where Svelte rendered it, inside the theme
+  // shell / systemLayout). Captured on first bind — BEFORE any bridging move — so pages
+  // without a plugin layout can always be restored to normal document flow.
+  let slotHome = null;
+
+  $effect(() => {
+    if (!browser || !slotContentContainer || slotHome) return;
+    slotHome = {
+      parent: slotContentContainer.parentNode,
+      anchor: slotContentContainer.nextSibling,
+    };
+  });
+
+  // A stable parent the slot content survives layout TEARDOWN in: before destroying a
+  // mounted layout we park the slot content here so the live <slot> subtree is never
+  // torn out together with the layout.
   function stableSlotParent() {
     return browser ? document.body : null;
   }
 
+  // Put the slot wrapper back where Svelte originally rendered it (its SSR position).
+  function restoreSlotHome() {
+    if (!browser || !slotContentContainer || !slotHome?.parent?.isConnected) return;
+    if (slotContentContainer.parentNode !== slotHome.parent) {
+      slotHome.parent.insertBefore(
+        slotContentContainer,
+        slotHome.anchor?.parentNode === slotHome.parent ? slotHome.anchor : null,
+      );
+    }
+  }
+
   function cleanupLayout() {
-    // Move the slot content out of the layout (back to a stable parent) BEFORE unmounting the
-    // layout, otherwise unmounting rips the live <slot> subtree out of the DOM -> blank/torn
-    // content and a detached-DOM leak.
-    if (browser && slotContentContainer) {
+    // Park the slot content outside the layout BEFORE unmounting it, otherwise unmounting
+    // rips the live <slot> subtree out of the DOM -> blank/torn content and a detached-DOM
+    // leak. ONLY when a layout is actually mounted: running this unconditionally stranded
+    // every no-layout plugin page's content at the end of <body> on hydration — the page
+    // rendered fine in SSR, then "vanished" below the footer at CSR (title correct, body
+    // seemingly gone).
+    if (browser && slotContentContainer && layoutInstance) {
       const parent = stableSlotParent();
       if (parent && slotContentContainer.parentNode !== parent) {
         slotContentContainer.style.display = 'none';
@@ -227,8 +255,11 @@
         return;
       }
 
-      // No dynamic layout: reset style and stop polling.
+      // No dynamic layout: make sure the wrapper sits in its natural (SSR) position —
+      // a previous layout page's teardown may have parked it on <body> — then reset
+      // style and stop polling.
       if (!data.layout) {
+        restoreSlotHome();
         slotContentContainer.style.display = '';
         return;
       }
