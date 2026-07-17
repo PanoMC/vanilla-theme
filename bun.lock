@@ -8,6 +8,7 @@
         "@fortawesome/fontawesome-free": "^6.7.2",
         "@jill64/universal-sanitizer": "^1.4.6",
         "@panomc/sdk": "file:./src/pano-sdk",
+        "@panomc/theme-core": "file:../../theme-core/packages/theme-core",
         "@sveltejs/adapter-node": "^5.5.4",
         "@sveltejs/kit": "^2.57.1",
         "@sveltejs/vite-plugin-svelte": "^7.0.0",
@@ -27,7 +28,7 @@
         "prettier": "~3.8.3",
         "prettier-plugin-svelte": "^3.5.1",
         "sass": "^1.99.0",
-        "svelte": "^5.55.4",
+        "svelte": "5.55.4",
         "svelte-i18n": "^4.0.1",
         "svelte-preprocess": "^6.0.3",
         "tippy.js": "^6.3.7",
@@ -146,6 +147,8 @@
     "@oxc-project/types": ["@oxc-project/types@0.126.0", "", {}, "sha512-oGfVtjAgwQVVpfBrbtk4e1XDyWHRFta6BS3GWVzrF8xYBT2VGQAk39yJS/wFSMrZqoiCU4oghT3Ch0HaHGIHcQ=="],
 
     "@panomc/sdk": ["@panomc/sdk@file:src/pano-sdk", { "devDependencies": { "svelte": "^5.46.1" }, "peerDependencies": { "svelte": "^5.46.1" } }],
+
+    "@panomc/theme-core": ["@panomc/theme-core@file:../../theme-core/packages/theme-core", { "dependencies": { "mime-types": "^3.0.2", "svelte": "5.55.4" }, "peerDependencies": { "@panomc/sdk": "*", "@sveltejs/adapter-node": "^5.5.4", "@sveltejs/kit": "^2.57.1", "@sveltejs/vite-plugin-svelte": "^7.0.0", "sass": "^1.99.0", "svelte-i18n": "^4.0.1", "svelte-preprocess": "^6.0.3", "vite": "^8.0.9" } }],
 
     "@parcel/watcher": ["@parcel/watcher@2.5.4", "", { "dependencies": { "detect-libc": "^2.0.3", "is-glob": "^4.0.3", "node-addon-api": "^7.0.0", "picomatch": "^4.0.3" }, "optionalDependencies": { "@parcel/watcher-android-arm64": "2.5.4", "@parcel/watcher-darwin-arm64": "2.5.4", "@parcel/watcher-darwin-x64": "2.5.4", "@parcel/watcher-freebsd-x64": "2.5.4", "@parcel/watcher-linux-arm-glibc": "2.5.4", "@parcel/watcher-linux-arm-musl": "2.5.4", "@parcel/watcher-linux-arm64-glibc": "2.5.4", "@parcel/watcher-linux-arm64-musl": "2.5.4", "@parcel/watcher-linux-x64-glibc": "2.5.4", "@parcel/watcher-linux-x64-musl": "2.5.4", "@parcel/watcher-win32-arm64": "2.5.4", "@parcel/watcher-win32-ia32": "2.5.4", "@parcel/watcher-win32-x64": "2.5.4" } }, "sha512-WYa2tUVV5HiArWPB3ydlOc4R2ivq0IDrlqhMi3l7mVsFEXNcTfxYFPIHXHXIh/ca/y/V5N4E1zecyxdIBjYnkQ=="],
 
