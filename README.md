@@ -1,8 +1,8 @@
 # Pano Vanilla Theme
 
-Pano'nun varsayılan teması. Aynı zamanda yeni tema oluştururken **template** olarak kullanılır — bütün license/DRM altyapısı bu klasörde hazır, yeni temayı bunu kopyalayarak başlatırsan otomatik miras alır.
+Pano's default theme. It is also used as a **template** when creating a new theme — the entire license/DRM infrastructure is already in place in this folder, so if you start a new theme by copying this one, it inherits everything automatically.
 
-## Geliştirme
+## Development
 
 ```bash
 bun install
@@ -10,44 +10,44 @@ bun run dev          # vite dev — :3000
 bun run build        # production build → build/
 ```
 
-`bun run dev` sırasında license/DRM altyapısı **devre dışı**, premium check'ler no-op olur. License doğrulaması sadece `bun run build` ile çalışan prebuild adımından sonra devreye girer.
+During `bun run dev` the license/DRM infrastructure is **disabled** and premium checks become no-ops. License validation only kicks in after the prebuild step, which runs as part of `bun run build`.
 
-## Bir temayı premium yapmak
+## Making a theme premium
 
-İki şey değişir, başka hiçbir şey yapmana gerek yok:
+Two things change, and you don't need to do anything else:
 
-1. `manifest.json` içinde:
+1. In `manifest.json`:
    ```diff
-   - "premium": false   // ya da bu satır yok
+   - "premium": false   // or this line is absent
    + "premium": true
    ```
 
-2. CI ortamında `PANO_LICENSE_SERVER` env değişkeninin set olduğundan emin ol (zaten release.yml'da `branch == 'main' ? 'prod' : 'dev'` olarak ayarlanmış, dokunmana gerek yok).
+2. Make sure the `PANO_LICENSE_SERVER` env variable is set in the CI environment (it is already configured in release.yml as `branch == 'main' ? 'prod' : 'dev'`, so you don't need to touch it).
 
-`bun run build` çalıştırıldığında:
-- prebuild script (`scripts/license/generate-license-constants.js`) panomc.com'dan **public key**'i çeker, `src/lib/server/license-constants.generated.js`'e gömer
-- vite build sonrası fingerprint plugin'i tüm `build/` dosyalarının kümülatif SHA-256'sını hesaplayıp `build/manifest.json`'a `fileFingerprint` olarak yazar
-- Pano host bu temayı kurarken/başlatırken aynı hash'i tekrar hesaplar, eşleşmiyorsa reddeder
-- Çalışma zamanında tema kendi dosyalarını da bağımsız olarak doğrular
+When `bun run build` runs:
+- the prebuild script (`scripts/license/generate-license-constants.js`) fetches the **public key** from panomc.com and embeds it into `src/lib/server/license-constants.generated.js`
+- after the vite build, the fingerprint plugin computes the cumulative SHA-256 of all `build/` files and writes it to `build/manifest.json` as `fileFingerprint`
+- when the Pano host installs/starts this theme it recomputes the same hash and rejects it if they don't match
+- at runtime the theme also validates its own files independently
 
-## License server seçimi (PANO_LICENSE_SERVER)
+## License server selection (PANO_LICENSE_SERVER)
 
-prebuild script şu sırayla seçim yapar:
+The prebuild script makes its choice in the following order:
 
-| Öncelik | Env değişkeni | Davranış |
+| Priority | Env variable | Behavior |
 |---|---|---|
-| 1 | `PANO_LICENSE_PUBLIC_KEY` | Public key'i direkt env'den alır (CI secret olarak), sunucuya hiç bağlanmaz |
-| 2 | `PANO_LICENSE_SERVER=prod` | `https://api.panomc.com`'dan key fetch eder |
-| 2 | `PANO_LICENSE_SERVER=dev` | `https://api-dev.panomc.com`'dan key fetch eder |
-| 2 | `PANO_LICENSE_SERVER=http://localhost:8087` | Verilen URL'den key fetch eder (lokal backend testi için) |
-| 3 | (hiçbiri set değil) | Git branch'ten otomatik tespit eder: `main`/`master`/`release-*` → prod, `dev`/`develop`/`feat-*`/`fix-*`/`hotfix-*` → dev |
-| 4 | (yine yok) | Premium tema build'i **fail eder** (sessizce free build'e düşmez) |
+| 1 | `PANO_LICENSE_PUBLIC_KEY` | Takes the public key directly from the env (as a CI secret) and never connects to a server |
+| 2 | `PANO_LICENSE_SERVER=prod` | Fetches the key from `https://api.panomc.com` |
+| 2 | `PANO_LICENSE_SERVER=dev` | Fetches the key from `https://api-dev.panomc.com` |
+| 2 | `PANO_LICENSE_SERVER=http://localhost:8087` | Fetches the key from the given URL (for testing against a local backend) |
+| 3 | (none set) | Auto-detects from the git branch: `main`/`master`/`release-*` → prod, `dev`/`develop`/`feat-*`/`fix-*`/`hotfix-*` → dev |
+| 4 | (still none) | The premium theme build **fails** (it does not silently fall back to a free build) |
 
-Bonus: `PANO_LICENSE_ISSUER` — JWT `iss` doğrulaması için override (genelde gerekmez, server'dan otomatik türetilir).
+Bonus: `PANO_LICENSE_ISSUER` — an override for JWT `iss` validation (usually not needed; it is derived automatically from the server).
 
 ## GitHub Actions
 
-Mevcut `.github/workflows/release.yml` zaten her şeyi hallediyor:
+The existing `.github/workflows/release.yml` already handles everything:
 
 ```yaml
 - name: Build
@@ -56,21 +56,21 @@ Mevcut `.github/workflows/release.yml` zaten her şeyi hallediyor:
   run: bun run build
 ```
 
-- `dev` branch'e push → otomatik dev sunucudan key fetch
-- `main` branch'e push (veya release) → prod sunucudan key fetch
+- push to the `dev` branch → automatically fetches the key from the dev server
+- push to the `main` branch (or a release) → fetches the key from the prod server
 
-Free temalarda bu env zararsız (manifest.premium=false olduğu için prebuild script onu görmezden gelir).
+On free themes this env is harmless (because manifest.premium=false, the prebuild script ignores it).
 
-### CI'da gizli key ile build almak istersen (offline / restricted runner)
+### If you want to build with a hidden key in CI (offline / restricted runner)
 
-Public key'i bir kez prod'dan alıp GH repository secret'a koy:
+Fetch the public key from prod once and put it in a GH repository secret:
 ```
 Settings → Secrets → Actions → New repository secret
   Name:  PANO_LICENSE_PUBLIC_KEY
-  Value: <base64 RSA-2048 key, panomc.com'dan>
+  Value: <base64 RSA-2048 key, from panomc.com>
 ```
 
-Sonra workflow:
+Then the workflow:
 ```yaml
 - name: Build
   env:
@@ -78,33 +78,33 @@ Sonra workflow:
   run: bun run build
 ```
 
-Bu durumda prebuild hiçbir HTTP çağrısı yapmaz, key'i secret'tan okur.
+In this case the prebuild makes no HTTP calls and reads the key from the secret.
 
-## Lokal'de premium tema build almak
+## Building a premium theme locally
 
 ```bash
-# Lokal Pano backend'ini :8087'de çalıştırıyorsan
+# If you are running your local Pano backend on :8087
 PANO_LICENSE_SERVER=http://localhost:8087 bun run build
 
-# Veya panomc.com'un dev sunucusunu kullanmak istersen
+# Or if you want to use panomc.com's dev server
 PANO_LICENSE_SERVER=dev bun run build
 
-# Geçici olarak free build (test için)
+# Temporarily a free build (for testing)
 PANO_LICENSE_REQUIRED=false bun run build
 ```
 
-## Yeni tema oluşturmak
+## Creating a new theme
 
 ```bash
 cp -r vanilla-theme shadow-theme
 cd shadow-theme
 
-# 1. manifest.json düzenle: id, title, version, screenshots
-# 2. Premium olacaksa: "premium": true ekle
-# 3. (varsa) .github/workflows/release.yml içinde zip ismini güncelle
+# 1. Edit manifest.json: id, title, version, screenshots
+# 2. If it will be premium: add "premium": true
+# 3. (if present) update the zip name in .github/workflows/release.yml
 
 bun install
 bun run dev
 ```
 
-`scripts/license/` ve `src/lib/server/license-runtime.js` zaten bütün premium altyapıyı kapsıyor; sadece manifest'i değiştirmek yeterli.
+`scripts/license/` and `src/lib/server/license-runtime.js` already cover the entire premium infrastructure; just changing the manifest is enough.
