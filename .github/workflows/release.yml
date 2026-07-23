@@ -1,109 +1,19 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-
 name: Pano Vanilla Theme Release
 
 on:
   push:
-    branches: [ "dev", "master" ]
+    branches: ["dev", "master"]
 
 permissions:
   contents: read
 
 jobs:
-  get-next-version:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'latest'
-
-      - name: Dry run to get next release version
-        id: get-next-version
-        run: |
-          export NEXT_TAG_VERSION=$(npx semantic-release --dry-run --force | grep 'next release version is ' | awk -F"next release version is " '{print $2}')
-          echo "new_tag_version=${NEXT_TAG_VERSION}" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-
-      - name: Echo new_tag_version
-        run: |
-          echo "Extracted Tag Version: ${{ steps.get-next-version.outputs.new_tag_version }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-    outputs:
-      new_tag_version: ${{ steps.get-next-version.outputs.new_tag_version }}
-
-  build-and-release:
-    runs-on: ubuntu-latest
-    needs: get-next-version
-    if: ${{needs.get-next-version.outputs.new_tag_version != ''}}
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive          # Fetch submodules
-          fetch-depth: 0
-          token: ${{ secrets.TOKEN_GITHUB }}
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
-
-      - uses: oven-sh/setup-bun@v2
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'latest'
-
-      - name: Install
-        run: bun install
-
-      - name: Create .env.local if branch is dev
-        run: |
-          if [[ "${{ steps.extract_branch.outputs.branch }}" == "dev" ]]; then
-            echo "VITE_PANO_WEBSITE_URL=https://dev.panomc.com" > .env.local
-          fi
-
-      - name: Build
-        # PANO_LICENSE_SERVER tells the theme's prebuild script which panomc.com
-        # license server to fetch the verification public key from. Free themes
-        # (manifest.premium=false) ignore this; premium themes require it (or a
-        # PANO_LICENSE_PUBLIC_KEY secret). mamasterin branch → prod, anything else → dev.
-        env:
-          PANO_LICENSE_SERVER: ${{ steps.extract_branch.outputs.branch == 'master' && 'prod' || 'dev' }}
-          # Embeds semantic-release's next-tag into license-constants.generated.js
-          # so the theme runtime's expected `ver` matches the `ver` claim panomc.com
-          # signs into the JWT. Without this the constant defaults to package.json
-          # version (e.g. "1.0.0") while the backend has registered "1.0.0-dev.44",
-          # and the theme refuses to serve with a version-mismatch error.
-          PANO_THEME_VERSION_OVERRIDE: ${{ needs.get-next-version.outputs.new_tag_version }}
-        run: bun run build
-
-      - name: Update manifest.json version
-        run: |
-          sed -i 's/"version": *"[^"]*"/"version": "v${{ needs.get-next-version.outputs.new_tag_version }}"/' build/manifest.json
-
-      - name: Zip Build
-        run: cd build && zip -r ../vanilla-theme-v${{ needs.get-next-version.outputs.new_tag_version }}.zip . && cd ..
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-        run: npx semantic-release@24.2.6 --force
+  release:
+    # Shared theme pipeline from the engine repo: version-override + license-server
+    # switches live there once, and packaging uses the DETERMINISTIC zip (its
+    # sha256 is the premium license identity).
+    uses: PanoMC/sdk/.github/workflows/theme-release.yml@dev
+    with:
+      theme-id: vanilla-theme
+    secrets:
+      TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
