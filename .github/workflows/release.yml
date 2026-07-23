@@ -4,8 +4,13 @@ on:
   push:
     branches: ["dev", "master"]
 
+# The called workflow's jobs request these; a reusable workflow cannot be
+# granted more than the caller allows, so the caller must allow them all.
 permissions:
-  contents: read
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
 
 jobs:
   release:
