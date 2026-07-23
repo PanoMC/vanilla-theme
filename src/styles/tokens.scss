@@ -1,0 +1,11 @@
+// Design tokens — the FIRST import of style.scss, so anything set here wins
+// over the engine's defaults (every variable in the SDK's custom-bootstrap.scss
+// and themes.scss is declared !default).
+//
+// vanilla-theme IS the default look, so this file is intentionally empty.
+// A restyle-only theme changes ONLY this file, e.g.:
+//
+//   $primary: #7c3aed;
+//   $secondary: #fbbf24;
+//   $border-radius: 1.25rem;
+//   $font-family-base: "Nunito", sans-serif;

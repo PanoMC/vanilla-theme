@@ -1,6 +1,11 @@
-// Import PanoUI and 
+// Design tokens first: everything in tokens.scss overrides the engine's
+// !default variables (SDK custom-bootstrap.scss + themes.scss).
 
-@import "../pano-sdk/core/scss/main";
+@import "tokens";
+
+// Import PanoUI
+
+@import "node_modules/@panomc/sdk/core/scss/main";
 @import "node_modules/tippy.js/dist/tippy";
 @import "node_modules/animate.css/animate.min";
 
