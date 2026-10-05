@@ -444,7 +444,9 @@
   },
   "page-errors": {
     "404": "The page is not found!",
+    "title": "Error: {status}",
     "404-description": "The page you're looking for doesn't exist or has been moved.",
+    "assets-failed": "Some of the page's files could not be loaded. Please refresh the page; if it keeps happening, contact support.",
     "need-help": "If you believe this is an error, please contact support."
   },
   "ticket-statuses": {
@@ -453,6 +455,7 @@
     "closed": "Closed"
   },
   "notifications": {
+    "UNKNOWN": "This notification is no longer supported.",
     "AN_ADMIN_CLOSED_TICKET": "An admin closed your ticket (<b>#{id}</b>).",
     "AN_ADMIN_REPLIED_TICKET": "An admin replied to your ticket (<b>#{id}</b>)."
   },
