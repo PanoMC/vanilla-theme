@@ -1,0 +1,7 @@
+{
+  "namespace": "whitelist",
+  "pluginId": "pano-plugin-whitelist",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {}
+}

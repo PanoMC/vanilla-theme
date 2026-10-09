@@ -1,0 +1,37 @@
+{
+  "namespace": "avatar",
+  "pluginId": "pano-plugin-avatar",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "avatar:AvatarUpload": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/view/AvatarUpload.svelte",
+      "props": {
+        "onRegister": {
+          "type": "any",
+          "required": true
+        },
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "slot": "settings-card-rows",
+          "id": "pano-plugin-avatar-upload",
+          "priority": 110
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

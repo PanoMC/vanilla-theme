@@ -1,0 +1,256 @@
+{
+  "market/api": {
+    "version": 1,
+    "scope": "app",
+    "state": [],
+    "actions": [
+      "call",
+      "apiGet",
+      "post",
+      "put",
+      "del"
+    ],
+    "types": {
+      "state": "ApiState",
+      "actions": "ApiActions"
+    }
+  },
+  "market/cart": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "mode",
+      "status",
+      "lines",
+      "quote",
+      "quoteStale",
+      "count",
+      "error",
+      "codes",
+      "reduced",
+      "replaceRequest"
+    ],
+    "actions": [
+      "init",
+      "autoInit",
+      "add",
+      "update",
+      "setQuantity",
+      "remove",
+      "clear",
+      "putCart",
+      "setCurrency",
+      "afterCheckout",
+      "requestQuote",
+      "watchQuotes",
+      "retry",
+      "clampToQuote",
+      "confirmReplace",
+      "cancelReplace",
+      "reset"
+    ],
+    "types": {
+      "state": "CartState",
+      "actions": "CartActions"
+    }
+  },
+  "market/checkout": {
+    "version": 1,
+    "scope": "instance",
+    "state": [],
+    "actions": [],
+    "types": {
+      "state": "CheckoutState",
+      "actions": "CheckoutActions"
+    }
+  },
+  "market/checkoutDraft": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "guest",
+      "isGift",
+      "recipientUsername",
+      "giftMessage",
+      "couponCode",
+      "creatorCode",
+      "shippingAddressId",
+      "shippingAddress",
+      "shippingMethodId",
+      "saveAddress",
+      "billingOpen",
+      "billingSameAsShipping",
+      "billingInfo",
+      "paymentMethodId",
+      "payWithCredits",
+      "useCredits",
+      "idempotencyKey",
+      "bodyHash"
+    ],
+    "actions": [
+      "get",
+      "restore",
+      "patch",
+      "set",
+      "flush",
+      "clear",
+      "detach",
+      "sessionChanged"
+    ],
+    "types": {
+      "state": "CheckoutDraftState",
+      "actions": "CheckoutDraftActions"
+    }
+  },
+  "market/clock": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "now"
+    ],
+    "actions": [],
+    "types": {
+      "state": "ClockState",
+      "actions": "ClockActions"
+    }
+  },
+  "market/currency": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "preferred"
+    ],
+    "actions": [
+      "init",
+      "setPreferred",
+      "effective",
+      "adoptUrl",
+      "needsRefetch",
+      "isMulti"
+    ],
+    "types": {
+      "state": "CurrencyState",
+      "actions": "CurrencyActions"
+    }
+  },
+  "market/format": {
+    "version": 1,
+    "scope": "app",
+    "state": [],
+    "actions": [
+      "formatPrice",
+      "formatMoney",
+      "formatCredits",
+      "formatDate",
+      "formatDateTime",
+      "formatPeriod",
+      "countryName"
+    ],
+    "types": {
+      "state": "FormatState",
+      "actions": "FormatActions"
+    }
+  },
+  "market/host": {
+    "version": 1,
+    "scope": "app",
+    "state": [],
+    "actions": [
+      "has",
+      "loginUrl",
+      "registerUrl"
+    ],
+    "types": {
+      "state": "HostState",
+      "actions": "HostActions"
+    }
+  },
+  "market/order": {
+    "version": 1,
+    "scope": "instance",
+    "state": [],
+    "actions": [],
+    "types": {
+      "state": "OrderState",
+      "actions": "OrderActions"
+    }
+  },
+  "market/product": {
+    "version": 1,
+    "scope": "instance",
+    "state": [],
+    "actions": [],
+    "types": {
+      "state": "ProductState",
+      "actions": "ProductActions"
+    }
+  },
+  "market/profile": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "summary"
+    ],
+    "actions": [
+      "refresh",
+      "reset",
+      "setLoader"
+    ],
+    "types": {
+      "state": "ProfileState",
+      "actions": "ProfileActions"
+    }
+  },
+  "market/session": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "user",
+      "isLoggedIn",
+      "csrfToken"
+    ],
+    "actions": [
+      "sync",
+      "onChange"
+    ],
+    "types": {
+      "state": "SessionState",
+      "actions": "SessionActions"
+    }
+  },
+  "market/settings": {
+    "version": 1,
+    "scope": "app",
+    "state": [
+      "settings"
+    ],
+    "actions": [
+      "set",
+      "ensure"
+    ],
+    "types": {
+      "state": "SettingsState",
+      "actions": "SettingsActions"
+    }
+  },
+  "market/store": {
+    "version": 1,
+    "scope": "instance",
+    "state": [],
+    "actions": [],
+    "types": {
+      "state": "StoreState",
+      "actions": "StoreActions"
+    }
+  },
+  "market/widgets": {
+    "version": 1,
+    "scope": "instance",
+    "state": [],
+    "actions": [],
+    "types": {
+      "state": "WidgetsState",
+      "actions": "WidgetsActions"
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "namespace": "social-login",
+  "pluginId": "pano-plugin-social-login",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "social-login:ProviderIcon": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/ProviderIcon.svelte",
+      "props": {
+        "meta": {
+          "type": "any",
+          "required": false
+        },
+        "colored": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialAccountLinks": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/view/SocialAccountLinks.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "social-login:ProviderIcon"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialCallbackPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/SocialCallbackPage.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/social-login/callback"
+      },
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialCompletePage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/SocialCompletePage.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/social-login/complete"
+      },
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialLinkExistsPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/SocialLinkExistsPage.svelte",
+      "props": {},
+      "uses": [
+        "social-login:ProviderIcon"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/social-login/link"
+      },
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialLinksProfileSidebar": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/view/SocialLinksProfileSidebar.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "social-login:ProviderIcon"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialLoginButtons": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/view/SocialLoginButtons.svelte",
+      "props": {},
+      "uses": [
+        "social-login:ProviderIcon"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "social-login:SocialRegisterPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/SocialRegisterPage.svelte",
+      "props": {},
+      "uses": [
+        "social-login:ProviderIcon"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/social-login/register"
+      },
+      "home": null,
+      "widget": null
+    }
+  }
+}

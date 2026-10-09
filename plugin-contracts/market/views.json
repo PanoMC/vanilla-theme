@@ -1,0 +1,2316 @@
+{
+  "namespace": "market",
+  "pluginId": "pano-plugin-market",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "market:AddToCart": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/AddToCart.svelte",
+      "props": {
+        "buy": {
+          "type": "any",
+          "required": true
+        },
+        "slug": {
+          "type": "any",
+          "required": true
+        },
+        "missing": {
+          "type": "any",
+          "required": false
+        },
+        "pending": {
+          "type": "any",
+          "required": false
+        },
+        "onadd": {
+          "type": "any",
+          "required": false
+        },
+        "onbuy": {
+          "type": "any",
+          "required": false
+        },
+        "onsubscribe": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:AddressForm": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/AddressForm.svelte",
+      "props": {
+        "kind": {
+          "type": "any",
+          "required": false
+        },
+        "required": {
+          "type": "any",
+          "required": false
+        },
+        "value": {
+          "type": "any",
+          "required": false
+        },
+        "errors": {
+          "type": "any",
+          "required": false
+        },
+        "countries": {
+          "type": "any",
+          "required": false
+        },
+        "fields": {
+          "type": "any",
+          "required": false
+        },
+        "showCompany": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        },
+        "onblur": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:BillingSection": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/BillingSection.svelte",
+      "props": {
+        "req": {
+          "type": "any",
+          "required": true
+        },
+        "info": {
+          "type": "any",
+          "required": false
+        },
+        "errors": {
+          "type": "any",
+          "required": false
+        },
+        "shippingRequired": {
+          "type": "any",
+          "required": false
+        },
+        "sameAsShipping": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        },
+        "onopen": {
+          "type": "any",
+          "required": false
+        },
+        "onsame": {
+          "type": "any",
+          "required": false
+        },
+        "onblur": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:AddressForm"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:BundleList": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/BundleList.svelte",
+      "props": {
+        "items": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:BuyerSection": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/BuyerSection.svelte",
+      "props": {
+        "user": {
+          "type": "any",
+          "required": false
+        },
+        "guest": {
+          "type": "any",
+          "required": false
+        },
+        "errors": {
+          "type": "any",
+          "required": false
+        },
+        "loginHref": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        },
+        "onblur": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CartLineRow": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/cart/CartLineRow.svelte",
+      "props": {
+        "row": {
+          "type": "any",
+          "required": true
+        },
+        "money": {
+          "type": "any",
+          "required": true
+        },
+        "creditsEnabled": {
+          "type": "any",
+          "required": false
+        },
+        "creditName": {
+          "type": "any",
+          "required": false
+        },
+        "onnavigate": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CartOffcanvas": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/cart/CartOffcanvas.svelte",
+      "props": {},
+      "uses": [
+        "market:CartLineRow",
+        "market:ConfirmModal",
+        "market:ErrorAlert",
+        "market:ReplaceCartModal"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "hook": "theme:top",
+          "id": "market:CartOffcanvas",
+          "priority": 10,
+          "skipLoad": true
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CategoryNode": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/CategoryNode.svelte",
+      "props": {
+        "row": {
+          "type": "any",
+          "required": true
+        },
+        "active": {
+          "type": "any",
+          "required": false
+        },
+        "onselect": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CategoryTree": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/CategoryTree.svelte",
+      "props": {
+        "categories": {
+          "type": "any",
+          "required": false
+        },
+        "selected": {
+          "type": "any",
+          "required": false
+        },
+        "totalCount": {
+          "type": "any",
+          "required": false
+        },
+        "onselect": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:CategoryNode"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CheckoutPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/CheckoutPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:BillingSection",
+        "market:BuyerSection",
+        "market:CreditsSection",
+        "market:ErrorAlert",
+        "market:GiftSection",
+        "market:LegalCheckbox",
+        "market:LoadingBlock",
+        "market:LoginRequiredCard",
+        "market:OrderSummary",
+        "market:PaymentMethodPicker",
+        "market:ShippingSection",
+        "market:StoreStateCard"
+      ],
+      "slots": [
+        "market:checkout:payment",
+        "market:checkout:shipping"
+      ],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/store/checkout",
+        "controller": "checkout"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:CodeInput": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/CodeInput.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": true
+        },
+        "label": {
+          "type": "any",
+          "required": true
+        },
+        "applied": {
+          "type": "any",
+          "required": false
+        },
+        "info": {
+          "type": "any",
+          "required": false
+        },
+        "busy": {
+          "type": "any",
+          "required": false
+        },
+        "disabled": {
+          "type": "any",
+          "required": false
+        },
+        "onapply": {
+          "type": "any",
+          "required": false
+        },
+        "onremove": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ComparisonTable": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/ComparisonTable.svelte",
+      "props": {
+        "comparison": {
+          "type": "any",
+          "required": true
+        },
+        "productMap": {
+          "type": "any",
+          "required": false
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ConfirmModal": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/common/ConfirmModal.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": true
+        },
+        "title": {
+          "type": "any",
+          "required": true
+        },
+        "message": {
+          "type": "any",
+          "required": false
+        },
+        "confirmLabel": {
+          "type": "any",
+          "required": false
+        },
+        "cancelLabel": {
+          "type": "any",
+          "required": false
+        },
+        "variant": {
+          "type": "any",
+          "required": false
+        },
+        "onconfirm": {
+          "type": "any",
+          "required": false
+        },
+        "oncancel": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CopyButton": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/common/CopyButton.svelte",
+      "props": {
+        "text": {
+          "type": "any",
+          "required": false
+        },
+        "label": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CreatorPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/profile/CreatorPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:CopyButton",
+        "market:ErrorAlert",
+        "market:LoadingBlock",
+        "market:Pager",
+        "market:ProfilePills",
+        "market:StoreStateCard"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/profile/creator",
+        "systemLayout": "ProfileLayout"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:CreditsPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/profile/CreditsPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:ErrorAlert",
+        "market:LedgerTable",
+        "market:LoadingBlock",
+        "market:Pager",
+        "market:ProfilePills",
+        "market:StoreStateCard",
+        "market:TopUpCard"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/profile/credits",
+        "systemLayout": "ProfileLayout"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:CreditsSection": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/CreditsSection.svelte",
+      "props": {
+        "credits": {
+          "type": "any",
+          "required": true
+        },
+        "config": {
+          "type": "any",
+          "required": false
+        },
+        "payWithCredits": {
+          "type": "any",
+          "required": false
+        },
+        "useCredits": {
+          "type": "any",
+          "required": false
+        },
+        "method": {
+          "type": "any",
+          "required": false
+        },
+        "currency": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        },
+        "disabled": {
+          "type": "any",
+          "required": false
+        },
+        "alertKey": {
+          "type": "any",
+          "required": false
+        },
+        "alertMax": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CurrencySelect": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/CurrencySelect.svelte",
+      "props": {
+        "currencies": {
+          "type": "any",
+          "required": false
+        },
+        "selected": {
+          "type": "any",
+          "required": false
+        },
+        "id": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:CustomFields": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/CustomFields.svelte",
+      "props": {
+        "fields": {
+          "type": "any",
+          "required": false
+        },
+        "values": {
+          "type": "any",
+          "required": false
+        },
+        "errors": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        },
+        "onblur": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ErrorAlert": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/common/ErrorAlert.svelte",
+      "props": {
+        "message": {
+          "type": "any",
+          "required": false
+        },
+        "retryLabel": {
+          "type": "any",
+          "required": false
+        },
+        "onretry": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:GenericPaymentForm": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/GenericPaymentForm.svelte",
+      "props": {
+        "fields": {
+          "type": "any",
+          "required": false
+        },
+        "continuePayment": {
+          "type": "any",
+          "required": true
+        },
+        "waiting": {
+          "type": "any",
+          "required": false
+        },
+        "seconds": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:GiftRedeemForm": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/GiftRedeemForm.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:GiftSection": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/GiftSection.svelte",
+      "props": {
+        "isGift": {
+          "type": "any",
+          "required": false
+        },
+        "recipient": {
+          "type": "any",
+          "required": false
+        },
+        "message": {
+          "type": "any",
+          "required": false
+        },
+        "errors": {
+          "type": "any",
+          "required": false
+        },
+        "lineNames": {
+          "type": "any",
+          "required": false
+        },
+        "recipientUnknown": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        },
+        "onblur": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:GoalWidget": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/widgets/GoalWidget.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        },
+        "sidebarId": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "sidebar": "home",
+          "id": "market-goals",
+          "priority": 70
+        },
+        {
+          "sidebar": "profile",
+          "id": "market-goals",
+          "priority": 70
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": true
+    },
+    "market:LedgerTable": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/LedgerTable.svelte",
+      "props": {
+        "entries": {
+          "type": "any",
+          "required": false
+        },
+        "creditName": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:LegalCheckbox": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/LegalCheckbox.svelte",
+      "props": {
+        "legal": {
+          "type": "any",
+          "required": true
+        },
+        "checked": {
+          "type": "any",
+          "required": false
+        },
+        "invalid": {
+          "type": "any",
+          "required": false
+        },
+        "updated": {
+          "type": "any",
+          "required": false
+        },
+        "disabled": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:LegalModal"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:LegalModal": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/LegalModal.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": false
+        },
+        "title": {
+          "type": "any",
+          "required": false
+        },
+        "content": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:LoadingBlock": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/common/LoadingBlock.svelte",
+      "props": {
+        "rows": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:LoginRequiredCard": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/LoginRequiredCard.svelte",
+      "props": {
+        "loginHref": {
+          "type": "any",
+          "required": false
+        },
+        "registerHref": {
+          "type": "any",
+          "required": false
+        },
+        "showReturnHint": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:MarketProfileBlock": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/MarketProfileBlock.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:NavCart": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/cart/NavCart.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "slot": "navbar-right",
+          "id": "market-cart",
+          "priority": 50
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": true
+    },
+    "market:OrderActions": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/OrderActions.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": true
+        },
+        "order": {
+          "type": "any",
+          "required": true
+        },
+        "view": {
+          "type": "any",
+          "required": true
+        },
+        "token": {
+          "type": "any",
+          "required": false
+        },
+        "onrefetch": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:ConfirmModal",
+        "market:ErrorAlert"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:OrderItems": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/OrderItems.svelte",
+      "props": {
+        "items": {
+          "type": "any",
+          "required": false
+        },
+        "currency": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:OrderPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/OrderPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:ErrorAlert",
+        "market:OrderActions",
+        "market:OrderItems",
+        "market:OrderStatusBlock",
+        "market:OrderTotals",
+        "market:PaymentPanel",
+        "market:ShipmentList",
+        "market:StoreStateCard"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/store/order/[id]",
+        "controller": "order"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:OrderStatusBadge": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/OrderStatusBadge.svelte",
+      "props": {
+        "status": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:OrderStatusBlock": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/OrderStatusBlock.svelte",
+      "props": {
+        "view": {
+          "type": "any",
+          "required": true
+        },
+        "order": {
+          "type": "any",
+          "required": true
+        },
+        "extras": {
+          "type": "any",
+          "required": true
+        },
+        "left": {
+          "type": "any",
+          "required": false
+        },
+        "loginHref": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:OrderSummary": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/OrderSummary.svelte",
+      "props": {
+        "quote": {
+          "type": "any",
+          "required": false
+        },
+        "quoting": {
+          "type": "any",
+          "required": false
+        },
+        "topup": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        },
+        "hideCodes": {
+          "type": "any",
+          "required": false
+        },
+        "disabled": {
+          "type": "any",
+          "required": false
+        },
+        "couponCode": {
+          "type": "any",
+          "required": false
+        },
+        "creatorCode": {
+          "type": "any",
+          "required": false
+        },
+        "couponState": {
+          "type": "any",
+          "required": false
+        },
+        "creatorState": {
+          "type": "any",
+          "required": false
+        },
+        "oncode": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:CodeInput",
+        "market:LoadingBlock"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:OrderTotals": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/OrderTotals.svelte",
+      "props": {
+        "order": {
+          "type": "any",
+          "required": true
+        },
+        "pricesIncludeVat": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:Pager": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/Pager.svelte",
+      "props": {
+        "page": {
+          "type": "any",
+          "required": false
+        },
+        "totalPages": {
+          "type": "any",
+          "required": false
+        },
+        "onpage": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PaymentEmbedded": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/PaymentEmbedded.svelte",
+      "props": {
+        "order": {
+          "type": "any",
+          "required": true
+        },
+        "payment": {
+          "type": "any",
+          "required": true
+        },
+        "start": {
+          "type": "any",
+          "required": true
+        },
+        "continuePayment": {
+          "type": "any",
+          "required": true
+        },
+        "refresh": {
+          "type": "any",
+          "required": false
+        },
+        "waiting": {
+          "type": "any",
+          "required": false
+        },
+        "seconds": {
+          "type": "any",
+          "required": false
+        },
+        "onuierror": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:GenericPaymentForm"
+      ],
+      "slots": [
+        "market:order:payment"
+      ],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PaymentIframe": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/PaymentIframe.svelte",
+      "props": {
+        "iframe": {
+          "type": "any",
+          "required": true
+        },
+        "title": {
+          "type": "any",
+          "required": false
+        },
+        "onerror": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PaymentInstructions": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/PaymentInstructions.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": true
+        },
+        "order": {
+          "type": "any",
+          "required": true
+        },
+        "instructions": {
+          "type": "any",
+          "required": true
+        },
+        "token": {
+          "type": "any",
+          "required": false
+        },
+        "readonly": {
+          "type": "any",
+          "required": false
+        },
+        "onrefetch": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:CopyButton"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PaymentMethodPicker": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/PaymentMethodPicker.svelte",
+      "props": {
+        "quote": {
+          "type": "any",
+          "required": false
+        },
+        "selectedId": {
+          "type": "any",
+          "required": false
+        },
+        "payWithCredits": {
+          "type": "any",
+          "required": false
+        },
+        "currency": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        },
+        "disabled": {
+          "type": "any",
+          "required": false
+        },
+        "alertKey": {
+          "type": "any",
+          "required": false
+        },
+        "alertDetail": {
+          "type": "any",
+          "required": false
+        },
+        "onselect": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PaymentPanel": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/PaymentPanel.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": true
+        },
+        "order": {
+          "type": "any",
+          "required": true
+        },
+        "view": {
+          "type": "any",
+          "required": true
+        },
+        "token": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        },
+        "onrefetch": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:BillingSection",
+        "market:CreditsSection",
+        "market:PaymentEmbedded",
+        "market:PaymentIframe",
+        "market:PaymentInstructions",
+        "market:PaymentMethodPicker"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PriceTag": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/PriceTag.svelte",
+      "props": {
+        "product": {
+          "type": "any",
+          "required": true
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        },
+        "showVat": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ProductCard": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/ProductCard.svelte",
+      "props": {
+        "product": {
+          "type": "any",
+          "required": true
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:PriceTag",
+        "market:SaleBadge",
+        "market:SaleCountdown",
+        "market:StockNote"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ProductPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/ProductPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:AddToCart",
+        "market:BundleList",
+        "market:CustomFields",
+        "market:PriceTag",
+        "market:QuantityInput",
+        "market:RequiredProducts",
+        "market:SaleBadge",
+        "market:SaleCountdown",
+        "market:ServerSelect",
+        "market:StockNote",
+        "market:StoreStateCard",
+        "market:VariantPicker"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/store/[slug]",
+        "controller": "product"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:ProfilePills": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/ProfilePills.svelte",
+      "props": {
+        "summary": {
+          "type": "any",
+          "required": false
+        },
+        "current": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:PurchasesPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/profile/PurchasesPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:ErrorAlert",
+        "market:GiftRedeemForm",
+        "market:LoadingBlock",
+        "market:OrderStatusBadge",
+        "market:Pager",
+        "market:ProfilePills"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/profile/purchases",
+        "systemLayout": "ProfileLayout"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:QuantityInput": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/QuantityInput.svelte",
+      "props": {
+        "value": {
+          "type": "any",
+          "required": false
+        },
+        "max": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:RecentBuyersWidget": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/widgets/RecentBuyersWidget.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        },
+        "sidebarId": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "sidebar": "home",
+          "id": "market-recent-buyers",
+          "priority": 50
+        },
+        {
+          "sidebar": "profile",
+          "id": "market-recent-buyers",
+          "priority": 50
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": true
+    },
+    "market:ReplaceCartModal": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/cart/ReplaceCartModal.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:RequiredProducts": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/RequiredProducts.svelte",
+      "props": {
+        "products": {
+          "type": "any",
+          "required": false
+        },
+        "requireOnlyOne": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:SaleBadge": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/SaleBadge.svelte",
+      "props": {
+        "product": {
+          "type": "any",
+          "required": true
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:SaleCountdown": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/SaleCountdown.svelte",
+      "props": {
+        "product": {
+          "type": "any",
+          "required": true
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ServerSelect": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/ServerSelect.svelte",
+      "props": {
+        "choices": {
+          "type": "any",
+          "required": false
+        },
+        "value": {
+          "type": "any",
+          "required": false
+        },
+        "error": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ShipmentList": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/order/ShipmentList.svelte",
+      "props": {
+        "shipments": {
+          "type": "any",
+          "required": false
+        },
+        "shippingAddress": {
+          "type": "any",
+          "required": false
+        },
+        "billingInfo": {
+          "type": "any",
+          "required": false
+        },
+        "email": {
+          "type": "any",
+          "required": false
+        },
+        "owner": {
+          "type": "any",
+          "required": false
+        },
+        "showShipments": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:CopyButton"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:ShippingSection": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/checkout/ShippingSection.svelte",
+      "props": {
+        "loggedIn": {
+          "type": "any",
+          "required": false
+        },
+        "addresses": {
+          "type": "any",
+          "required": false
+        },
+        "shippingAddressId": {
+          "type": "any",
+          "required": false
+        },
+        "address": {
+          "type": "any",
+          "required": false
+        },
+        "saveAddress": {
+          "type": "any",
+          "required": false
+        },
+        "errors": {
+          "type": "any",
+          "required": false
+        },
+        "required": {
+          "type": "any",
+          "required": false
+        },
+        "countryCodes": {
+          "type": "any",
+          "required": false
+        },
+        "quote": {
+          "type": "any",
+          "required": false
+        },
+        "quoting": {
+          "type": "any",
+          "required": false
+        },
+        "addressReady": {
+          "type": "any",
+          "required": false
+        },
+        "selectedMethodId": {
+          "type": "any",
+          "required": false
+        },
+        "removeCents": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": false
+        },
+        "onblur": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:AddressForm"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:StatsWidget": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/widgets/StatsWidget.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        },
+        "sidebarId": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "sidebar": "home",
+          "id": "market-stats",
+          "priority": 40
+        },
+        {
+          "sidebar": "profile",
+          "id": "market-stats",
+          "priority": 40
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": true
+    },
+    "market:StockNote": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/StockNote.svelte",
+      "props": {
+        "product": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:StoreModules": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/widgets/StoreModules.svelte",
+      "props": {
+        "settings": {
+          "type": "any",
+          "required": false
+        },
+        "widgets": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:GoalWidget",
+        "market:RecentBuyersWidget",
+        "market:TopSupportersWidget"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:StorePage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/StorePage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:CategoryTree",
+        "market:ComparisonTable",
+        "market:ErrorAlert",
+        "market:Pager",
+        "market:ProductCard",
+        "market:StoreModules",
+        "market:StoreStateCard",
+        "market:StoreToolbar",
+        "market:TestModeBanner"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/store",
+        "controller": "store"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:StoreStateCard": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/StoreStateCard.svelte",
+      "props": {
+        "icon": {
+          "type": "any",
+          "required": false
+        },
+        "text": {
+          "type": "any",
+          "required": false
+        },
+        "onretry": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:StoreToolbar": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/StoreToolbar.svelte",
+      "props": {
+        "settings": {
+          "type": "any",
+          "required": false
+        },
+        "search": {
+          "type": "any",
+          "required": false
+        },
+        "sort": {
+          "type": "any",
+          "required": false
+        },
+        "currency": {
+          "type": "any",
+          "required": false
+        },
+        "onsearch": {
+          "type": "any",
+          "required": true
+        },
+        "onsort": {
+          "type": "any",
+          "required": true
+        },
+        "oncurrency": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:CurrencySelect"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:SubscriptionCard": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/SubscriptionCard.svelte",
+      "props": {
+        "subscription": {
+          "type": "any",
+          "required": true
+        },
+        "onreplace": {
+          "type": "any",
+          "required": false
+        },
+        "onreload": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:ConfirmModal",
+        "market:ErrorAlert"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:SubscriptionsPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/pages/profile/SubscriptionsPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "market:ErrorAlert",
+        "market:LoadingBlock",
+        "market:ProfilePills",
+        "market:SubscriptionCard"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/profile/subscriptions",
+        "systemLayout": "ProfileLayout"
+      },
+      "home": null,
+      "widget": null
+    },
+    "market:TestModeBanner": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/TestModeBanner.svelte",
+      "props": {
+        "settings": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:TopSupportersWidget": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/widgets/TopSupportersWidget.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        },
+        "currency": {
+          "type": "any",
+          "required": false
+        },
+        "sidebarId": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "sidebar": "home",
+          "id": "market-top-supporters",
+          "priority": 60
+        },
+        {
+          "sidebar": "profile",
+          "id": "market-top-supporters",
+          "priority": 60
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": true
+    },
+    "market:TopUpCard": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/profile/TopUpCard.svelte",
+      "props": {
+        "topUp": {
+          "type": "any",
+          "required": false
+        },
+        "packs": {
+          "type": "any",
+          "required": false
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        },
+        "creditName": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "market:ProductCard"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:VariantPicker": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/product/VariantPicker.svelte",
+      "props": {
+        "product": {
+          "type": "any",
+          "required": true
+        },
+        "selection": {
+          "type": "any",
+          "required": false
+        },
+        "variantId": {
+          "type": "any",
+          "required": false
+        },
+        "error": {
+          "type": "any",
+          "required": false
+        },
+        "onselect": {
+          "type": "any",
+          "required": false
+        },
+        "onvariant": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

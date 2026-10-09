@@ -1,0 +1,27 @@
+{
+  "namespace": "redirects",
+  "pluginId": "pano-plugin-link-redirects",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "redirects:RedirectPage": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/RedirectPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

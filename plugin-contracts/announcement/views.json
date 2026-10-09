@@ -1,0 +1,44 @@
+{
+  "namespace": "announcement",
+  "pluginId": "pano-plugin-announcement",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "announcement:Announcements": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/Announcements.svelte",
+      "props": {
+        "announcements": {
+          "type": "any",
+          "required": false
+        },
+        "hookName": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "hook": "theme:top",
+          "id": "announcement:Announcements",
+          "priority": 10,
+          "skipLoad": true
+        },
+        {
+          "hook": "page:home:top",
+          "id": "announcement:Announcements",
+          "priority": 10,
+          "skipLoad": true
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

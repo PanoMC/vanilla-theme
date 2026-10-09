@@ -1,0 +1,27 @@
+{
+  "namespace": "media-page",
+  "pluginId": "pano-plugin-media-page",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "media-page:GalleryPage": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/pages/GalleryPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

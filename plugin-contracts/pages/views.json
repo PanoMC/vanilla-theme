@@ -1,0 +1,27 @@
+{
+  "namespace": "pages",
+  "pluginId": "pano-plugin-pages",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "pages:CustomPage": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/CustomPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

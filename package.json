@@ -8,6 +8,8 @@
     "build:ui": "sass src/styles/style.scss static/style.css --load-path=. --load-path=node_modules --quiet-deps --no-source-map",
     "prebuild": "bun node_modules/@panomc/theme-core/bin/generate-runtime-shims.js && node node_modules/@panomc/theme-core/bin/license/generate-license-constants.js",
     "build": "vite build && node node_modules/@panomc/theme-core/bin/license/finalize-fingerprint.js",
+    "sync": "bun node_modules/@panomc/theme-core/bin/theme-core.js sync",
+    "check": "bun node_modules/@panomc/theme-core/bin/theme-core.js check",
     "preview": "vite preview ",
     "lint": "npm-run-all -c lint:*",
     "lint:prettier": "prettier -c . --config .prettierrc",

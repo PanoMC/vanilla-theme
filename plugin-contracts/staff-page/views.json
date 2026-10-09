@@ -1,0 +1,73 @@
+{
+  "namespace": "staff-page",
+  "pluginId": "pano-plugin-staff-page",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "staff-page:StaffIntegration": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/StaffIntegration.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "staff-page:StaffList"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "staff-page:StaffList": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/StaffList.svelte",
+      "props": {
+        "staff": {
+          "type": "any",
+          "required": false
+        },
+        "viewMode": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "staff-page:StaffPage": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/StaffPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "staff-page:StaffList"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

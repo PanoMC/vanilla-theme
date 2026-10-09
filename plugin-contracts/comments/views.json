@@ -1,0 +1,132 @@
+{
+  "namespace": "comments",
+  "pluginId": "pano-plugin-comments",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "comments:AddCommentModal": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/AddCommentModal.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "comments:ConfirmDeleteCommentModal": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/ConfirmDeleteCommentModal.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "comments:ThemeCommentItem": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/ThemeCommentItem.svelte",
+      "props": {
+        "comment": {
+          "type": "any",
+          "required": true
+        },
+        "isReply": {
+          "type": "any",
+          "required": false
+        },
+        "isLast": {
+          "type": "any",
+          "required": false
+        },
+        "session": {
+          "type": "any",
+          "required": true
+        },
+        "deleteComment": {
+          "type": "any",
+          "required": true
+        },
+        "toggleReply": {
+          "type": "any",
+          "required": true
+        },
+        "toggleLike": {
+          "type": "any",
+          "required": true
+        },
+        "addComment": {
+          "type": "any",
+          "required": true
+        },
+        "fetchReplies": {
+          "type": "any",
+          "required": true
+        },
+        "likesEnabled": {
+          "type": "any",
+          "required": false
+        },
+        "repliesEnabled": {
+          "type": "any",
+          "required": false
+        },
+        "canReply": {
+          "type": "any",
+          "required": false
+        },
+        "commentsEnabled": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "comments:ThemePostComments": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/ThemePostComments.svelte",
+      "props": {
+        "post": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "comments:AddCommentModal",
+        "comments:ConfirmDeleteCommentModal",
+        "comments:ThemeCommentItem"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "hook": "theme:post-detail:bottom",
+          "id": "comments:ThemePostComments",
+          "priority": 10
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

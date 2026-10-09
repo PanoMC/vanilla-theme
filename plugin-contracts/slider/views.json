@@ -1,0 +1,46 @@
+{
+  "namespace": "slider",
+  "pluginId": "pano-plugin-slider",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "slider:Slider": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/Slider.svelte",
+      "props": {
+        "sliderItems": {
+          "type": "any",
+          "required": false
+        },
+        "settings": {
+          "type": "any",
+          "required": false
+        },
+        "hookName": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "hook": "page:home:top",
+          "id": "slider:Slider",
+          "priority": 10
+        },
+        {
+          "hook": "page:top",
+          "id": "slider:Slider",
+          "priority": 10
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "namespace": "faq",
+  "pluginId": "pano-plugin-faq",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "faq:FAQList": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/FAQList.svelte",
+      "props": {
+        "faqs": {
+          "type": "any",
+          "required": false
+        },
+        "categories": {
+          "type": "any",
+          "required": false
+        },
+        "config": {
+          "type": "any",
+          "required": false
+        },
+        "search": {
+          "type": "any",
+          "required": false
+        },
+        "isSearching": {
+          "type": "any",
+          "required": false
+        },
+        "onsearch": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "faq:FAQPage": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/FAQPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [
+        "faq:FAQList"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "faq:SupportFAQWrapper": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/SupportFAQWrapper.svelte",
+      "props": {
+        "faqs": {
+          "type": "any",
+          "required": false
+        },
+        "categories": {
+          "type": "any",
+          "required": false
+        },
+        "config": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [
+        "faq:FAQList"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

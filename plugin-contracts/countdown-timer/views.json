@@ -1,0 +1,152 @@
+{
+  "namespace": "countdown-timer",
+  "pluginId": "pano-plugin-countdown-timer",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "countdown-timer:CountdownDisplay": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/CountdownDisplay.svelte",
+      "props": {
+        "days": {
+          "type": "any",
+          "required": false
+        },
+        "hours": {
+          "type": "any",
+          "required": false
+        },
+        "minutes": {
+          "type": "any",
+          "required": false
+        },
+        "seconds": {
+          "type": "any",
+          "required": false
+        },
+        "style": {
+          "type": "any",
+          "required": false
+        },
+        "size": {
+          "type": "any",
+          "required": false
+        },
+        "daysLabel": {
+          "type": "any",
+          "required": false
+        },
+        "hoursLabel": {
+          "type": "any",
+          "required": false
+        },
+        "minsLabel": {
+          "type": "any",
+          "required": false
+        },
+        "secsLabel": {
+          "type": "any",
+          "required": false
+        },
+        "isDark": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "countdown-timer:CountdownTimerCover": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/CountdownTimerCover.svelte",
+      "props": {},
+      "uses": [
+        "countdown-timer:CountdownDisplay",
+        "countdown-timer:OpeningEffect"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "hook": "theme:top",
+          "id": "countdown-timer:CountdownTimerCover",
+          "priority": 10,
+          "skipLoad": true
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "countdown-timer:CountdownTimerPage": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/CountdownTimerPage.svelte",
+      "props": {},
+      "uses": [
+        "countdown-timer:CountdownDisplay"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "countdown-timer:CountdownTimerSidebar": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/CountdownTimerSidebar.svelte",
+      "props": {},
+      "uses": [
+        "countdown-timer:CountdownDisplay"
+      ],
+      "slots": [],
+      "hooks": [],
+      "block": true,
+      "inject": [
+        {
+          "sidebar": "home",
+          "id": "countdown-timer",
+          "priority": 90
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "countdown-timer:OpeningEffect": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/OpeningEffect.svelte",
+      "props": {
+        "effectType": {
+          "type": "any",
+          "required": false
+        },
+        "active": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

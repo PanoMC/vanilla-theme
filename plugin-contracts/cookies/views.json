@@ -1,0 +1,34 @@
+{
+  "namespace": "cookies",
+  "pluginId": "pano-plugin-cookies",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "cookies:CookieBanner": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/view/CookieBanner.svelte",
+      "props": {
+        "config": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "hook": "theme:top",
+          "id": "cookies:CookieBanner",
+          "priority": 10,
+          "skipLoad": true
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}

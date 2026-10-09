@@ -1,0 +1,127 @@
+{
+  "namespace": "premium-login",
+  "pluginId": "pano-plugin-premium-login",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "premium-login:MicrosoftCallbackPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/views/MicrosoftCallbackPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/premium-login/callback"
+      },
+      "home": null,
+      "widget": null
+    },
+    "premium-login:MicrosoftLoginButton": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/MicrosoftLoginButton.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "premium-login:MicrosoftRegisterButton": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/MicrosoftRegisterButton.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "premium-login:PremiumStatusDisplay": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/PremiumStatusDisplay.svelte",
+      "props": {
+        "onRegister": {
+          "type": "any",
+          "required": true
+        },
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "slot": "settings-card-rows",
+          "id": "pano-plugin-premium-login-status-display",
+          "priority": 105
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "premium-login:PremiumStatusProfileSidebar": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/PremiumStatusProfileSidebar.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "slot": "profile-card-rows",
+          "id": "pano-plugin-premium-login-profile-sidebar-status",
+          "priority": 90
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "premium-login:SetUsernamePage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/views/SetUsernamePage.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/set-username"
+      },
+      "home": null,
+      "widget": null
+    }
+  }
+}

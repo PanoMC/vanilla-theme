@@ -1,0 +1,29 @@
+{
+  "namespace": "bans",
+  "pluginId": "pano-plugin-bans",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "bans:BansPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/BansPage.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/bans"
+      },
+      "home": null,
+      "widget": null
+    }
+  }
+}

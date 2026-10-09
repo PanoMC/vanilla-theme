@@ -1,0 +1,96 @@
+{
+  "namespace": "auth-guard",
+  "pluginId": "pano-plugin-auth-guard",
+  "version": "0.0.0",
+  "sdk": 2,
+  "views": {
+    "auth-guard:CaptchaWidget": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/CaptchaWidget.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "auth-guard:MagicLoginButton": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/MagicLoginButton.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "auth-guard:MagicLoginVerifyPage": {
+      "kind": "page",
+      "contract": 1,
+      "source": "src/views/MagicLoginVerifyPage.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": {
+        "path": "/auth-guard/magic-login"
+      },
+      "home": null,
+      "widget": null
+    },
+    "auth-guard:TwoFactorLoginGuard": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/TwoFactorLoginGuard.svelte",
+      "props": {},
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "auth-guard:TwoFactorSetup": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/views/TwoFactorSetup.svelte",
+      "props": {
+        "data": {
+          "type": "any",
+          "required": true
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": [
+        {
+          "slot": "settings-content",
+          "id": "pano-plugin-auth-guard-2fa-settings",
+          "priority": 200
+        }
+      ],
+      "page": null,
+      "home": null,
+      "widget": null
+    }
+  }
+}
