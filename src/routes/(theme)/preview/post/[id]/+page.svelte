@@ -5,4 +5,4 @@
   export let data;
 </script>
 
-<PreviewPostPage post="{data.post}"/>
+<PreviewPostPage {data} post="{data.post}"/>
