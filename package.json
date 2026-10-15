@@ -59,6 +59,7 @@
   "overrides": {
     "dompurify": "^3.4.17",
     "sanitize-html": "^2.18.1",
-    "esbuild": ">=0.25.0"
+    "esbuild": ">=0.25.0",
+    "@panomc/sdk": "file:./theme-core/packages/sdk"
   }
 }
