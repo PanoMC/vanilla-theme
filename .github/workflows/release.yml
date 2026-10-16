@@ -22,3 +22,5 @@ jobs:
       theme-id: vanilla-theme
     secrets:
       TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+      PANO_TOKEN: ${{ secrets.PANO_TOKEN }}
+      PANO_PROD_TOKEN: ${{ secrets.PANO_PROD_TOKEN }}

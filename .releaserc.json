@@ -12,6 +12,25 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     [
+      "@PanoMC/semantic-release-pano",
+      {
+        "file": "vanilla-theme-v${version}.zip",
+        "panoVersion": "1.0.0",
+        "useGitHubLink": true,
+        "repositoryUrl": "https://github.com/PanoMC/vanilla-theme.git",
+        "configs": [
+          {
+            "resourceId": "vanilla-theme",
+            "panoUrl": "https://api.panomc.com",
+            "tokenVar": "PANO_PROD_TOKEN",
+            "branches": [
+              "master"
+            ]
+          }
+        ]
+      }
+    ],
+    [
       "@semantic-release/github",
       {
         "assets": [
@@ -23,7 +42,10 @@
             "path": "LICENSE",
             "label": false
           }
-        ]
+        ],
+        "successComment": false,
+        "failComment": false,
+        "releasedLabels": false
       }
     ]
   ],
