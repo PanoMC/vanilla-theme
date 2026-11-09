@@ -22,7 +22,7 @@ jobs:
     # Shared theme pipeline from the engine repo: version-override + license-server
     # switches live there once, and packaging uses the DETERMINISTIC zip (its
     # sha256 is the premium license identity).
-    uses: PanoMC/sdk/.github/workflows/theme-release.yml@6b8e3f079f66c68ca5deab6553f7a4dc68ad55ac # dev; a commit, not the moving branch
+    uses: PanoMC/sdk/.github/workflows/theme-release.yml@3326679f6c9dc31ece2f1fff10e35c820e4ea07e # dev; a commit, not the moving branch
     with:
       theme-id: vanilla-theme
     secrets:
