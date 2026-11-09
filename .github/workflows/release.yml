@@ -12,6 +12,11 @@ permissions:
   pull-requests: write
   id-token: write
 
+# One release per branch at a time: a second push waits, so its version is computed after the first one is tagged.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     # Shared theme pipeline from the engine repo: version-override + license-server
