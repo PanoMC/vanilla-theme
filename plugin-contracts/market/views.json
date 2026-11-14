@@ -607,6 +607,10 @@
           "type": "any",
           "required": false
         },
+        "embedded": {
+          "type": "any",
+          "required": false
+        },
         "alertKey": {
           "type": "any",
           "required": false
@@ -1478,6 +1482,10 @@
           "required": false
         },
         "disabled": {
+          "type": "any",
+          "required": false
+        },
+        "embedded": {
           "type": "any",
           "required": false
         },
