@@ -722,6 +722,41 @@
       "home": null,
       "widget": null
     },
+    "market:FilterDropdown": {
+      "kind": "component",
+      "contract": 2,
+      "source": "src/components/store/FilterDropdown.svelte",
+      "props": {
+        "options": {
+          "type": "any",
+          "required": false
+        },
+        "current": {
+          "type": "any",
+          "required": false
+        },
+        "label": {
+          "type": "any",
+          "required": true
+        },
+        "onSelect": {
+          "type": "any",
+          "required": true
+        },
+        "icon": {
+          "type": "any",
+          "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
     "market:GenericPaymentForm": {
       "kind": "component",
       "contract": 1,
@@ -1530,6 +1565,10 @@
         "showVat": {
           "type": "any",
           "required": false
+        },
+        "showCredits": {
+          "type": "any",
+          "required": false
         }
       },
       "uses": [],
@@ -1639,6 +1678,7 @@
       },
       "uses": [
         "market:ErrorAlert",
+        "market:FilterDropdown",
         "market:GiftRedeemForm",
         "market:LoadingBlock",
         "market:OrderStatusBadge",
@@ -1789,6 +1829,65 @@
         "settings": {
           "type": "any",
           "required": false
+        }
+      },
+      "uses": [],
+      "slots": [],
+      "hooks": [],
+      "block": false,
+      "inject": null,
+      "page": null,
+      "home": null,
+      "widget": null
+    },
+    "market:SearchInput": {
+      "kind": "component",
+      "contract": 1,
+      "source": "src/components/store/SearchInput.svelte",
+      "props": {
+        "id": {
+          "type": "any",
+          "required": true
+        },
+        "initialValue": {
+          "type": "any",
+          "required": false
+        },
+        "placeholder": {
+          "type": "any",
+          "required": false
+        },
+        "ariaLabel": {
+          "type": "any",
+          "required": false
+        },
+        "searchingLabel": {
+          "type": "any",
+          "required": false
+        },
+        "maxLength": {
+          "type": "any",
+          "required": false
+        },
+        "small": {
+          "type": "any",
+          "required": false
+        },
+        "debounceMs": {
+          "type": "any",
+          "required": false
+        },
+        "searching": {
+          "type": "any",
+          "required": false
+        },
+        "showSpinner": {
+          "type": "any",
+          "required": false
+        },
+        "onchange": {
+          "type": "any",
+          "required": true
         }
       },
       "uses": [],
@@ -2031,7 +2130,7 @@
     },
     "market:StorePage": {
       "kind": "page",
-      "contract": 1,
+      "contract": 3,
       "source": "src/pages/StorePage.svelte",
       "props": {
         "data": {
@@ -2040,7 +2139,6 @@
         }
       },
       "uses": [
-        "market:CategoryTree",
         "market:ComparisonTable",
         "market:ErrorAlert",
         "market:Pager",
@@ -2090,7 +2188,7 @@
     },
     "market:StoreToolbar": {
       "kind": "component",
-      "contract": 1,
+      "contract": 2,
       "source": "src/components/store/StoreToolbar.svelte",
       "props": {
         "settings": {
@@ -2109,6 +2207,14 @@
           "type": "any",
           "required": false
         },
+        "creditSummary": {
+          "type": "any",
+          "required": false
+        },
+        "searching": {
+          "type": "any",
+          "required": false
+        },
         "onsearch": {
           "type": "any",
           "required": true
@@ -2123,7 +2229,9 @@
         }
       },
       "uses": [
-        "market:CurrencySelect"
+        "market:CurrencySelect",
+        "market:FilterDropdown",
+        "market:SearchInput"
       ],
       "slots": [],
       "hooks": [],
