@@ -172,7 +172,7 @@
     },
     "market:BuyerSection": {
       "kind": "component",
-      "contract": 1,
+      "contract": 2,
       "source": "src/components/checkout/BuyerSection.svelte",
       "props": {
         "user": {
@@ -246,12 +246,11 @@
     },
     "market:CartOffcanvas": {
       "kind": "component",
-      "contract": 1,
+      "contract": 2,
       "source": "src/components/cart/CartOffcanvas.svelte",
       "props": {},
       "uses": [
         "market:CartLineRow",
-        "market:ConfirmModal",
         "market:ErrorAlert",
         "market:ReplaceCartModal"
       ],
@@ -770,7 +769,7 @@
     },
     "market:GiftSection": {
       "kind": "component",
-      "contract": 1,
+      "contract": 2,
       "source": "src/components/checkout/GiftSection.svelte",
       "props": {
         "isGift": {
@@ -794,6 +793,14 @@
           "required": false
         },
         "recipientUnknown": {
+          "type": "any",
+          "required": false
+        },
+        "showSwitch": {
+          "type": "any",
+          "required": false
+        },
+        "showDetails": {
           "type": "any",
           "required": false
         },
