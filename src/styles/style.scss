@@ -28,6 +28,11 @@
 
 // Theme Styles
 
+.pano-login-view .btn-link,
+.pano-register-view .btn-link {
+  text-decoration: none;
+}
+
 .pano-breadcrumb__badge:focus {
   outline: 0;
   box-shadow: var(--bs-focus-ring-x, 0) var(--bs-focus-ring-y, 0) var(--bs-focus-ring-blur, 0)
