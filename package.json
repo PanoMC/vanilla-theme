@@ -16,7 +16,7 @@
     "format": "npm-run-all -c format:*",
     "format:prettier": "prettier --write . --config .prettierrc",
     "generate-licenses": "node node_modules/@panomc/theme-core/bin/generate-licenses.js",
-    "postinstall": "bun node_modules/@panomc/theme-core/bin/bundle-internal-libs.js && bun node_modules/@panomc/theme-core/bin/generate-runtime-shims.js"
+    "postinstall": "bun node_modules/@panomc/theme-core/bin/bundle-internal-libs.js && bun node_modules/@panomc/theme-core/bin/generate-runtime-shims.js && node node_modules/@panomc/theme-core/bin/license/generate-license-constants.js"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
