@@ -4,6 +4,9 @@ static
 build
 functions
 node_modules
-agent-guide
 CLAUDE.md
 AGENTS.md
+docs
+GEMINI.md
+REPO-NOTES.md
+.github/copilot-instructions.md

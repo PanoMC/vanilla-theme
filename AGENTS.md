@@ -1,19 +1,15 @@
 # AGENTS.md
 
-This repo's own notes for agents are in `CLAUDE.md`: read it too.
+Entry point for AI coding agents (Claude Code, Codex, Copilot, Gemini …) in `vanilla-theme`. It holds no rules of its own:
+open the file that fits your task, and only that one.
 
-<!-- pano-agent-guide:start -->
-## Agent guide
+| You need                                                              | Read                                       |
+| --------------------------------------------------------------------- | ------------------------------------------ |
+| What this repository is, its commands and conventions                 | `REPO-NOTES.md`                            |
+| Rules for every Pano repository: commits, releases, tooling, checks   | `docs/guidelines/common.md`                |
+| Plugin, theme or headless front-end work: views, API, classes, tokens | `docs/guidelines/agent-guide/README.md`    |
+| How Pano works and is used: platform, addons, themes, API             | `docs/index.md`, then the section you need |
 
-You are in a **Pano theme** (a thin repo on `@panomc/theme-core`).
-
-Read `agent-guide/README.md` first, then **only** the topic file it points to for your task. Decide from the
-request and the code; ask only where the guide says a wrong guess is costly. `agent-guide/` is a synced copy: edit it
-in `theme-core/agent-guide/` (repo `PanoMC/sdk`) and run `bun scripts/sync-agent-guide.js` there.
-
-The three rules you will break first:
-
-1. Take the cheapest step: tokens and CSS on semantic classes first, `eject-view` only for structure, `<PluginBlock>` to move a piece; new data or behaviour belongs to the plugin, not the theme (`theme-plugin-ui.md`).
-2. Overrides are ejected and registered in `theme.config.js` with their contract; keep every slot, hook and root class; a mismatch falls back to the default view (`theme-override-view.md`).
-3. `src/routes/`, `src/lib/`, `lang/` and `plugin-contracts/` are generated; pages, renames and the home page are keys of `theme.config.js`. `theme-core check --strict` must pass (`theme-routes-home.md`, `testing.md`).
-<!-- pano-agent-guide:end -->
+`docs/` is the git submodule [`PanoMC/docs`](https://github.com/PanoMC/docs) (branch `dev`). Empty? Run
+`git submodule update --init docs`. Without a checkout the same files are at
+`https://github.com/PanoMC/docs/tree/dev`.
